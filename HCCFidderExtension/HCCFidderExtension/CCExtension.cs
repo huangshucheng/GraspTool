@@ -1,0 +1,161 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Fiddler;
+using System.Windows.Forms;
+using System.Net.Http;
+using System.Runtime.InteropServices;
+using System.Diagnostics;
+using System.Xml.Linq;
+
+namespace HCCFidderExtension
+{
+
+    public class CCExtension: IFiddlerExtension,IAutoTamper
+    {
+        private HttpClient _httpClient = null;
+        public void OnLoad() { 
+            //var view = new TestView();
+            //view.Dock = DockStyle.Fill;
+            //var tab = new TabPage();
+            //tab.Text = "相关设置";
+            //tab.Controls.Add(view);
+            TabPage page = new TabPage("解包工具");
+            FiddlerApplication.UI.tabsViews.TabPages.Add(page);
+            FiddlerApplication.DoNotifyUser("抓包快乐！","欢迎你！");
+            _httpClient = new HttpClient();
+        }
+
+        public void OnBeforeUnload() { 
+            
+        }
+
+        public void AutoTamperRequestBefore(Session onSession) { 
+            
+        }
+
+        public void AutoTamperRequestAfter(Session onSession)
+        {
+
+        }
+
+        public void AutoTamperResponseBefore(Session onSession)
+        { 
+        
+        }
+
+        public void AutoTamperResponseAfter(Session onSession)
+        {
+            string host = onSession.host;
+            string path = onSession.PathAndQuery;
+            string mthd = onSession.RequestMethod;
+            string reqBody = onSession.GetRequestBodyAsString();
+            string resBody = onSession.GetResponseBodyAsString();
+            //根据加密方式解密 TODO
+            //Encoding encoding = onSession.GetResponseBodyEncoding();
+            //encoding.GetDecoder
+            //onSession.utilGZIPResponse()
+            
+            string reqHeader = onSession.RequestHeaders.ToString();
+            string resHeader = onSession.ResponseHeaders.ToString();
+
+            FiddlerObject.log("host<<<<<<<<<<<<<<<【" + host + "】<<<<<<<<<<<<<<<<<");
+            //FiddlerObject.log("hcc>>host: " + host);
+            //FiddlerObject.log("hcc>>path: " + path);
+            //FiddlerObject.log("hcc>>mthd: " + mthd);
+            FiddlerObject.log("hcc>>reqHeader:  " + reqHeader);
+            //FiddlerObject.log("hcc>>resHeader:  " + resHeader);
+            //FiddlerObject.log("hcc>>reqBody: " + reqBody);
+            //FiddlerObject.log("hcc>>resBody: " + resBody);
+            FiddlerObject.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>end\n");
+
+            //string sendText = "\n【reqHeader<" + host + ">】\n" + reqHeader +
+            //                  "\n【reqBody<" + host + ">】\n" + reqBody +
+            //                  "\n【resHeader<" + host + ">】\n" + resHeader +
+            //                  "\n【resBody<" + host + ">】\n" + resBody + "\n";
+
+            string dataHeader = "\n" + "[reqHeader<" + host + ">] \n" + reqHeader;
+            string dataReqBody = "\n" + "[reqBody<" + host + ">] \n" + reqBody;
+            string dataResHeader = "\n" + "[resHeader<" + host + ">] \n" + resHeader;
+            string dataResBody = "\n" + "[resBody<" + host + ">] \n" + resBody + "\n";
+
+            Process[] processes = Process.GetProcesses();
+            foreach (Process p in processes) {
+                try
+                {
+                    //这两个进程的某些属性一旦访问就抛出没有权限的异常
+                    if (p.ProcessName != "System" && p.ProcessName != "Idle")
+                    {
+                        if (p.ProcessName == "HccWindowdGraspTool.vshost" || p.ProcessName == "HccWindowdGraspTool") //
+                        {
+                            //接收端的窗口句柄  
+                            IntPtr hwndRecvWindow = p.MainWindowHandle;
+                            //自己的进程句柄
+                            //IntPtr hwndSendWindow = Process.GetCurrentProcess().Handle;
+                            Send_message(hwndRecvWindow, dataHeader);
+                            Send_message(hwndRecvWindow, dataReqBody);
+                            Send_message(hwndRecvWindow, dataResHeader);
+                            Send_message(hwndRecvWindow, dataResBody);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        public void OnBeforeReturningError(Session onSession)
+        { 
+            
+        }
+
+        ///////////////////////////////////////////
+        //数据发送给其他进程
+        ///////////////////////////////////////////
+
+        const int WM_COPYDATA = 0x004A;
+
+        //启用非托管代码  
+        [StructLayout(LayoutKind.Sequential)]
+        public struct COPYDATASTRUCT
+        {
+            public IntPtr dwData;
+            public int cData;
+            [MarshalAs(UnmanagedType.LPStr)]
+            public string lpData;
+        }
+
+        [DllImport("User32.dll", EntryPoint = "FindWindow")]
+        private static extern int FindWindow(string lpClassName, string lpWindowName);
+
+        [DllImport("Kernel32.dll", EntryPoint = "GetConsoleWindow")]
+        public static extern IntPtr GetConsoleWindow();
+
+        //系统SendMessage方法  SendMessage为阻塞方法
+        [DllImport("User32.dll", EntryPoint = "SendMessage")]
+
+        private static extern int SendMessage(
+            IntPtr hWnd, // handle to destination window
+            int Msg, // message
+            int wParam, // first message parameter
+            ref COPYDATASTRUCT lParam // second message parameter
+        );
+
+        //自己封装的方法
+        public int Send_message(IntPtr handle, string message)
+        {
+            byte[] arr = System.Text.Encoding.Default.GetBytes(message);
+            int len = arr.Length;
+            COPYDATASTRUCT cdata;//打开结构体
+            cdata.dwData = (IntPtr)100;//对结构体赋值
+            cdata.lpData = message;//对结构体赋值
+            cdata.cData = len + 1;//对结构体赋值
+            return SendMessage(handle, WM_COPYDATA, 0, ref cdata);//调用SendMessage
+        }
+       
+    }
+}

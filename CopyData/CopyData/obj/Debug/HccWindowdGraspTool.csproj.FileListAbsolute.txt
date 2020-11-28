@@ -1,0 +1,9 @@
+C:\Users\95\Desktop\FD\COPY_DATA\CopyData\CopyData\obj\Debug\CopyData.HccWindowdGraspTool.resources
+C:\Users\95\Desktop\FD\COPY_DATA\CopyData\CopyData\obj\Debug\HccWindowdGraspTool.csproj.GenerateResource.Cache
+C:\Users\95\Desktop\FD\COPY_DATA\CopyData\CopyData\bin\Debug\HccWindowdGraspTool.exe.config
+C:\Users\95\Desktop\FD\COPY_DATA\CopyData\CopyData\bin\Debug\HccWindowdGraspTool.exe
+C:\Users\95\Desktop\FD\COPY_DATA\CopyData\CopyData\bin\Debug\HccWindowdGraspTool.pdb
+C:\Users\95\Desktop\FD\COPY_DATA\CopyData\CopyData\obj\Debug\HccWindowdGraspTool.Properties.Resources.resources
+C:\Users\95\Desktop\FD\COPY_DATA\CopyData\CopyData\obj\Debug\HccWindowdGraspTool.exe
+C:\Users\95\Desktop\FD\COPY_DATA\CopyData\CopyData\obj\Debug\HccWindowdGraspTool.pdb
+C:\Users\95\Desktop\FD\COPY_DATA\CopyData\CopyData\obj\Debug\HccWindowdGraspTool.csprojResolveAssemblyReference.cache
