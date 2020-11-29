@@ -29,33 +29,7 @@ namespace CopyData
             InitializeComponent();
             //UI在这里传过去，dealData那边操作UI
             _dealData = new DealRecvData(this.richTextBoxFind,this.richTextBoxLog);
-
             //test
-            /*
-            var headDic = new Dictionary<string, string>();
-            var headDic2 = new Dictionary<string, string>();
-            
-            headDic["key1"] = "value1";
-            headDic["key2"] = "value2";
-            headDic["key3"] = "value3";
-
-            headDic2["key1"] = "value1";
-            headDic2["key2"] = "value2";
-            headDic2["key3"] = "value4";
-            headDic2["key4"] = "value6";
-
-            bool isEqul = StringUtils.isDictionaryEqule(headDic, headDic2);
-            var newDic = StringUtils.mergeDictionary(headDic, headDic2);
-
-            //foreach(var key in headDic){
-            //    Console.WriteLine("hcc>>Dic: ", key.Key.ToString(), key.Value.ToString());
-            //}
-
-            for(int idx = 0; idx <GlobalData.DATA_TO_FIND_ARRAY.Length; idx++)
-            {
-                Console.WriteLine("hcc>>DATA_TO_FIND_ARRAY: ", idx, GlobalData.DATA_TO_FIND_ARRAY[idx]);
-            }
-            */
         }
 
         //捕获消息
@@ -69,7 +43,7 @@ namespace CopyData
                     Type mytype = mystr.GetType();
                     mystr = (COPYDATASTRUCT)m.GetLParam(mytype);
                     string content = mystr.lpData;
-                    //Console.WriteLine("hcc>>recvCopyData: ", content);
+                    //Console.WriteLine("hcc>>recvCopyData: "+ content);
                     //this.richTextBoxLog.AppendText(content);
                     //this.richTextBoxFind.AppendText(content);
 
@@ -87,37 +61,41 @@ namespace CopyData
             _dealData.clearList();
         }
 
-        //将滚动条滚动到最后
+        //token查找输出，函数将滚动条滚动到最后
         private void richTextBoxFindTextChanged(object sender, EventArgs e)
         {
             richTextBoxFind.SelectionStart = richTextBoxFind.Text.Length;
             richTextBoxFind.ScrollToCaret();
         }
 
+        //日志打印查找输出
         private void richTextBoxLogTextChanged(object sender, EventArgs e)
         {
             richTextBoxLog.SelectionStart = richTextBoxLog.Text.Length;
             richTextBoxLog.ScrollToCaret();
         }
 
+        //点击清理输出
         private void buttonClearLogClick(object sender, EventArgs e)
         {
             this.richTextBoxLog.Clear();
         }
       
+        //点击开始抓包
         private void btnStartCatch_Click(object sender, EventArgs e)
         {
             _dealData.startDoTask();
         }
 
+        //点击停止抓包
         private void btnStopCatch_Click(object sender, EventArgs e)
         {
-            _dealData.pauseDoTask();
+            _dealData.stopDoTask();
         }
 
+        //test 按钮点击
         private void btnFinishCatch_Click(object sender, EventArgs e)
         {
-            _dealData.stopDoTask();
         }
     }
 }

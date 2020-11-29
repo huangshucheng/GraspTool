@@ -55,19 +55,18 @@ namespace CopyData
         private HttpWebResponse _response;
         private HttpWebRequest  _defaultHeaderRequest;
         private HttpWebRequest  _tempRequest;
-        private string          _customePostData;
+        private string          _customePostData; //post data, 固定是放在body里面的
         private string          _baseUrl;
         private string          _url;
         private EasyHttpLogLevel _logLevel          = EasyHttpLogLevel.None;
         private EasyHttpLogLevel _defaultLogLevel   = EasyHttpLogLevel.None;
         private Encoding _responseEncoding          = Encoding.UTF8;
         //private Encoding _responseEncoding          = Encoding.Unicode;
-        private bool _isMultpart                    = false;
         private Encoding _postEncoding              = Encoding.UTF8;
         private readonly WebHeaderCollection _headers        = new WebHeaderCollection();   //自定义请求头
         private readonly CookieContainer _cookieContainer    = new CookieContainer();       //cookie 容器
         private readonly WebHeaderCollection _defaultHeaders = new WebHeaderCollection();   //默认请求头
-        private readonly List<KeyValue> _keyValues           = new List<KeyValue>();        //请求参数
+        private readonly List<KeyValue> _keyValues           = new List<KeyValue>();        //请求参数，固定是添加在URU后面的
 
         private EasyHttp()
         {
@@ -94,12 +93,6 @@ namespace CopyData
             }
         }
 
-        /// 以Multpart方式提交参数或文件
-        public EasyHttp AsMultiPart()
-        {
-            _isMultpart = true;
-            return this;
-        }
         /// set LogLell
         public EasyHttp LogLevel(EasyHttpLogLevel logLevel)
         {
@@ -171,7 +164,6 @@ namespace CopyData
         /// 添加一个multipart内容
         public EasyHttp Data(string key, string fileName, string filePath)
         {
-            _isMultpart = true;
             KeyValue multiPartContent = new KeyValue();
             multiPartContent.Key = key;
             multiPartContent.Value = fileName;
@@ -194,6 +186,9 @@ namespace CopyData
         /// 添加一系列参数(body)
         public EasyHttp Data(List<KeyValue> keyValues)
         {
+            if(keyValues == null){
+                return this;
+            }
             this._keyValues.AddRange(keyValues);
             return this;
         }
@@ -213,9 +208,7 @@ namespace CopyData
             }
             _headers.Clear();
             _keyValues.Clear();
-            _keyValues.Clear();
             _logLevel        = _defaultLogLevel;
-            _isMultpart      = false;
             _customePostData = null;
             _baseUrl         = uri.Scheme+"://"+uri.Host;
             //创建temprequest
@@ -236,7 +229,7 @@ namespace CopyData
                 }
                 catch(Exception e)
                 {
-                    Console.WriteLine("url error:{0}",e.Message);
+                    Console.WriteLine("url error:{0}"+ e.Message);
                     return null;
                 }
             }
@@ -465,28 +458,31 @@ namespace CopyData
             //post方式需要写入
             else if (method == Method.POST)
             {
-                url = _url;
-                _request = _tempRequest;
+                UrlToQuery(_url);
+                url = this._url;
+                //keyValues写入URL
+                if (_keyValues.Count > 0)
+                {
+                    url = url + "?" + EasyHttpUtils.NameValuesToQueryParamString(_keyValues);
+                }
+
+                _request = WebRequest.Create(url) as HttpWebRequest;
                 _request.CookieContainer = _cookieContainer;
                 _request.Method = "POST";
                 EasyHttpUtils.CopyHttpHeader(_tempRequest, _defaultHeaderRequest, _request);
                 WriteHeader();
-                if (_isMultpart)
+
+                EasyHttpUtils.WriteFileToRequest(_request, _keyValues);
+
+                if (string.IsNullOrEmpty(_request.ContentType))
                 {
-                    EasyHttpUtils.WriteFileToRequest(_request, _keyValues);
+                    _request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
                 }
-                else
-                {
-                    if (string.IsNullOrEmpty(_request.ContentType))
-                    {
-                        _request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
-                    }
-                    string querystring = EasyHttpUtils.NameValuesToQueryParamString(_keyValues);
-                    if (_customePostData != null) 
-                        querystring = _customePostData;
+
+                if (!string.IsNullOrEmpty(_customePostData)){
                     using (var stream = _request.GetRequestStream())
                     {
-                        byte[] postData = _postEncoding.GetBytes(querystring);
+                        byte[] postData = _postEncoding.GetBytes(_customePostData);
                         stream.Write(postData, 0, postData.Length);
                         stream.Close();
                     }
@@ -527,7 +523,7 @@ namespace CopyData
                 _response = _request.GetResponse() as HttpWebResponse;
             }
             catch (WebException ex){
-                Console.WriteLine("\n请求出错--------->:{0}", ex.Message);
+                Console.WriteLine("\n请求出错--------->:{0}"+ ex.Message);
                 return null;
             }
 
@@ -564,30 +560,32 @@ namespace CopyData
             }
             else if (method == Method.POST)
             {
-                url = _url;
-                _request = _tempRequest;
+                UrlToQuery(_url);
+                url = this._url;
+
+                //keyValues写入URL
+                if (_keyValues.Count > 0)
+                {
+                    url = url + "?" + EasyHttpUtils.NameValuesToQueryParamString(_keyValues);
+                }
+
+                _request = WebRequest.Create(url) as HttpWebRequest; ;
                 _request.CookieContainer = _cookieContainer;
                 _request.Method = "POST";
                 EasyHttpUtils.CopyHttpHeader(_tempRequest, _defaultHeaderRequest, _request);
                 WriteHeader();
-                if (_isMultpart)
+
+                if (string.IsNullOrEmpty(_request.ContentType))
                 {
-                    EasyHttpUtils.WriteFileToRequest(_request, _keyValues);
+                    _request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
                 }
-                else
-                {
-                    if (string.IsNullOrEmpty(_request.ContentType))
-                    {
-                        _request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
-                    }
-                    string querystring = EasyHttpUtils.NameValuesToQueryParamString(_keyValues);
-                    //如果有自定义post内容，则写入自定义post数据，否则写入form（form优先）
-                    if (!string.IsNullOrEmpty(_customePostData))
-                        querystring = _customePostData;
+
+                //将postData 写入body
+                if (!string.IsNullOrEmpty(_customePostData)) { 
                     //处理请求参数
                     using (var stream = _request.GetRequestStream())
                     {
-                        byte[] postData = _postEncoding.GetBytes(querystring);
+                        byte[] postData = _postEncoding.GetBytes(_customePostData);
                         stream.Write(postData, 0, postData.Length);
                         stream.Close();
                     }
@@ -639,7 +637,7 @@ namespace CopyData
             {
                 foreach (KeyValue keyValue in _keyValues)
                 {
-                    Console.WriteLine("请求参数(Data)：{0} : {1} ", keyValue.Key, keyValue.Value);
+                    Console.WriteLine("请求参数(Data)：{0} : {1} "+ keyValue.Key + " ," + keyValue.Value);
                 }
             }
             if (_customePostData != null)
@@ -659,7 +657,7 @@ namespace CopyData
             if(_logLevel== EasyHttpLogLevel.None) return;
             Console.WriteLine("\n");
             Console.WriteLine("<<<--------请求网页-------->>>");
-            Console.WriteLine("requestMethd: {0}, Url: {1}",_request.Method,_request.RequestUri); 
+            Console.WriteLine("requestMethd: {0}, Url: {1}" + _request.Method + " ," +_request.RequestUri); 
 
             if (_logLevel == EasyHttpLogLevel.Header || _logLevel==EasyHttpLogLevel.All)
             {
@@ -667,7 +665,7 @@ namespace CopyData
                 Console.WriteLine("<-----------请求头:----------->");
                 foreach (string key in webHeaderCollection.Keys)
                 {
-                    Console.WriteLine("\t {0} : {1}",key,webHeaderCollection[key]);
+                    Console.WriteLine("\t {0} : {1}"+ key + " ," + webHeaderCollection[key]);
                 }
             }
 

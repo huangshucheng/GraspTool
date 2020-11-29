@@ -15,6 +15,7 @@ namespace CopyData
         BackgroundWorker _bgWorker = null; //工作线程
         public event DataDelegateHander _dataChangedEvent;//声明一个事件，有返回数据，就派发出去
         public GlobalData _globalData = null;
+        private bool isStopTask = false;
 
         public StartTask() {
             _globalData = new GlobalData();
@@ -64,62 +65,121 @@ namespace CopyData
             _bgWorker.RunWorkerAsync(argument);
         }
 
+        //停止工作
+        public void stopDoTask() {
+            isStopTask = true;
+        }
+
         //执行任务总线
         private void doTaskReq(object argument)
         {
             var tokenList = (List<Dictionary<string, string>>)argument;
             var headDic = _globalData.getHeadDic();
-            for (int index = 0; index < tokenList.Count(); index++)
-            {
+            for (int index = 0; index < tokenList.Count(); index++){
                 var tmpHeadDic = StringUtils.mergeDictionary(headDic, tokenList[index]);
-                var taskList = _globalData.getTaskConfig();
-                foreach(TaskConfig t in taskList){
-                    //for(int i = 0; i < 50; i++){
-                    doOneTaskReq(index+1, t.getUrl(), t.getMethod(), tmpHeadDic, t.getBody());
-                    //}
+                var taskList = _globalData.getTaskObjList();
+                foreach (TaskObj task in taskList){
+                    doTaskReq(index + 1, tmpHeadDic , task);
                 }
             }
         }
 
-        //执行一种任务
+        //执行任务
+        private void doTaskReq(int index, Dictionary<string, string> headDic, TaskObj t) {
+            //停止做任务
+            if (isStopTask == true){
+                isStopTask = false;
+                return;
+            }
+            doOneTaskRequest(index, t.getTaskName(), t.getUrl(), t.getMethod(), headDic, t.getUrlBody(), t.getBody());
+        }
+
+        //执行一次任务
         /*
          * index: 下标
          * url: 链接，可不带https://
          * method: get 还是post,默认post
          * headDic: 请求头
-         * body：请求体
+         * body：放在Url的后面的参数，get或者post都可以用
+         * postBody： post的请求体，get可以不用
          */
-        private void doOneTaskReq(int index, string url, EasyHttp.Method method, Dictionary<string, string> headDic, List<KeyValue> body) {
-            try
-            {
+        private void doOneTaskRequest(int index, string taskName, string url, EasyHttp.Method method, Dictionary<string, string> headDic, List<KeyValue> body, string postBody) {
+            string retStr = doHttpReq(url, method, headDic, body, postBody);
+            if(retStr != null){
+                string resStr = "【" + index.ToString() + "】" + taskName + ":" + StringUtils.UnicodeDencode(retStr) + "\n";
+                _bgWorker.ReportProgress(100, resStr);
+                doOneTaskResPonse(index, taskName, headDic, retStr);
+            }
+        }
+
+        //执行一次http请求
+        private string doHttpReq(string url, EasyHttp.Method method, Dictionary<string, string> headDic, List<KeyValue> body, string postBody)
+        {
+            try{
                 EasyHttp http = EasyHttp.With(url);
-                if(http != null){
-                    if(headDic != null && headDic.Count() > 0){
+                if (http != null){
+                    if (headDic != null && headDic.Count() > 0){
                         http.AddHeadersByDic(headDic);//添加请求头
                     }
-                    if(body != null && body.Count > 0){ //添加请求体
+                    if (body != null && body.Count > 0){ //添加请求体
                         http.Data(body);
                     }
                     Task<string> ret = null;
-                    if(method == EasyHttp.Method.GET){
+                    if (method == EasyHttp.Method.GET){
                         ret = http.GetForStringAsyc();
-                    }else{
-                         ret = http.PostForStringAsyc();
+                    }
+                    else{
+                        ret = http.PostForStringAsyc(postBody);
                     }
 
-                    if (ret != null)
-                    {
+                    if (ret != null){
                         string sRet = ret.Result;
-                        if(sRet != null){
-                            string resStr = "【" + index.ToString() + "】" + StringUtils.UnicodeDencode(sRet) + "\n";
-                            _bgWorker.ReportProgress(100, resStr);
-                        }
+                        return sRet;
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception e){
+                Console.WriteLine("doOneTaskReq error:{0}" + e.Message);
+            }
+            return null;
+        }
+
+        //处理请求后的返回,再去处理其他任务
+        private void doOneTaskResPonse(int index, string taskName, Dictionary<string, string> headDic, string responsStr)
+        {
+            List<TaskObj> taskList = _globalData.getAfterTaskObjList();
+            foreach (var t in taskList)
             {
-                Console.WriteLine("doOneTaskReq error:{0}", e.Message);
+                if(!t.getPreTaskName().Equals(string.Empty) && t.getPreTaskName().Equals(taskName)){
+                    doOneTaskByPreTask(index, taskName, headDic, responsStr, t);
+                    break;
+                }
+            }
+        }
+
+        //根据前置任务，执行一个任务
+        //一般处理：获取前置任务的参数之后，再去做后置任务
+        private void doOneTaskByPreTask(int index, string preTaskName, Dictionary<string, string> headDic, string responsStr, TaskObj t)
+        {
+            if (preTaskName.Equals("分享码")) //例：获取分享码后，再去做其他任务
+            {
+                var obj = StringUtils.json_decode(responsStr);
+                if (obj != null)
+                {
+                    Console.WriteLine(preTaskName + ":" + " \n" + obj.ToString());
+                    string shareCode = (string)obj["data"]["shareCode"];
+                    Console.WriteLine("分享码" + ":" + shareCode);
+
+                    var urlBodyList = new List<KeyValue>();
+                    urlBodyList.Add(new KeyValue("shareCode", shareCode));
+
+                    t.addUrlBody(urlBodyList).addBody("actType=6");
+                    doOneTaskRequest(index, t.getTaskName(), t.getUrl(), t.getMethod(), headDic, t.getUrlBody(), t.getBody());
+                }
+            }
+            else {
+                //处理其他后置任务
+                doOneTaskRequest(index, t.getTaskName(), t.getUrl(), t.getMethod(), headDic, t.getUrlBody(), t.getBody());
             }
         }
     }

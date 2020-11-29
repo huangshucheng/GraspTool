@@ -105,7 +105,6 @@ namespace CopyData
         //请求头数据找到了,返回
         private void onDataHeaderFindToken(string dataString)
         {
-            Console.WriteLine("hcc>>>>>", dataString);
             if (this._richTextBoxFindToken != null)
             {
                 this._richTextBoxFindToken.AppendText(dataString);
@@ -114,7 +113,6 @@ namespace CopyData
 
         //请求任务返回
         private void onDataOutPut(string dataString) {
-            Console.WriteLine("hcc>>>>>", dataString);
             if (_richTextBoxOutPut != null)
             {
                 _richTextBoxOutPut.AppendText(dataString);
@@ -129,14 +127,9 @@ namespace CopyData
             _startTask.startDoTask(_dealHeaderReq.getFindList());
         }
 
-        //暂停做任务
-        public void pauseDoTask() { 
-        
-        }
-
         //停止做任务
-        public void stopDoTask() { 
-            
+        public void stopDoTask() {
+            _startTask.stopDoTask();
         }
 
         //删除所有token

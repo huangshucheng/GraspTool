@@ -7,6 +7,8 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using System.IO;
 using System.IO.Compression;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace CopyData
 {
@@ -35,7 +37,7 @@ namespace CopyData
             }
             catch (Exception e)
             {
-                Console.WriteLine("UnicodeDencode error:{0}", e.Message);
+                Console.WriteLine("UnicodeDencode error:{0}"+ e.Message);
             }
             return tmpstr;
         }
@@ -206,5 +208,30 @@ namespace CopyData
              return dataDic;
         }
 
+        //对象转json string
+        public static string json_encode(object obj){
+            try{
+                string json_string = JsonConvert.SerializeObject(obj);
+                return json_string;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("json_encode error:{0}"+ e.Message);
+                return null;
+            }
+        }
+
+        //json string 转JObject对象,对象可用["xx"]访问, 也可以用GetValue("value")访问，数组可用foreach遍历
+        public static JObject json_decode(string json_string)
+        {
+            try{
+                object rt = JsonConvert.DeserializeObject(json_string);
+                return (JObject)rt;
+            }
+            catch (Exception e){
+                Console.WriteLine("json_decode error:{0}"+ e.Message);
+                return null;
+            }
+        }
     }
 }

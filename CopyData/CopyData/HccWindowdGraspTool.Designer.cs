@@ -107,7 +107,7 @@
             this.btnFinishCatch.Name = "btnFinishCatch";
             this.btnFinishCatch.Size = new System.Drawing.Size(100, 38);
             this.btnFinishCatch.TabIndex = 9;
-            this.btnFinishCatch.Text = "结束";
+            this.btnFinishCatch.Text = "test";
             this.btnFinishCatch.UseVisualStyleBackColor = true;
             this.btnFinishCatch.Click += new System.EventHandler(this.btnFinishCatch_Click);
             // 

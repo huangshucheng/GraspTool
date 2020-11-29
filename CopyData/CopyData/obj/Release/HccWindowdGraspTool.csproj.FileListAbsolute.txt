@@ -6,3 +6,6 @@ C:\Users\95\Desktop\FD\COPY_DATA\CopyData\CopyData\obj\Release\HccWindowdGraspTo
 C:\Users\95\Desktop\FD\COPY_DATA\CopyData\CopyData\obj\Release\HccWindowdGraspTool.csproj.GenerateResource.Cache
 C:\Users\95\Desktop\FD\COPY_DATA\CopyData\CopyData\obj\Release\HccWindowdGraspTool.exe
 C:\Users\95\Desktop\FD\COPY_DATA\CopyData\CopyData\obj\Release\HccWindowdGraspTool.pdb
+C:\Users\95\Desktop\FD\GraspTool\CopyData\CopyData\bin\Release\HccWindowdGraspTool.exe.config
+C:\Users\95\Desktop\FD\GraspTool\CopyData\CopyData\obj\Release\HccWindowdGraspTool.exe
+C:\Users\95\Desktop\FD\GraspTool\CopyData\CopyData\obj\Release\HccWindowdGraspTool.pdb
