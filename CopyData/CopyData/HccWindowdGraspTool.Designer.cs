@@ -37,13 +37,14 @@
             this.btnFinishCatch = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.check_btn_log = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // btnClearToken
             // 
-            this.btnClearToken.Location = new System.Drawing.Point(162, 25);
+            this.btnClearToken.Location = new System.Drawing.Point(747, 3);
             this.btnClearToken.Name = "btnClearToken";
-            this.btnClearToken.Size = new System.Drawing.Size(100, 38);
+            this.btnClearToken.Size = new System.Drawing.Size(80, 20);
             this.btnClearToken.TabIndex = 2;
             this.btnClearToken.Text = "清理";
             this.btnClearToken.UseVisualStyleBackColor = true;
@@ -73,11 +74,11 @@
             // 
             // btnClearLog
             // 
-            this.btnClearLog.Location = new System.Drawing.Point(3, 389);
+            this.btnClearLog.Location = new System.Drawing.Point(784, 409);
             this.btnClearLog.Name = "btnClearLog";
-            this.btnClearLog.Size = new System.Drawing.Size(100, 38);
+            this.btnClearLog.Size = new System.Drawing.Size(80, 20);
             this.btnClearLog.TabIndex = 6;
-            this.btnClearLog.Text = "清理";
+            this.btnClearLog.Text = "清理日志";
             this.btnClearLog.UseVisualStyleBackColor = true;
             this.btnClearLog.Click += new System.EventHandler(this.buttonClearLogClick);
             // 
@@ -123,17 +124,30 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(109, 414);
+            this.label2.Location = new System.Drawing.Point(870, 415);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 12);
             this.label2.TabIndex = 11;
             this.label2.Text = "日志返回";
+            // 
+            // check_btn_log
+            // 
+            this.check_btn_log.AutoSize = true;
+            this.check_btn_log.BackColor = System.Drawing.Color.Gray;
+            this.check_btn_log.Location = new System.Drawing.Point(839, 6);
+            this.check_btn_log.Name = "check_btn_log";
+            this.check_btn_log.Size = new System.Drawing.Size(84, 16);
+            this.check_btn_log.TabIndex = 12;
+            this.check_btn_log.Text = "Fidder日志";
+            this.check_btn_log.UseVisualStyleBackColor = false;
+            this.check_btn_log.CheckedChanged += new System.EventHandler(this.check_btn_log_CheckedChanged);
             // 
             // HccWindowdGraspTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(935, 824);
+            this.Controls.Add(this.check_btn_log);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnFinishCatch);
@@ -161,6 +175,7 @@
         private System.Windows.Forms.Button btnFinishCatch;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox check_btn_log;
 
     }
 }

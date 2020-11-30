@@ -233,5 +233,29 @@ namespace CopyData
                 return null;
             }
         }
+
+        public string base64_encode(string normalText)
+        {
+            var plainTextBytes = Encoding.UTF8.GetBytes(normalText);
+            var base64 = Convert.ToBase64String(plainTextBytes).Replace('+', '-').Replace('/', '_').TrimEnd('=');
+            return base64;
+        }
+
+
+        public string base64_decode(string base64UrlStr)
+         {
+             base64UrlStr = base64UrlStr.Replace('-', '+').Replace('_', '/');
+             switch (base64UrlStr.Length % 4)
+             {
+                 case 2:
+                     base64UrlStr += "==";
+                     break;
+                 case 3:
+                     base64UrlStr += "=";
+                     break;
+             }
+             var bytes = Convert.FromBase64String(base64UrlStr);
+             return Encoding.UTF8.GetString(bytes);
+         }
     }
 }

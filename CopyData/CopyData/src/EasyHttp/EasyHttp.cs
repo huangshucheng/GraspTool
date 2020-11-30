@@ -61,15 +61,24 @@ namespace CopyData
         private EasyHttpLogLevel _logLevel          = EasyHttpLogLevel.None;
         private EasyHttpLogLevel _defaultLogLevel   = EasyHttpLogLevel.None;
         private Encoding _responseEncoding          = Encoding.UTF8;
-        //private Encoding _responseEncoding          = Encoding.Unicode;
         private Encoding _postEncoding              = Encoding.UTF8;
         private readonly WebHeaderCollection _headers        = new WebHeaderCollection();   //自定义请求头
         private readonly CookieContainer _cookieContainer    = new CookieContainer();       //cookie 容器
         private readonly WebHeaderCollection _defaultHeaders = new WebHeaderCollection();   //默认请求头
-        private readonly List<KeyValue> _keyValues           = new List<KeyValue>();        //请求参数，固定是添加在URU后面的
+        private readonly List<KeyValue> _keyValues           = new List<KeyValue>();        //请求参数，固定是添加在URU后面的,
+        private string _urlBody;       //url 参数，追加在Url后面的，post,get都能用，格式：code=123&name=hcc&sex=1
+        //注意： url参数： _keyValues和 _urlBody只能同时用一种，_urlBody优先
 
         private EasyHttp()
         {
+        }
+
+        public void setUrlBody(string urlBody){
+            _urlBody = urlBody;
+        }
+
+        public string getUrlBody() {
+            return _urlBody;
         }
 
         public string getResponseString(string rstr)
@@ -208,6 +217,7 @@ namespace CopyData
             }
             _headers.Clear();
             _keyValues.Clear();
+            _urlBody = null;
             _logLevel        = _defaultLogLevel;
             _customePostData = null;
             _baseUrl         = uri.Scheme+"://"+uri.Host;
@@ -444,10 +454,15 @@ namespace CopyData
             {
                 UrlToQuery(_url);
                 url = this._url;
-                if (_keyValues.Count > 0)
-                {
+                if (_keyValues.Count > 0){
                     //分解参数
                     url = url + "?" + EasyHttpUtils.NameValuesToQueryParamString(_keyValues);
+                }
+                //URL追加body TODO
+                if (!string.IsNullOrEmpty(_urlBody)){
+                    UrlToQuery(url);
+                    url = this._url;
+                    url = url + "?" + _urlBody;
                 }
                 _request = WebRequest.Create(url) as HttpWebRequest;
                 EasyHttpUtils.CopyHttpHeader(_tempRequest,_defaultHeaderRequest, _request);
@@ -464,6 +479,14 @@ namespace CopyData
                 if (_keyValues.Count > 0)
                 {
                     url = url + "?" + EasyHttpUtils.NameValuesToQueryParamString(_keyValues);
+                }
+
+                //URL追加body TODO
+                if (!string.IsNullOrEmpty(_urlBody))
+                {
+                    UrlToQuery(url);
+                    url = this._url;
+                    url = url + "?" + _urlBody;
                 }
 
                 _request = WebRequest.Create(url) as HttpWebRequest;
@@ -491,11 +514,19 @@ namespace CopyData
             else if (method == Method.PUT)
             {
                 UrlToQuery(_url);
-                 url = this._url;
+                url = this._url;
                 if (_keyValues.Count > 0)
                 {
                     url = url + "?" + EasyHttpUtils.NameValuesToQueryParamString(_keyValues);
                 }
+
+                //URL追加body TODO
+                if (!string.IsNullOrEmpty(_urlBody)){
+                    UrlToQuery(url);
+                    url = this._url;
+                    url = url + "?" + _urlBody;
+                }
+
                 _request = WebRequest.Create(url) as HttpWebRequest;
                 _request.CookieContainer = _cookieContainer;
                 
@@ -511,6 +542,14 @@ namespace CopyData
                 {
                     url = url + "?" + EasyHttpUtils.NameValuesToQueryParamString(_keyValues);
                 }
+
+                //URL追加body TODO
+                if (!string.IsNullOrEmpty(_urlBody)){
+                    UrlToQuery(url);
+                    url = this._url;
+                    url = url + "?" + _urlBody;
+                }
+
                 _request = WebRequest.Create(url) as HttpWebRequest;
                 
                 _request.CookieContainer = _cookieContainer;
@@ -547,10 +586,17 @@ namespace CopyData
             string url = string.Empty;
             if (method == Method.GET)
             {
-                UrlToQuery(_url);
+                UrlToQuery(this._url);
                 url = this._url;
                 if (_keyValues.Count > 0) { 
                     url = url + "?" + EasyHttpUtils.NameValuesToQueryParamString(_keyValues);
+                }
+
+                //URL追加body TODO
+                if (!string.IsNullOrEmpty(_urlBody)){
+                    UrlToQuery(url);
+                    url = this._url;
+                    url = url + "?" + _urlBody;
                 }
                 _request = WebRequest.Create(url) as HttpWebRequest;
                 EasyHttpUtils.CopyHttpHeader(_tempRequest, _defaultHeaderRequest, _request);
@@ -564,9 +610,15 @@ namespace CopyData
                 url = this._url;
 
                 //keyValues写入URL
-                if (_keyValues.Count > 0)
-                {
+                if (_keyValues.Count > 0){
                     url = url + "?" + EasyHttpUtils.NameValuesToQueryParamString(_keyValues);
+                }
+
+                //URL追加body TODO
+                if (!string.IsNullOrEmpty(_urlBody)){
+                    UrlToQuery(url);
+                    url = this._url;
+                    url = url + "?" + _urlBody;
                 }
 
                 _request = WebRequest.Create(url) as HttpWebRequest; ;

@@ -8,21 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using Jose;
 
 namespace CopyData
 {
     public partial class HccWindowdGraspTool : Form
     {
-        public const int WM_COPYDATA = 0x004A;
-        private DealRecvData _dealData = null;
-        //COPYDATASTRUCT结构
-        public struct COPYDATASTRUCT
-        {
-            public IntPtr dwData;
-            public int cData;
-            [MarshalAs(UnmanagedType.LPStr)]
-            public string lpData;
-        }
+        private DealRecvData _dealData = null; //数据处理对象
+        private bool _isReceiveFidderLog = false;//是否开启打印Fidder传过来的日志
 
         public HccWindowdGraspTool()
         {
@@ -37,7 +30,7 @@ namespace CopyData
         {
             switch (m.Msg)
             {
-                case WM_COPYDATA:
+                case Define.WM_COPYDATA:
                     //处理消息
                     COPYDATASTRUCT mystr = new COPYDATASTRUCT();
                     Type mytype = mystr.GetType();
@@ -45,8 +38,9 @@ namespace CopyData
                     string content = mystr.lpData;
                     //Console.WriteLine("hcc>>recvCopyData: "+ content);
                     //this.richTextBoxLog.AppendText(content);
-                    //this.richTextBoxFind.AppendText(content);
-
+                    if (_isReceiveFidderLog == true){
+                        this.richTextBoxFind.AppendText(content);
+                    }
                     _dealData.dealWithRecvData(content);
                     break;
                 default:
@@ -96,6 +90,13 @@ namespace CopyData
         //test 按钮点击
         private void btnFinishCatch_Click(object sender, EventArgs e)
         {
+        }
+
+        private void check_btn_log_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.check_btn_log != null){
+                _isReceiveFidderLog = this.check_btn_log.Checked;
+            }
         }
     }
 }

@@ -11,8 +11,9 @@ namespace CopyData
     {
         string _url = "";//url ，需要带域名，可不带https://
         EasyHttp.Method _method = EasyHttp.Method.POST; //请求方法
-        List<KeyValue> _body = null;//追加在URl后面的参数,get，post都能用
-        string _postBody = null; //post请求的参数，只有post能用到
+
+        string _urlBody = ""; //放在URL后面的请求体,get,post都能用, 例：shareCode=123&code=abc
+        string _postBody = ""; //post请求的参数，只有post能用到
         string _curTaskName = ""; //当前任务名字
         string _preTaskName = ""; //前置任务名字：如果有前置任务名字，则需要等到前置任务做好后才去调用此任务
 
@@ -21,7 +22,6 @@ namespace CopyData
         {
             _url = url;
             _method = method;
-            _body = new List<KeyValue>();
             _curTaskName = taskName;
         }
 
@@ -45,17 +45,14 @@ namespace CopyData
         }
 
         //body追加到url,放在url后面
-        public TaskObj addUrlBody(List<KeyValue> bodyList) {
-            if(bodyList == null){
-                return this;
-            }
-            _body.AddRange(bodyList);
+        public TaskObj addUrlBody(string urlBody) {
+            _urlBody = urlBody;
             return this;
         }
 
         //放在url后面的参数
-        public List<KeyValue> getUrlBody(){
-            return _body;
+        public string getUrlBody() {
+            return _urlBody;
         }
 
         //获取当前任务名字

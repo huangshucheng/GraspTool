@@ -15,10 +15,10 @@ namespace CopyData
         //public static string[] DATA_TO_FIND_ARRAY = { "token", "cookie" };
         //public static string[] DATA_TO_FIND_ARRAY = { "token", "Content-Type", "Cookie" };//http请求头中，查找指定串
 
-        public static string REQ_HEAD_STRING = "[reqHeader<" + GlobalData.FIND_STRING_HOST + ">]"; //请求头
-        public static string REQ_BODY_STRING = "[reqBody<" + GlobalData.FIND_STRING_HOST + ">]";   //请求体
-        public static string RES_HEAD_STRING = "[resHeader<" + GlobalData.FIND_STRING_HOST + ">]"; //返回头
-        public static string RES_BODY_STRING = "[resBody<" + GlobalData.FIND_STRING_HOST + ">]";  //返回体
+        public static string REQ_HEAD_STRING = "[reqHeader<" + GlobalData.FIND_STRING_HOST; //请求头
+        public static string REQ_BODY_STRING = "[reqBody<" + GlobalData.FIND_STRING_HOST;   //请求体
+        public static string RES_HEAD_STRING = "[resHeader<" + GlobalData.FIND_STRING_HOST; //返回头
+        public static string RES_BODY_STRING = "[resBody<" + GlobalData.FIND_STRING_HOST;  //返回体
 
         ////////////////////////
         //请求参数,需要用对象访问
@@ -60,27 +60,25 @@ namespace CopyData
             var put_answer = GlobalData.FIND_STRING_HOST + "/hbact/exam/finish?shareCode=d7fc08d9e6754043ad8bfaa0ae597b63"; //考试提交答案 Post
 
             //任务配置初始化
-            var urlBodyList = new List<KeyValue>();
-            urlBodyList.Add(new KeyValue("urlbody1", "value1"));
-            
             //前置任务
-            //_taskConfiList.Add(new TaskObj(sign_list, EasyHttp.Method.POST, "签到列表").addBody("hcc=postbody").addUrlBody(urlBodyList));
+            //_taskConfiList.Add(new TaskObj(sign_list, EasyHttp.Method.POST, "签到列表").addBody("hcc=postbody"));
             //_taskConfiList.Add(new TaskObj(sign_do, EasyHttp.Method.POST, "签到"));
             //_taskConfiList.Add(new TaskObj(study_start, EasyHttp.Method.POST, "开始学习"));
             //_taskConfiList.Add(new TaskObj(study_end, EasyHttp.Method.POST, "结束学习"));
             //_taskConfiList.Add(new TaskObj(card_list, EasyHttp.Method.POST, "我的卡片").addBody("from=1"));
-            //_taskConfiList.Add(new TaskObj(share_code, EasyHttp.Method.GET, "分享码"));
+            _taskConfiList.Add(new TaskObj(share_code, EasyHttp.Method.GET, "分享码"));
             //_taskConfiList.Add(new TaskObj(study_page, EasyHttp.Method.POST, "请求学习页面").addBody("url=https%3A%2F%2Fhbz.qrmkt.cn%2Fyx%2Fviews%2Factivity%2FmemberDaySchool.html%3Ft%3D1606640950645"));
-            _taskConfiList.Add(new TaskObj(room_actcode, EasyHttp.Method.POST, "激活考场").addBody("actType=6"));
+            //_taskConfiList.Add(new TaskObj(room_actcode, EasyHttp.Method.POST, "激活考场").addBody("actType=6"));
             //_taskConfiList.Add(new TaskObj(get_chance, EasyHttp.Method.GET, "考试机会"));
             //_taskConfiList.Add(new TaskObj(exam_check, EasyHttp.Method.GET, "考试检测"));
             //_taskConfiList.Add(new TaskObj(random_room, EasyHttp.Method.GET, "请求题目"));
             //_taskConfiList.Add(new TaskObj(put_answer, EasyHttp.Method.POST, "提交答案"));
 
             //后置任务
-            _taskConfiList.Add(new TaskObj(get_chance, EasyHttp.Method.GET, "考试机会").addPreTaskName("激活考场"));
+            _taskConfiListAfter.Add(new TaskObj(study_end, EasyHttp.Method.POST, "结束学习").addPreTaskName("分享码"));
+            //_taskConfiListAfter.Add(new TaskObj(get_chance, EasyHttp.Method.GET, "考试机会").addPreTaskName("激活考场"));
             //_taskConfiListAfter.Add(new TaskObj(put_answer, EasyHttp.Method.POST, "提交答案").addPreTaskName("分享码"));
-            _taskConfiListAfter.Add(new TaskObj(exam_check, EasyHttp.Method.GET, "考试检测").addPreTaskName("考试机会"));
+            //_taskConfiListAfter.Add(new TaskObj(exam_check, EasyHttp.Method.GET, "考试检测").addPreTaskName("考试机会"));
         }
 
         public Dictionary<string, string> getHeadDic(){

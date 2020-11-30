@@ -103,8 +103,8 @@ namespace CopyData
          * body：放在Url的后面的参数，get或者post都可以用
          * postBody： post的请求体，get可以不用
          */
-        private void doOneTaskRequest(int index, string taskName, string url, EasyHttp.Method method, Dictionary<string, string> headDic, List<KeyValue> body, string postBody) {
-            string retStr = doHttpReq(url, method, headDic, body, postBody);
+        private void doOneTaskRequest(int index, string taskName, string url, EasyHttp.Method method, Dictionary<string, string> headDic, string urlBody, string postBody) {
+            string retStr = doHttpReq(url, method, headDic, urlBody, postBody);
             if(retStr != null){
                 string resStr = "【" + index.ToString() + "】" + taskName + ":" + StringUtils.UnicodeDencode(retStr) + "\n";
                 _bgWorker.ReportProgress(100, resStr);
@@ -113,7 +113,7 @@ namespace CopyData
         }
 
         //执行一次http请求
-        private string doHttpReq(string url, EasyHttp.Method method, Dictionary<string, string> headDic, List<KeyValue> body, string postBody)
+        private string doHttpReq(string url, EasyHttp.Method method, Dictionary<string, string> headDic, string urlBody, string postBody)
         {
             try{
                 EasyHttp http = EasyHttp.With(url);
@@ -121,9 +121,8 @@ namespace CopyData
                     if (headDic != null && headDic.Count() > 0){
                         http.AddHeadersByDic(headDic);//添加请求头
                     }
-                    if (body != null && body.Count > 0){ //添加请求体
-                        http.Data(body);
-                    }
+
+                    http.setUrlBody(urlBody);
                     Task<string> ret = null;
                     if (method == EasyHttp.Method.GET){
                         ret = http.GetForStringAsyc();
@@ -170,10 +169,12 @@ namespace CopyData
                     string shareCode = (string)obj["data"]["shareCode"];
                     Console.WriteLine("分享码" + ":" + shareCode);
 
-                    var urlBodyList = new List<KeyValue>();
-                    urlBodyList.Add(new KeyValue("shareCode", shareCode));
+                    string urlBody = string.Empty;
+                    if(!string.IsNullOrEmpty(shareCode)){
+                        urlBody = "shareCode=" + shareCode;
+                    }
 
-                    t.addUrlBody(urlBodyList).addBody("actType=6");
+                    t.addUrlBody(urlBody).addBody("actType=6&code=5");
                     doOneTaskRequest(index, t.getTaskName(), t.getUrl(), t.getMethod(), headDic, t.getUrlBody(), t.getBody());
                 }
             }

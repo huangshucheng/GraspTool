@@ -46,29 +46,22 @@ namespace CopyData
                 if(lineString == string.Empty){
                     continue;
                 }
-
-                if (lineString != GlobalData.REQ_HEAD_STRING && lineString != GlobalData.REQ_BODY_STRING &&
-                    lineString != GlobalData.RES_HEAD_STRING && lineString != GlobalData.RES_BODY_STRING)
-                {
-                    return;
-                }
-
-                if (lineString == GlobalData.REQ_HEAD_STRING)
+                if (lineString.Contains(GlobalData.REQ_HEAD_STRING))
                 {
                     dealWithReqHeader(dataStr);
                     break;
                 }
-                else if (lineString == GlobalData.REQ_BODY_STRING)
+                else if (lineString.Contains(GlobalData.REQ_BODY_STRING))
                 {
                     dealWithReqBody(dataStr);
                     break;
                 }
-                else if (lineString == GlobalData.RES_HEAD_STRING)
+                else if (lineString.Contains(GlobalData.RES_HEAD_STRING))
                 {
                     dealWithResHeader(dataStr);
                     break;
                 }
-                else if (lineString == GlobalData.RES_BODY_STRING)
+                else if (lineString.Contains(GlobalData.RES_BODY_STRING))
                 {
                     dealWithResBody(dataStr);
                     break;
