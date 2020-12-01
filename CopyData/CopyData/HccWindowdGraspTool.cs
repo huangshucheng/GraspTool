@@ -8,7 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using Jose;
+using JWT;
+using Newtonsoft.Json.Linq;
 
 namespace CopyData
 {
@@ -23,6 +24,27 @@ namespace CopyData
             //UI在这里传过去，dealData那边操作UI
             _dealData = new DealRecvData(this.richTextBoxFind,this.richTextBoxLog);
             //test
+            /*
+            JObject subFather = new JObject();
+            JObject sub = new JObject();
+            sub.Add("orgId", "hebeizhongyan");
+            sub.Add("appid", "wxae8baae566aa8758");
+            sub.Add("openid", "o1UcM6OyGhMPkZoLfwcAvGzCeqnw");
+            sub.Add("unionid", "o0HJV0r9IyBravvLDw1l826-ZU6A");
+            sub.Add("loginTime", 1606838480971);
+            sub.Add("tag", "16068384809718KAYPLSVUZNNJ33");
+            sub.Add("userId", 1066681204);
+            subFather.Add("sub", sub);
+            subFather.Add("exp", 1606834519);
+
+            string json_str = StringUtils.json_encode(subFather);
+
+            string key = "hebeizhongyan";
+            string key2 = "a753d4df7ff177a8287cc4b010c2e1464e89a4b4";
+
+            var token = JWT.JsonWebToken.Encode(json_str, key2, JWT.JwtHashAlgorithm.HS256);
+           // var deToken = JWT.JsonWebToken.Decode(token,key,false);
+            */
         }
 
         //捕获消息

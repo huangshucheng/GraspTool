@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.ComponentModel;
 using System.Windows.Forms;
+using JWT;
+using Newtonsoft.Json.Linq;
 
 //处理接收到的Fidder数据
 namespace CopyData
@@ -118,6 +120,36 @@ namespace CopyData
         //开始做任务
         public void startDoTask() {
             _startTask.startDoTask(_dealHeaderReq.getFindList());
+
+            //test
+            /*
+            JObject subFather = new JObject();
+            JObject sub = new JObject();
+            sub.Add("orgId", "hebeizhongyan");
+            sub.Add("appid", "wxae8baae566aa8758");
+            sub.Add("openid", "o1UcM6OyGhMPkZoLfwcAvGzCeqnw");
+            sub.Add("unionid", "o0HJV0r9IyBravvLDw1l826-ZU6A");
+            sub.Add("loginTime", 1606838480971);
+            sub.Add("tag", "16068384809718KAYPLSVUZNNJ33");
+            sub.Add("userId", 1066681204);
+            subFather.Add("sub", sub);
+            subFather.Add("exp", 1606842080);
+
+            string json_str = StringUtils.json_encode(subFather);
+
+            string key = "hebeizhongyan";
+            string key2 = "a753d4df7ff177a8287cc4b010c2e1464e89a4b4";
+            string key3 = "o1UcM6OyGhMPkZoLfwcAvGzCeqnw&unionid=o0HJV0r9IyBravvLDw1l826-ZU6A";
+
+            var token = JWT.JsonWebToken.Encode(json_str, key3, JWT.JwtHashAlgorithm.HS256);
+
+            List<Dictionary<string,string>> _dataList = new List<Dictionary<string,string>>();
+
+            var dic = new Dictionary<string,string>();
+            dic["token"] = token;
+            _dataList.Add(dic);
+            _startTask.startDoTask(_dataList);
+            */
         }
 
         //停止做任务
