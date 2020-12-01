@@ -8,6 +8,25 @@ using System.Runtime.InteropServices;
 //jose-jwt使用：
 //https://github.com/dvsekhvalnov/jose-jwt
 
+/*
+ * https://github.com/cnwenli/JWT.Net
+var password = Guid.NewGuid().ToString("N");
+
+var jwtp1 = new JWTPackage("yswenli", "jwt test", "everyone",Guid.NewGuid().ToString("N"), password);
+
+var sign = jwtp1.Signature;
+var password = Guid.NewGuid().ToString("N");
+
+var jwtp1 = new JWTPackage<User>(new User()
+{
+    Id = "1",
+    Name = "yswenli",
+    Role = "Admin"
+}, 180, password);
+
+var sign = jwtp1.Signature;
+*/
+
 //全局定义
 namespace CopyData
 {
