@@ -43,6 +43,7 @@ namespace CopyData
 
     public delegate void httpDataReturnHandler(object sender, string data);//定义一个http请求返回的委托
 
+
     //COPYDATASTRUCT结构,用于其他软件传数据
     public struct COPYDATASTRUCT
     {
@@ -55,5 +56,6 @@ namespace CopyData
     public class Define
     {
         public const int WM_COPYDATA = 0x004A; //copydata的域
+        public const string FILE_SAVE_NAME = "token.json";
     }
 }

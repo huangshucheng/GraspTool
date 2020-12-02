@@ -84,6 +84,7 @@
     <Compile Include="src\EasyHttp\EasyHttpHeaderApi.cs" />
     <Compile Include="src\EasyHttp\EasyHttpUtils.cs" />
     <Compile Include="src\EasyHttp\KeyValue.cs" />
+    <Compile Include="src\LocalStorage.cs" />
     <Compile Include="src\Program.cs" />
     <Compile Include="src\StartTask.cs" />
     <Compile Include="src\StringUtils.cs" />

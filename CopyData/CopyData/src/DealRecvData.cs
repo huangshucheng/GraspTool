@@ -31,6 +31,8 @@ namespace CopyData
 
             //监听_startTask对象的事件,处理回调函数
             _startTask._dataChangedEvent += new DataDelegateHander(onDataOutPut);
+
+            _dealHeaderReq.readDataListFromLocal();
         }
 
         //处理fidder传过来的数据

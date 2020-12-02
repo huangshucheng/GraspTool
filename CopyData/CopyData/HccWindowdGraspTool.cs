@@ -45,6 +45,30 @@ namespace CopyData
             var token = JWT.JsonWebToken.Encode(json_str, key2, JWT.JwtHashAlgorithm.HS256);
            // var deToken = JWT.JsonWebToken.Decode(token,key,false);
             */
+            /*
+            JObject obj = new JObject();
+            obj.Add("a", "123");
+            obj.Add("b", "1233454");
+
+            var fileName = "token.json";
+            //LocalStorage.saveJsonObjToFile(obj);
+            JObject bigObj = LocalStorage.getJsonObjFromFile(fileName);
+            if (bigObj != null)
+            {
+                foreach(var o in bigObj){
+                    Console.WriteLine("hcc>>index>> key:" + o.Key + " ,value:" + o.Value);
+                    Console.WriteLine("hcc>>index>> " + o.Value["token"] + o.Value["cookie"]);
+                    var vl = (JObject)o.Value;
+                    foreach(var v in vl){
+                        var kkk = v.Key;
+                        var vvv = v.Value;
+                        //var dic = new Dictionary<string, string>();
+                        //dic.Add(v.First.ToString(), v.Last.ToString());
+                        //Console.WriteLine("hcc>>index>> vv:" + aaa );
+                    }
+                }
+            }
+            */
         }
 
         //捕获消息
