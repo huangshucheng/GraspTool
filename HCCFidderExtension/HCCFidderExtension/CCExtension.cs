@@ -32,49 +32,48 @@ namespace HCCFidderExtension
             
         }
 
-        public void AutoTamperRequestBefore(Session onSession) { 
-            
+        public void AutoTamperRequestBefore(Session onSession) {
         }
 
         public void AutoTamperRequestAfter(Session onSession)
         {
-
         }
 
         public void AutoTamperResponseBefore(Session onSession)
-        { 
-        
+        {
+            sendSessionDataToFidder(onSession);
         }
 
         public void AutoTamperResponseAfter(Session onSession)
         {
+            
+        }
+
+        public void OnBeforeReturningError(Session onSession)
+        { 
+            
+        }
+
+        public void sendSessionDataToFidder(Session onSession)
+        {
             string host = onSession.host;
-            string path = onSession.PathAndQuery;
-            string mthd = onSession.RequestMethod;
             string reqBody = onSession.GetRequestBodyAsString();
             string resBody = onSession.GetResponseBodyAsString();
-            //根据加密方式解密 TODO
-            //Encoding encoding = onSession.GetResponseBodyEncoding();
-            //encoding.GetDecoder
-            //onSession.utilGZIPResponse()
-            
-            string reqHeader = onSession.RequestHeaders.ToString();
-            string resHeader = onSession.ResponseHeaders.ToString();
+
+            string reqHeader = onSession.RequestHeaders.ToString(true, true, true);
+            string resHeader = onSession.ResponseHeaders.ToString(true, true);
+            string allSession = onSession.ToString();
 
             FiddlerObject.log("host<<<<<<<<<<<<<<<【" + host + "】<<<<<<<<<<<<<<<<<");
             //FiddlerObject.log("hcc>>host: " + host);
             //FiddlerObject.log("hcc>>path: " + path);
             //FiddlerObject.log("hcc>>mthd: " + mthd);
-            FiddlerObject.log("hcc>>reqHeader:  " + reqHeader);
+            //FiddlerObject.log("hcc>>reqHeader:  " + reqHeader);
             //FiddlerObject.log("hcc>>resHeader:  " + resHeader);
             //FiddlerObject.log("hcc>>reqBody: " + reqBody);
             //FiddlerObject.log("hcc>>resBody: " + resBody);
+            FiddlerObject.log(reqHeader + "\n");
             FiddlerObject.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>end\n");
-
-            //string sendText = "\n【reqHeader<" + host + ">】\n" + reqHeader +
-            //                  "\n【reqBody<" + host + ">】\n" + reqBody +
-            //                  "\n【resHeader<" + host + ">】\n" + resHeader +
-            //                  "\n【resBody<" + host + ">】\n" + resBody + "\n";
 
             string dataHeader = "\n" + "[reqHeader<" + host + ">] \n" + reqHeader;
             string dataReqBody = "\n" + "[reqBody<" + host + ">] \n" + reqBody;
@@ -82,13 +81,15 @@ namespace HCCFidderExtension
             string dataResBody = "\n" + "[resBody<" + host + ">] \n" + resBody + "\n";
 
             Process[] processes = Process.GetProcesses();
-            foreach (Process p in processes) {
+            foreach (Process p in processes)
+            {
                 try
                 {
                     //这两个进程的某些属性一旦访问就抛出没有权限的异常
                     if (p.ProcessName != "System" && p.ProcessName != "Idle")
                     {
-                        if (p.ProcessName == "HccWindowdGraspTool.vshost" || p.ProcessName == "HccWindowdGraspTool") //
+                        //if (p.ProcessName == "HccWindowdGraspTool.vshost" || p.ProcessName == "HccWindowdGraspTool") //
+                        if (p.ProcessName.Contains("HccWindowdGraspTool"))
                         {
                             //接收端的窗口句柄  
                             IntPtr hwndRecvWindow = p.MainWindowHandle;
@@ -106,11 +107,7 @@ namespace HCCFidderExtension
                     MessageBox.Show(ex.Message);
                 }
             }
-        }
-
-        public void OnBeforeReturningError(Session onSession)
-        { 
-            
+        
         }
 
         ///////////////////////////////////////////
