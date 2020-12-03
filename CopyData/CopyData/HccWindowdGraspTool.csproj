@@ -79,6 +79,7 @@
     <Compile Include="src\DealReqBody.cs" />
     <Compile Include="src\DealResBody.cs" />
     <Compile Include="src\Define.cs" />
+    <Compile Include="src\DelayTime.cs" />
     <Compile Include="src\GlobalData.cs" />
     <Compile Include="src\EasyHttp\EasyHttp.cs" />
     <Compile Include="src\EasyHttp\EasyHttpHeaderApi.cs" />

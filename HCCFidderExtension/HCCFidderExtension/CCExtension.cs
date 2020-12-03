@@ -62,7 +62,7 @@ namespace HCCFidderExtension
 
             string reqHeader = onSession.RequestHeaders.ToString(true, true, true);
             string resHeader = onSession.ResponseHeaders.ToString(true, true);
-            string allSession = onSession.ToString();
+            //string allSession = onSession.ToString();
 
             FiddlerObject.log("host<<<<<<<<<<<<<<<【" + host + "】<<<<<<<<<<<<<<<<<");
             //FiddlerObject.log("hcc>>host: " + host);

@@ -69,6 +69,7 @@ namespace CopyData
                 }
             }
             */
+
         }
 
         //捕获消息
@@ -136,6 +137,17 @@ namespace CopyData
         //test 按钮点击
         private void btnFinishCatch_Click(object sender, EventArgs e)
         {
+            //DelayTime.delayAction();
+            //DelayTime.startDelayTask(3, () =>
+            //{
+            //    Console.WriteLine("jhccccklklsdfklskdfjkld");
+            //});
+
+            //new DelayTime().delay(3, () =>
+            //{
+            //    Console.WriteLine("jhccccklklsdfklskdfjkld");
+            //});
+            
         }
 
         private void check_btn_log_CheckedChanged(object sender, EventArgs e)

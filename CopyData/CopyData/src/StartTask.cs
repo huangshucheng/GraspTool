@@ -150,7 +150,7 @@ namespace CopyData
             foreach (var t in taskList)
             {
                 if(!t.getPreTaskName().Equals(string.Empty) && t.getPreTaskName().Equals(taskName)){
-                    doOneTaskByPreTask(index, taskName, headDic, responsStr, t);
+                    this.doOneTaskByPreTask(index, taskName, headDic, responsStr, t);
                     break;
                 }
             }
