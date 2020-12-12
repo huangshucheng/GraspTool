@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-//http任务请求所需的参数
+﻿//http任务请求所需的参数
 namespace CopyData
 {
     class TaskObj
@@ -16,6 +10,7 @@ namespace CopyData
         string _postBody = ""; //post请求的参数，只有post能用到
         string _curTaskName = ""; //当前任务名字
         string _preTaskName = ""; //前置任务名字：如果有前置任务名字，则需要等到前置任务做好后才去调用此任务
+        int _reqCount = 1;  //请求次数
 
         // get,post 通用
         public TaskObj(string url, EasyHttp.Method method, string taskName = "")
@@ -69,6 +64,16 @@ namespace CopyData
         //获取前置任务名
         public string getPreTaskName() {
             return _preTaskName;
+        }
+
+        //次数
+        public TaskObj setReqCount(int count) {
+            _reqCount = count;
+            return this;
+        }
+
+        public int getReqCount() {
+            return _reqCount;
         }
 
     }

@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.IO;
-using System.IO.Compression;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -200,7 +198,6 @@ namespace CopyData
 
                  Regex reg = new Regex(":", RegexOptions.IgnoreCase);
                  string[] splitLine = reg.Split(lineString,2); //只拆分两次，用:将字符串分开
-                 
                  if (splitLine.Length > 1){
                      dataDic[splitLine[0]] = splitLine[1];
                  }

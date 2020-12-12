@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 //全局数据配置
 namespace CopyData
@@ -62,7 +58,7 @@ namespace CopyData
             //任务配置初始化
             //前置任务
             //_taskConfiList.Add(new TaskObj(sign_list, EasyHttp.Method.POST, "签到列表").addBody("hcc=postbody"));
-            _taskConfiList.Add(new TaskObj(sign_do, EasyHttp.Method.POST, "签到"));
+            _taskConfiList.Add(new TaskObj(sign_do, EasyHttp.Method.POST, "签到").setReqCount(10));
             //_taskConfiList.Add(new TaskObj(study_start, EasyHttp.Method.POST, "开始学习"));
             //_taskConfiList.Add(new TaskObj(study_end, EasyHttp.Method.POST, "结束学习"));
             //_taskConfiList.Add(new TaskObj(card_list, EasyHttp.Method.POST, "我的卡片").addBody("from=1"));
@@ -77,9 +73,9 @@ namespace CopyData
             //后置任务
             _taskConfiListAfter.Add(new TaskObj(study_start, EasyHttp.Method.POST, "开始学习").addPreTaskName("签到"));
             _taskConfiListAfter.Add(new TaskObj(study_end, EasyHttp.Method.POST, "结束学习").addPreTaskName("开始学习"));
-            _taskConfiListAfter.Add(new TaskObj(get_chance, EasyHttp.Method.GET, "考试机会").addPreTaskName("结束学习"));
-            _taskConfiListAfter.Add(new TaskObj(exam_check, EasyHttp.Method.GET, "考试检测").addPreTaskName("考试机会"));
-            _taskConfiListAfter.Add(new TaskObj(room_actcode, EasyHttp.Method.POST, "激活考场").addPreTaskName("考试检测").addBody("actType=6"));
+            //_taskConfiListAfter.Add(new TaskObj(get_chance, EasyHttp.Method.GET, "考试机会").addPreTaskName("结束学习"));
+            //_taskConfiListAfter.Add(new TaskObj(exam_check, EasyHttp.Method.GET, "考试检测").addPreTaskName("考试机会"));
+            //_taskConfiListAfter.Add(new TaskObj(room_actcode, EasyHttp.Method.POST, "激活考场").addPreTaskName("考试检测").addBody("actType=6"));
             //_taskConfiListAfter.Add(new TaskObj(random_room, EasyHttp.Method.GET, "请求题目").addPreTaskName("激活考场"));
         }
 

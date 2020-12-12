@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
 using System.ComponentModel;
 
 //执行请求任务
@@ -15,7 +12,7 @@ namespace CopyData
         BackgroundWorker _bgWorker = null; //工作线程
         public event DataDelegateHander _dataChangedEvent;//声明一个事件，有返回数据，就派发出去
         public GlobalData _globalData = null;
-        private bool isStopTask = false;
+        //private bool isStopTask = false;
 
         public StartTask() {
             _globalData = new GlobalData();
@@ -37,7 +34,7 @@ namespace CopyData
         private void bgWorkerDoReq(object sender, DoWorkEventArgs e)
         {
             var param = e.Argument;
-            doTaskReq(param);
+            doTaskReqAll(param);
         }
 
         //工作进度，回调
@@ -66,18 +63,18 @@ namespace CopyData
         }
 
         //停止工作
-        public void stopDoTask() {
-            isStopTask = true;
-        }
+        //public void stopDoTask() {
+        //    isStopTask = true;
+        //}
 
         //执行任务总线
-        private void doTaskReq(object argument)
+        private void doTaskReqAll(object argument)
         {
             var tokenList = (List<Dictionary<string, string>>)argument;
             var headDic = _globalData.getHeadDic();
             for (int index = 0; index < tokenList.Count(); index++){
                 var tmpHeadDic = StringUtils.mergeDictionary(headDic, tokenList[index]);
-                var taskList = _globalData.getTaskObjList();
+                var taskList = _globalData.getTaskObjList(); //TODO 做成Lua配置
                 foreach (TaskObj task in taskList){
                     doTaskReq(index + 1, tmpHeadDic , task);
                 }
@@ -86,12 +83,10 @@ namespace CopyData
 
         //执行任务
         private void doTaskReq(int index, Dictionary<string, string> headDic, TaskObj t) {
-            //停止做任务
-            if (isStopTask == true){
-                isStopTask = false;
-                return;
+            for (int i = 0; i < t.getReqCount(); i++)
+            {
+                doOneTaskRequest(index, t.getTaskName(), t.getUrl(), t.getMethod(), headDic, t.getUrlBody(), t.getBody());
             }
-            doOneTaskRequest(index, t.getTaskName(), t.getUrl(), t.getMethod(), headDic, t.getUrlBody(), t.getBody());
         }
 
         //执行一次任务
@@ -105,11 +100,14 @@ namespace CopyData
          */
         private void doOneTaskRequest(int index, string taskName, string url, EasyHttp.Method method, Dictionary<string, string> headDic, string urlBody, string postBody) {
             string retStr = doHttpReq(url, method, headDic, urlBody, postBody);
-            if(retStr != null){
-                string resStr = "【" + index.ToString() + "】" + taskName + ":" + StringUtils.UnicodeDencode(retStr) + "\n";
-                _bgWorker.ReportProgress(100, resStr);
-                doOneTaskResPonse(index, taskName, headDic, retStr);
-            }
+            
+            //执行返回后的逻辑
+            doOneTaskResPonse(index, taskName, headDic, retStr);
+
+            //通知UI
+            var tmpRetStr = string.IsNullOrEmpty(retStr) ? string.Empty : retStr;
+            string resStr = "【" + index.ToString() + "】" + taskName + ":" + StringUtils.UnicodeDencode(tmpRetStr) + "\n";
+            _bgWorker.ReportProgress(100, resStr);
         }
 
         //执行一次http请求
@@ -128,7 +126,10 @@ namespace CopyData
                         ret = http.GetForStringAsyc();
                     }
                     else{
-                        ret = http.PostForStringAsyc(postBody);
+                        ret = http.PostForStringAsyc();
+                        if (!string.IsNullOrEmpty(postBody)) {
+                            http.setPostBody(postBody);
+                        }
                     }
 
                     if (ret != null){
@@ -150,7 +151,9 @@ namespace CopyData
             foreach (var t in taskList)
             {
                 if(!t.getPreTaskName().Equals(string.Empty) && t.getPreTaskName().Equals(taskName)){
-                    this.doOneTaskByPreTask(index, taskName, headDic, responsStr, t);
+                    for (int i = 0; i < t.getReqCount(); i++) {
+                        doOneTaskByPreTask(index, taskName, headDic, responsStr, t);
+                    }
                     break;
                 }
             }
@@ -160,7 +163,7 @@ namespace CopyData
         //一般处理：获取前置任务的参数之后，再去做后置任务
         private void doOneTaskByPreTask(int index, string preTaskName, Dictionary<string, string> headDic, string responsStr, TaskObj t)
         {
-            if (preTaskName.Equals("分享码")) //例：获取分享码后，再去做其他任务
+            if (preTaskName.Equals("分享码")) //例：获取分享码后，再去做其他任务 TODO lua做
             {
                 var obj = StringUtils.json_decode(responsStr);
                 if (obj != null)

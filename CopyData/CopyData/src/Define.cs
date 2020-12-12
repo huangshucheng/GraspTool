@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
 //jose-jwt使用：
@@ -57,5 +53,6 @@ namespace CopyData
     {
         public const int WM_COPYDATA = 0x004A; //copydata的域
         public const string FILE_SAVE_NAME = "token.json";
+        public const string RECEIVE_DATA_TABLE = "RECEIVE_DATA_TABLE";
     }
 }

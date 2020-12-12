@@ -1,15 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using Newtonsoft.Json.Linq;
-using JWT.Net;
+using LuaInterface;
 
 namespace CopyData
 {
@@ -17,59 +8,48 @@ namespace CopyData
     {
         private DealRecvData _dealData = null; //数据处理对象
         private bool _isReceiveFidderLog = false;//是否开启打印Fidder传过来的日志
+        private Lua _luaScript = null; //Lua对象
 
         public HccWindowdGraspTool()
         {
             InitializeComponent();
+
+            _luaScript = new Lua();
             //UI在这里传过去，dealData那边操作UI
             _dealData = new DealRecvData(this.richTextBoxFind,this.richTextBoxLog);
-            //test
-            /*
-            JObject subFather = new JObject();
-            JObject sub = new JObject();
-            sub.Add("orgId", "hebeizhongyan");
-            sub.Add("appid", "wxae8baae566aa8758");
-            sub.Add("openid", "o1UcM6OyGhMPkZoLfwcAvGzCeqnw");
-            sub.Add("unionid", "o0HJV0r9IyBravvLDw1l826-ZU6A");
-            sub.Add("loginTime", 1606838480971);
-            sub.Add("tag", "16068384809718KAYPLSVUZNNJ33");
-            sub.Add("userId", 1066681204);
-            subFather.Add("sub", sub);
-            subFather.Add("exp", 1606834519);
 
-            string json_str = StringUtils.json_encode(subFather);
-
-            string key = "hebeizhongyan";
-            string key2 = "a753d4df7ff177a8287cc4b010c2e1464e89a4b4";
-
-            var token = JWT.JsonWebToken.Encode(json_str, key2, JWT.JwtHashAlgorithm.HS256);
-           // var deToken = JWT.JsonWebToken.Decode(token,key,false);
-            */
-            /*
-            JObject obj = new JObject();
-            obj.Add("a", "123");
-            obj.Add("b", "1233454");
-
-            var fileName = "token.json";
-            //LocalStorage.saveJsonObjToFile(obj);
-            JObject bigObj = LocalStorage.getJsonObjFromFile(fileName);
-            if (bigObj != null)
-            {
-                foreach(var o in bigObj){
-                    Console.WriteLine("hcc>>index>> key:" + o.Key + " ,value:" + o.Value);
-                    Console.WriteLine("hcc>>index>> " + o.Value["token"] + o.Value["cookie"]);
-                    var vl = (JObject)o.Value;
-                    foreach(var v in vl){
-                        var kkk = v.Key;
-                        var vvv = v.Value;
-                        //var dic = new Dictionary<string, string>();
-                        //dic.Add(v.First.ToString(), v.Last.ToString());
-                        //Console.WriteLine("hcc>>index>> vv:" + aaa );
-                    }
+            //加载lua函数，并注册函数到Lua
+            try{
+                registLuaFunc();
+            }
+            catch (Exception e){
+                Console.WriteLine("hcc>>HccWindowdGraspTool error: " + e.Message);
+                if (richTextBoxLog != null){
+                    richTextBoxLog.AppendText(e.Message);
                 }
             }
-            */
+        }
 
+        //注册函数给lua使用
+        void registLuaFunc()
+        {
+            //例：
+            // 注册CLR对象方法到Lua，供Lua调用   typeof(TestClass).GetMethod("TestPrint")
+            //lua.RegisterFunction("testLuaPrint", obj, obj.GetType().GetMethod("testLuaPrint"));
+            // 注册CLR静态方法到Lua，供Lua调用
+            //lua.RegisterFunction("testStaticLuaPrint", null, typeof(TestLuaCall).GetMethod("testStaticLuaPrint"));
+
+            _luaScript.RegisterFunction("LogLua", null, typeof(LuaCall).GetMethod("LogLua")); //打印到控制台
+            _luaScript.RegisterFunction("LogToken", this, GetType().GetMethod("LogToken")); //打印到token界面
+            _luaScript.RegisterFunction("LogOut", this, GetType().GetMethod("LogOut")); //打印到输出界面
+            _luaScript.RegisterFunction("getCurDir", null, typeof(LuaCall).GetMethod("getCurDir")); //获取当前exe文件位置
+            _luaScript.RegisterFunction("getDeskTopDir", null, typeof(LuaCall).GetMethod("getDeskTopDir")); //获取桌面位置
+            _luaScript.RegisterFunction("getFidderString", null, typeof(LuaCall).GetMethod("getFidderString")); //传Fidder数据
+            //_luaScript.RegisterFunction("testDic", null, typeof(LuaCall).GetMethod("testDic")); //传Fidder数据
+            _luaScript.RegisterFunction("httpRequest", null, typeof(LuaCall).GetMethod("httpRequest")); //传Fidder数据
+
+            string path = Environment.CurrentDirectory + "\\luaScript\\main.lua";
+            _luaScript.DoFile(path);
         }
 
         //捕获消息
@@ -85,15 +65,63 @@ namespace CopyData
                     string content = mystr.lpData;
                     //Console.WriteLine("hcc>>recvCopyData: "+ content);
                     //this.richTextBoxLog.AppendText(content);
+                    //_dealData.dealWithRecvData(content);
+                    dealWithRecvData(content);
                     if (_isReceiveFidderLog == true){
-                        this.richTextBoxFind.AppendText(content);
+                        richTextBoxFind.AppendText(content);
                     }
-                    _dealData.dealWithRecvData(content);
                     break;
                 default:
                     break;
             }
             base.WndProc(ref m);
+        }
+
+        //处理Fidder传过来的数据,传给lua处理
+        private void dealWithRecvData(string dataStr)
+        {
+            if (string.IsNullOrEmpty(dataStr))
+            {
+                return;
+            }
+
+            try
+            {
+                LuaCall.setFidderString(dataStr);
+                _luaScript.DoString("receiveFidderData()");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("hcc>>dealWithRecvData error: " + e.Message);
+                if (richTextBoxLog != null)
+                {
+                    richTextBoxLog.AppendText("\n" + e.Message);
+                }
+            }
+        }
+
+        // 导出给lua使用，打印字符串到token界面
+        public void LogToken(string str)
+        {
+            if (richTextBoxFind != null)
+            {
+                if (!string.IsNullOrEmpty(str))
+                {
+                    richTextBoxFind.AppendText(str);
+                }
+            }
+        }
+
+        // 导出给lua使用，打印字符串到log界面
+        public void LogOut(string str)
+        {
+            if (richTextBoxLog != null)
+            {
+                if (!string.IsNullOrEmpty(str))
+                {
+                    richTextBoxLog.AppendText(str);
+                }
+            }
         }
 
         private void btnClearTokenClick(object sender, EventArgs e)
@@ -137,22 +165,17 @@ namespace CopyData
         //test 按钮点击
         private void btnFinishCatch_Click(object sender, EventArgs e)
         {
-            //DelayTime.delayAction();
-            //DelayTime.startDelayTask(3, () =>
-            //{
-            //    Console.WriteLine("jhccccklklsdfklskdfjkld");
-            //});
+            testLua();
+        }
 
-            //new DelayTime().delay(3, () =>
-            //{
-            //    Console.WriteLine("jhccccklklsdfklskdfjkld");
-            //});
-            
+        private void testLua() {
+            var str = LuaCall.httpRequest("www.baidu.com");
+            Console.WriteLine("cccc" + str);
         }
 
         private void check_btn_log_CheckedChanged(object sender, EventArgs e)
         {
-            if (this.check_btn_log != null){
+            if (check_btn_log != null){
                 _isReceiveFidderLog = this.check_btn_log.Checked;
             }
         }

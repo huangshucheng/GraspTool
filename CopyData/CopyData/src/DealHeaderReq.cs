@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 
 //处理HTTP请求头
@@ -14,16 +11,20 @@ namespace CopyData
 
         public List<Dictionary<string,string>> _dataList = new List<Dictionary<string,string>>(); //查找列表
         public event DataDelegateHander _dataChangedEvent;//声明一个事件
+
+        //解析请求头数据
         public bool parseData(string dataStr){
             var parseDic = StringUtils.parseHttpHeader(dataStr);
-            bool isFind = false;
-            
+            if (parseDic.Count() <= 0) {
+                return false;
+            }
+
             var tmpDic = new Dictionary<string, string>();
-            for (int idx = 0; idx < GlobalData.DATA_TO_FIND_ARRAY.Length; idx++) {
+            for (int idx = 0; idx < GlobalData.DATA_TO_FIND_ARRAY.Length; idx++) { //TODO 做成lua配置
                 string key = GlobalData.DATA_TO_FIND_ARRAY[idx];
                 if (parseDic.ContainsKey(key)){
                     string findValue = parseDic[key];
-                    if (findValue != null && findValue != string.Empty){
+                    if (!string.IsNullOrEmpty(findValue)){
                         tmpDic[key] = findValue;
                     }
                 }
@@ -32,16 +33,13 @@ namespace CopyData
             if (tmpDic.Count() > 0 && !isIndexOfDic(_dataList,tmpDic)){
                 _dataList.Add(tmpDic);
                 writeDataListToLocal();
-                isFind = true;
-            }
-            
-            if(isFind == true){
                 reportUI(tmpDic);
+                return true;
             }
-            return isFind;
+            return false;
         }
 
-        //通知 UI
+        //找到了token,通知 UI
         void reportUI(Dictionary<string,string> dic) { 
            if(dic.Count() > 0){
                string cstr = "";

@@ -81,6 +81,14 @@ namespace CopyData
             return _urlBody;
         }
 
+        public void setPostBody(string postBody) {
+            _customePostData = postBody;
+        }
+
+        public string getPostBody() {
+            return _customePostData;
+        }
+
         public string getResponseString(string rstr)
         {
             if(_response ==null || string.IsNullOrEmpty(rstr)){
@@ -481,7 +489,7 @@ namespace CopyData
                     url = url + "?" + EasyHttpUtils.NameValuesToQueryParamString(_keyValues);
                 }
 
-                //URL追加body TODO
+                //URL追加body
                 if (!string.IsNullOrEmpty(_urlBody))
                 {
                     UrlToQuery(url);
@@ -785,17 +793,21 @@ namespace CopyData
         }
 
         /// 用指定的post内容执行post请求
-        public string PostForString(string postData)
+        public string PostForString(string postData = null)
         {
-            _customePostData = postData;
+            if (!string.IsNullOrEmpty(postData)){
+                _customePostData = postData;
+            }
             var str = EasyHttpUtils.ReadAllAsString(ExecutForStream(Method.POST), _responseEncoding);
             LogHtml(str);
             return str;
         }
         //异步带参数
-        public Task<string> PostForStringAsyc(string postData)
+        public Task<string> PostForStringAsyc(string postData = null)
         {
-            _customePostData = postData;
+            if (!string.IsNullOrEmpty(postData)){
+                _customePostData = postData;
+            }
             return ExecuteAsyc(Method.POST);
         }
 
