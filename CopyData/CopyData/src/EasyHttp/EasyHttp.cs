@@ -466,7 +466,7 @@ namespace CopyData
                     //分解参数
                     url = url + "?" + EasyHttpUtils.NameValuesToQueryParamString(_keyValues);
                 }
-                //URL追加body TODO
+                //URL追加body
                 if (!string.IsNullOrEmpty(_urlBody)){
                     UrlToQuery(url);
                     url = this._url;
@@ -528,7 +528,7 @@ namespace CopyData
                     url = url + "?" + EasyHttpUtils.NameValuesToQueryParamString(_keyValues);
                 }
 
-                //URL追加body TODO
+                //URL追加body
                 if (!string.IsNullOrEmpty(_urlBody)){
                     UrlToQuery(url);
                     url = this._url;
@@ -622,7 +622,7 @@ namespace CopyData
                     url = url + "?" + EasyHttpUtils.NameValuesToQueryParamString(_keyValues);
                 }
 
-                //URL追加body TODO
+                //URL追加body
                 if (!string.IsNullOrEmpty(_urlBody)){
                     UrlToQuery(url);
                     url = this._url;
