@@ -1,7 +1,7 @@
 print = LogLua -- 注意：打印不能使用逗号分开，否则会报错
 require("luaScript.util.functions")
 require("luaScript.util.json")
-require("luaScript.test.test_call")
+require("luaScript.test.init")
 
 local StringUtils = require("luaScript.util.StringUtils")
 local Define = require("luaScript.config.Define")
@@ -11,8 +11,16 @@ local FindData = require("luaScript.data.FindData")
 FindData:getInstance():readLocalFile()
 
 function receiveFidderData()
-	if not getFidderString then return end
-	local strData = getFidderString()
+	local strData = nil
+	local ok, msg = pcall(function()
+		strData = getFidderString()
+	end)
+
+	if not ok then
+		return
+	end
+
+	-- LogOut(strData)
 	if strData and strData ~= "" then
 		local splitData = StringUtils.splitString(strData, "\n", 6)
 		for index, str in ipairs(splitData) do

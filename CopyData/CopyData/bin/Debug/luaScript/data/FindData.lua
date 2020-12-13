@@ -85,7 +85,6 @@ function FindData:readLocalFile()
 
 	if decode_table and next(decode_table) then
 		table.insertto(self._findTokenList, decode_table)
-		dump(self._findTokenList,"hcc>>_findTokenList")
 		self:dumpToken()
 	end
 end
@@ -105,7 +104,6 @@ end
 function FindData:dumpTokenOne(index, token_tb)
 	local conStr = nil
 	local func = function()
-		-- conStr = json.encode(token_tb) --暂时不用json
 		local str = ""
 		for k,v in pairs(token_tb) do
 			str = str .. k .. "=" .. v .. "\n"

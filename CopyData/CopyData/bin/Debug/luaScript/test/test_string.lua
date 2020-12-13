@@ -1,5 +1,3 @@
--- local Define = require("luaScript/Config/Define")
-
 function splitString(str, delimiter, splite_time)
    local args = {}
    local pattern = '(.-)' .. delimiter
