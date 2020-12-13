@@ -95,7 +95,7 @@ namespace CopyData
                 return string.Empty;
             }
             string contentType = _response.ContentType;
-            Console.WriteLine("返回字符编码格式:" + contentType);
+            //Console.WriteLine("返回字符编码格式:" + contentType);
             if (contentType.IndexOf("application/json") > -1 || contentType.IndexOf("text/json") > -1)
             {
                 return StringUtils.toJson(rstr);
@@ -551,7 +551,7 @@ namespace CopyData
                     url = url + "?" + EasyHttpUtils.NameValuesToQueryParamString(_keyValues);
                 }
 
-                //URL追加body TODO
+                //URL追加body
                 if (!string.IsNullOrEmpty(_urlBody)){
                     UrlToQuery(url);
                     url = this._url;
@@ -559,7 +559,6 @@ namespace CopyData
                 }
 
                 _request = WebRequest.Create(url) as HttpWebRequest;
-                
                 _request.CookieContainer = _cookieContainer;
                 EasyHttpUtils.CopyHttpHeader(_tempRequest, _defaultHeaderRequest, _request);
                 _request.Method = "DELETE";
@@ -588,6 +587,7 @@ namespace CopyData
             }
             return _response;
         }
+
         //异步请求
         public async Task<string> ExecuteAsyc(Method method)
         {
@@ -600,7 +600,7 @@ namespace CopyData
                     url = url + "?" + EasyHttpUtils.NameValuesToQueryParamString(_keyValues);
                 }
 
-                //URL追加body TODO
+                //URL追加body
                 if (!string.IsNullOrEmpty(_urlBody)){
                     UrlToQuery(url);
                     url = this._url;
@@ -641,24 +641,25 @@ namespace CopyData
                 }
 
                 //将postData 写入body
-                if (!string.IsNullOrEmpty(_customePostData)) { 
-                    //处理请求参数
-                    using (var stream = _request.GetRequestStream())
-                    {
-                        byte[] postData = _postEncoding.GetBytes(_customePostData);
-                        stream.Write(postData, 0, postData.Length);
-                        stream.Close();
-                    }
+                if (!string.IsNullOrEmpty(_customePostData)) {
+                    //处理请求参数 HCC
+                    var stream = await _request.GetRequestStreamAsync();
+                    byte[] postData = _postEncoding.GetBytes(_customePostData);
+                    stream.Write(postData, 0, postData.Length);
+                    stream.Close();
                 }
             }
-            return await submitRequestAsyc(_request);
+            var ret = await submitRequestAsyc(_request);
+            return ret;
         }
+
         //用_request 提交异步请求
         private async Task<string> submitRequestAsyc(HttpWebRequest request)
         {
             if (_request == null){
                 return string.Empty;
             }
+
             HttpStatusCode statusCode = HttpStatusCode.NotFound;
             try {
                 _response = (await request.GetResponseAsync()) as HttpWebResponse;
@@ -757,6 +758,7 @@ namespace CopyData
             this._responseEncoding = responseEncoding;
             return this;
         }
+
         /// 执行GET请求，获取返回的html
         public string GetForString()
         {
@@ -765,6 +767,7 @@ namespace CopyData
             LogHtml(str);
             return str;
         }
+
         public Task<string> GetForStringAsyc()
         {
            return ExecuteAsyc(Method.GET);
@@ -779,6 +782,7 @@ namespace CopyData
             }
                 return false;
         }
+
         /// 执行Post请求，获取返回的html
         public string PostForString()
         {
@@ -786,6 +790,7 @@ namespace CopyData
             LogHtml(str);
             return str;
         }
+
         //异步请求
         public Task<string> PostForStringAsyc()
         {
@@ -802,6 +807,7 @@ namespace CopyData
             LogHtml(str);
             return str;
         }
+
         //异步带参数
         public Task<string> PostForStringAsyc(string postData = null)
         {
@@ -818,6 +824,7 @@ namespace CopyData
             LogHtml(str);
             return str;
         }
+
         //打印html
         public void LogHtml(string html)
         {
@@ -835,57 +842,68 @@ namespace CopyData
                 }
             }
         }
+
         /// 执行DELETE请求，获取返回的html
         public string DeleteForString()
         {
             return EasyHttpUtils.ReadAllAsString(ExecutForStream(Method.DELETE), _responseEncoding);
         }
+
         /// 执行Get请求，并把返回内容作为文件保存到指定路径
         public void GetForFile(string filePath)
         {
              ExecuteForFile(filePath, Method.GET);
         }
+
         /// 执行Post请求，并把返回内容作为文件保存到指定路径
         public void PostForFile(string filePath)
         {
              ExecuteForFile(filePath, Method.POST);
         }
+
         /// 执行Put请求，并把返回内容作为文件保存到指定路径
         public void PutForFile(string filePath)
         {
              ExecuteForFile(filePath, Method.PUT);
         }
+
         /// 执行Delete请求，并把返回内容作为文件保存到指定路径
         public void DeleteForFile(string filePath)
         {
              ExecuteForFile(filePath, Method.DELETE);
         }
+
         /// 以Get方式快速请求，舍弃返回内容
         public void GetForFastRequest()
         {
           ExecuteForFastRequest(Method.GET);
         }
+
         /// 以Post方法快速请求，舍弃返回内容
         public void PostForFastRequest()
         {
             ExecuteForFastRequest(Method.POST);
         }
+
         /// 以PUT方式快速请求，舍弃返回内容
         public void PutForFastRequest()
         {
             ExecuteForFastRequest(Method.PUT);
         }
+
         /// 以Delete方式快速请求，舍弃返回内容
         public void DeleteForFastRequest()
         {
             ExecuteForFastRequest(Method.DELETE);
         }
+
         ///以指定的Http Methond 执行快速请求，舍弃返回内容
         public void ExecuteForFastRequest(Method method)
         {
             var webResponse = Execute(method);
             _response = webResponse;
         }
+
         /// 执行指定方法的请求，将返回内容保存在指定路径的文件中
         public long ExecuteForFile(string filePath, Method method)
         {
@@ -893,27 +911,32 @@ namespace CopyData
             long total = _response.ContentLength;
             return EasyHttpUtils.ReadAllAsFile(stream, total, filePath);
         }
+
         /// 根据指定的方法执行请求，并把返回内容序列化为Image对象
         public Image ExecuteForImage(Method method)
         {
             Stream stream = ExecutForStream(method);
             return Image.FromStream(stream);
         }
+
         /// 执行Get方法，并把返回内容序列化为Image对象
         public Image GetForImage()
         {
             return ExecuteForImage(Method.GET);
         }
+
         /// 执行Post方法，并把返回内容序列化为Image对象
         public Image PostForImage()
         {
             return ExecuteForImage(Method.POST);
         }
+
         /// 执行Put方法，并把返回内容序列化为Image对象
         public Image PutForImage()
         {
             return ExecuteForImage(Method.PUT);
         }
+
         /// 执行Delete方法，并把返回内容序列化为Image对象
         public Image DeleteForImage()
         {

@@ -9,17 +9,15 @@ namespace CopyData
 {
     public partial class HccWindowdGraspTool : Form
     {
-        //private DealRecvData _dealData = null; //数据处理对象
         private bool _isReceiveFidderLog = false;//是否开启打印Fidder传过来的日志
         private Lua _luaScript = null; //Lua对象
+        private string _stringCache = ""; //数据缓存
 
         public HccWindowdGraspTool()
         {
             InitializeComponent();
 
             _luaScript = new Lua();
-            //UI在这里传过去，dealData那边操作UI
-            //_dealData = new DealRecvData(this.richTextBoxFind,this.richTextBoxLog);
 
             //加载lua函数，并注册函数到Lua
             try{
@@ -42,13 +40,15 @@ namespace CopyData
             // 注册CLR静态方法到Lua，供Lua调用
             //lua.RegisterFunction("testStaticLuaPrint", null, typeof(TestLuaCall).GetMethod("testStaticLuaPrint"));
 
-            _luaScript.RegisterFunction("LogLua", null, typeof(LuaCall).GetMethod("LogLua")); //打印到控制台
+            //类对象方法
             _luaScript.RegisterFunction("LogToken", this, GetType().GetMethod("LogToken")); //打印到token界面
             _luaScript.RegisterFunction("LogOut", this, GetType().GetMethod("LogOut")); //打印到输出界面
+            _luaScript.RegisterFunction("LogLua", this, GetType().GetMethod("LogLua")); //打印到控制台
+            _luaScript.RegisterFunction("getFidderString", this, GetType().GetMethod("getFidderString")); //传Fidder数据到lua
+
+            //静态方法
             _luaScript.RegisterFunction("getCurDir", null, typeof(LuaCall).GetMethod("getCurDir")); //获取当前exe文件位置
             _luaScript.RegisterFunction("getDeskTopDir", null, typeof(LuaCall).GetMethod("getDeskTopDir")); //获取桌面位置
-            _luaScript.RegisterFunction("getFidderString", null, typeof(LuaCall).GetMethod("getFidderString")); //传Fidder数据
-            //_luaScript.RegisterFunction("testDic", null, typeof(LuaCall).GetMethod("testDic")); //传Fidder数据
             _luaScript.RegisterFunction("httpRequest", null, typeof(LuaCall).GetMethod("httpRequest")); //传Fidder数据
             _luaScript.RegisterFunction("httpRequestAsync", null, typeof(LuaCall).GetMethod("httpRequestAsync")); //传Fidder数据
 
@@ -67,10 +67,8 @@ namespace CopyData
                     Type mytype = mystr.GetType();
                     mystr = (COPYDATASTRUCT)m.GetLParam(mytype);
                     string content = mystr.lpData;
-                    //Console.WriteLine("hcc>>recvCopyData: "+ content);
-                    //this.richTextBoxLog.AppendText(content);
-                    //_dealData.dealWithRecvData(content);
                     dealWithRecvData(content);
+                    this._stringCache = content;
                     if (_isReceiveFidderLog == true){
                         richTextBoxFind.AppendText(content);
                     }
@@ -89,10 +87,8 @@ namespace CopyData
                 return;
             }
 
-            try
-            {
-                LuaCall.setFidderString(dataStr);
-                _luaScript.DoString("receiveFidderData()");
+            try{
+                _luaScript.DoString("receiveFidderData()"); //TODO 数据量大了后会崩溃
             }
             catch (Exception e)
             {
@@ -111,7 +107,7 @@ namespace CopyData
             {
                 if (!string.IsNullOrEmpty(str))
                 {
-                    richTextBoxFind.AppendText(str);
+                    richTextBoxFind.AppendText(str + "\n");
                 }
             }
         }
@@ -123,15 +119,28 @@ namespace CopyData
             {
                 if (!string.IsNullOrEmpty(str))
                 {
-                    richTextBoxLog.AppendText(str);
+                    richTextBoxLog.AppendText(str + "\n");
                 }
             }
+        }
+
+        //打印log 到cmd
+        public void LogLua(string logStr)
+        {
+            if (!string.IsNullOrEmpty(logStr))
+            {
+                Console.WriteLine(logStr + "\n");
+            }
+        }
+
+        //获取Fidder传过来的String
+        public string getFidderString() {
+            return this._stringCache;
         }
 
         private void btnClearTokenClick(object sender, EventArgs e)
         {
             this.richTextBoxFind.Clear();
-            //_dealData.clearList();
         }
 
         //token查找输出，函数将滚动条滚动到最后
@@ -165,15 +174,19 @@ namespace CopyData
         }
 
         //test 按钮点击
-        private void btnFinishCatch_Click(object sender, EventArgs e)
+        private async void btnFinishCatch_Click(object sender, EventArgs e)
         {
             //var ret = await testLua();
             //Console.WriteLine(ret);
             //var str = LuaCall.httpRequest("www.baidu.com");
-            //LuaCall.httpRequestAsync("www.baidu.com",0);
+            //LuaCall.httpRequestAsync("www.baidu.com");
             //Console.WriteLine(str);
 
             _luaScript.DoString("testCall()");
+
+            //LuaCall.httpRequestAsync("www.baidu.com",1,null,"urlBody=hcc","postBody=123",null);
+            //await testLua();
+            //RSHttp.testHttp();
         }
 
         private async Task<string> testLua() {
@@ -183,11 +196,21 @@ namespace CopyData
 
             HttpItem item = new HttpItem()
             {
-                URL = "https://www.baidu.com",
-                Method = System.Net.Http.HttpMethod.Get,
+                //URL = "https://www.baidu.com",
+                URL = "https://hbz.qrmkt.cn/hbact/hyr/sign/list",
+                Method = System.Net.Http.HttpMethod.Post,
                 Allowautoredirect = true,
                 Encoding = Encoding.UTF8,
             };
+            //item.KeepAlive = true;
+            item.Header.Add("Accept", "application/json,text/javascript,text/html,text/plain,application/xhtml+xml,application/xml, */*; q=0.01");
+            item.Header.Add("Proxy-Connection", "keep-alive");
+            item.Header.Add("Connection", "keep-alive");
+            item.Header.Add("X-Requested-With", "XMLHttpRequest");
+            item.Header.Add("Accept-Encoding", "br, gzip, deflate");
+            item.Header.Add("Accept-Language", "zh-cn");
+            item.Header.Add("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+            item.Header.Add("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13G34 MicroMessenger/7.0.9(0x17000929) NetType/WIFI Language/zh_CN");
             //需要在方法上面加上 async Task<string> 
             var result = await item.GetHtml();
             Console.WriteLine(result.Html);

@@ -1,0 +1,165 @@
+Conari  https://github.com/3F/Conari
+- - - -
+
+[1.4] 2019.11.30
+
+    * NEW: Starting support of the .NET Core. PR #12
+           Full support: netcoreapp2.1 and netstandard2.1 (SDK 3).
+    
+    * NEW: Hack of the unmanaged EmitCalli to support .NET Standard 2.0. Issue #13.
+    
+    * NEW: NativeData and BReader now supports CharPtr, WCharPtr, BSTR types.
+    
+    * NEW: Implemented isolation for PE Modules. Issue #15.
+           Manage it through `IConfig.IsolateLoadingOfModule`.
+           
+           Optionaly it will isolate module for a real new loading even if it was already loaded somewhere else. Full details in https://github.com/3F/Conari/issues/15
+           
+    * NEW: Added `ConariX` as an compatible DLR version of ConariL implementation:
+            ```
+            using(dynamic l = new ConariX("..."))
+            {
+                // just everything is yours ~
+                l.curl_easy_setopt(curl, 10002, "http://example.com");
+            }
+            ```
+            
+    * NEW: Implemented kernel32 WinApi via new ConariX:
+            ```
+            dynamic kernel32 = new Kernel32();
+
+                kernel32.GetModuleHandleA<IntPtr>("libcurl-x64");
+                kernel32.GetModuleHandleW<IntPtr>((WCharPtr)ustr);
+            ```
+            
+    * NEW: Implemented user32 WinApi via new ConariX:
+            ```
+            dynamic user32 = new User32();
+
+                user32.ShowWindow(0x000A0A28, 3);
+                user32.MessageBoxA(0, "Conari in action", "Hello!", 0);
+            ```
+            
+    * NEW: Added netfx based target platforms: net472.
+    
+    * NEW: Added initialization of UnmanagedString from IntPtr.
+    
+    * FIXED: Fixed bug with typeof(void) for return type when DLR.
+    
+    * FIXED: Fixed bug with x64 for CharPtr, WCharPtr, BSTR types.
+    
+    * CHANGED: Performance: Internal ModuleBuilder now is unified for all our new generated dynamic types.
+    
+    * CHANGED: Added hMSBuild 2.2 + GetNuTool 1.7 in nupkg packages for related build processes:
+           
+           https://www.nuget.org/packages/Conari/
+           * tools\gnt.bat - https://github.com/3F/GetNuTool
+           * tools\hMSBuild.bat - https://github.com/3F/hMSBuild
+           
+    * NOTE: Official Releases:
+    
+            * NuGet: https://www.nuget.org/packages/Conari/
+            * GitHub: https://github.com/3F/Conari/releases/latest
+            
+    * NOTE: Please note again, .NET Standard 2.0 support is possible only because of our hack!
+            
+            While other netcoreapp2.1 + netstandard2.1 target platforms will not contain this modifications at all. Means most known behaviour.
+    
+            Do not hesitate to contact: https://github.com/3F/Conari/issues
+           
+        
+[v1.3]
+
+    NEW: Improved speed >80% (DLR) & >90% (Lambda) - Issue #10
+         `*` results for regXwild x64 (Unicode) via snet tester - https://github.com/3F/regXwild
+         
+    NEW: Improved DLR. Automatic detection for ByRef types & null-values for any reference-types that pushed with out/ref modifier.
+         * +UseCallingContext - To use information about types from CallingContext if it's possible.
+         * +UseByRef - To use ByRef& (reference-types) for all sent types.
+         
+    NEW: Added `NullType<T>` as optional way for work with reference-types. And for other purpose to store additional information about basic type for any null values.
+    NEW: Added IProvider.NewProcAddress event - When handling new non-zero ProcAddress.
+    NEW: Started support of Exported-Variables via IExVar & DLR - Issue #7    
+            ```
+            l.ExVar.DLR.ADDR_SPEC; // 0x00001CE8
+            l.ExVar.get<UInt32>("ADDR_SPEC"); // 0x00001CE8
+            l.ExVar.getField(typeof(UInt32).NativeSize(), "ADDR_SPEC"); // Native.Core.Field via raw size
+            l.Svc.native("lpProcName"); // Raw access via NativeData & Native.Core !
+            ```
+            
+    NEW: Implemented aliases for Exported-Functions and Variables - Issue #9
+            ```
+            l.Aliases["Flag"] = l.Aliases["getFlag"] = l.Aliases["xFunc"]; //Flag() -> getFlag() -> xFunc()->...
+            l.DLR.getFlag<bool>();
+            ```
+            ```
+            l.Aliases["gmn"] = new ProcAlias(
+                "GetMagicNum",
+                new AliasCfg() { NoPrefixR = true } // false by default
+            );
+            ```
+            
+    NEW: Native.Core improvements - Extensions & new `t` signatures for node (raw alignments via size and managed types)
+         +`t(Type type, string name = null)`
+         +`t(Type[] types, params string[] names)`
+         +`t(int size, string name = null)`
+    
+    NEW: Aliases for 'empty' types:
+         +`Action bindFunc(string lpProcName);`
+         +`Action bind(string func);`
+        
+    NEW: New group of binding via regular arguments:
+         +`Method bindFunc(string lpProcName, Type ret, params Type[] args);`
+         +`Method<T, object> bindFunc<T>(string lpProcName, Type ret, params Type[] args);`
+         +`Method bind(string func, Type ret, params Type[] args);`
+         +`Method<T, object> bind<T>(string func, Type ret, params Type[] args);`
+         
+    FIXED: Fixed possible crashes - 'A heap has been corrupted' when use of shared pointer between several UnmanagedStructure.
+    CHANGED: ILoader: minor incompatible changes for PE32/PE32+ features.
+             * New `IPE PE` property for complex work with PE-file.
+             * The `ExportFunctionNames` property has been removed as obsolete. Use same `PE.ExportedProcNamesArray`
+            
+    CHANGED: IProvider minor incompatible changes `funcName()` -> `procName()`
+             `string funcName(string name);` has been renamed to `string procName(string name);`
+              - as a common method for getting full lpProcName with main prefix etc.
+              
+    CHANGED: `TDyn IBinder.bind(MethodInfo mi, bool prefix = false);` removed as a deprecated, because for this can be a lot of misunderstandings. 
+              If you need something, use like: `prefix ? l.procName(mi.Name) : mi.Name` etc. for any available methods with MethodInfo.
+              
+    CHANGED: Added User object (+`user`) for Native.Core.Field. To store any additional information that's related for specific field.
+
+
+[v1.2]
+
+    FIXED: Incorrect boolean values from unmanaged code #6
+    NEW: Added type for work with unmanaged structures - UnmanagedStructure
+
+
+[v1.1]
+
+    NEW: DLR features for core with caching of dynamic types.
+    NEW: Added features for convenient work with Native C/C++ structures without declaration. /Issue #2
+    NEW: The Mangling features by C rules: to automatically find entry points of exported functions. /Issue #3
+    NEW: Added access to export functions from PE files.
+         ILoader.ExportFunctionNames
+
+    NEW: Added LSender as a simple retranslator for loggers.
+    NEW: Added features for convenient work with any binary raw data.
+
+    NEW: Added Core events:
+         * BeforeUnload - Before unloading a library.
+         * AfterUnload - When library has been unloaded.
+         * AfterLoad - When library has been loaded.
+         * PrefixChanged - When Prefix has been changed.
+         * ConventionChanged - When Convention has been changed.
+
+    FIXED: bug with CharPtr when unboxing for unmanaged code.
+    FIXED: trivial fixes with implicit conversion for size_t and UIntPtr.
+    CHANGED: Updated CharPtr: +BSTR, +WCharPtr & added new UnmanagedString, that allocates strings for unmanaged code.
+    CHANGED: Other trivial fixes and improvements.
+
+
+[v1.0]
+
+    * Initial release.
+      A flexible platform to work with any exported functions of libraries (a library or executable module).

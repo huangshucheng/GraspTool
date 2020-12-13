@@ -148,7 +148,6 @@ namespace CopyData
         }
         public static void WriteFileToRequest(HttpWebRequest request, List<KeyValue> nvc)
         {
-            //   log.Debug(string.Format("Uploading {0} to {1}", file, url));
             string boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
             byte[] boundarybytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
 
