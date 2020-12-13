@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Windows.Forms;
 using LuaInterface;
+using JinYiHelp.EasyHTTPClient;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace CopyData
 {
     public partial class HccWindowdGraspTool : Form
     {
-        private DealRecvData _dealData = null; //数据处理对象
+        //private DealRecvData _dealData = null; //数据处理对象
         private bool _isReceiveFidderLog = false;//是否开启打印Fidder传过来的日志
         private Lua _luaScript = null; //Lua对象
 
@@ -16,7 +19,7 @@ namespace CopyData
 
             _luaScript = new Lua();
             //UI在这里传过去，dealData那边操作UI
-            _dealData = new DealRecvData(this.richTextBoxFind,this.richTextBoxLog);
+            //_dealData = new DealRecvData(this.richTextBoxFind,this.richTextBoxLog);
 
             //加载lua函数，并注册函数到Lua
             try{
@@ -47,6 +50,7 @@ namespace CopyData
             _luaScript.RegisterFunction("getFidderString", null, typeof(LuaCall).GetMethod("getFidderString")); //传Fidder数据
             //_luaScript.RegisterFunction("testDic", null, typeof(LuaCall).GetMethod("testDic")); //传Fidder数据
             _luaScript.RegisterFunction("httpRequest", null, typeof(LuaCall).GetMethod("httpRequest")); //传Fidder数据
+            _luaScript.RegisterFunction("httpRequestAsync", null, typeof(LuaCall).GetMethod("httpRequestAsync")); //传Fidder数据
 
             string path = Environment.CurrentDirectory + "\\luaScript\\main.lua";
             _luaScript.DoFile(path);
@@ -127,7 +131,7 @@ namespace CopyData
         private void btnClearTokenClick(object sender, EventArgs e)
         {
             this.richTextBoxFind.Clear();
-            _dealData.clearList();
+            //_dealData.clearList();
         }
 
         //token查找输出，函数将滚动条滚动到最后
@@ -153,24 +157,41 @@ namespace CopyData
         //点击开始抓包
         private void btnStartCatch_Click(object sender, EventArgs e)
         {
-            _dealData.startDoTask();
         }
 
         //点击停止抓包
         private void btnStopCatch_Click(object sender, EventArgs e)
         {
-            _dealData.stopDoTask();
         }
 
         //test 按钮点击
         private void btnFinishCatch_Click(object sender, EventArgs e)
         {
-            testLua();
+            //var ret = await testLua();
+            //Console.WriteLine(ret);
+            //var str = LuaCall.httpRequest("www.baidu.com");
+            //LuaCall.httpRequestAsync("www.baidu.com",0);
+            //Console.WriteLine(str);
+
+            _luaScript.DoString("testCall()");
         }
 
-        private void testLua() {
-            var str = LuaCall.httpRequest("www.baidu.com");
-            Console.WriteLine("cccc" + str);
+        private async Task<string> testLua() {
+            //var str = LuaCall.httpRequest("www.baidu.com");
+            //LuaCall.startReqHttp("test");
+            //Console.WriteLine("cccc" + str);
+
+            HttpItem item = new HttpItem()
+            {
+                URL = "https://www.baidu.com",
+                Method = System.Net.Http.HttpMethod.Get,
+                Allowautoredirect = true,
+                Encoding = Encoding.UTF8,
+            };
+            //需要在方法上面加上 async Task<string> 
+            var result = await item.GetHtml();
+            Console.WriteLine(result.Html);
+            return result.Html;
         }
 
         private void check_btn_log_CheckedChanged(object sender, EventArgs e)

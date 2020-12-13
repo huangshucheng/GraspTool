@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using LuaInterface;
 
 //jose-jwt使用：
 //https://github.com/dvsekhvalnov/jose-jwt
@@ -48,6 +49,15 @@ namespace CopyData
         [MarshalAs(UnmanagedType.LPStr)]
         public string lpData;
     }
+    //string url = null, int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null
+    public struct HTTP_REQ_ASYNC_PARAM
+    {
+        public string url;
+        public int method;
+        public LuaTable headTable;
+        public string urlBody;
+        public string postBody;
+    };
 
     public class Define
     {
