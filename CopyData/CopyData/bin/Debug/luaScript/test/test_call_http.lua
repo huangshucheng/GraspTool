@@ -30,7 +30,7 @@ local dic = {
 
 -- local ret = httpRequestAsync("www.baidu.com",0, dic,"hcc=fuck","postbody=body")
 
-local function doOneTaskHttpReq(index, t_list, head_token_ex, callback)
+local function doOneTaskHttpReq(userData, t_list, token_tb, callback)
 	if not t_list then return end
 	local task = HttpTask.new()
 	task:setUrl(t_list.url)
@@ -40,9 +40,9 @@ local function doOneTaskHttpReq(index, t_list, head_token_ex, callback)
 	:setPreTaskName(t_list.preTaskName)
 	:setUrlBody(t_list.urlBody)
 	:setPostBody(t_list.postBody)
-	:setUserData(index)
-	:addHeader(head_token_ex)
-	:setCookies(head_token_ex[Define.COOKIE_NAME])
+	:setUserData(userData)
+	:addHeader(token_tb)
+	:setCookies(token_tb[Define.COOKIE_NAME])
 	:start(callback)
 end
 
@@ -53,13 +53,13 @@ local function onResponseCallBack(httpRes, task)
 	-- LogOut("hcc>> index: " .. task:getUserData());
 	-- LogOut("ret:" .. task:getUserData() .. " >>" .. httpRes)
 	----[[
-	for key, t in pairs(Define.NEXT_TASK_LIST_URL) do
+	for key, t_list_next in pairs(Define.NEXT_TASK_LIST_URL) do
 		local curTaskName = task:getTaskName() or ""
-		local preTaskName =	t.preTaskName or ""
+		local preTaskName =	t_list_next.preTaskName or ""
 
 		if curTaskName ~= "" and preTaskName ~= "" then
 			if string.find(curTaskName, preTaskName) or string.find(preTaskName, curTaskName) then
-				doOneTaskHttpReq(task:getUserData(), t, task:getHeader(), onResponseCallBack)
+				doOneTaskHttpReq(task:getUserData(), t_list_next, task:getHeader(), onResponseCallBack) -- 主要修改t_list_next 的参数来请求 来进行下一个请求
 				break
 			end
 		end

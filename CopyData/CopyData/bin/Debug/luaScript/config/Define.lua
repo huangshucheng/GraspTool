@@ -32,16 +32,25 @@ Define.HTTP_HEADER_TABLE = {
 
 Define.NEXT_TASK_LIST_URL = {
 	{
-		taskName = "do_sign>>  ", url = "hbz.qrmkt.cn/hbact/hyr/sign/doit",
-		method = POST, preTaskName = "sign_list", reqCount = 1
+		taskName = "do_sign>>  ", 
+		url = "hbz.qrmkt.cn/hbact/hyr/sign/doit",
+		method = POST, 
+		preTaskName = "sign_list", 
+		reqCount = 1,
 	},
 	{
-		taskName = "start_study>>  ", url = "hbz.qrmkt.cn/hbact/school/study/start",
-		method = POST, preTaskName = "do_sign", reqCount = 1
+		taskName = "start_study>>  ", 
+		url = "hbz.qrmkt.cn/hbact/school/study/start",
+		method = POST, 
+		preTaskName = "do_sign", 
+		reqCount = 1,
 	},	
 	{
-		taskName = "end_study>> ", url = "hbz.qrmkt.cn/hbact/school/study/end",
-		method = POST, preTaskName = "start_study", reqCount = 5
+		taskName = "end_study>> ", 
+		url = "hbz.qrmkt.cn/hbact/school/study/end",
+		method = POST, 
+		preTaskName = "start_study", 
+		reqCount = 5,
 	},
 	--[[
 	{
@@ -83,13 +92,20 @@ Define.NEXT_TASK_LIST_URL = {
 Define.TASK_LIST_URL = 
 {
 	{
-		taskName = "(sign_list)>> ", url = "hbz.qrmkt.cn/hbact/hyr/sign/list",
-		method = POST, reqCount = 1, urlBody = "", postBody = "", preTaskName = "",
+		taskName = "(sign_list)>> ", 
+		url = "hbz.qrmkt.cn/hbact/hyr/sign/list",
+		method = POST, 
+		reqCount = 1, 
+		urlBody = "", 
+		postBody = "", 
+		preTaskName = "",
 	},
 	-- {
 	-- 	url = "baidu.com",
 	-- },
 }
+
+
 
 
 return Define

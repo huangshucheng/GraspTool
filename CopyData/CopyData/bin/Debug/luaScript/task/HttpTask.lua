@@ -2,7 +2,8 @@ local HttpTask = class("HttpTask")
 local Define = require("luaScript.config.Define")
 local HttpUtils = require("luaScript.util.HttpUtils")
 
-function HttpTask:ctor()
+function HttpTask:ctor(param)
+	self._param = param or {}
 	self._url 			= ""  -- 请求URL
 	self._urlBody 		= ""  -- 放在URL后面的请求体,get,post都能用, 例：shareCode=123&code=abc
 	self._postBody 		= ""  -- post请求的参数，只有post能用到
@@ -13,7 +14,24 @@ function HttpTask:ctor()
 	self._reqCount 		= 1   -- 请求次数
 	self._method 		= Define.Method.GET -- 请求方法
 	self._header 		= Define.HTTP_HEADER_TABLE --默认请求头
+	-- self:init()
 end
+
+--[[
+function HttpTask:init()
+	local param 		= self._param
+	self._url 			= param.url or ""  
+	self._urlBody 		= param.urlBody or ""
+	self._postBody 		= param.postBody or ""
+	self._curTaskName 	= param.curTaskName or ""
+	self._preTaskName 	= param.preTaskName or ""  
+	self._userData 		= param.userData or ""
+	self._cookies 		= param.cookies or ""
+	self._reqCount 		= param.reqCount or 1
+	self._method 		= param.method or Define.Method.GET
+	self._header 		= param.header or Define.HTTP_HEADER_TABLE
+end
+]]
 
 function HttpTask:setUrl(url)
 	if not url then return self end
@@ -127,15 +145,15 @@ function HttpTask:start(callfunc)
 	end
 end
 
---工作线程执行http请求
-function HttpTask:startWork(callfunc)
-	for index = 1 , self._reqCount do
-	 	HttpUtils.httpReqWork(self._url, self._method, self._header, self._urlBody, self._postBody, self._cookies, function()
-		 	if callfunc then
-		 		callfunc(ret, self)
-		 	end
-	 	end)
-	end
-end
+--工作线程执行http请求(会卡住)
+-- function HttpTask:startWork(callfunc)
+-- 	for index = 1 , self._reqCount do
+-- 	 	HttpUtils.httpReqWork(self._url, self._method, self._header, self._urlBody, self._postBody, self._cookies, function()
+-- 		 	if callfunc then
+-- 		 		callfunc(ret, self)
+-- 		 	end
+-- 	 	end)
+-- 	end
+-- end
 
 return HttpTask
