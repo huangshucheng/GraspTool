@@ -15,6 +15,21 @@ function FindData:ctor()
 	self._findTokenList = {}
 end
 
+function FindData:getTokenList()
+	return self._findTokenList
+end
+
+--获取所有Cookie
+function FindData:getCookiesList()
+	local cookieList = {}
+	for i,v in ipairs(self._findTokenList) do
+		if string.find(v, Define.COOKIE_NAME) then
+			table.insert(cookieList,v)
+		end
+	end
+	return cookieList
+end
+
 --增加一个token
 function FindData:addFindToken(tokenTable)
 	if tokenTable and next(tokenTable) then
@@ -23,7 +38,6 @@ function FindData:addFindToken(tokenTable)
 		self:writeToLocalFile()
 		return true
 	end
-	
 	return false
 end
 
@@ -35,10 +49,6 @@ function FindData:isInFindList(tokenTable)
 		end
 	end
 	return false
-end
-
-function FindData:getTokenList()
-	return self._findTokenList
 end
 
 function FindData:writeToLocalFile()

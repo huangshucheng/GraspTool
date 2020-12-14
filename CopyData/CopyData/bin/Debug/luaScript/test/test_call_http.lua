@@ -1,6 +1,7 @@
 local Define = require("luaScript.config.Define")
 local HttpTask = require("luaScript.task.HttpTask")
 local FindData = require("luaScript.data.FindData")
+local HttpUtils = require("luaScript.util.HttpUtils")
 
 --test
 local dic = {
@@ -9,7 +10,7 @@ local dic = {
 	["X-Requested-With"] = "XMLHttpRequest",
 	["Accept-Encoding"] = "gzip, deflate",
 	["Accept-Language"] = "keep-alive",
-	["token"] = "keep-alive",
+	["token"] = "this is token",
 	["Content-Type"] = "application/x-www-form-urlencoded",
 	["Connection"] = "keep-alive",
 	["User-Agent"] = "Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13G34 MicroMessenger/7.0.9(0x17000929) NetType/WIFI Language/zh_CN",
@@ -29,18 +30,19 @@ local dic = {
 
 -- local ret = httpRequestAsync("www.baidu.com",0, dic,"hcc=fuck","postbody=body")
 
-local function doOneTaskHttpReq(index, task_table, head_token_ex, callback)
-	if not task_table then return end
+local function doOneTaskHttpReq(index, t_list, head_token_ex, callback)
+	if not t_list then return end
 	local task = HttpTask.new()
-	task:setUrl(task_table.url)
-	:setTaskName(task_table.taskName)
-	:setMethod(task_table.method)
-	:setReqCount(task_table.reqCount)
-	:setPreTaskName(task_table.preTaskName)
-	:setUrlBody(task_table.urlBody)
-	:setPostBody(task_table.postBody)
+	task:setUrl(t_list.url)
+	:setTaskName(t_list.taskName)
+	:setMethod(t_list.method)
+	:setReqCount(t_list.reqCount)
+	:setPreTaskName(t_list.preTaskName)
+	:setUrlBody(t_list.urlBody)
+	:setPostBody(t_list.postBody)
 	:setUserData(index)
 	:addHeader(head_token_ex)
+	:setCookies(head_token_ex[Define.COOKIE_NAME])
 	:start(callback)
 end
 
@@ -70,23 +72,41 @@ function testCall()
 	local tokenList = FindData:getInstance():getTokenList()
 
 	local reqHttpByTaskList = function(idx, token_tb)
-		for key, t in pairs(Define.TASK_LIST_URL) do
-			doOneTaskHttpReq(idx, t, token_tb, onResponseCallBack)
+		for key, t_list in pairs(Define.TASK_LIST_URL) do
+			doOneTaskHttpReq(idx, t_list, token_tb, onResponseCallBack)
 		end
 	end
 
 	for idx, token_tb in pairs(tokenList) do
 		reqHttpByTaskList(idx, token_tb)
 	end
-	----]]
+	--]]
 
 	--[[
-	for i = 1 , 2 do
-		httpRequestAsync("www.baidu.com",1, dic,"urlbody=body","postbody=body",function(ret)
-			-- onResponseCallBack(ret)
-			LogOut("test call \n\n");
+	local cookies = "cookies_a=avlue1;cookies_b=cvalue2"
+	-- local cookies = nil
+	for i = 1 , 1 do
+		-- local ret = HttpUtils.httpReq("www.baidu.com",0, dic,"urlbody=body","postbody=body", nil)
+		-- LogOut("ret:" .. ret);
+		-- HttpUtils.httpReqAsync("www.baidu.com",nil,nil,nil,nil,nil, function(ret)
+		HttpUtils.httpReqAsync("www.baidu.com",0, dic,"urlbody=body","postbody=body", cookies, function(ret)
+			LogOut("test call" ..  ret .."\n\n");
 		end)
-	end
+	--end
 	--]]
 
 end
+--[[
+[reqHeader<www.baidu.com>] 
+GET https://www.baidu.com/?urlbody=body HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Accept: application/json, text/plain, */*
+token: this is token
+User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13G34 MicroMessenger/7.0.9(0x17000929) NetType/WIFI Language/zh_CN
+Accept-Language: keep-alive
+Accept-Encoding: gzip, deflate
+X-Requested-With: XMLHttpRequest
+Host: www.baidu.com
+Cookie: token=tokenqqqq; sscookie=bbbbb; cccookie=ccccc; cccc=456789
+Connection: Keep-Alive
+]]

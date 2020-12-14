@@ -7,8 +7,9 @@ local POST = Define.Method.POST
 local PUT = Define.Method.PUT
 local DELETE = Define.Method.DELETE
 
+Define.COOKIE_NAME = "Cookie" 
 Define.FIND_STRING_HOST = "hbz.qrmkt.cn"
-Define.DATA_TO_FIND_ARRAY = {"token","cookies","Content-Type"}
+Define.DATA_TO_FIND_ARRAY = {"token","Cookie"}
 
 Define.REQ_HEAD_STRING = "reqHeader<" .. Define.FIND_STRING_HOST
 Define.REQ_BODY_STRING = "reqBody<" .. Define.FIND_STRING_HOST
@@ -17,6 +18,7 @@ Define.RES_BODY_STRING = "resBody<" .. Define.FIND_STRING_HOST
 
 Define.FILE_SAVE_NAME = "token" --保存本地token文件名字: token.json
 
+--
 Define.HTTP_HEADER_TABLE = {
 	["Accept"] = "application/json,text/javascript,text/html,text/plain,application/xhtml+xml,application/xml, */*; q=0.01",
 	["Proxy-Connection"] = "keep-alive",

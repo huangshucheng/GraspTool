@@ -1,4 +1,9 @@
-print = LogLua -- 注意：打印不能使用逗号分开，否则会报错
+
+-- 注意：打印不能使用逗号分开，否则会报错
+print = function(param)
+	LogLua(tostring(param))
+end
+
 require("luaScript.util.functions")
 require("luaScript.util.json")
 require("luaScript.test.init")
