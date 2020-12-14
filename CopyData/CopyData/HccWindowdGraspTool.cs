@@ -174,7 +174,7 @@ namespace CopyData
         }
 
         //test 按钮点击
-        private async void btnFinishCatch_Click(object sender, EventArgs e)
+        private void btnFinishCatch_Click(object sender, EventArgs e)
         {
             //var ret = await testLua();
             //Console.WriteLine(ret);
@@ -184,7 +184,10 @@ namespace CopyData
 
             _luaScript.DoString("testCall()");
 
-            //LuaCall.httpRequestAsync("www.baidu.com",1,null,"urlBody=hcc","postBody=123",null);
+            //LuaTable cookie_table = new LuaTable(2, _luaScript);
+            //cookie_table["hcc_cookie"] = "ddddddd";
+            //cookie_table["hcc_cookie2"] = "ddddddd2";
+            //LuaCall.httpRequestAsync("www.baidu.com",1,null,"urlBody=hcc","postBody=123", cookie_table, null);
             //await testLua();
             //RSHttp.testHttp();
         }

@@ -38,10 +38,9 @@ namespace CopyData
     /// 框架的核心类，自动处理cookie，并封装了很多简单的api
     public partial class EasyHttp
     {
-        /// HTTP请求方式
-        public enum Method {GET,POST,PUT,DELETE}
-        //body格式
-        public enum BodyType {RAW,HTML,JSON,XML}
+        
+        public enum Method {GET,POST,PUT,DELETE}/// HTTP请求方式
+        public enum BodyType {RAW,HTML,JSON,XML } //body格式
         private HttpWebRequest  _request;   
         private HttpWebResponse _response;
         private HttpWebRequest  _defaultHeaderRequest;
@@ -61,23 +60,23 @@ namespace CopyData
         private EasyHttp(){
         }
 
-        public void setUrlBody(string urlBody){
+        public void SetUrlBody(string urlBody){
             _urlBody = urlBody;
         }
 
-        public string getUrlBody() {
+        public string GetUrlBody() {
             return _urlBody;
         }
 
-        public void setPostBody(string postBody) {
+        public void SetPostBody(string postBody) {
             _customePostData = postBody;
         }
 
-        public string getPostBody() {
+        public string GetPostBody() {
             return _customePostData;
         }
 
-        public string getResponseString(string rstr)
+        public string GetResponseString(string rstr)
         {
             if(_response ==null || string.IsNullOrEmpty(rstr)){
                 return string.Empty;
@@ -281,7 +280,7 @@ namespace CopyData
             return this;
         }
 
-        /// 设置请求的Cookie，例如:<c>a=avlue;c=cvalue</c>
+        /// 设置请求的Cookie，例如:a=avlue;c=cvalue
         public EasyHttp SetCookieHeader(string cookieHeader)
         {
             if (string.IsNullOrEmpty(cookieHeader)) return this;
@@ -367,13 +366,13 @@ namespace CopyData
                         _request.Headers.Set(key,_headers[key]);
                 }else
                 {
-                    setRestrictedHeader(key);
+                    SetRestrictedHeader(key);
                 }
             }
         }
 
         //设置被限制的请求头（add或set没用的情况下）
-        private void setRestrictedHeader(string headerKey)
+        private void SetRestrictedHeader(string headerKey)
         {
             if (string.IsNullOrEmpty(headerKey))
             {
@@ -430,7 +429,6 @@ namespace CopyData
         {
             Uri uri = new Uri(url);
             string query = uri.Query;
-            //分解query参数
             if (!string.IsNullOrEmpty(query))
             {
                 NameValueCollection nameValueCollection = HttpUtility.ParseQueryString(query);
@@ -632,12 +630,12 @@ namespace CopyData
                     stream.Close();
                 }
             }
-            var ret = await submitRequestAsyc(_request);
+            var ret = await SubmitRequestAsyc(_request);
             return ret;
         }
 
         //用_request 提交异步请求
-        private async Task<string> submitRequestAsyc(HttpWebRequest request)
+        private async Task<string> SubmitRequestAsyc(HttpWebRequest request)
         {
             if (_request == null){
                 return string.Empty;
