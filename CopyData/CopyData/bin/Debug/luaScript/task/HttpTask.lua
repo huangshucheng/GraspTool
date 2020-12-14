@@ -127,17 +127,14 @@ function HttpTask:start(callfunc)
 	end
 end
 
---同步执行http请求(会卡住界面)
-function HttpTask:startDirect(callfunc)
-	if self._url == nil or self._url == "" then 
-		return "", self
-	end
-
+--工作线程执行http请求
+function HttpTask:startWork(callfunc)
 	for index = 1 , self._reqCount do
-	 	local ret = HttpUtils.httpReq(self._url, self._method, self._header, self._urlBody, self._postBody, self._cookies)
-	 	if callfunc then
-	 		callfunc(ret, self)
-	 	end
+	 	HttpUtils.httpReqWork(self._url, self._method, self._header, self._urlBody, self._postBody, self._cookies, function()
+		 	if callfunc then
+		 		callfunc(ret, self)
+		 	end
+	 	end)
 	end
 end
 

@@ -12,13 +12,6 @@ namespace CopyData
     class CCHttp
     {
         //执行一次http请求,异步
-        //url: "www.baidu.com"
-        //method: Method {GET,POST,PUT,DELETE}: 0 ,1 ,2 ,3
-        //headTable:{AAA = "" , bbb = "" }
-        //urlBody: "aaa=1&bbb=123"
-        //postBody: "anything"
-        //cookies: "a=avlue;c=cvalue"
-        //taskEndAction: lua function
         public async static void httpRequestAsync(string url = null, int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null, LuaFunction taskEndAction = null)
         {
             try

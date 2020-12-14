@@ -118,6 +118,7 @@
       <DependentUpon>HccWindowdGraspTool.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\BackWork.cs" />
     <Compile Include="src\Define.cs" />
     <Compile Include="src\EasyHttp\EasyHttp.cs" />
     <Compile Include="src\EasyHttp\EasyHttpHeaderApi.cs" />

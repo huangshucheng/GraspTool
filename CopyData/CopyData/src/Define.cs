@@ -49,20 +49,20 @@ namespace CopyData
         [MarshalAs(UnmanagedType.LPStr)]
         public string lpData;
     }
-    //string url = null, int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null
-    public struct HTTP_REQ_ASYNC_PARAM
+    
+    //http 请求参数
+    public struct HTTP_REQ_PARAM
     {
         public string url;
         public int method;
-        public LuaTable headTable;
         public string urlBody;
         public string postBody;
+        public string cookies;
+        public LuaTable headTable;
     };
 
     public class Define
     {
         public const int WM_COPYDATA = 0x004A; //copydata的域
-        public const string FILE_SAVE_NAME = "token.json";
-        public const string RECEIVE_DATA_TABLE = "RECEIVE_DATA_TABLE";
     }
 }

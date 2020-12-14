@@ -17,6 +17,7 @@ function HttpUtils.httpReqAsync(url, method, header, urlBody, postBody, cookies,
 	urlBody = urlBody or ""
 	postBody = postBody or ""
 	cookies = cookies or ""
+	callFunc = callFunc or function(ret)end
 	if type(header) ~= "table" then
 		header = {}
 	end
@@ -33,7 +34,8 @@ function HttpUtils.httpReqAsync(url, method, header, urlBody, postBody, cookies,
 	httpRequestAsync(url, method, header, urlBody, postBody, cookies , callFunc)
 end
 
-function HttpUtils.httpReq(url, method, header, urlBody, postBody, cookies)
+--用backGroundWork(工作线程)的形式请求http（会卡住）
+function HttpUtils.httpReqWork(url, method, header, urlBody, postBody, cookies)
 	method = method or Define.Method.GET
 	header = header or {}
 	urlBody = urlBody or ""

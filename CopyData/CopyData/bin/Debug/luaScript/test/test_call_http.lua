@@ -84,16 +84,13 @@ function testCall()
 
 	--[[
 	local cookies = "cookies_a=avlue1;cookies_b=cvalue2"
-	-- local cookies = nil
 	for i = 1 , 1 do
 		-- local ret = HttpUtils.httpReq("www.baidu.com",0, dic,"urlbody=body","postbody=body", nil)
 		-- LogOut("ret:" .. ret);
 		-- HttpUtils.httpReqAsync("www.baidu.com",nil,nil,nil,nil,nil, function(ret)
-		HttpUtils.httpReqAsync("www.baidu.com",0, dic,"urlbody=body","postbody=body", cookies, function(ret)
-			LogOut("test call" ..  ret .."\n\n");
-		end)
-	--end
-	--]]
+		HttpUtils.httpReqWork("www.baidu.com",0, dic,"urlbody=body","postbody=body", cookies)
+	end
+	]]
 
 end
 --[[

@@ -88,7 +88,7 @@ namespace CopyData
             }
 
             try{
-                _luaScript.DoString("receiveFidderData()"); //TODO 数据量大了后会崩溃
+                _luaScript.DoString("receiveFidderData()");
             }
             catch (Exception e)
             {

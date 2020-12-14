@@ -7,44 +7,6 @@ namespace CopyData
 {
     class LocalStorage
     {
-        public static bool saveJsonObjToFile(JObject obj,string fileName = null) {
-            try {
-                string json_str = StringUtils.json_encode(obj);
-                string filePath = fileName == null ? LocalStorage.getFullFilePath(Define.FILE_SAVE_NAME) : LocalStorage.getFullFilePath(fileName);
-                if (!File.Exists(filePath))
-                {
-                    FileStream cfs = File.Create(filePath);
-                    cfs.Close();
-                }
-                File.WriteAllText(filePath, json_str, Encoding.UTF8);
-                return true;
-            }
-            catch(Exception e) {
-                Console.WriteLine("写文件出错:" + e.Message);
-            }
-            return false;
-        }
-
-        public static JObject getJsonObjFromFile(string fileName = null)
-        {
-            try
-            {
-                string filePath = fileName == null ? LocalStorage.getFullFilePath(Define.FILE_SAVE_NAME) : LocalStorage.getFullFilePath(fileName);
-                if (!File.Exists(filePath)){
-                    FileStream cfs = File.Create(filePath);
-                    cfs.Close();
-                }
-                string filestr = File.ReadAllText(filePath,Encoding.UTF8);
-                JObject obj = StringUtils.json_decode(filestr);
-                return obj;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("读取文件出错:" + e.Message);
-            }
-            return null;
-        }
-
         private static string getFullFilePath(string path)
         {
             return Environment.CurrentDirectory + "\\" + path; //exe所在目录
