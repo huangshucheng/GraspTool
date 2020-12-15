@@ -26,20 +26,6 @@ namespace CopyData
         //unicode 转中文
         public static string UnicodeDencode(string str)
         {
-            /*
-            if (string.IsNullOrWhiteSpace(str))
-                return str;
-            string tmpstr = str;
-            try
-            {
-                tmpstr = Regex.Unescape(str);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("UnicodeDencode error:{0}" + e.Message);
-            }
-            return tmpstr;
-            */
             return str;
         }
         //中文转unicode

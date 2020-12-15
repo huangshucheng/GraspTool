@@ -12,7 +12,7 @@ namespace CopyData
     {
         BackgroundWorker _bgWorker = null; //工作线程
         //public event DataDelegateHander _dataChangedEvent;//声明一个事件，有返回数据，就派发出去
-        LuaFunction luaCallBack = null; // lua 回调
+        //LuaFunction luaCallBack = null; // lua 回调
 
         public BackWork() {
             InitBackGroundWorker();

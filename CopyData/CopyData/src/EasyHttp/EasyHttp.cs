@@ -13,265 +13,153 @@ using System.Threading.Tasks;
 
 namespace CopyData
 {
-    /*
-     简单使用：
-            Dictionary<string, string> _reqHeaderDic = new Dictionary<string, string>();
-            _reqHeaderDic.Add("Proxy-Connection", "keep-alive");
-            //test
-            string webUrl = "https://www.baidu.com";
-            EasyHttp http = EasyHttp.With(webUrl);
-            if (http != null)
-            {
-                //http.Data("code", "9405");//请求内容
-                http.AddHeadersByDic(_reqHeaderDic);//添加请求头
-                //http.SetCookieHeader(cookie);//设置cookie
-                
-                //get请求
-                var resStr = http.GetForString();
-                
-               //异步请求：
-               var ret = http.GetForStringAsyc();
-               var resStr = ret.Result;
-            }
-     */
+/*
+    简单使用：
+    Dictionary<string, string> _reqHeaderDic = new Dictionary<string, string>();
+    _reqHeaderDic.Add("Proxy-Connection", "keep-alive");
+    string webUrl = "https://www.baidu.com";
+    EasyHttp http = EasyHttp.With(webUrl);
+    if (http != null){
+        http.Data("code", "9405");//请求内容
+        http.AddHeadersByDic(_reqHeaderDic);//添加请求头
+        http.SetCookieHeader(cookie);//设置cookie
+        var resStr = http.GetForString();//get请求
+        var ret = http.GetForStringAsyc();//异步请求：
+        var resStr = ret.Result;
+    }
+    */
 
-    /// 框架的核心类，自动处理cookie，并封装了很多简单的api
+    // 框架的核心类，自动处理cookie，并封装了很多简单的api
     public partial class EasyHttp
     {
-        
-        public enum Method {GET,POST,PUT,DELETE}/// HTTP请求方式
-        public enum BodyType {RAW,HTML,JSON,XML } //body格式
-        private HttpWebRequest  _request;   
-        private HttpWebResponse _response;
-        private HttpWebRequest  _defaultHeaderRequest;
-        private HttpWebRequest  _tempRequest;
-        private string          _customePostData; //post data, 固定是放在body里面的
-        private string          _baseUrl;
-        private string          _url;
-        private Encoding _responseEncoding          = Encoding.UTF8;
-        private Encoding _postEncoding              = Encoding.UTF8;
-        private readonly WebHeaderCollection _headers        = new WebHeaderCollection();   //自定义请求头
-        private readonly CookieContainer _cookieContainer    = new CookieContainer();       //cookie 容器
-        private readonly WebHeaderCollection _defaultHeaders = new WebHeaderCollection();   //默认请求头
-        private readonly List<KeyValue> _keyValues           = new List<KeyValue>();        //请求参数，固定是添加在URU后面的,
-        private string _urlBody;       //url 参数，追加在Url后面的，post,get都能用，格式：code=123&name=hcc&sex=1
-        //注意： url参数： _keyValues和 _urlBody只能同时用一种，_urlBody优先
+        public enum Method {GET,POST}                   // HTTP请求方式
+        private HttpWebRequest  _request;               // 请求对象
+        private HttpWebResponse _response;              // 返回对象
+        private HttpWebRequest  _defaultHeaderRequest;  // 默认请求对象
+        private string          _customePostData;       // post data, 固定是放在body里面的
+        private string          _baseUrl;               //
+        private string          _url;                   //
+        private string          _urlBody;               // url 参数，追加在Url后面的，post,get都能用，格式：code=123&name=hcc&sex=1
+        private Encoding        _responseEncoding   = Encoding.UTF8;
+        private Encoding        _postEncoding       = Encoding.UTF8;
+        private WebHeaderCollection _headers        = new WebHeaderCollection();   //自定义请求头
+        private CookieContainer _cookieContainer    = new CookieContainer();       //cookie 容器
 
         private EasyHttp(){
+            
         }
 
+        // 通过url开启一个EasyHttp
+        public static EasyHttp With(string url)
+        {
+            if (StringUtils.CheckIsUrlFormat(url))
+            {
+                string tmpurl = StringUtils.CheckIsWithHttp(url);
+                try
+                {
+                    //通过url创建一个全新无任何cookie的EasyHttp
+                    EasyHttp http = new EasyHttp();
+                    http.initNewRequest(tmpurl);
+                    return http;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("url error:{0}" + e.Message);
+                    return null;
+                }
+            }
+            else
+            {
+                Console.WriteLine("error:url is empty or incorrect!");
+                return null;
+            }
+        }
+
+        // 重新定义一个网络请求，这个操作将会清空以前设定的参数
+        // 创建一个新请求,并使用之前请求获取或者手动设置的Cookie，并在请求完后保存cookie
+        private void initNewRequest(string url)
+        {
+            Uri tmpUri = new Uri(url);
+            _url = tmpUri.ToString();
+            if (_defaultHeaderRequest == null)
+            {
+                _defaultHeaderRequest = WebRequest.Create(this._url) as HttpWebRequest;
+                _defaultHeaderRequest.ServicePoint.Expect100Continue = false;
+            }
+            _headers.Clear();
+            _urlBody = null;
+            _request = null;
+            _response = null;
+            _customePostData = null;
+            _baseUrl = tmpUri.Scheme + "://" + tmpUri.Host;
+            initDefaultHeaderRequest();
+        }
+
+        //初始化默认参数
+        private void initDefaultHeaderRequest() {
+            SetDefaultContentType("application/x-www-form-urlencoded; charset=UTF-8");
+            SetDefaultUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13G34 MicroMessenger/7.0.9(0x17000929) NetType/WIFI Language/zh_CN");
+            SetDefaultAcceptEncoding("br, gzip, deflate");
+            SetDefaultAcceptLanguage("zh-cn");
+            SetDefaultAccept("application/json,text/javascript,text/html,text/plain,application/xhtml+xml,application/xml, */*; q=0.01");
+            SetDefaultKeepAlive(false);
+            SetDefaultTimeOut(5);
+            SetDefaultAllowAutoRedirect(false);
+        }
+
+        //设置url参数,如：token=123&code=345
         public void SetUrlBody(string urlBody){
             _urlBody = urlBody;
         }
 
+        //获取URL参数
         public string GetUrlBody() {
             return _urlBody;
         }
 
+        //设置postBody参数，为字符串
         public void SetPostBody(string postBody) {
             _customePostData = postBody;
         }
 
+        //获取postBody参数
         public string GetPostBody() {
             return _customePostData;
         }
 
-        public string GetResponseString(string rstr)
-        {
-            if(_response ==null || string.IsNullOrEmpty(rstr)){
-                return string.Empty;
-            }
-            string contentType = _response.ContentType;
-            if (contentType.IndexOf("application/json") > -1 || contentType.IndexOf("text/json") > -1)
-            {
-                return StringUtils.toJson(rstr);
-            }
-            else if (contentType.IndexOf("application/xml") > -1 || contentType.IndexOf("text/xml") > -1)
-            {
-                return StringUtils.toXml(rstr);
-            }
-            else
-            {
-                return StringUtils.toHtml(rstr);
-            }
-        }
-
-        /// 获取当前网站的cookie
-        public Dictionary<string, string> Cookies()
-        {
-            Dictionary<string,string> dic = new Dictionary<string, string>();
-            var cookieCollection = _cookieContainer.GetCookies(new Uri(_baseUrl));
-            foreach (Cookie c in cookieCollection)
-            {
-                if(!dic.ContainsKey(c.Name))
-                    dic.Add(c.Name,c.Value);
-                else
-                    dic[c.Name] = c.Value;
-            }
-            return dic;
-        }
-
-        /// get CookieContainer
-        public CookieContainer CookieContainer()
+        //get CookieContainer
+        public CookieContainer GetCookieContainer()
         {
             return _cookieContainer;
         }
 
-        /// get cookies as CookieHeader by url
-        public string CookieHeaderByUrl(string url)
+        // get cookies as CookieHeader by url
+        public string GetCookieHeaderByUrl(string url)
         {
             Uri uri = new Uri(url);
             return _cookieContainer.GetCookieHeader(uri);
         }
 
-        /// 获取http Header中cookie的值
-        public string CookieHeader()
+        // 获取http Header中cookie的值
+        public string GetCookieHeader()
         {
             string url = string.Empty;
             if (_response == null)
                 url = _baseUrl;
              else 
                 url = _response.ResponseUri.Scheme + "://" + _response.ResponseUri.Host;
-            return CookieHeaderByUrl(url);
+            return GetCookieHeaderByUrl(url);
         }
 
-        /// 添加一个请求参数
-        public EasyHttp Data(string key, string value)
-        {
-            KeyValue keyValue = new KeyValue(key, value);
-            _keyValues.Add(keyValue);
-            return this;
-        }
-
-        /// 获取请求的Cookie行
-        public string RequestCookieHeader()
-        {
-            if (_request == null) return string.Empty;
-            return _request.Headers["Cookie"];
-        }
-
-        public string ResponseCookieHeader()
-        {
-            if (_response == null) return string.Empty;
-            return _response.Headers["Set-Cookie"];
-        }
-
-        /// 添加一个multipart内容
-        public EasyHttp Data(string key, string fileName, string filePath)
-        {
-            KeyValue multiPartContent = new KeyValue();
-            multiPartContent.Key = key;
-            multiPartContent.Value = fileName;
-            multiPartContent.FilePath = filePath;
-            _keyValues.Add(multiPartContent);
-            return this;
-        }
-
-        /// 设置超时时间
-        public EasyHttp TimeOut(int timeout)
-        {
-            _tempRequest.Timeout = timeout;
-            return this;
-        }
-
-        /// 设置默认超时时间
-        public EasyHttp DefaultTimeOut(int timeout)
-        {
-            _defaultHeaderRequest.Timeout = timeout;
-            return this;
-        }
-
-        /// 添加一系列参数(body)
-        public EasyHttp Data(List<KeyValue> keyValues)
-        {
-            if(keyValues == null){
-                return this;
-            }
-            this._keyValues.AddRange(keyValues);
-            return this;
-        }
-
-        /// 重新定义一个网络请求，这个操作将会清空以前设定的参数
-        public EasyHttp NewRequest(string url)
-        {
-            return NewRequest(new Uri(url));
-        }
-
-        /// 创建一个新请求,并使用之前请求获取或者手动设置的Cookie，并在请求完后保存cookie
-        public EasyHttp NewRequest(Uri uri)
-        {
-            _url = uri.ToString();
-            if (_defaultHeaderRequest == null)
-            {
-                _defaultHeaderRequest = WebRequest.Create(_url) as HttpWebRequest;
-                _defaultHeaderRequest.ServicePoint.Expect100Continue = false;
-            }
-            _headers.Clear();
-            _keyValues.Clear();
-            _urlBody = null;
-            _customePostData = null;
-            _baseUrl         = uri.Scheme+"://"+uri.Host;
-            //创建temprequest
-            _request        = null;
-            _response       = null;
-            _tempRequest    = WebRequest.Create(this._url) as HttpWebRequest;
-            return this;
-        }
-
-        /// 通过url开启一个EasyHttp
-        public static EasyHttp With(string url)
-        {
-            if (StringUtils.CheckIsUrlFormat(url))
-            {
-                string tu = StringUtils.CheckIsWithHttp(url);
-                try {
-                    Uri uri = new Uri(tu);
-                    return With(uri);
-                }
-                catch(Exception e)
-                {
-                    Console.WriteLine("url error:{0}"+ e.Message);
-                    return null;
-                }
-            }
-            else{
-                Console.WriteLine("error:url is empty or incorrect!");
-                return null;
-            }
-        }
-
-        /// 通过url创建一个全新无任何cookie的EasyHttp
-        public static EasyHttp With(Uri url)
-        {
-            EasyHttp http = new EasyHttp();
-            http.NewRequest(url);
-            return http;
-        }
-
-        /// 获取请求的原始<see cref="HttpWebRequest"/>对象
-        public HttpWebRequest Request()
-        {
-            return this._request ?? _tempRequest;
-        }
-
-        /// 获取请求的原始<see cref="HttpWebResponse"/>对象
-        public HttpWebResponse Response()
-        {
-            return _response;
-        }
-
-        /// 添加一个cookie，之后可用添加的cookie来请求网页
-        public EasyHttp Cookie(string name, string value)
+        // 添加一个cookie，之后可用添加的cookie来请求网页
+        public EasyHttp AddCookie(string name, string value)
         {
             if(string.IsNullOrEmpty(name) || string.IsNullOrEmpty(value)){
                 return this;
             }
             try
             {
-                System.Net.Cookie cookie = new Cookie();
-                cookie.Name = name;
-                cookie.Value = value;
-                _cookieContainer.Add(new Uri(_baseUrl), cookie);
+                _cookieContainer.Add(new Uri(_baseUrl), new Cookie(name, value));
             }
             catch (Exception e)
             {
@@ -280,7 +168,7 @@ namespace CopyData
             return this;
         }
 
-        /// 设置请求的Cookie，例如:a=avlue;c=cvalue
+        // 设置请求的Cookie，例如:a=avlue;c=cvalue
         public EasyHttp SetCookieHeader(string cookieHeader)
         {
             if (string.IsNullOrEmpty(cookieHeader)) return this;
@@ -302,7 +190,7 @@ namespace CopyData
                             toLowerKey != "max-age"&& 
                             toLowerKey != "HttpOnly")
                         {
-                            Cookie(key,value);
+                            AddCookie(key,value);
                         }
                     }
                 }
@@ -310,21 +198,7 @@ namespace CopyData
             return this;
         }
 
-        /// 碰到302等状态时，是否自动转入新网址
-        public EasyHttp AllowAutoRedirect(bool allowAutoRedirect)
-        {
-            _tempRequest.AllowAutoRedirect = allowAutoRedirect;
-            return this;
-        }
-
-        //
-        public EasyHttp DefaultAllowAutoRedirect(bool allowAutoRedirect)
-        {
-            _defaultHeaderRequest.AllowAutoRedirect = allowAutoRedirect;
-            return this;
-        }
-
-        /// 根据指定的方法，获取返回内容的stream
+        //根据指定的方法，获取返回内容的stream
         public Stream ExecutForStream(Method method)
         {
             HttpWebResponse webResponse = Execute(method);
@@ -340,8 +214,8 @@ namespace CopyData
             return null;
         }
 
-        /// 设定post数据的编码
-        public void PostEncoding(Encoding encoding)
+        //设定post数据的编码
+        public void SetPostEncoding(Encoding encoding)
         {
             this._postEncoding = encoding;
         }
@@ -349,14 +223,6 @@ namespace CopyData
         //写进请求头，带请求头请求
         private void WriteHeader()
         {
-            foreach (string key in _defaultHeaders.AllKeys)
-            {
-                if (!WebHeaderCollection.IsRestricted(key))
-                {
-                    _request.Headers.Add(key, _defaultHeaders[key]);
-                }
-            }
-
             foreach (string key in _headers.AllKeys)
             {
                 if (!WebHeaderCollection.IsRestricted(key))
@@ -384,7 +250,6 @@ namespace CopyData
             }
             else if (headerKey.Equals("Host"))
             {
-                //_request.Host = _headers[headerKey];  //会崩溃
             }
             else if (headerKey.Equals("Accept"))
             {
@@ -392,11 +257,10 @@ namespace CopyData
             }
             else if (headerKey.Equals("Proxy-Connection"))
             {
-                //_request.Connection = _headers[headerKey];      //会崩溃
             }
-            else if (headerKey.Equals("Content-Type"))
+            else if (headerKey.Equals("Content-Type"))  
             {
-                _request.ContentType = _headers[headerKey];
+                _request.ContentType = _headers[headerKey];  //TODO
             }
             else if (headerKey.Equals("Content-Length"))
             {
@@ -404,7 +268,6 @@ namespace CopyData
             }
             else if (headerKey.Equals("Connection"))
             {
-                //_request.Connection = _headers[headerKey];        //会崩溃 
                 _request.KeepAlive = true;
             }
             else if (headerKey.Equals("Referer"))
@@ -413,38 +276,22 @@ namespace CopyData
             }
         }
 
-        //请求头被限制情况
-        public static void SetHeaderValue(WebHeaderCollection header, string name, string value)
-        {
-            var property = typeof(WebHeaderCollection).GetProperty("InnerCollection",
-                System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
-            if (property != null)
-            {
-                var collection = property.GetValue(header, null) as NameValueCollection;
-                collection[name] = value;
-            }
-        }
-
+        //将_url从?后面删除掉
         private void UrlToQuery(string url)
         {
             Uri uri = new Uri(url);
             string query = uri.Query;
             if (!string.IsNullOrEmpty(query))
             {
-                NameValueCollection nameValueCollection = HttpUtility.ParseQueryString(query);
-                foreach (string key in nameValueCollection.Keys)
-                {
-                    if (key == null) _keyValues.Add(new KeyValue(nameValueCollection[key], key));
-                    else _keyValues.Add(new KeyValue(key, nameValueCollection[key]));
-                }
                 this._url = url.Remove(url.IndexOf('?'));
             }
-            else 
+            else {
                 this._url = uri.ToString();
+            }
             _baseUrl = uri.Scheme + "://" + uri.Host;
         }
 
-        /// 根据指定方法执行请求，并返回原始Response
+        // 根据指定方法执行请求，并返回原始Response
         public HttpWebResponse Execute(Method method)
         {
             string url = string.Empty;
@@ -453,18 +300,12 @@ namespace CopyData
             {
                 UrlToQuery(_url);
                 url = this._url;
-                if (_keyValues.Count > 0){
-                    //分解参数
-                    url = url + "?" + EasyHttpUtils.NameValuesToQueryParamString(_keyValues);
-                }
                 //URL追加body
                 if (!string.IsNullOrEmpty(_urlBody)){
-                    UrlToQuery(url);
-                    url = this._url;
-                    url = url + "?" + _urlBody;
+                    url = this._url + "?" + _urlBody;
                 }
                 _request = WebRequest.Create(url) as HttpWebRequest;
-                EasyHttpUtils.CopyHttpHeader(_tempRequest,_defaultHeaderRequest, _request);
+                EasyHttpUtils.CopyHttpHeader(_defaultHeaderRequest, _request);
                 _request.Method = "GET";
                 _request.CookieContainer = _cookieContainer;
                 WriteHeader();
@@ -473,32 +314,18 @@ namespace CopyData
             {
                 UrlToQuery(_url);
                 url = this._url;
-                //keyValues写入URL
-                if (_keyValues.Count > 0)
-                {
-                    url = url + "?" + EasyHttpUtils.NameValuesToQueryParamString(_keyValues);
-                }
 
                 //URL追加body
                 if (!string.IsNullOrEmpty(_urlBody))
                 {
-                    UrlToQuery(url);
-                    url = this._url;
-                    url = url + "?" + _urlBody;
+                    url = this._url + "?" + _urlBody;
                 }
 
                 _request = WebRequest.Create(url) as HttpWebRequest;
                 _request.CookieContainer = _cookieContainer;
                 _request.Method = "POST";
-                EasyHttpUtils.CopyHttpHeader(_tempRequest, _defaultHeaderRequest, _request);
+                EasyHttpUtils.CopyHttpHeader(_defaultHeaderRequest, _request);
                 WriteHeader();
-
-                EasyHttpUtils.WriteFileToRequest(_request, _keyValues);
-
-                if (string.IsNullOrEmpty(_request.ContentType))
-                {
-                    _request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
-                }
 
                 if (!string.IsNullOrEmpty(_customePostData)){
                     using (var stream = _request.GetRequestStream())
@@ -509,52 +336,6 @@ namespace CopyData
                     }
                 }
             }
-            else if (method == Method.PUT)
-            {
-                UrlToQuery(_url);
-                url = this._url;
-                if (_keyValues.Count > 0)
-                {
-                    url = url + "?" + EasyHttpUtils.NameValuesToQueryParamString(_keyValues);
-                }
-
-                //URL追加body
-                if (!string.IsNullOrEmpty(_urlBody)){
-                    UrlToQuery(url);
-                    url = this._url;
-                    url = url + "?" + _urlBody;
-                }
-
-                _request = WebRequest.Create(url) as HttpWebRequest;
-                _request.CookieContainer = _cookieContainer;
-                
-                WriteHeader();
-                EasyHttpUtils.CopyHttpHeader(_tempRequest, _defaultHeaderRequest, _request);
-                _request.Method = "PUT";
-            }
-            else if (method == Method.DELETE)
-            {
-                UrlToQuery(_url);
-                 url = this._url;
-                if (_keyValues.Count > 0)
-                {
-                    url = url + "?" + EasyHttpUtils.NameValuesToQueryParamString(_keyValues);
-                }
-
-                //URL追加body
-                if (!string.IsNullOrEmpty(_urlBody)){
-                    UrlToQuery(url);
-                    url = this._url;
-                    url = url + "?" + _urlBody;
-                }
-
-                _request = WebRequest.Create(url) as HttpWebRequest;
-                _request.CookieContainer = _cookieContainer;
-                EasyHttpUtils.CopyHttpHeader(_tempRequest, _defaultHeaderRequest, _request);
-                _request.Method = "DELETE";
-                WriteHeader();
-            }
-
             try{
                 _response = _request.GetResponse() as HttpWebResponse;
             }
@@ -577,18 +358,12 @@ namespace CopyData
             {
                 UrlToQuery(this._url);
                 url = this._url;
-                if (_keyValues.Count > 0) { 
-                    url = url + "?" + EasyHttpUtils.NameValuesToQueryParamString(_keyValues);
-                }
-
                 //URL追加body
                 if (!string.IsNullOrEmpty(_urlBody)){
-                    UrlToQuery(url);
-                    url = this._url;
-                    url = url + "?" + _urlBody;
+                    url = this._url + "?" + _urlBody;
                 }
                 _request = WebRequest.Create(url) as HttpWebRequest;
-                EasyHttpUtils.CopyHttpHeader(_tempRequest, _defaultHeaderRequest, _request);
+                EasyHttpUtils.CopyHttpHeader(_defaultHeaderRequest, _request);
                 _request.Method = "GET";
                 _request.CookieContainer = _cookieContainer;
                 WriteHeader();
@@ -598,32 +373,20 @@ namespace CopyData
                 UrlToQuery(_url);
                 url = this._url;
 
-                //keyValues写入URL
-                if (_keyValues.Count > 0){
-                    url = url + "?" + EasyHttpUtils.NameValuesToQueryParamString(_keyValues);
-                }
-
                 //URL追加body
                 if (!string.IsNullOrEmpty(_urlBody)){
-                    UrlToQuery(url);
-                    url = this._url;
-                    url = url + "?" + _urlBody;
+                    url = this._url + "?" + _urlBody;
                 }
 
                 _request = WebRequest.Create(url) as HttpWebRequest; ;
                 _request.CookieContainer = _cookieContainer;
                 _request.Method = "POST";
-                EasyHttpUtils.CopyHttpHeader(_tempRequest, _defaultHeaderRequest, _request);
+                EasyHttpUtils.CopyHttpHeader(_defaultHeaderRequest, _request);
                 WriteHeader();
-
-                if (string.IsNullOrEmpty(_request.ContentType))
-                {
-                    _request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
-                }
 
                 //将postData 写入body
                 if (!string.IsNullOrEmpty(_customePostData)) {
-                    //处理请求参数 HCC
+                    //处理请求参数
                     var stream = await _request.GetRequestStreamAsync();
                     byte[] postData = _postEncoding.GetBytes(_customePostData);
                     stream.Write(postData, 0, postData.Length);
@@ -654,29 +417,30 @@ namespace CopyData
                 statusCode = _response.StatusCode;
                 _cookieContainer.Add(_response.Cookies);
                 _response.Close();
-                return StringUtils.UnicodeDencode(str);
+                return str;
             }
             catch (WebException ex)
             {
+                Console.WriteLine("response error>>>>: " + ex.Message);
                 _response = ex.Response as HttpWebResponse;
                 if (_response != null)
                 {
                     var str = EasyHttpUtils.ReadAllAsString(_response.GetResponseStream(), _responseEncoding);
                     statusCode = (ex.Response as HttpWebResponse).StatusCode;
-                    return StringUtils.UnicodeDencode(str);
+                    return str;
                 }
             }
             return string.Empty;
         }
 
-        /// 手动设置网页编码
-        public EasyHttp ResponseEncoding(Encoding responseEncoding)
+        // 手动设置网页编码
+        public EasyHttp SetResponseEncoding(Encoding responseEncoding)
         {
-            this._responseEncoding = responseEncoding;
+            _responseEncoding = responseEncoding;
             return this;
         }
 
-        /// 执行GET请求，获取返回的html
+        // 执行GET请求，获取返回的html
         public string GetForString()
         {
             var stream = ExecutForStream(Method.GET);
@@ -689,17 +453,7 @@ namespace CopyData
            return ExecuteAsyc(Method.GET);
         }
 
-        private bool IsResponseGzipCompress()
-        {
-            if (_response!= null && _response.ContentEncoding != null &&
-                _response.ContentEncoding.Equals("gzip", StringComparison.InvariantCultureIgnoreCase))
-            {
-                return true;
-            }
-            return false;
-        }
-
-        /// 执行Post请求，获取返回的html
+        // 执行Post请求，获取返回的html
         public string PostForString()
         {
             var str = EasyHttpUtils.ReadAllAsString(ExecutForStream(Method.POST), _responseEncoding);
@@ -712,130 +466,14 @@ namespace CopyData
             return ExecuteAsyc(Method.POST);
         }
 
-        /// 用指定的post内容执行post请求
-        public string PostForString(string postData = null)
+        private bool IsResponseGzipCompress()
         {
-            if (!string.IsNullOrEmpty(postData)){
-                _customePostData = postData;
+            if (_response!= null && _response.ContentEncoding != null &&
+                _response.ContentEncoding.Equals("gzip", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return true;
             }
-            var str = EasyHttpUtils.ReadAllAsString(ExecutForStream(Method.POST), _responseEncoding);
-            return str;
-        }
-
-        //异步带参数
-        public Task<string> PostForStringAsyc(string postData = null)
-        {
-            if (!string.IsNullOrEmpty(postData)){
-                _customePostData = postData;
-            }
-            return ExecuteAsyc(Method.POST);
-        }
-
-        /// 执行Put请求，获取返回的html
-        public string PutForString()
-        {
-            var str = EasyHttpUtils.ReadAllAsString(ExecutForStream(Method.PUT), _responseEncoding);
-            return str;
-        }
-
-        /// 执行DELETE请求，获取返回的html
-        public string DeleteForString()
-        {
-            return EasyHttpUtils.ReadAllAsString(ExecutForStream(Method.DELETE), _responseEncoding);
-        }
-
-        /// 执行Get请求，并把返回内容作为文件保存到指定路径
-        public void GetForFile(string filePath)
-        {
-             ExecuteForFile(filePath, Method.GET);
-        }
-
-        /// 执行Post请求，并把返回内容作为文件保存到指定路径
-        public void PostForFile(string filePath)
-        {
-             ExecuteForFile(filePath, Method.POST);
-        }
-
-        /// 执行Put请求，并把返回内容作为文件保存到指定路径
-        public void PutForFile(string filePath)
-        {
-             ExecuteForFile(filePath, Method.PUT);
-        }
-
-        /// 执行Delete请求，并把返回内容作为文件保存到指定路径
-        public void DeleteForFile(string filePath)
-        {
-             ExecuteForFile(filePath, Method.DELETE);
-        }
-
-        /// 以Get方式快速请求，舍弃返回内容
-        public void GetForFastRequest()
-        {
-          ExecuteForFastRequest(Method.GET);
-        }
-
-        /// 以Post方法快速请求，舍弃返回内容
-        public void PostForFastRequest()
-        {
-            ExecuteForFastRequest(Method.POST);
-        }
-
-        /// 以PUT方式快速请求，舍弃返回内容
-        public void PutForFastRequest()
-        {
-            ExecuteForFastRequest(Method.PUT);
-        }
-
-        /// 以Delete方式快速请求，舍弃返回内容
-        public void DeleteForFastRequest()
-        {
-            ExecuteForFastRequest(Method.DELETE);
-        }
-
-        ///以指定的Http Methond 执行快速请求，舍弃返回内容
-        public void ExecuteForFastRequest(Method method)
-        {
-            var webResponse = Execute(method);
-            _response = webResponse;
-        }
-
-        /// 执行指定方法的请求，将返回内容保存在指定路径的文件中
-        public long ExecuteForFile(string filePath, Method method)
-        {
-            var stream = ExecutForStream(method);
-            long total = _response.ContentLength;
-            return EasyHttpUtils.ReadAllAsFile(stream, total, filePath);
-        }
-
-        /// 根据指定的方法执行请求，并把返回内容序列化为Image对象
-        public Image ExecuteForImage(Method method)
-        {
-            Stream stream = ExecutForStream(method);
-            return Image.FromStream(stream);
-        }
-
-        /// 执行Get方法，并把返回内容序列化为Image对象
-        public Image GetForImage()
-        {
-            return ExecuteForImage(Method.GET);
-        }
-
-        /// 执行Post方法，并把返回内容序列化为Image对象
-        public Image PostForImage()
-        {
-            return ExecuteForImage(Method.POST);
-        }
-
-        /// 执行Put方法，并把返回内容序列化为Image对象
-        public Image PutForImage()
-        {
-            return ExecuteForImage(Method.PUT);
-        }
-
-        /// 执行Delete方法，并把返回内容序列化为Image对象
-        public Image DeleteForImage()
-        {
-            return ExecuteForImage(Method.DELETE);
+            return false;
         }
     }
 }

@@ -47,7 +47,7 @@ namespace CopyData
                         {
                             foreach (DictionaryEntry v in headTable)
                             {
-                                http.HeaderCustome(v.Key.ToString(), v.Value.ToString());
+                                http.AddHeaderCustome(v.Key.ToString(), v.Value.ToString());
                             }
                         }
                     }
@@ -101,7 +101,7 @@ namespace CopyData
                         {
                             foreach (DictionaryEntry v in headTable)
                             {
-                                http.HeaderCustome(v.Key.ToString(), v.Value.ToString());
+                                http.AddHeaderCustome(v.Key.ToString(), v.Value.ToString());
                             }
                         }
                     }

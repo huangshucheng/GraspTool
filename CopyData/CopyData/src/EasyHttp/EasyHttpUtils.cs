@@ -29,62 +29,46 @@ namespace CopyData
             return builder.ToString();
         }
 
-        public static void CopyHttpHeader(HttpWebRequest fromRequest,HttpWebRequest defaultRequest, HttpWebRequest toRequest)
+        //_defaultHeaderRequest, _request
+        //从_defaultHeaderRequest拷贝到_request
+        public static void CopyHttpHeader(HttpWebRequest defaultRequest, HttpWebRequest toRequest)
         {
             //设置头部信息
-            if (string.IsNullOrEmpty(fromRequest.Accept)) 
+            if (!string.IsNullOrEmpty(defaultRequest.Accept)) 
                 toRequest.Accept = defaultRequest.Accept;
-            else
-                toRequest.Accept = fromRequest.Accept;
 
-            if (string.IsNullOrEmpty(fromRequest.ContentType))
+            if (!string.IsNullOrEmpty(defaultRequest.ContentType))
                 toRequest.ContentType = defaultRequest.ContentType;
-            else 
-                toRequest.ContentType = fromRequest.ContentType;
 
-            if (string.IsNullOrEmpty(fromRequest.Referer))
+            if (!string.IsNullOrEmpty(defaultRequest.Referer))
                 toRequest.Referer = defaultRequest.Referer;
-            else
-                toRequest.Referer = fromRequest.Referer;
 
-            if (string.IsNullOrEmpty(fromRequest.UserAgent))
+            if (!string.IsNullOrEmpty(defaultRequest.UserAgent))
                 toRequest.UserAgent = defaultRequest.UserAgent;
-            else
-                toRequest.UserAgent = fromRequest.UserAgent;
 
-            if (toRequest.AutomaticDecompression != fromRequest.AutomaticDecompression)
-                toRequest.AutomaticDecompression = fromRequest.AutomaticDecompression;
-            else
+            if (toRequest.AutomaticDecompression != defaultRequest.AutomaticDecompression)
                 toRequest.AutomaticDecompression = defaultRequest.AutomaticDecompression;
 
-            toRequest.ClientCertificates = fromRequest.ClientCertificates;
-            toRequest.Connection = fromRequest.Connection;
-            toRequest.AllowWriteStreamBuffering = fromRequest.AllowWriteStreamBuffering;
-            toRequest.ContinueDelegate = fromRequest.ContinueDelegate;
-            toRequest.Credentials = fromRequest.Credentials;
-            toRequest.UseDefaultCredentials = fromRequest.UseDefaultCredentials;
-            toRequest.Expect = fromRequest.Expect;
-            toRequest.IfModifiedSince = fromRequest.IfModifiedSince;
+            toRequest.ClientCertificates = defaultRequest.ClientCertificates;
+            toRequest.Connection = defaultRequest.Connection;
+            toRequest.AllowWriteStreamBuffering = defaultRequest.AllowWriteStreamBuffering;
+            toRequest.ContinueDelegate = defaultRequest.ContinueDelegate;
+            toRequest.Credentials = defaultRequest.Credentials;
+            toRequest.UseDefaultCredentials = defaultRequest.UseDefaultCredentials;
+            toRequest.Expect = defaultRequest.Expect;
+            toRequest.IfModifiedSince = defaultRequest.IfModifiedSince;
 
-            if (toRequest.KeepAlive != fromRequest.KeepAlive)
-                toRequest.KeepAlive = fromRequest.KeepAlive;
-            else 
+            if (toRequest.KeepAlive != defaultRequest.KeepAlive)
                 toRequest.KeepAlive = defaultRequest.KeepAlive;
 
-            toRequest.TransferEncoding = fromRequest.TransferEncoding;
-            if (toRequest.AllowAutoRedirect != fromRequest.AllowAutoRedirect)
-                toRequest.AllowAutoRedirect = fromRequest.AllowAutoRedirect;
-            else 
+            toRequest.TransferEncoding = defaultRequest.TransferEncoding;
+            if (toRequest.AllowAutoRedirect != defaultRequest.AllowAutoRedirect)
                 toRequest.AllowAutoRedirect = defaultRequest.AllowAutoRedirect;
 
-            if (toRequest.Timeout != fromRequest.Timeout) 
-                toRequest.Timeout = fromRequest.Timeout;
-            else 
+            if (toRequest.Timeout != defaultRequest.Timeout) 
                 toRequest.Timeout = defaultRequest.Timeout;
 
-            if (toRequest.ServicePoint.Expect100Continue != fromRequest.ServicePoint.Expect100Continue)
-                toRequest.ServicePoint.Expect100Continue = fromRequest.ServicePoint.Expect100Continue;
-            else
+            if (toRequest.ServicePoint.Expect100Continue != defaultRequest.ServicePoint.Expect100Continue)
                 toRequest.ServicePoint.Expect100Continue = defaultRequest.ServicePoint.Expect100Continue;
         }
 
@@ -145,60 +129,6 @@ namespace CopyData
                 }
             }
             return currentTotal;
-        }
-        public static void WriteFileToRequest(HttpWebRequest request, List<KeyValue> nvc)
-        {
-            string boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
-            byte[] boundarybytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
-
-            HttpWebRequest wr = request;
-            wr.ContentType = "multipart/form-data; boundary=" + boundary;
-            wr.Method = "POST";
-            wr.KeepAlive = true;
-            wr.Credentials = System.Net.CredentialCache.DefaultCredentials;
-            using (var rs = wr.GetRequestStream())
-            {
-                // 普通参数模板
-                string formdataTemplate = "Content-Disposition: form-data; name=\"{0}\"\r\n\r\n{1}";
-                //带文件的参数模板
-                string headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
-                foreach (KeyValue keyValue in nvc)
-                {
-                    //如果是普通参数
-                    if (keyValue.FilePath == null)
-                    {
-                        rs.Write(boundarybytes, 0, boundarybytes.Length);
-                        string formitem = string.Format(formdataTemplate, keyValue.Key, keyValue.Value);
-                        byte[] formitembytes = System.Text.Encoding.UTF8.GetBytes(formitem);
-                        rs.Write(formitembytes, 0, formitembytes.Length);
-                    }
-                    //如果是文件参数,则上传文件
-                    else
-                    {
-                        rs.Write(boundarybytes, 0, boundarybytes.Length);
-
-                        string header = string.Format(headerTemplate, keyValue.Key, keyValue.FilePath, keyValue.ContentType);
-                        byte[] headerbytes = System.Text.Encoding.UTF8.GetBytes(header);
-                        rs.Write(headerbytes, 0, headerbytes.Length);
-
-                        using (var fileStream = new FileStream(keyValue.FilePath, FileMode.Open, FileAccess.Read))
-                        {
-                            byte[] buffer = new byte[4096];
-                            int bytesRead = 0;
-                            long total = 0;
-                            while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0)
-                            {
-
-                                rs.Write(buffer, 0, bytesRead);
-                                total += bytesRead;
-                            }
-                        }
-                    }
-
-                }
-                byte[] trailer = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "--\r\n");
-                rs.Write(trailer, 0, trailer.Length);
-            }
         }
     }
 }

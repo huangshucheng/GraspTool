@@ -6,10 +6,10 @@ using System.Text;
 
 namespace CopyData
 {
- public   partial class EasyHttp
+ public  partial class EasyHttp
     {
-        /// 设置自定义头部键值对
-        public EasyHttp HeaderCustome(string name, string value)
+        // 设置自定义头部键值对
+        public EasyHttp AddHeaderCustome(string name, string value)
         {
             if(string.IsNullOrEmpty(name) || string.IsNullOrEmpty(value)){
                 return this;
@@ -17,6 +17,7 @@ namespace CopyData
             _headers.Add(name, value);
             return this;
         }
+
         public EasyHttp AddHeadersByDic(Dictionary<string, string> dic)
         {
             if(dic.Count() == 0 || dic == null){
@@ -24,124 +25,81 @@ namespace CopyData
             }
             foreach (var item in dic)
             {
-                HeaderCustome(item.Key, item.Value);
+                AddHeaderCustome(item.Key, item.Value);
             }
             return this;
         }
-        /// 设置一个默认头信息
-        public EasyHttp DefaultHeaderCustome(string name, string value)
+
+        //获取或设置一个值，该值指示请求是否应跟随重定向响应。
+        public EasyHttp SetDefaultAllowAutoRedirect(bool allowAutoRedirect)
         {
-            _defaultHeaders.Add(name, value);
+            _defaultHeaderRequest.AllowAutoRedirect = allowAutoRedirect;
             return this;
         }
 
-        /// 设置当前请求的UserAgent头为指定的值
-        public EasyHttp UserAgent(string userAgent)
+        // 设置默认超时时间
+        public EasyHttp SetDefaultTimeOut(int timeout)
         {
-            _tempRequest.UserAgent = userAgent;
+            _defaultHeaderRequest.Timeout = timeout;
             return this;
         }
 
-        /// 设置默认的UserAgent头，当没有设置UserAgent时(<see cref="UserAgent"/>),使用的UserAgent值
-        public EasyHttp DefaultUserAgent(string userAgent)
+        // 设置默认的UserAgent头，当没有设置UserAgent时(<see cref="UserAgent"/>),使用的UserAgent值
+        public EasyHttp SetDefaultUserAgent(string userAgent)
         {
             _defaultHeaderRequest.UserAgent = userAgent;
             return this;
         }
 
-        /// 设置Http请求中的Refer行值
-        public EasyHttp Referer(string referer)
-        {
-            _tempRequest.Referer = referer;
-            return this;
-        }
-
-        /// 默认Refer值
-        public EasyHttp DefaultReferer(string referer)
+        // 默认Refer值
+        public EasyHttp SetDefaultReferer(string referer)
         {
             _defaultHeaderRequest.Referer = referer;
             return this;
         }
-        /// 设置请求的<c>Accept-Encoding</c>行的值
-        public EasyHttp AcceptEncoding(string acceptEncoding)
+
+        // 设置请求的<c>Accept-Encoding</c>行的值 TODO
+        public EasyHttp SetDefaultAcceptEncoding(string acceptEncoding)
         {
-            _headers.Add("Accept-Encoding", acceptEncoding);
-            return this;
-        }
-        /// 设置请求的<c>Accept-Encoding</c>行的值
-        public EasyHttp DefaultAcceptEncoding(string acceptEncoding)
-        {
-            _defaultHeaders.Add("Accept-Encoding", acceptEncoding);
-            return this;
-        }
-        /// 设置请求的<c>Accept-Language</c>的值
-        public EasyHttp AcceptLanguage(string acceptLanguage)
-        {
-            _headers.Add("Accept-Language", acceptLanguage);
-            return this;
-        }
-        /// 设置默认的<c>Accept-Language</c>的值
-        public EasyHttp DefaultAcceptLanguage(string acceptLanguage)
-        {
-            _defaultHeaders.Add("Accept-Language", acceptLanguage);
-            return this;
-        }
-        /// 设置<c>Accept</c>值
-        public EasyHttp Accept(string accept)
-        {
-            _tempRequest.Accept = accept;
-            return this;
+            return AddHeaderCustome("Accept-Encoding", acceptEncoding);
         }
 
-        /// 设置默认<c>Accept</c>值
-        public EasyHttp DefaultAccept(string accept)
+        // 设置默认的<c>Accept-Language</c>的值 TODO
+        public EasyHttp SetDefaultAcceptLanguage(string acceptLanguage)
+        {
+            return AddHeaderCustome("Accept-Language", acceptLanguage);
+        }
+
+        // 设置默认<c>Accept</c>值
+        public EasyHttp SetDefaultAccept(string accept)
         {
             _defaultHeaderRequest.Accept = accept;
             return this;
         }
-        /// 设置请求的<c>Content-Type</c>值
-        public EasyHttp ContentType(string contentType)
-        {
-            _tempRequest.ContentType = contentType;
-            return this;
-        }
-        /// 设置默认请求的<c>Content-Type</c>值
-        public EasyHttp DefaultContentType(string contentType)
+    
+        // 设置默认请求的<c>Content-Type</c>值
+        public EasyHttp SetDefaultContentType(string contentType)
         {
             _defaultHeaderRequest.ContentType = contentType;
             return this;
         }
 
-        /// 设置请求是否KeepAlive
-        public EasyHttp KeepAlive(bool keepAlive)
-        {
-            _tempRequest.KeepAlive = keepAlive;
-            return this;
-        }
-        /// 设置默认请求是否KeepAlive
-        public EasyHttp DefaultKeepAlive(bool keepAlive)
+        // 设置默认请求是否KeepAlive
+        public EasyHttp SetDefaultKeepAlive(bool keepAlive)
         {
             _defaultHeaderRequest.KeepAlive = keepAlive;
             return this;
         }
-        /// 设置请求是否带上<c>Expect100Continue</c>
-        public EasyHttp Expect100Continue(bool expect100Continue)
-        {
-            _tempRequest.ServicePoint.Expect100Continue = expect100Continue;
-            return this;
-        }
-        /// 设置默认请求是否带上<c>Expect100Continue</c>
-        public EasyHttp DefaultExpect100Continue(bool defaultExpect100Continue)
+      
+        // 设置默认请求是否带上<c>Expect100Continue</c>
+        public EasyHttp SetDefaultExpect100Continue(bool defaultExpect100Continue)
         {
             _defaultHeaderRequest.ServicePoint.Expect100Continue = defaultExpect100Continue;
             return this;
         }
-        public EasyHttp AutomaticDecompression(DecompressionMethods decompressionMethods)
-        {
-            _tempRequest.AutomaticDecompression = decompressionMethods;
-            return this;
-        }
-        public EasyHttp DefaultAutomaticDecompression(DecompressionMethods decompressionMethods)
+        
+        //自动解压
+        public EasyHttp SetDefaultAutomaticDecompression(DecompressionMethods decompressionMethods)
         {
             _defaultHeaderRequest.AutomaticDecompression = decompressionMethods;
             return this;

@@ -31,6 +31,7 @@ Define.HTTP_HEADER_TABLE = {
 }
 
 Define.NEXT_TASK_LIST_URL = {
+	--[[
 	{
 		taskName = "do_sign>>  ", 
 		url = "hbz.qrmkt.cn/hbact/hyr/sign/doit",
@@ -52,7 +53,6 @@ Define.NEXT_TASK_LIST_URL = {
 		preTaskName = "start_study", 
 		reqCount = 5,
 	},
-	--[[
 	{
 		-- taskName = "my_card", url = "hbz.qrmkt.cn/hbact/commucard/mycard",
 		-- method = POST, preTaskName = "end_study";
