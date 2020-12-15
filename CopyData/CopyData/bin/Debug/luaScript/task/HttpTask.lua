@@ -1,6 +1,6 @@
 local HttpTask = class("HttpTask")
 local Define = require("luaScript.config.Define")
-local HttpUtils = require("luaScript.util.HttpUtils")
+local CSFun = require("luaScript.util.CSFun")
 
 function HttpTask:ctor(param)
 	self._param = param or {}
@@ -14,6 +14,7 @@ function HttpTask:ctor(param)
 	self._reqCount 		= 1   -- 请求次数
 	self._method 		= Define.Method.GET -- 请求方法
 	self._header 		= Define.HTTP_HEADER_TABLE --默认请求头
+	self._delayTime  	= 0
 	-- self:init()
 end
 
@@ -134,21 +135,41 @@ function HttpTask:getUserData()
 	return self._userData
 end
 
+--time second
+function HttpTask:setDelay(time)
+	self._delayTime = time
+	return self
+end
+
+function HttpTask:getDelay()
+	return self._delayTime
+end
+
 -- 异步执行http请求
 function HttpTask:start(callfunc)
 	for index = 1 , self._reqCount do
-		HttpUtils.httpReqAsync(self._url, self._method, self._header, self._urlBody, self._postBody, self._cookies ,function(ret)
-			if callfunc then
-				callfunc(ret, self)
-			end
-		end)
+
+		local reqFunc = function()
+			CSFun.httpReqAsync(self._url, self._method, self._header, self._urlBody, self._postBody, self._cookies ,function(ret)
+				if callfunc then
+					callfunc(ret, self)
+				end
+			end)
+		end
+
+		local delay = tonumber(self._delayTime)
+		if delay and delay > 0 then
+			CSFun.SetDelayTime(delay, reqFunc)
+		else
+			reqFunc()
+		end
 	end
 end
 
 --工作线程执行http请求(会卡住)
 -- function HttpTask:startWork(callfunc)
 -- 	for index = 1 , self._reqCount do
--- 	 	HttpUtils.httpReqWork(self._url, self._method, self._header, self._urlBody, self._postBody, self._cookies, function()
+-- 	 	CSFun.httpReq(self._url, self._method, self._header, self._urlBody, self._postBody, self._cookies, function()
 -- 		 	if callfunc then
 -- 		 		callfunc(ret, self)
 -- 		 	end

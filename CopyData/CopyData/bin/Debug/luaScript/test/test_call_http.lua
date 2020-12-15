@@ -1,7 +1,7 @@
 local Define = require("luaScript.config.Define")
 local HttpTask = require("luaScript.task.HttpTask")
 local FindData = require("luaScript.data.FindData")
-local HttpUtils = require("luaScript.util.HttpUtils")
+local CSFun = require("luaScript.util.CSFun")
 
 --test
 local dic = {
@@ -16,19 +16,19 @@ local dic = {
 	["User-Agent"] = "Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13G34 MicroMessenger/7.0.9(0x17000929) NetType/WIFI Language/zh_CN",
 }
 
--- local ret = httpRequest("www.baidu.com",0, dic, "","")
--- httpRequestAsync("www.baidu.com",0, nil, nil, nil, function(ret)
+-- local ret = HttpRequest("www.baidu.com",0, dic, "","")
+-- HttpRequestAsync("www.baidu.com",0, nil, nil, nil, function(ret)
 -- 	print("hcc>>ret: " .. tostring(ret))
 -- end)
 
 -- print("hcc>>ret: " .. tostring(ret))
 
--- httpRequestAsync("www.baidu.com", 0, nil, nil, nil)
--- httpRequestAsync("www.baidu.com",0, dic,"hcc=fuck","postbody=body",function(ret)
+-- HttpRequestAsync("www.baidu.com", 0, nil, nil, nil)
+-- HttpRequestAsync("www.baidu.com",0, dic,"hcc=fuck","postbody=body",function(ret)
 -- 	print("hcc>>ret: " .. tostring(ret))
 -- end)
 
--- local ret = httpRequestAsync("www.baidu.com",0, dic,"hcc=fuck","postbody=body")
+-- local ret = HttpRequestAsync("www.baidu.com",0, dic,"hcc=fuck","postbody=body")
 
 local function doOneTaskHttpReq(userData, t_list, token_tb, callback)
 	if not t_list then return end
@@ -40,6 +40,7 @@ local function doOneTaskHttpReq(userData, t_list, token_tb, callback)
 	:setPreTaskName(t_list.preTaskName)
 	:setUrlBody(t_list.urlBody)
 	:setPostBody(t_list.postBody)
+	:setDelay(t_list.delay)
 	:setUserData(userData)
 	:addHeader(token_tb)
 	:setCookies(token_tb[Define.COOKIE_NAME])
@@ -49,9 +50,9 @@ end
 local function onResponseCallBack(httpRes, task)
 	-- print("hcc>>ret: " .. tostring(ret))
 	httpRes = (httpRes == nil or httpRes == "") and " empty" or httpRes
-	LogOut("hcc>> index>> " .. task:getUserData() .. "  ,name>> " .. task:getTaskName() .. "   ,ret>> ".. tostring(httpRes));
-	-- LogOut("hcc>> index: " .. task:getUserData());
-	-- LogOut("ret:" .. task:getUserData() .. " >>" .. httpRes)
+	CSFun.LogOut("hcc>> index>> " .. task:getUserData() .. "  ,name>> " .. task:getTaskName() .. "   ,ret>> ".. tostring(httpRes));
+	-- CSFun.LogOut("hcc>> index: " .. task:getUserData());
+	-- CSFun.LogOut("ret:" .. task:getUserData() .. " >>" .. httpRes)
 	----[[
 	for key, t_list_next in pairs(Define.NEXT_TASK_LIST_URL) do
 		local curTaskName = task:getTaskName() or ""
@@ -85,12 +86,16 @@ function testCall()
 	--[[
 	local cookies = "cookies_a=avlue1;cookies_b=cvalue2"
 	for i = 1 , 1 do
-		-- local ret = HttpUtils.httpReq("www.baidu.com",0, dic,"urlbody=body","postbody=body", nil)
-		HttpUtils.httpReqAsync("www.baidu.com",nil,nil,nil,nil,nil, function(ret)
-			LogOut("ret:" .. ret);
+		-- local ret = CSFun.httpReq("www.baidu.com",0, dic,"urlbody=body","postbody=body", nil)
+		CSFun.httpReqAsync("www.baidu.com",nil,nil,nil,nil,nil, function(ret)
+			CSFun.LogOut("ret:" .. ret);
 		end)
 	end
 	--]]
+
+	-- CSFun.SetTimeOut(1.5, function()
+	-- 	print("hcc>>timeout>>>>>>>>>>>>>>>>>>>>>");
+	-- end)
 
 end
 --[[

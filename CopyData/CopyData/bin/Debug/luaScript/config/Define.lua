@@ -18,7 +18,6 @@ Define.RES_BODY_STRING = "resBody<" .. Define.FIND_STRING_HOST
 
 Define.FILE_SAVE_NAME = "token" --保存本地token文件名字: token.json
 
---
 Define.HTTP_HEADER_TABLE = {
 	["Accept"] = "application/json,text/javascript,text/html,text/plain,application/xhtml+xml,application/xml, */*; q=0.01",
 	["Proxy-Connection"] = "keep-alive",
@@ -31,13 +30,13 @@ Define.HTTP_HEADER_TABLE = {
 }
 
 Define.NEXT_TASK_LIST_URL = {
-	--[[
 	{
 		taskName = "do_sign>>  ", 
 		url = "hbz.qrmkt.cn/hbact/hyr/sign/doit",
 		method = POST, 
 		preTaskName = "sign_list", 
 		reqCount = 1,
+		delay = 1,
 	},
 	{
 		taskName = "start_study>>  ", 
@@ -45,25 +44,35 @@ Define.NEXT_TASK_LIST_URL = {
 		method = POST, 
 		preTaskName = "do_sign", 
 		reqCount = 1,
+		delay = 1,
 	},	
 	{
 		taskName = "end_study>> ", 
 		url = "hbz.qrmkt.cn/hbact/school/study/end",
 		method = POST, 
 		preTaskName = "start_study", 
-		reqCount = 5,
+		reqCount = 1,
+		delay = 3,
 	},
 	{
-		-- taskName = "my_card", url = "hbz.qrmkt.cn/hbact/commucard/mycard",
-		-- method = POST, preTaskName = "end_study";
+		taskName = "my_card", 
+		url = "hbz.qrmkt.cn/hbact/commucard/mycard",
+		method = POST, 
+		preTaskName = "end_study";
+		reqCount = 1,
+		delay = 0.5,
 	},
 	{
-		-- taskName = "share_code", url = "hbz.qrmkt.cn/hbact/hyr/home/hasAwd",
-		-- preTaskName = "my_card";
+		taskName = "share_code", 
+		url = "hbz.qrmkt.cn/hbact/hyr/home/hasAwd",
+		preTaskName = "my_card";
+		reqCount = 2,
+		delay = 1,
 	},
-	-- {
-	-- 	taskName = "req_sutdy_page", url = "hbz.qrmkt.cn/syx/wx/jsapi",
-	-- 	method = POST,preTaskName = "share_code";
+	--[[
+	{
+		taskName = "req_sutdy_page", url = "hbz.qrmkt.cn/syx/wx/jsapi",
+		method = POST,preTaskName = "share_code";
 	},
 	{
         --{"code":"200","msg":null,"data":{"actCode":"ACT-8K38GWT8552W","id":245}}
@@ -99,6 +108,7 @@ Define.TASK_LIST_URL =
 		urlBody = "", 
 		postBody = "", 
 		preTaskName = "",
+		delay = 0,
 	},
 	-- {
 	-- 	url = "baidu.com",

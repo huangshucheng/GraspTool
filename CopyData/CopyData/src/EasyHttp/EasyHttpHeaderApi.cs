@@ -6,7 +6,7 @@ using System.Text;
 
 namespace CopyData
 {
- public  partial class EasyHttp
+    public partial class EasyHttp
     {
         // 设置自定义头部键值对
         public EasyHttp AddHeaderCustome(string name, string value)

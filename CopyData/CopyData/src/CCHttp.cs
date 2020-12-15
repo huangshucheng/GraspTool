@@ -12,11 +12,11 @@ namespace CopyData
     class CCHttp
     {
         //执行一次http请求,异步
-        public async static void httpRequestAsync(string url = null, int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null, LuaFunction taskEndAction = null)
+        public async static void HttpRequestAsync(string url = null, int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null, LuaFunction taskEndAction = null)
         {
             try
             {
-                var ret = await CCHttp.startHttpRequestAsync(url, method, headTable, urlBody, postBody, cookies);
+                var ret = await CCHttp.StartHttpRequestAsync(url, method, headTable, urlBody, postBody, cookies);
                 if (taskEndAction != null)
                 {
                     taskEndAction.Call(ret);
@@ -29,7 +29,7 @@ namespace CopyData
         }
 
         //执行一次http请求,同步
-        public static string httpRequest(string url = null, int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null)
+        public static string HttpRequest(string url = null, int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace CopyData
             return string.Empty;
         }
 
-        private static Task<string> startHttpRequestAsync(string url = null, int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null)
+        private static Task<string> StartHttpRequestAsync(string url = null, int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null)
         {
             try
             {

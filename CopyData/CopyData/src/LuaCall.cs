@@ -23,13 +23,13 @@ namespace CopyData
         //}
 
         //获取当前文件所在位置目录
-        public static string getCurDir()
+        public static string GetCurDir()
         {
             return Environment.CurrentDirectory;
         }
 
         //获取桌面位置目录
-        public static string getDeskTopDir() {
+        public static string GetDeskTopDir() {
             return Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         }
 
@@ -41,15 +41,15 @@ namespace CopyData
         //postBody: "anything"
         //cookies: "a=avlue;c=cvalue"
         //taskEndAction: lua function
-        public static void httpRequestAsync(string url = null, int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null, LuaFunction taskEndAction = null)
+        public static void HttpRequestAsync(string url = null, int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null, LuaFunction taskEndAction = null)
         {
-            CCHttp.httpRequestAsync(url, method, headTable, urlBody, postBody, cookies, taskEndAction);
+            CCHttp.HttpRequestAsync(url, method, headTable, urlBody, postBody, cookies, taskEndAction);
         }
         
         //执行一次http请求,同步
-        public static string httpRequest(string url = null, int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null)
+        public static string HttpRequest(string url = null, int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null)
         {
-            return CCHttp.httpRequest(url, method, headTable, urlBody, postBody, cookies);
+            return CCHttp.HttpRequest(url, method, headTable, urlBody, postBody, cookies);
             //HTTP_REQ_PARAM param = new HTTP_REQ_PARAM();
             //param.url = url;
             //param.method = method;

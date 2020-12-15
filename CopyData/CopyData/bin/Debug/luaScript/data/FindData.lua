@@ -1,8 +1,9 @@
 local FindData = class("FindData")
 local Define = require("luaScript.config.Define")
+local CSFun = require("luaScript.util.CSFun")
 
 --c# 传过来的路径
-local CUR_DIR_NAME = getCurDir()
+local CUR_DIR_NAME = CSFun.GetCurDir()
 
 function FindData:getInstance()
 	if not FindData._instance then
@@ -63,7 +64,7 @@ function FindData:writeToLocalFile()
 	end)
 
 	if not ok then
-		LogOut(tostring(msg))
+		CSFun.LogOut(tostring(msg))
 		return
 	end
 	if jsonString then
@@ -85,11 +86,11 @@ function FindData:readLocalFile()
 		decode_table = json.decode(readStr)
 	end)
 
-	-- LogOut("readLocalFile>>>> " .. tostring(ok) .. " " .. tostring(msg))
+	-- CSFun.LogOut("readLocalFile>>>> " .. tostring(ok) .. " " .. tostring(msg))
 	-- dump(decode_table,"hcc>>decode_table")
 	
 	if not ok then
-		LogOut(tostring(msg))
+		CSFun.LogOut(tostring(msg))
 		return
 	end
 
@@ -123,7 +124,7 @@ function FindData:dumpTokenOne(index, token_tb)
 	local ok, msg = pcall(func)
 	if ok and conStr then
 		local finalStr = "(" .. tostring(index) .. ")" .. conStr .. "\n"
-		LogToken(finalStr)
+		CSFun.LogToken(finalStr)
 	end
 end
 
