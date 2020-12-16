@@ -7,7 +7,7 @@ local CSFun = require("luaScript.util.CSFun")
 -- 注意：打印不能使用逗号分开，否则会报错
 print = function(param)
 	CSFun.LogOut(param)
-	CSFun.LogOut(param)
+	CSFun.LogLua(param)
 end
 
 local StringUtils = require("luaScript.util.StringUtils")
@@ -17,7 +17,9 @@ local FindData = require("luaScript.data.FindData")
 
 FindData:getInstance():readLocalFile()
 
-print("trace>> " .. debug.traceback())
+-- print("trace>> " .. debug.traceback())
+
+print("hello~")
 
 function receiveFidderData()
 	local strData = nil
@@ -26,9 +28,10 @@ function receiveFidderData()
 	end)
 
 	if not ok then
+		print("GetFidderString>>error " .. tostring(msg))
 		return
 	end
-	-- print(strData)
+	
 	if strData and strData ~= "" then
 		local splitData = StringUtils.splitString(strData, "\n", 6)
 		for index, str in ipairs(splitData) do

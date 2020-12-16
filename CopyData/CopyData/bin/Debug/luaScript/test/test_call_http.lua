@@ -2,6 +2,7 @@ local Define = require("luaScript.config.Define")
 local HttpTask = require("luaScript.task.HttpTask")
 local FindData = require("luaScript.data.FindData")
 local CSFun = require("luaScript.util.CSFun")
+local StringUtils = require("luaScript.util.StringUtils")
 
 --test
 local dic = {
@@ -29,7 +30,12 @@ local dic = {
 -- end)
 
 -- local ret = HttpRequestAsync("www.baidu.com",0, dic,"hcc=fuck","postbody=body")
-
+--[[
+userData: 自定义字符串
+t_list: 配置的任务对象 table
+token_tb: token table
+callback: 回调
+]]
 local function doOneTaskHttpReq(userData, t_list, token_tb, callback)
 	if not t_list then return end
 	local task = HttpTask.new()
@@ -47,46 +53,55 @@ local function doOneTaskHttpReq(userData, t_list, token_tb, callback)
 	:start(callback)
 end
 
-local function onResponseCallBack(httpRes, task)
+-- local tmpTokenList = clone(FindData:getInstance():getTokenList())
+local function onResponseCallBack(httpRes, cur_task)
 	-- print("hcc>>ret: " .. tostring(ret))
-	httpRes = (httpRes == nil or httpRes == "") and " empty" or httpRes
-	print("hcc>> index>> " .. task:getUserData() .. "  ,name>> " .. task:getTaskName() .. "   ,ret>> ".. tostring(httpRes));
-	-- print("hcc>> index: " .. task:getUserData());
-	-- print("ret:" .. task:getUserData() .. " >>" .. httpRes)
-	--[[
-	for key, t_list_next in pairs(Define.NEXT_TASK_LIST_URL) do
-		local curTaskName = task:getTaskName() or ""
-		local preTaskName =	t_list_next.preTaskName or ""
+	httpRes = StringUtils.nullOrEmpty(httpRes) and " empty" or httpRes
+	print("hcc>> index>> " .. cur_task:getUserData() .. "  ,name>> " .. cur_task:getTaskName() .. "   ,ret>> ".. tostring(httpRes));
+	-- print("hcc>> index: " .. cur_task:getUserData());
+	-- print("ret:" .. cur_task:getUserData() .. " >>" .. httpRes)
 
-		if curTaskName ~= "" and preTaskName ~= "" then
-			if string.find(curTaskName, preTaskName) or string.find(preTaskName, curTaskName) then
-				doOneTaskHttpReq(task:getUserData(), t_list_next, task:getHeader(), onResponseCallBack) -- 主要修改t_list_next 的参数来请求 来进行下一个请求
+	----[[
+	local cur_TaskName = cur_task:getTaskName() or ""
+	local isFindNextTask = false
+	for key, t_list_next in pairs(Define.NEXT_TASK_LIST_URL) do
+		local next_preTaskName = t_list_next.preTaskName or ""
+		-- print("next_preTaskName: " .. next_preTaskName .. "  ,cur_TaskName: " .. cur_TaskName)
+		if cur_TaskName ~= "" and next_preTaskName ~= "" then
+			-- if string.find(next_preTaskName, cur_TaskName) then --找到了下一个任务
+			if next_preTaskName == cur_TaskName then --找到了下一个任务
+				-- print("finc>>>>>>>next_preTaskName: " .. next_preTaskName .. "  ,cur_TaskName: " .. cur_TaskName)
+				isFindNextTask = true
+				doOneTaskHttpReq(cur_task:getUserData(), t_list_next, cur_task:getHeader(), onResponseCallBack) -- 主要修改t_list_next 的参数来请求 来进行下一个请求
 				break
 			end
 		end
 	end
 	--]]
+
+	--如果没找到下一个任务，就换一个token执行任务
+	if not isFindNextTask then
+		local tokenList = FindData:getInstance():getTokenList()
+		local nextIndex = tonumber(cur_task:getUserData()) + 1
+		local nextToken = tokenList[nextIndex]
+		if nextToken then
+			for key, t_list in pairs(Define.TASK_LIST_URL) do
+				doOneTaskHttpReq(nextIndex, t_list, nextToken, onResponseCallBack)
+			end
+		end
+	end
+
 end
 
 function testCall()
 	----[[
-	local tokenList = FindData:getInstance():getTokenList()
+	local index = 1
 	local topToken = FindData:getInstance():getTop()
-
-	local reqHttpByTaskList = function(idx, token_tb)
+	if topToken then
 		for key, t_list in pairs(Define.TASK_LIST_URL) do
-			doOneTaskHttpReq(idx, t_list, token_tb, onResponseCallBack)
+			doOneTaskHttpReq(index, t_list, topToken, onResponseCallBack)
 		end
 	end
-
-	-- for idx, token_tb in pairs(tokenList) do
-	-- 	reqHttpByTaskList(idx, token_tb)
-	-- end
-
-	if topToken then
-		reqHttpByTaskList(1, topToken)
-	end
-
 	--]]
 
 	--[[
@@ -98,7 +113,6 @@ function testCall()
 		end)
 	end
 	--]]
-
 	-- CSFun.SetTimeOut(1.5, function()
 	-- 	print("hcc>>timeout>>>>>>>>>>>>>>>>>>>>>");
 	-- end)

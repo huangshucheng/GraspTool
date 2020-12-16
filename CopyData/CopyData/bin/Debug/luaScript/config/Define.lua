@@ -31,45 +31,45 @@ Define.HTTP_HEADER_TABLE = {
 
 Define.NEXT_TASK_LIST_URL = {
 	{
-		taskName = "do_sign>>  ", 
+		taskName = "do_sign", 
 		url = "hbz.qrmkt.cn/hbact/hyr/sign/doit",
 		method = POST, 
 		preTaskName = "sign_list", 
 		reqCount = 1,
-		delay = 1,
+		delay = 0,
 	},
 	{
-		taskName = "start_study>>  ", 
+		taskName = "start_study", 
 		url = "hbz.qrmkt.cn/hbact/school/study/start",
 		method = POST, 
 		preTaskName = "do_sign", 
 		reqCount = 1,
-		delay = 1,
+		delay = 0,
 	},	
 	{
-		taskName = "end_study>> ", 
+		taskName = "end_study", 
 		url = "hbz.qrmkt.cn/hbact/school/study/end",
 		method = POST, 
 		preTaskName = "start_study", 
-		reqCount = 1,
-		delay = 1,
+		reqCount = 5,
+		delay = 0,
 	},
 	{
 		taskName = "my_card", 
 		url = "hbz.qrmkt.cn/hbact/commucard/mycard",
 		method = POST, 
 		preTaskName = "end_study";
-		reqCount = 1,
-		delay = 1,
+		reqCount = 5,
+		delay = 0,
 	},
+	--[[
 	{
 		taskName = "share_code", 
 		url = "hbz.qrmkt.cn/hbact/hyr/home/hasAwd",
 		preTaskName = "my_card";
-		reqCount = 1,
-		delay = 1,
+		reqCount = 5,
+		delay = 0,
 	},
-	--[[
 	{
 		taskName = "req_sutdy_page", url = "hbz.qrmkt.cn/syx/wx/jsapi",
 		method = POST,preTaskName = "share_code";
@@ -101,7 +101,7 @@ Define.NEXT_TASK_LIST_URL = {
 Define.TASK_LIST_URL = 
 {
 	{
-		taskName = "(sign_list)>> ", 
+		taskName = "sign_list", 
 		url = "hbz.qrmkt.cn/hbact/hyr/sign/list",
 		method = POST, 
 		reqCount = 1, 

@@ -40,6 +40,10 @@ function FindData:popEnd()
 	end
 end
 
+function FindData:getTokenCount()
+	return #self._findTokenList
+end
+
 --获取所有Cookie
 function FindData:getCookiesList()
 	local cookieList = {}
