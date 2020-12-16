@@ -10,5 +10,11 @@ local question = [[
 ]]
 
 
-local jsonjjj = json.decode(question)
-dump(jsonjjj,"hcc>>question",10)
+-- local jsonjjj = json.decode(question)
+-- dump(jsonjjj,"hcc>>question",10)
+
+local tb = {333,555,777,888}
+table.remove(tb,1)
+for i,v in ipairs(tb) do
+	print(i,v)
+end

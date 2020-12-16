@@ -20,6 +20,26 @@ function FindData:getTokenList()
 	return self._findTokenList
 end
 
+function FindData:getTop()
+	return self._findTokenList[1]
+end
+
+function FindData:getEnd()
+	return self._findTokenList[#self._findTokenList]
+end
+
+function FindData:popTop()
+	if #self._findTokenList > 0 then
+		table.remove(self._findTokenList,1)
+	end
+end
+
+function FindData:popEnd()
+	if #self._findTokenList > 0 then
+		table.remove(self._findTokenList)
+	end
+end
+
 --获取所有Cookie
 function FindData:getCookiesList()
 	local cookieList = {}
@@ -64,7 +84,7 @@ function FindData:writeToLocalFile()
 	end)
 
 	if not ok then
-		CSFun.LogOut(tostring(msg))
+		print(tostring(msg))
 		return
 	end
 	if jsonString then
@@ -85,15 +105,16 @@ function FindData:readLocalFile()
 	local ok, msg = pcall(function() 
 		decode_table = json.decode(readStr)
 	end)
-
-	-- CSFun.LogOut("readLocalFile>>>> " .. tostring(ok) .. " " .. tostring(msg))
+	local isSuccess = msg == nil and "success!" or "failed!"
+	-- print("load token.json >>>> " .. tostring(ok) .. " " .. tostring(isSuccess))
 	-- dump(decode_table,"hcc>>decode_table")
-	
+
 	if not ok then
-		CSFun.LogOut(tostring(msg))
+		print(tostring("load token.json failed>>" .. msg))
 		return
 	end
 
+	self._findTokenList = {}
 	if decode_table and next(decode_table) then
 		table.insertto(self._findTokenList, decode_table)
 		self:dumpToken()

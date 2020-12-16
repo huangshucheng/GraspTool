@@ -50,10 +50,10 @@ end
 local function onResponseCallBack(httpRes, task)
 	-- print("hcc>>ret: " .. tostring(ret))
 	httpRes = (httpRes == nil or httpRes == "") and " empty" or httpRes
-	CSFun.LogOut("hcc>> index>> " .. task:getUserData() .. "  ,name>> " .. task:getTaskName() .. "   ,ret>> ".. tostring(httpRes));
-	-- CSFun.LogOut("hcc>> index: " .. task:getUserData());
-	-- CSFun.LogOut("ret:" .. task:getUserData() .. " >>" .. httpRes)
-	----[[
+	print("hcc>> index>> " .. task:getUserData() .. "  ,name>> " .. task:getTaskName() .. "   ,ret>> ".. tostring(httpRes));
+	-- print("hcc>> index: " .. task:getUserData());
+	-- print("ret:" .. task:getUserData() .. " >>" .. httpRes)
+	--[[
 	for key, t_list_next in pairs(Define.NEXT_TASK_LIST_URL) do
 		local curTaskName = task:getTaskName() or ""
 		local preTaskName =	t_list_next.preTaskName or ""
@@ -71,6 +71,7 @@ end
 function testCall()
 	----[[
 	local tokenList = FindData:getInstance():getTokenList()
+	local topToken = FindData:getInstance():getTop()
 
 	local reqHttpByTaskList = function(idx, token_tb)
 		for key, t_list in pairs(Define.TASK_LIST_URL) do
@@ -78,9 +79,14 @@ function testCall()
 		end
 	end
 
-	for idx, token_tb in pairs(tokenList) do
-		reqHttpByTaskList(idx, token_tb)
+	-- for idx, token_tb in pairs(tokenList) do
+	-- 	reqHttpByTaskList(idx, token_tb)
+	-- end
+
+	if topToken then
+		reqHttpByTaskList(1, topToken)
 	end
+
 	--]]
 
 	--[[
@@ -88,7 +94,7 @@ function testCall()
 	for i = 1 , 1 do
 		-- local ret = CSFun.httpReq("www.baidu.com",0, dic,"urlbody=body","postbody=body", nil)
 		CSFun.httpReqAsync("www.baidu.com",nil,nil,nil,nil,nil, function(ret)
-			CSFun.LogOut("ret:" .. ret);
+			print("ret:" .. ret);
 		end)
 	end
 	--]]

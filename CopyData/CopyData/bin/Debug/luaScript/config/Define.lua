@@ -52,7 +52,7 @@ Define.NEXT_TASK_LIST_URL = {
 		method = POST, 
 		preTaskName = "start_study", 
 		reqCount = 1,
-		delay = 3,
+		delay = 1,
 	},
 	{
 		taskName = "my_card", 
@@ -60,13 +60,13 @@ Define.NEXT_TASK_LIST_URL = {
 		method = POST, 
 		preTaskName = "end_study";
 		reqCount = 1,
-		delay = 0.5,
+		delay = 1,
 	},
 	{
 		taskName = "share_code", 
 		url = "hbz.qrmkt.cn/hbact/hyr/home/hasAwd",
 		preTaskName = "my_card";
-		reqCount = 2,
+		reqCount = 1,
 		delay = 1,
 	},
 	--[[

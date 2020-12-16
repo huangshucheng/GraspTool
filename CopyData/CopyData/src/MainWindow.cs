@@ -32,7 +32,7 @@ namespace CopyData
             _luaScript.RegisterFunction("HttpRequestAsync", null, typeof(LuaCall).GetMethod("HttpRequestAsync")); //http请求 异步
 
             string path = Environment.CurrentDirectory + "\\luaScript\\main.lua";
-            _luaScript.DoFile(path);
+            _luaScript.DoFile(path); //TODO 会加载两次脚本
         }
 
         //test 按钮点击

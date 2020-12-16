@@ -1,3 +1,7 @@
+require("luaScript.util.functions")
+require("luaScript.util.json")
+require("luaScript.test.init")
+
 local CSFun = require("luaScript.util.CSFun")
 
 -- 注意：打印不能使用逗号分开，否则会报错
@@ -6,10 +10,6 @@ print = function(param)
 	CSFun.LogOut(param)
 end
 
-require("luaScript.util.functions")
-require("luaScript.util.json")
-require("luaScript.test.init")
-
 local StringUtils = require("luaScript.util.StringUtils")
 local Define = require("luaScript.config.Define")
 local DealRecvHeaderData = require("luaScript.dataDeal.DealRecvHeaderData")
@@ -17,6 +17,7 @@ local FindData = require("luaScript.data.FindData")
 
 FindData:getInstance():readLocalFile()
 
+print("trace>> " .. debug.traceback())
 
 function receiveFidderData()
 	local strData = nil
@@ -27,8 +28,7 @@ function receiveFidderData()
 	if not ok then
 		return
 	end
-
-	-- CSFun.LogOut(strData)
+	-- print(strData)
 	if strData and strData ~= "" then
 		local splitData = StringUtils.splitString(strData, "\n", 6)
 		for index, str in ipairs(splitData) do

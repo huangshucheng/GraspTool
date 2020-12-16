@@ -1,5 +1,9 @@
-local CSFun = {}
+local CSFun = class("CSFun")
 local Define = require("luaScript.config.Define")
+
+function CSFun.GetTrace()
+	return debug.traceback()
+end
 
 function CSFun.LogToken(data)
 	if LogToken then
