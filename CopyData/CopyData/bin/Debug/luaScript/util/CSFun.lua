@@ -1,5 +1,9 @@
-local CSFun = {}
+local CSFun = class("CSFun")
 local Define = require("luaScript.config.Define")
+
+function CSFun.GetTrace()
+	return debug.traceback()
+end
 
 function CSFun.LogToken(data)
 	if LogToken then
@@ -50,7 +54,7 @@ end
 //headTable:{AAA = "" , bbb = "" }
 //urlBody: "aaa=1&bbb=123"
 //postBody: "anything"
-//cookies: "a=avlue;c=cvalue"
+//cookies: "cookie1=avlue;cookies2=cvalue"  需要用分号隔开
 //taskEndAction: lua function
 ]]
 function CSFun.httpReqAsync(url, method, header, urlBody, postBody, cookies, callFunc)
