@@ -4,7 +4,7 @@ local TaskBase = class("TaskBase")
 
 local Define = require("luaScript.config.Define")
 
-TaskBase.FIND_STRING_HOST = "hbz.qrmkt.cn"
+TaskBase.FIND_STRING_HOST = "hbz.qrmkt.cn"  --域名，方便查找token
 
 TaskBase.REQ_HEAD_STRING = Define.REQ_HEAD_BEFORE .. TaskBase.FIND_STRING_HOST
 TaskBase.REQ_BODY_STRING = Define.REQ_BODY_BEFORE .. TaskBase.FIND_STRING_HOST
@@ -14,15 +14,15 @@ TaskBase.RES_BODY_STRING = Define.RES_BODY_BEFORE .. TaskBase.FIND_STRING_HOST
 TaskBase.FILE_SAVE_NAME = "token.json" -- 保存本地token文件名字: token.json
 TaskBase.DATA_TO_FIND_ARRAY = {"token"} -- 请求头中要查找的字段，如：token, Cookie
 
-TaskBase.GET = 0
-TaskBase.POST = 1
+TaskBase.GET = Define.Method.GET
+TaskBase.POST = Define.Method.POST
 
 --任务列表，例子
 TaskBase.TASK_LIST_URL_CONFIG = {
 	{
 		taskName = "do_sign", 
 		url = "hbz.qrmkt.cn/hbact/hyr/sign/doit",
-		method = TaskBase.POST, 
+		method = TaskBase.GET, 
 		preTaskName = "", 
 		reqCount = 3,
 		urlBody = "", 
