@@ -1,31 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Fiddler;
 using System.Windows.Forms;
-using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
-using System.Xml.Linq;
 
 namespace HCCFidderExtension
 {
 
     public class CCExtension: IFiddlerExtension,IAutoTamper
     {
-        private HttpClient _httpClient = null;
         public void OnLoad() { 
-            //var view = new TestView();
-            //view.Dock = DockStyle.Fill;
-            //var tab = new TabPage();
-            //tab.Text = "相关设置";
-            //tab.Controls.Add(view);
             TabPage page = new TabPage("解包工具");
             FiddlerApplication.UI.tabsViews.TabPages.Add(page);
             FiddlerApplication.DoNotifyUser("抓包快乐！","欢迎你！");
-            _httpClient = new HttpClient();
         }
 
         public void OnBeforeUnload() { 
@@ -58,13 +45,13 @@ namespace HCCFidderExtension
         {
             string host = onSession.host;
             string reqBody = onSession.GetRequestBodyAsString();
-            string resBody = onSession.GetResponseBodyAsString();
+            //string resBody = onSession.GetResponseBodyAsString();
 
             string reqHeader = onSession.RequestHeaders.ToString(true, true, true);
             string resHeader = onSession.ResponseHeaders.ToString(true, true);
             //string allSession = onSession.ToString();
 
-            FiddlerObject.log("host<<<<<<<<<<<<<<<【" + host + "】<<<<<<<<<<<<<<<<<");
+            FiddlerObject.log("<<<<<<<<<<<<<<<【" + host + "】<<<<<<<<<<<<<<<<<start");
             //FiddlerObject.log("hcc>>host: " + host);
             //FiddlerObject.log("hcc>>path: " + path);
             //FiddlerObject.log("hcc>>mthd: " + mthd);
@@ -78,7 +65,7 @@ namespace HCCFidderExtension
             string dataHeader = "\n" + "[reqHeader<" + host + ">] \n" + reqHeader;
             string dataReqBody = "\n" + "[reqBody<" + host + ">] \n" + reqBody;
             string dataResHeader = "\n" + "[resHeader<" + host + ">] \n" + resHeader;
-            string dataResBody = "\n" + "[resBody<" + host + ">] \n" + resBody + "\n";
+            //string dataResBody = "\n" + "[resBody<" + host + ">] \n" + resBody + "\n";
 
             Process[] processes = Process.GetProcesses();
             foreach (Process p in processes)
@@ -98,13 +85,13 @@ namespace HCCFidderExtension
                             Send_message(hwndRecvWindow, dataHeader);
                             Send_message(hwndRecvWindow, dataReqBody);
                             Send_message(hwndRecvWindow, dataResHeader);
-                            Send_message(hwndRecvWindow, dataResBody);
+                            //Send_message(hwndRecvWindow, dataResBody);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                   // MessageBox.Show(ex.Message);
                 }
             }
         

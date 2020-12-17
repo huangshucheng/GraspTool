@@ -16,3 +16,6 @@ C:\Users\95\Desktop\FD\GraspTool\HCCFidderExtension\HCCFidderExtension\obj\Relea
 C:\Users\95\Desktop\FD\GraspTool\HCCFidderExtension\HCCFidderExtension\obj\Release\HCCFidderExtension.csproj.GenerateResource.Cache
 C:\Users\95\Desktop\FD\GraspTool\HCCFidderExtension\HCCFidderExtension\obj\Release\HCCFidderExtension.dll
 C:\Users\95\Desktop\FD\GraspTool\HCCFidderExtension\HCCFidderExtension\obj\Release\HCCFidderExtension.pdb
+C:\Users\95\Desktop\FD\GraspTool\HCCFidderExtension\HCCFidderExtension\bin\Release\Fiddler.exe.config
+C:\Users\95\Desktop\FD\GraspTool\HCCFidderExtension\HCCFidderExtension\obj\Release\HCCFidderExtension.csproj.CoreCompileInputs.cache
+C:\Users\95\Desktop\FD\GraspTool\HCCFidderExtension\HCCFidderExtension\obj\Release\HCCFidderExtension.csproj.CopyComplete
