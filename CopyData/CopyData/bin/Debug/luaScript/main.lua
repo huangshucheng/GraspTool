@@ -1,22 +1,27 @@
-local CSFun = require("luaScript.util.CSFun")
-
--- 注意：打印不能使用逗号分开，否则会报错
-print = function(param)
-	CSFun.LogOut(param)
-	CSFun.LogOut(param)
-end
-
 require("luaScript.util.functions")
 require("luaScript.util.json")
 require("luaScript.test.init")
 
+local CSFun = require("luaScript.util.CSFun")
+
+--打印在屏幕上
+print = function(param)
+	CSFun.LogOut(param)
+	CSFun.LogLua(param)
+end
+
 local StringUtils = require("luaScript.util.StringUtils")
-local Define = require("luaScript.config.Define")
 local DealRecvHeaderData = require("luaScript.dataDeal.DealRecvHeaderData")
+
 local FindData = require("luaScript.data.FindData")
+local TaskData = require("luaScript.data.TaskData")
 
+--当前正在跑的任务
+local CurTask = require("luaScript.task.TaskDiamond")
+TaskData.setCurTask(CurTask.new()) --设置当前执行的任务对象
+
+--加载本地token缓存
 FindData:getInstance():readLocalFile()
-
 
 function receiveFidderData()
 	local strData = nil
@@ -32,14 +37,8 @@ function receiveFidderData()
 	if strData and strData ~= "" then
 		local splitData = StringUtils.splitString(strData, "\n", 6)
 		for index, str in ipairs(splitData) do
-			if string.find(str, Define.REQ_HEAD_STRING) then
+			if string.find(str, TaskData.getCurTask():getReqHeadString()) then
 				DealRecvHeaderData:getInstance():dealData(strData)
-				break
-			elseif string.find(str, Define.REQ_BODY_STRING) then
-				break
-			elseif string.find(str, Define.RES_HEAD_STRING) then
-				break
-			elseif string.find(str, Define.RES_BODY_STRING) then
 				break
 			end
 		end

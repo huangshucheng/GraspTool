@@ -196,4 +196,8 @@ function StringUtils.parseHttpHeader(httpHeaderStr)
     return retTable
 end
 
+function StringUtils.nullOrEmpty(data)
+   return data == nil or data == ""
+end
+
 return StringUtils

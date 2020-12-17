@@ -2,8 +2,7 @@ local HttpTask = class("HttpTask")
 local Define = require("luaScript.config.Define")
 local CSFun = require("luaScript.util.CSFun")
 
-function HttpTask:ctor(param)
-	self._param = param or {}
+function HttpTask:ctor()
 	self._url 			= ""  -- 请求URL
 	self._urlBody 		= ""  -- 放在URL后面的请求体,get,post都能用, 例：shareCode=123&code=abc
 	self._postBody 		= ""  -- post请求的参数，只有post能用到
@@ -12,27 +11,27 @@ function HttpTask:ctor(param)
 	self._userData 		= ""  -- 用户自定义数据
 	self._cookies 		= ""  -- cookies : token=tokenqqqq; sscookie=bbbbb; cccookie=ccccc; cccc=456789
 	self._reqCount 		= 1   -- 请求次数
+	self._curCount 		= 0   -- 当前请求次数
 	self._method 		= Define.Method.GET -- 请求方法
 	self._header 		= Define.HTTP_HEADER_TABLE --默认请求头
-	self._delayTime  	= 0
-	-- self:init()
+	self._delayTime  	= 0   -- 延迟时间
 end
 
---[[
-function HttpTask:init()
-	local param 		= self._param
-	self._url 			= param.url or ""  
-	self._urlBody 		= param.urlBody or ""
-	self._postBody 		= param.postBody or ""
-	self._curTaskName 	= param.curTaskName or ""
-	self._preTaskName 	= param.preTaskName or ""  
-	self._userData 		= param.userData or ""
-	self._cookies 		= param.cookies or ""
-	self._reqCount 		= param.reqCount or 1
-	self._method 		= param.method or Define.Method.GET
-	self._header 		= param.header or Define.HTTP_HEADER_TABLE
+function HttpTask:initWithConfig(config)
+	config = config or {}
+	self._url 			= config.url or ""  
+	self._urlBody 		= config.urlBody or ""
+	self._postBody 		= config.postBody or ""
+	self._curTaskName 	= config.curTaskName or ""
+	self._preTaskName 	= config.preTaskName or ""  
+	self._userData 		= config.userData or ""
+	self._cookies 		= config.cookies or ""
+	self._reqCount 		= config.reqCount or 1
+	self._curCount 		= config.curCount or 0
+	self._method 		= config.method or Define.Method.GET
+	self._header 		= config.header or Define.HTTP_HEADER_TABLE
+	self._delayTime 	= config.delay or 0
 end
-]]
 
 function HttpTask:setUrl(url)
 	if not url then return self end
@@ -94,6 +93,14 @@ function HttpTask:getReqCount()
 	return self._reqCount
 end
 
+function HttpTask:setCurCount(count)
+	self._reqCount = count
+end
+
+function HttpTask:getCurCount()
+	return self._curCount
+end
+
 function HttpTask:setMethod(method)
 	if not method then return self end
 	self._method = method
@@ -107,11 +114,14 @@ end
 function HttpTask:getHeader()
 	return self._header
 end
-
+--添加请求头，Cookie也在里面的话，自动处理Cookie
 function HttpTask:addHeader(headerTable)
 	if not headerTable or not next(headerTable) then return self end
 	if headerTable and next(headerTable) then
 		table.merge(self._header, headerTable)
+	end
+	if headerTable[Define.COOKIE_NAME] then
+		self:setCookies(headerTable[Define.COOKIE_NAME])
 	end
 	return self
 end
@@ -147,10 +157,13 @@ end
 
 -- 异步执行http请求
 function HttpTask:start(callfunc)
+	-- print("start .. " .. self._url)
 	for index = 1 , self._reqCount do
 
 		local reqFunc = function()
 			CSFun.httpReqAsync(self._url, self._method, self._header, self._urlBody, self._postBody, self._cookies ,function(ret)
+				self._curCount = self._curCount + 1
+				-- print("coutn>>>>" .. self._curCount .. "   " .. self._url)
 				if callfunc then
 					callfunc(ret, self)
 				end
@@ -165,16 +178,5 @@ function HttpTask:start(callfunc)
 		end
 	end
 end
-
---工作线程执行http请求(会卡住)
--- function HttpTask:startWork(callfunc)
--- 	for index = 1 , self._reqCount do
--- 	 	CSFun.httpReq(self._url, self._method, self._header, self._urlBody, self._postBody, self._cookies, function()
--- 		 	if callfunc then
--- 		 		callfunc(ret, self)
--- 		 	end
--- 	 	end)
--- 	end
--- end
 
 return HttpTask

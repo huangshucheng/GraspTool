@@ -2,6 +2,8 @@ local Define = require("luaScript.config.Define")
 local HttpTask = require("luaScript.task.HttpTask")
 local FindData = require("luaScript.data.FindData")
 local CSFun = require("luaScript.util.CSFun")
+local StringUtils = require("luaScript.util.StringUtils")
+local TaskData = require("luaScript.data.TaskData")
 
 --test
 local dic = {
@@ -30,73 +32,67 @@ local dic = {
 
 -- local ret = HttpRequestAsync("www.baidu.com",0, dic,"hcc=fuck","postbody=body")
 
-local function doOneTaskHttpReq(userData, t_list, token_tb, callback)
-	if not t_list then return end
-	local task = HttpTask.new()
-	task:setUrl(t_list.url)
-	:setTaskName(t_list.taskName)
-	:setMethod(t_list.method)
-	:setReqCount(t_list.reqCount)
-	:setPreTaskName(t_list.preTaskName)
-	:setUrlBody(t_list.urlBody)
-	:setPostBody(t_list.postBody)
-	:setDelay(t_list.delay)
-	:setUserData(userData)
-	:addHeader(token_tb)
-	:setCookies(token_tb[Define.COOKIE_NAME])
-	:start(callback)
-end
+local function onResponseCallBack(httpRes, task_cur)
 
-local function onResponseCallBack(httpRes, task)
-	-- print("hcc>>ret: " .. tostring(ret))
-	httpRes = (httpRes == nil or httpRes == "") and " empty" or httpRes
-	CSFun.LogOut("hcc>> index>> " .. task:getUserData() .. "  ,name>> " .. task:getTaskName() .. "   ,ret>> ".. tostring(httpRes));
-	-- CSFun.LogOut("hcc>> index: " .. task:getUserData());
-	-- CSFun.LogOut("ret:" .. task:getUserData() .. " >>" .. httpRes)
-	----[[
-	for key, t_list_next in pairs(Define.NEXT_TASK_LIST_URL) do
-		local curTaskName = task:getTaskName() or ""
-		local preTaskName =	t_list_next.preTaskName or ""
+	httpRes = StringUtils.nullOrEmpty(httpRes) and " empty" or httpRes
+	print("hcc>> index>> " .. task_cur:getUserData() .. "  ,name>> " .. task_cur:getTaskName() .. "   ,ret>> ".. tostring(httpRes));
 
-		if curTaskName ~= "" and preTaskName ~= "" then
-			if string.find(curTaskName, preTaskName) or string.find(preTaskName, curTaskName) then
-				doOneTaskHttpReq(task:getUserData(), t_list_next, task:getHeader(), onResponseCallBack) -- 主要修改t_list_next 的参数来请求 来进行下一个请求
+	--第一个任务执行次数到了，执行 下一个任务
+	if task_cur:getCurCount() >= task_cur:getReqCount() then
+		local all_task_list = TaskData.getCurTask():getTaskList()
+		local task_curName = task_cur:getTaskName()
+		local isFindNextTask = false
+		for key, task_next in pairs(all_task_list) do
+			local next_preTaskName = task_next:getPreTaskName()
+			if task_curName ~= "" and next_preTaskName ~= "" and next_preTaskName == task_curName then
+				-- print("2222>> curname: " .. task_curName .. "   next: " .. next_preTaskName )
+				isFindNextTask = true
+				task_next:setUserData(task_cur:getUserData())
+				task_next:addHeader(task_cur:getHeader())
+				task_next:start(onResponseCallBack)
 				break
 			end
 		end
+
+		--如果没找到下一个任务，就换一个token执行任务
+		----[[
+		if not isFindNextTask then
+			local tokenList = FindData:getInstance():getTokenList()
+			local nextIndex = tonumber(task_cur:getUserData()) + 1
+			local nextToken = tokenList[nextIndex]
+			if nextToken then
+				local task_list = TaskData.getCurTask():getTop()
+				task_list:setUserData(nextIndex)
+				task_list:addHeader(nextToken)
+				task_list:start(onResponseCallBack)
+			end
+		end
+		--]]
 	end
-	--]]
+
+
 end
 
 function testCall()
 	----[[
-	local tokenList = FindData:getInstance():getTokenList()
-
-	local reqHttpByTaskList = function(idx, token_tb)
-		for key, t_list in pairs(Define.TASK_LIST_URL) do
-			doOneTaskHttpReq(idx, t_list, token_tb, onResponseCallBack)
-		end
-	end
-
-	for idx, token_tb in pairs(tokenList) do
-		reqHttpByTaskList(idx, token_tb)
+	local index = 1
+	local topToken = FindData:getInstance():getTop()
+	if topToken then
+		local task_list = TaskData.getCurTask():getTop()
+		task_list:setUserData(index)
+		task_list:start(onResponseCallBack)
 	end
 	--]]
 
 	--[[
 	local cookies = "cookies_a=avlue1;cookies_b=cvalue2"
 	for i = 1 , 1 do
-		-- local ret = CSFun.httpReq("www.baidu.com",0, dic,"urlbody=body","postbody=body", nil)
-		CSFun.httpReqAsync("www.baidu.com",nil,nil,nil,nil,nil, function(ret)
-			CSFun.LogOut("ret:" .. ret);
+		-- CSFun.httpReqAsync("www.baidu.com",nil,nil,nil,nil,nil, function(ret)
+		local ret = CSFun.httpReqAsync("www.baidu.com",1, dic,"urlbody=body","postbody=body", cookies, function(ret)
+			print("ret:" .. ret);
 		end)
 	end
 	--]]
-
-	-- CSFun.SetTimeOut(1.5, function()
-	-- 	print("hcc>>timeout>>>>>>>>>>>>>>>>>>>>>");
-	-- end)
-
 end
 --[[
 [reqHeader<www.baidu.com>] 

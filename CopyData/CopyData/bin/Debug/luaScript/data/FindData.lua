@@ -1,9 +1,7 @@
+--[[token 查找列表]]
 local FindData = class("FindData")
 local Define = require("luaScript.config.Define")
 local CSFun = require("luaScript.util.CSFun")
-
---c# 传过来的路径
-local CUR_DIR_NAME = CSFun.GetCurDir()
 
 function FindData:getInstance()
 	if not FindData._instance then
@@ -18,6 +16,30 @@ end
 
 function FindData:getTokenList()
 	return self._findTokenList
+end
+
+function FindData:getTop()
+	return self._findTokenList[1]
+end
+
+function FindData:getEnd()
+	return self._findTokenList[#self._findTokenList]
+end
+
+function FindData:popTop()
+	if #self._findTokenList > 0 then
+		table.remove(self._findTokenList,1)
+	end
+end
+
+function FindData:popEnd()
+	if #self._findTokenList > 0 then
+		table.remove(self._findTokenList)
+	end
+end
+
+function FindData:getTokenCount()
+	return #self._findTokenList
 end
 
 --获取所有Cookie
@@ -54,6 +76,11 @@ end
 
 function FindData:writeToLocalFile()
 	local fileName = self:getSaveFileName()
+	if not fileName then
+		print("readLocalFile error, fileName is not exist" )
+		return
+	end
+
 	if not io.exists(fileName) then
 		io.createFile(fileName)
 	end
@@ -64,7 +91,7 @@ function FindData:writeToLocalFile()
 	end)
 
 	if not ok then
-		CSFun.LogOut(tostring(msg))
+		print(tostring(msg))
 		return
 	end
 	if jsonString then
@@ -74,6 +101,10 @@ end
 
 function FindData:readLocalFile()
 	local fileName = self:getSaveFileName()
+	if not fileName then
+		print("readLocalFile error, fileName is not exist" )
+		return
+	end
 	if not io.exists(fileName) then
 		io.createFile(fileName)
 	end
@@ -85,15 +116,16 @@ function FindData:readLocalFile()
 	local ok, msg = pcall(function() 
 		decode_table = json.decode(readStr)
 	end)
-
-	-- CSFun.LogOut("readLocalFile>>>> " .. tostring(ok) .. " " .. tostring(msg))
+	local isSuccess = msg == nil and "success!" or "failed!"
+	-- print("load token.json >>>> " .. tostring(ok) .. " " .. tostring(isSuccess))
 	-- dump(decode_table,"hcc>>decode_table")
-	
+
 	if not ok then
-		CSFun.LogOut(tostring(msg))
+		print(tostring("load token.json failed>>" .. msg))
 		return
 	end
 
+	self._findTokenList = {}
 	if decode_table and next(decode_table) then
 		table.insertto(self._findTokenList, decode_table)
 		self:dumpToken()
@@ -101,8 +133,8 @@ function FindData:readLocalFile()
 end
 
 function FindData:getSaveFileName(extStr)
-	local ext = extStr or ""
-	local fileName = tostring(CUR_DIR_NAME) .. [[\luaScript\token\]] .. Define.FILE_SAVE_NAME .. ext .. ".json"
+	local TaskData = require("luaScript.data.TaskData")
+	local fileName = TaskData.getCurTask():getSaveFileName()
 	return fileName
 end
 

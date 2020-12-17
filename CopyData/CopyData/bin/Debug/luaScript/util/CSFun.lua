@@ -65,7 +65,7 @@ function CSFun.httpReqAsync(url, method, header, urlBody, postBody, cookies, cal
 	end
 
 	if not url or url == "" then 
-		LogOut("error url is empty")
+		LogOut("error url is empty>> " .. debug.traceback())
 		return
 	 end
 
@@ -86,7 +86,7 @@ function CSFun.HttpReq(url, method, header, urlBody, postBody, cookies)
 	end
 
 	if not url or url == "" then 
-		LogOut("error url is empty")
+		LogOut("error url is empty>> " .. debug.traceback())
 		return
 	 end
 

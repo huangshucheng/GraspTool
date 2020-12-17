@@ -1,9 +1,10 @@
+--[[处理Fidder发送头数据]]
 local DealDataBase = require("luaScript.dataDeal.DealDataBase")
 local DealRecvHeaderData = class("DealRecvHeaderData", DealDataBase)
 
 local StringUtils = require("luaScript.util.StringUtils")
-local Define = require("luaScript.config.Define")
 local FindData = require("luaScript.data.FindData")
+local TaskData = require("luaScript.data.TaskData")
 
 function DealRecvHeaderData:getInstance()
 	if not DealRecvHeaderData._instance then
@@ -19,8 +20,9 @@ function DealRecvHeaderData:dealData(data)
 	end
 
 	local findTable = {}
-	if next(Define.DATA_TO_FIND_ARRAY) then
-		for _, token in ipairs(Define.DATA_TO_FIND_ARRAY) do
+	local dataToFind = TaskData.getCurTask():getDataToFind()
+	if next(dataToFind) then
+		for _, token in ipairs(dataToFind) do
 			if retTable[token] and retTable[token] ~= "" then
 				findTable[token] = retTable[token]
 			end
