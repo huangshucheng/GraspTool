@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LuaInterface;
+using System.IO;
 
 namespace CopyData
 {
@@ -41,12 +42,18 @@ namespace CopyData
             //var str = LuaCall.httpRequest("www.baidu.com");
             //LuaCall.httpRequestAsync("www.baidu.com");
 
-            _luaScript.DoString("testCall()");
+            //_luaScript.DoString("testCall()");
             //var url = "https://hbz.qrmkt.cn/hbact/hyr/sign/list";
             //LuaCall.httpRequestAsync("www.baidu.com",1,null,"urlBody=hcc","postBody=123", "", null);
             //LuaCall.httpRequestAsync(url, 1,null,"urlBody=hcc","postBody=123", "", null);
             //LuaCall.httpRequestAsync("www.baidu.com", 1,null,"","", "", null);
             //SetTimeOut(1);
+            //var fileName = "hcc_test.json";
+            //LocalStorage.AppendText(curPath, "newlineasdfasdf");
+
+            //bool isSuccess = LocalStorage.WriteFile(fileName,"{hcc = you, 张双扣的了房间卡理发店}");
+            //string content = LocalStorage.ReadFile(fileName);
+            //Console.WriteLine(content);
         }
 
 

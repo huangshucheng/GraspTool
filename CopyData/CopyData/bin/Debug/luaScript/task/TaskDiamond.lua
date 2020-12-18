@@ -37,7 +37,7 @@ TaskBase.TASK_LIST_URL_CONFIG = {
 		method = POST, 
 		preTaskName = "do_sign", 
 		reqCount = 1,
-		delay = 0.2,
+		delay = 0,
 	},	
 	----[[
 	{
@@ -72,7 +72,7 @@ TaskBase.TASK_LIST_URL_CONFIG = {
 		method = POST,
 		preTaskName = "share_code",
 		reqCount = 10,
-		delay = 0.2,
+		delay = 0,
 	},
 
 	{
@@ -82,7 +82,7 @@ TaskBase.TASK_LIST_URL_CONFIG = {
 		method = POST,
 		preTaskName = "req_sutdy_page",
 		reqCount = 10,
-		delay = 0.2,
+		delay = 0,
 	},
 	{
 	    --answerNum考试机会 GET  {"code":"200","msg":null,"data":{"exchangeNum":10,"answerNum":1}}
@@ -91,7 +91,7 @@ TaskBase.TASK_LIST_URL_CONFIG = {
 		preTaskName = "active_exam";
 		method = GET,
 		reqCount = 10,
-		delay = 0.2,
+		delay = 0,
 	},
 	{
 		-- curTaskName = "请求题目", url = "hbz.qrmkt.cn/hbact/exam/random",

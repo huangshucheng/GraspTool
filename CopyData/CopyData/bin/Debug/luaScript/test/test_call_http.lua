@@ -80,6 +80,7 @@ function testCall()
 	if topToken then
 		local task_list = TaskData.getCurTask():getTop()
 		task_list:setUserData(index)
+		task_list:addHeader(topToken)
 		task_list:start(onResponseCallBack)
 	end
 	--]]

@@ -1,30 +1,103 @@
 ﻿using System;
 using System.Text;
 using System.IO;
-using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace CopyData
 {
     class LocalStorage
     {
-        private static string getFullFilePath(string path)
-        {
-            return Environment.CurrentDirectory + "\\" + path; //exe所在目录
-            //return Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\" + path; //桌面
+
+        //文件是否存在
+        public static bool IsFileExist(string filePath) {
+            return File.Exists(filePath);
         }
 
-        private static string getAutoFullFilePath() {
-            return Environment.CurrentDirectory + "\\" + LocalStorage.getAutoFileName();
+        //写入文件
+        public static bool WriteFile(string filePath, string content) {
+            try {
+                if (!File.Exists(filePath))
+                {
+                    FileStream cfs = File.Create(filePath);
+                    cfs.Close();
+                }
+                File.WriteAllText(filePath, content, Encoding.UTF8);
+                return true;
+            } catch (Exception e) {
+                Console.WriteLine("WriteFile error: " + e.Message);
+            }
+            return false;
         }
 
-        //根据日期，自动生成文件名字
-        private static string getAutoFileName()
-        {
-            var year = DateTime.Now.Year.ToString();
-            var month = DateTime.Today.Month.ToString();
-            var day = DateTime.Today.Day.ToString();
-            var fileName = year + month + day + ".json";
-            return fileName;
+        //读取文件内容
+        public static string ReadFile(string filePath) {
+            try
+            {
+                if (!File.Exists(filePath)){
+                    FileStream cfs = File.Create(filePath);
+                    cfs.Close();
+                }
+                return File.ReadAllText(filePath, Encoding.UTF8);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("ReadFile error: " + e.Message);
+            }
+            return string.Empty;
+        }
+
+        //追加文本
+        public static bool AppendText(string filePath, string content) {
+            try
+            {
+                if (!File.Exists(filePath))
+                {
+                    FileStream cfs = File.Create(filePath);
+                    cfs.Close();
+                }
+                File.AppendAllText(filePath, content, Encoding.UTF8);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("AppendText error: " + e.Message);
+            }
+            return false;
+        }
+
+        //追加一行文本
+        public static bool AppendLine(string filePath, string content) {
+            try
+            {
+                if (!File.Exists(filePath))
+                {
+                    FileStream cfs = File.Create(filePath);
+                    cfs.Close();
+                }
+                File.AppendAllText(filePath, content + "\n", Encoding.UTF8);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("AppendLine error: " + e.Message);
+            }
+            return false;
+        }
+
+        //创建文件
+        public static bool CreateFile(string filePath) {
+            try {
+                if (!File.Exists(filePath))
+                {
+                    FileStream cfs = File.Create(filePath);
+                    cfs.Close();
+                    return true;
+                }
+            } catch (Exception e)
+            {
+                Console.WriteLine("CreateFile error: " + e.Message);
+            }
+            return false;
         }
 
     }
