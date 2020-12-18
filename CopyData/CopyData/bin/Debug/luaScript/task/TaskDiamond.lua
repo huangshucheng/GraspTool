@@ -3,8 +3,10 @@ local TaskBase = require("luaScript.task.TaskBase")
 local TaskDiamond = class("TaskDiamond", TaskBase)
 
 TaskBase.FIND_STRING_HOST = "hbz.qrmkt.cn" --域名，方便查找token
-TaskBase.FILE_SAVE_NAME = "task_diamond_token.json" --保存本地token文件名字
+TaskBase.FILE_SAVE_NAME = "task_diamond_token.lua" --保存本地token文件名字
+TaskBase.RECORD_SAVE_FILE_NAME = "task_diamond_record.lua"
 TaskBase.DATA_TO_FIND_ARRAY = {"token"} --需要查找的taken 或者cookie
+TaskBase.IS_OPEN_RECORD = false --是否抓取接口保存到本地
 
 local GET = TaskBase.GET
 local POST = TaskBase.POST

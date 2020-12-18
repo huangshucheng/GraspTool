@@ -44,12 +44,12 @@ namespace HCCFidderExtension
         public void sendSessionDataToFidder(Session onSession)
         {
             string host = onSession.host;
+            string fullUrl = onSession.fullUrl;
             string reqBody = onSession.GetRequestBodyAsString();
-            //string resBody = onSession.GetResponseBodyAsString();
+            string resBody = onSession.GetResponseBodyAsString();
 
             string reqHeader = onSession.RequestHeaders.ToString(true, true, true);
             string resHeader = onSession.ResponseHeaders.ToString(true, true);
-            //string allSession = onSession.ToString();
 
             FiddlerObject.log("<<<<<<<<<<<<<<<【" + host + "】<<<<<<<<<<<<<<<<<start");
             //FiddlerObject.log("hcc>>host: " + host);
@@ -65,7 +65,14 @@ namespace HCCFidderExtension
             string dataHeader = "\n" + "[reqHeader<" + host + ">] \n" + reqHeader;
             string dataReqBody = "\n" + "[reqBody<" + host + ">] \n" + reqBody;
             string dataResHeader = "\n" + "[resHeader<" + host + ">] \n" + resHeader;
-            //string dataResBody = "\n" + "[resBody<" + host + ">] \n" + resBody + "\n";
+            string dataResBody = "\n" + "[resBody<" + host + ">] \n" + resBody + "\n";
+
+            string tmpReqBody = string.IsNullOrEmpty(reqBody) ? "" : reqBody + "\n";
+            string tmpResBody = string.IsNullOrEmpty(resBody) ? "" : resBody + "\n"; 
+            string allAppendString = "[record<" + host + ">]" + "\n" 
+                                    + onSession.RequestMethod + "\n" 
+                                    + fullUrl + "\n"
+                                    + tmpReqBody + tmpResBody;
 
             Process[] processes = Process.GetProcesses();
             foreach (Process p in processes)
@@ -86,6 +93,7 @@ namespace HCCFidderExtension
                             Send_message(hwndRecvWindow, dataReqBody);
                             Send_message(hwndRecvWindow, dataResHeader);
                             //Send_message(hwndRecvWindow, dataResBody);
+                            Send_message(hwndRecvWindow, allAppendString);
                         }
                     }
                 }

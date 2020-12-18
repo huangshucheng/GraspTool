@@ -94,6 +94,11 @@ function testCall()
 		end)
 	end
 	--]]
+	-- local TaskData = require("luaScript.data.TaskData")
+	-- local fileName = TaskData.getCurTask():getSaveFileName()
+
+	-- CSFun.WriteFile(fileName, "zhonklsdjfksjkdlfjklasdjfkakdsfjklaf" .. "众人就撒考虑到房价快乐阿斯加德开了房经理快递费拉水电费啦ad讲课费垃圾啊凉快圣诞节拉开")
+	-- CSFun.WriteFile(fileName, "zhonklsdjfksjkdlfjklasdjfkakdsfjklaf")
 end
 --[[
 [reqHeader<www.baidu.com>] 

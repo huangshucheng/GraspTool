@@ -13,7 +13,7 @@ namespace CopyData
             return File.Exists(filePath);
         }
 
-        //写入文件
+        //写入文件，不存在会创建
         public static bool WriteFile(string filePath, string content) {
             try {
                 if (!File.Exists(filePath))
@@ -29,7 +29,7 @@ namespace CopyData
             return false;
         }
 
-        //读取文件内容
+        //读取文件内容，不存在会创建
         public static string ReadFile(string filePath) {
             try
             {
@@ -46,7 +46,7 @@ namespace CopyData
             return string.Empty;
         }
 
-        //追加文本
+        //追加文本，不存在会创建
         public static bool AppendText(string filePath, string content) {
             try
             {
@@ -65,7 +65,7 @@ namespace CopyData
             return false;
         }
 
-        //追加一行文本
+        //追加一行文本，不存在会创建
         public static bool AppendLine(string filePath, string content) {
             try
             {
@@ -74,7 +74,7 @@ namespace CopyData
                     FileStream cfs = File.Create(filePath);
                     cfs.Close();
                 }
-                File.AppendAllText(filePath, content + "\n", Encoding.UTF8);
+                File.AppendAllText(filePath, "\n" + content , Encoding.UTF8);
                 return true;
             }
             catch (Exception e)

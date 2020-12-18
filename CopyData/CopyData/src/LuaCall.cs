@@ -15,13 +15,6 @@ namespace CopyData
     {
         private static BackWork _bgWork = new BackWork();
 
-        //public static void testttt() {
-        //    _bgWork._dataChangedEvent += new DataDelegateHander(onDataHeaderFindToken);
-        //}
-
-        //public static void onDataHeaderFindToken(string str) {
-        //}
-
         //获取当前文件所在位置目录
         public static string GetCurDir()
         {

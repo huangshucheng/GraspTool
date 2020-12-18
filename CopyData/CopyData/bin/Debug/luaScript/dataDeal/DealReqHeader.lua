@@ -1,19 +1,20 @@
 --[[处理Fidder发送头数据]]
 local DealDataBase = require("luaScript.dataDeal.DealDataBase")
-local DealRecvHeaderData = class("DealRecvHeaderData", DealDataBase)
+local DealReqHeader = class("DealReqHeader", DealDataBase)
 
 local StringUtils = require("luaScript.util.StringUtils")
 local FindData = require("luaScript.data.FindData")
 local TaskData = require("luaScript.data.TaskData")
+local Define = require("luaScript.config.Define")
 
-function DealRecvHeaderData:getInstance()
-	if not DealRecvHeaderData._instance then
-		DealRecvHeaderData._instance = DealRecvHeaderData.new()
+function DealReqHeader:getInstance()
+	if not DealReqHeader._instance then
+		DealReqHeader._instance = DealReqHeader.new()
 	end
-	return DealRecvHeaderData._instance
+	return DealReqHeader._instance
 end
 
-function DealRecvHeaderData:dealData(data)
+function DealReqHeader:dealData(data, splitData)
 	local retTable = StringUtils.parseHttpHeader(data)
 	if not retTable or not next(retTable) then
 		return
@@ -36,4 +37,4 @@ function DealRecvHeaderData:dealData(data)
 	end
 end
 
-return DealRecvHeaderData
+return DealReqHeader

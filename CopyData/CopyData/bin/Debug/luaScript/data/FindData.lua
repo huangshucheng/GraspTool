@@ -2,6 +2,7 @@
 local FindData = class("FindData")
 local Define = require("luaScript.config.Define")
 local CSFun = require("luaScript.util.CSFun")
+local TaskData = require("luaScript.data.TaskData")
 
 function FindData:getInstance()
 	if not FindData._instance then
@@ -81,10 +82,6 @@ function FindData:writeToLocalFile()
 		return
 	end
 
-	if not io.exists(fileName) then
-		io.createFile(fileName)
-	end
-
 	local jsonString = nil
 	local ok,msg = pcall(function()
 		jsonString = json.encode(self._findTokenList)
@@ -95,7 +92,7 @@ function FindData:writeToLocalFile()
 		return
 	end
 	if jsonString then
-		io.writefile(fileName,jsonString)
+		CSFun.WriteFile(fileName, jsonString)
 	end
 end
 
@@ -105,11 +102,9 @@ function FindData:readLocalFile()
 		print("readLocalFile error, fileName is not exist" )
 		return
 	end
-	if not io.exists(fileName) then
-		io.createFile(fileName)
-	end
 
-	local readStr = io.readfile(fileName)
+	local readStr = CSFun.ReadFile(fileName)
+	print("hcc>>read localStr: " .. (readStr == "" and " empty!" or readStr))
 	if not readStr or readStr == "" then return end
 
 	local decode_table = nil
@@ -118,7 +113,6 @@ function FindData:readLocalFile()
 	end)
 	local isSuccess = msg == nil and "success!" or "failed!"
 	-- print("load token.json >>>> " .. tostring(ok) .. " " .. tostring(isSuccess))
-	-- dump(decode_table,"hcc>>decode_table")
 
 	if not ok then
 		print(tostring("load token.json failed>>" .. msg))
@@ -132,9 +126,16 @@ function FindData:readLocalFile()
 	end
 end
 
-function FindData:getSaveFileName(extStr)
-	local TaskData = require("luaScript.data.TaskData")
+--保存token路径
+function FindData:getSaveFileName()
 	local fileName = TaskData.getCurTask():getSaveFileName()
+	return fileName
+end
+
+--保存抓取列表路径
+function FindData:getGraspFileName()
+	-- local TaskData = require("luaScript.data.TaskData")
+	local fileName = TaskData.getCurTask():getRecordGraspFileName()
 	return fileName
 end
 
@@ -158,6 +159,17 @@ function FindData:dumpTokenOne(index, token_tb)
 		local finalStr = "(" .. tostring(index) .. ")" .. conStr .. "\n"
 		CSFun.LogToken(finalStr)
 	end
+end
+
+-----------------------------
+function FindData:saveGraspData(data)
+	-- local TaskData = require("luaScript.data.TaskData")
+	if not TaskData.getCurTask():getIsRecord() then
+		return
+	end
+	local fileName = self:getGraspFileName()
+	CSFun.AppendLine(fileName, data);
+	CSFun.AppendLine(fileName, "--------------------------------------------\n");
 end
 
 return FindData

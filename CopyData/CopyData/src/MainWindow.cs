@@ -32,6 +32,14 @@ namespace CopyData
             _luaScript.RegisterFunction("HttpRequest", null, typeof(LuaCall).GetMethod("HttpRequest")); //http请求
             _luaScript.RegisterFunction("HttpRequestAsync", null, typeof(LuaCall).GetMethod("HttpRequestAsync")); //http请求 异步
 
+            //文件相关，静态方法
+            _luaScript.RegisterFunction("IsFileExist", null, typeof(LocalStorage).GetMethod("IsFileExist")); //文件是否存在
+            _luaScript.RegisterFunction("WriteFile", null, typeof(LocalStorage).GetMethod("WriteFile")); //写入文件
+            _luaScript.RegisterFunction("ReadFile", null, typeof(LocalStorage).GetMethod("ReadFile")); //读取文件内容
+            _luaScript.RegisterFunction("AppendText", null, typeof(LocalStorage).GetMethod("AppendText")); //追加文件
+            _luaScript.RegisterFunction("AppendLine", null, typeof(LocalStorage).GetMethod("AppendLine")); //追加一行
+            _luaScript.RegisterFunction("CreateFile", null, typeof(LocalStorage).GetMethod("CreateFile")); //创建文件
+
             string path = Environment.CurrentDirectory + "\\luaScript\\main.lua";
             _luaScript.DoFile(path);
         }
@@ -42,14 +50,16 @@ namespace CopyData
             //var str = LuaCall.httpRequest("www.baidu.com");
             //LuaCall.httpRequestAsync("www.baidu.com");
 
-            //_luaScript.DoString("testCall()");
+            _luaScript.DoString("testCall()");
             //var url = "https://hbz.qrmkt.cn/hbact/hyr/sign/list";
             //LuaCall.httpRequestAsync("www.baidu.com",1,null,"urlBody=hcc","postBody=123", "", null);
             //LuaCall.httpRequestAsync(url, 1,null,"urlBody=hcc","postBody=123", "", null);
             //LuaCall.httpRequestAsync("www.baidu.com", 1,null,"","", "", null);
             //SetTimeOut(1);
             //var fileName = "hcc_test.json";
+            //var curPath = LuaCall.GetCurDir() + "\\" + fileName;
             //LocalStorage.AppendText(curPath, "newlineasdfasdf");
+            //LocalStorage.AppendLine(curPath, "newlineasdfasdf");
 
             //bool isSuccess = LocalStorage.WriteFile(fileName,"{hcc = you, 张双扣的了房间卡理发店}");
             //string content = LocalStorage.ReadFile(fileName);

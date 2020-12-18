@@ -10,9 +10,12 @@ TaskBase.REQ_HEAD_STRING = Define.REQ_HEAD_BEFORE .. TaskBase.FIND_STRING_HOST
 TaskBase.REQ_BODY_STRING = Define.REQ_BODY_BEFORE .. TaskBase.FIND_STRING_HOST
 TaskBase.RES_HEAD_STRING = Define.RES_HEAD_BEFORE .. TaskBase.FIND_STRING_HOST
 TaskBase.RES_BODY_STRING = Define.RES_BODY_BEFORE .. TaskBase.FIND_STRING_HOST
+TaskBase.RES_BODY_RECORT = Define.RES_RECORD .. TaskBase.FIND_STRING_HOST
 
-TaskBase.FILE_SAVE_NAME = "token.json" -- 保存本地token文件名字: token.json
+TaskBase.FILE_SAVE_NAME = "token.lua" -- 保存本地token文件名字
 TaskBase.DATA_TO_FIND_ARRAY = {"token"} -- 请求头中要查找的字段，如：token, Cookie
+TaskBase.IS_OPEN_RECORD = false 	--是否抓取接口保存到本地
+TaskBase.RECORD_SAVE_FILE_NAME = "token_record_url.lua" --交互记录文件
 
 TaskBase.GET = Define.Method.GET
 TaskBase.POST = Define.Method.POST
@@ -83,14 +86,29 @@ function TaskBase:getResBodyString()
 	return TaskBase.RES_BODY_STRING
 end
 
+function TaskBase:getRecordString()
+	return TaskBase.RES_BODY_RECORT
+end
+
 function TaskBase:getDataToFind()
 	return TaskBase.DATA_TO_FIND_ARRAY
+end
+
+function TaskBase:getIsRecord()
+	return TaskBase.IS_OPEN_RECORD
 end
 
 function TaskBase:getSaveFileName()
 	local CSFun = require("luaScript.util.CSFun")
 	local CUR_DIR_NAME = CSFun.GetCurDir()
-	local fileName = tostring(CUR_DIR_NAME) .. [[\luaScript\token\]] .. TaskBase.FILE_SAVE_NAME
+	local fileName = tostring(CUR_DIR_NAME) .. [[\\luaScript\\token\\]] .. TaskBase.FILE_SAVE_NAME; --winform 路径需要用双斜杠， lua保存文件用但斜杠
+	return fileName
+end
+
+function TaskBase:getRecordGraspFileName()
+	local CSFun = require("luaScript.util.CSFun")
+	local CUR_DIR_NAME = CSFun.GetCurDir()
+	local fileName = tostring(CUR_DIR_NAME) .. [[\\luaScript\\token\\]] .. TaskBase.RECORD_SAVE_FILE_NAME; --winform 路径需要用双斜杠， lua保存文件用但斜杠
 	return fileName
 end
 
