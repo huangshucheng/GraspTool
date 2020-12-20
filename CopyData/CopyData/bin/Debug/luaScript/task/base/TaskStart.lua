@@ -36,9 +36,9 @@ function TaskStart.onResponseCallBack(httpRes, task_cur)
 				isFindNextTask = true
 				task_next:setUserData(task_cur:getUserData())
 				task_next:addHeader(task_cur:getHeader())
+				TaskData.getCurTask():onNextTask(task_next, task_cur)
 				task_next:start(TaskStart.onResponseCallBack)
 				--开始执行下一个任务
-				TaskData.getCurTask():onNextTask(task_next, task_cur)
 				break
 			end
 		end
@@ -52,9 +52,9 @@ function TaskStart.onResponseCallBack(httpRes, task_cur)
 				local task_list = TaskData.getCurTask():getTop()
 				task_list:setUserData(nextIndex)
 				task_list:addHeader(nextToken)
+				TaskData.getCurTask():onNextTask(task_list, task_cur)
 				task_list:start(TaskStart.onResponseCallBack)
 				--切换下一个token执行任务
-				TaskData.getCurTask():onNextTask(task_list, task_cur)
 			end
 		end
 	end
