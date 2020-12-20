@@ -1,3 +1,5 @@
+--[[一个http任务对象]]
+
 local HttpTask = class("HttpTask")
 local Define = require("luaScript.config.Define")
 local CSFun = require("luaScript.util.CSFun")
@@ -15,6 +17,7 @@ function HttpTask:ctor()
 	self._method 		= Define.Method.GET -- 请求方法
 	self._header 		= Define.HTTP_HEADER_TABLE --默认请求头
 	self._delayTime  	= 0   -- 延迟时间
+	self._responseData  = ""  -- 返回数据
 end
 
 function HttpTask:initWithConfig(config)
@@ -155,6 +158,10 @@ function HttpTask:getDelay()
 	return self._delayTime
 end
 
+function HttpTask:getResPonseData()
+	return self._responseData
+end
+
 -- 异步执行http请求
 function HttpTask:start(callfunc)
 	-- print("start .. " .. self._url)
@@ -163,6 +170,7 @@ function HttpTask:start(callfunc)
 		local reqFunc = function()
 			CSFun.httpReqAsync(self._url, self._method, self._header, self._urlBody, self._postBody, self._cookies ,function(ret)
 				self._curCount = self._curCount + 1
+				self._responseData = ret
 				-- print("coutn>>>>" .. self._curCount .. "   " .. self._url)
 				if callfunc then
 					callfunc(ret, self)

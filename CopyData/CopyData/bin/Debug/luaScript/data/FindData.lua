@@ -104,7 +104,7 @@ function FindData:readLocalFile()
 	end
 
 	local readStr = CSFun.ReadFile(fileName)
-	print("hcc>>read localStr: " .. (readStr == "" and " empty!" or readStr))
+	print("token:>> " .. (readStr == "" and " empty!" or readStr))
 	if not readStr or readStr == "" then return end
 
 	local decode_table = nil
@@ -129,6 +129,7 @@ end
 --保存token路径
 function FindData:getSaveFileName()
 	local fileName = TaskData.getCurTask():getSaveFileName()
+	print("token path>> " .. fileName)
 	return fileName
 end
 

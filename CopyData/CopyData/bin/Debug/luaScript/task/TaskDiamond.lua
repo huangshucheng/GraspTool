@@ -1,5 +1,5 @@
 --[[钻石任务]]
-local TaskBase = require("luaScript.task.TaskBase")
+local TaskBase = require("luaScript.task.base.TaskBase")
 local TaskDiamond = class("TaskDiamond", TaskBase)
 
 TaskBase.FIND_STRING_HOST = "hbz.qrmkt.cn" --域名，方便查找token
@@ -105,5 +105,16 @@ TaskBase.TASK_LIST_URL_CONFIG = {
 	--]]
 }
 
+--开始执行下一个任务
+function TaskDiamond:onNextTask(curHttpTaskObj, preHttpTaskObj)
+	local preTaskName = preHttpTaskObj and preHttpTaskObj:getTaskName() or "empty"
+	print("hcc>>TaskDiamond>>onTaskStart>> curTaskName: " .. curHttpTaskObj:getTaskName() .. " ,preTaskName: " .. preTaskName)
+end 
+
+--切换下一个token执行任务
+function TaskDiamond:onNextToken(curHttpTaskObj, preHttpTaskObj)
+	local preTaskName = preHttpTaskObj and preHttpTaskObj:getTaskName() or "empty"
+	print("hcc>>TaskDiamond>>onNextToken>> " .. curHttpTaskObj:getTaskName() .. "   ,preTaskName: " .. preTaskName)
+end
 
 return TaskDiamond

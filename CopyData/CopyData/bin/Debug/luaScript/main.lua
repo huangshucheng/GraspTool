@@ -10,7 +10,7 @@ print = function(param)
 	CSFun.LogLua(param)
 end
 
-print("hello~")
+print("hello!")
 
 local StringUtils = require("luaScript.util.StringUtils")
 local DealReqHeader = require("luaScript.dataDeal.DealReqHeader")
@@ -22,6 +22,8 @@ local TaskData = require("luaScript.data.TaskData")
 
 --当前正在跑的任务
 local CurTask = require("luaScript.task.TaskDiamond")
+-- local CurTask = require("luaScript.task.TaskWeiXinAuth")
+-- local CurTask = require("luaScript.task.TaskAllRecord")
 local taskObj = CurTask.new()
 TaskData.setCurTask(taskObj) --设置当前执行的任务对象
 
