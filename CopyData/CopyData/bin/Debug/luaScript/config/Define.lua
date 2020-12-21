@@ -9,7 +9,7 @@ Define.REQ_HEAD_BEFORE = "reqHeader<"
 Define.REQ_BODY_BEFORE = "reqBody<"
 Define.RES_HEAD_BEFORE = "resHeader<"
 Define.RES_BODY_BEFORE = "resBody<"
-Define.RES_RECORD = "record<" --记录请求用
+Define.RES_RECORD = "host<" --记录请求用
 
 Define.SAVE_TYPE = { REQ_HEADER = 1, REQ_BODY = 2, RES_HEADER = 3, RES_BODY = 4,}
 

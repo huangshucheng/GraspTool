@@ -67,12 +67,14 @@ namespace HCCFidderExtension
             string dataResHeader = "\n" + "[resHeader<" + host + ">] \n" + resHeader;
             string dataResBody = "\n" + "[resBody<" + host + ">] \n" + resBody + "\n";
 
-            string tmpReqBody = string.IsNullOrEmpty(reqBody) ? "" : reqBody + "\n";
-            string tmpResBody = string.IsNullOrEmpty(resBody) ? "" : resBody + "\n"; 
-            string allAppendString = "[record<" + host + ">]" + "\n" 
-                                    + onSession.RequestMethod + "\n" 
-                                    + fullUrl + "\n"
-                                    + tmpReqBody + tmpResBody;
+            string tmpReqBody = string.IsNullOrEmpty(reqBody) ? "" : "[postBody]\n" + reqBody + "\n";
+            string tmpResBody = string.IsNullOrEmpty(resBody) ? "" : "[resBody]\n" + resBody + "\n";
+            string allAppendString = DateTime.Now.ToString("yyyy-MM-dd") + " " + DateTime.Now.ToString("hh:mm:ss") + "\n"
+                                    + "[host<" + host + ">]\n"
+                                    + "[url] " + fullUrl + "\n"
+                                    + "[method] " + onSession.RequestMethod + "\n"
+                                    + tmpReqBody
+                                    + tmpResBody;
 
             Process[] processes = Process.GetProcesses();
             foreach (Process p in processes)

@@ -107,12 +107,14 @@ TaskBase.TASK_LIST_URL_CONFIG = {
 
 --开始执行下一个任务
 function TaskDiamond:onNextTask(curHttpTaskObj, preHttpTaskObj)
+	local curTaskName = curHttpTaskObj and curHttpTaskObj:getTaskName() or "empty"
 	local preTaskName = preHttpTaskObj and preHttpTaskObj:getTaskName() or "empty"
-	print("hcc>>TaskDiamond>>onTaskStart>> curTaskName: " .. curHttpTaskObj:getTaskName() .. " ,preTaskName: " .. preTaskName)
+	print("hcc>>TaskDiamond>>onTaskStart>> curTaskName: " .. curTaskName .. " ,preTaskName: " .. preTaskName)
 end 
 
 --切换下一个token执行任务
 function TaskDiamond:onNextToken(curHttpTaskObj, preHttpTaskObj)
+	local curTaskName = curHttpTaskObj and curHttpTaskObj:getTaskName() or "empty"
 	local preTaskName = preHttpTaskObj and preHttpTaskObj:getTaskName() or "empty"
 	print("hcc>>TaskDiamond>>onNextToken>> " .. curHttpTaskObj:getTaskName() .. "   ,preTaskName: " .. preTaskName)
 end

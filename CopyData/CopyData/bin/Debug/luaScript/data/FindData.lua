@@ -135,7 +135,6 @@ end
 
 --保存抓取列表路径
 function FindData:getGraspFileName()
-	-- local TaskData = require("luaScript.data.TaskData")
 	local fileName = TaskData.getCurTask():getRecordGraspFileName()
 	return fileName
 end
@@ -164,7 +163,6 @@ end
 
 -----------------------------
 function FindData:saveGraspData(data)
-	-- local TaskData = require("luaScript.data.TaskData")
 	if not TaskData.getCurTask():getIsRecord() then
 		return
 	end

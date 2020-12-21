@@ -37,8 +37,7 @@ function TaskStart.onResponseCallBack(httpRes, task_cur)
 				task_next:setUserData(task_cur:getUserData())
 				task_next:addHeader(task_cur:getHeader())
 				TaskData.getCurTask():onNextTask(task_next, task_cur)
-				task_next:start(TaskStart.onResponseCallBack)
-				--开始执行下一个任务
+				task_next:start(TaskStart.onResponseCallBack)--开始执行下一个任务
 				break
 			end
 		end

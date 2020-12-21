@@ -40,7 +40,7 @@ function receiveFidderData()
 		return
 	end
 
-	-- CSFun.LogOut(strData)
+	-- print("strData>>" .. strData)
 	if strData and strData ~= "" then
 		local splitData = StringUtils.splitString(strData, "\n", 6)
 		for index, str in ipairs(splitData) do
