@@ -104,7 +104,7 @@ function FindData:readLocalFile()
 	end
 
 	local readStr = CSFun.ReadFile(fileName)
-	print("token:>> " .. (readStr == "" and " empty!" or readStr))
+	-- print("token:>> " .. (readStr == "" and " empty!" or readStr))
 	if not readStr or readStr == "" then return end
 
 	local decode_table = nil
@@ -124,6 +124,8 @@ function FindData:readLocalFile()
 		table.insertto(self._findTokenList, decode_table)
 		self:dumpToken()
 	end
+	--to print 
+	self:getGraspFileName()
 end
 
 --保存token路径
@@ -136,6 +138,7 @@ end
 --保存抓取列表路径
 function FindData:getGraspFileName()
 	local fileName = TaskData.getCurTask():getRecordGraspFileName()
+	print("save url file path>> " .. fileName)
 	return fileName
 end
 

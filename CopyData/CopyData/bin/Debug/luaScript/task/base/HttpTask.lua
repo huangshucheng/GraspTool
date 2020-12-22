@@ -18,6 +18,7 @@ function HttpTask:ctor()
 	self._header 		= Define.HTTP_HEADER_TABLE --默认请求头
 	self._delayTime  	= 0   -- 延迟时间
 	self._responseData  = ""  -- 返回数据
+	self._curHttpTaskIndex = 1 -- 当前任务下标
 end
 
 function HttpTask:initWithConfig(config)
@@ -160,6 +161,14 @@ end
 
 function HttpTask:getResPonseData()
 	return self._responseData
+end
+
+function HttpTask:setCurTaskIndex(index)
+	self._curHttpTaskIndex = index
+end
+
+function HttpTask:getCurTaskIndex()
+	return self._curHttpTaskIndex
 end
 
 -- 异步执行http请求

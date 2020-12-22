@@ -24,6 +24,7 @@ local TaskData = require("luaScript.data.TaskData")
 local CurTask = require("luaScript.task.TaskDiamond")
 -- local CurTask = require("luaScript.task.TaskWeiXinAuth")
 -- local CurTask = require("luaScript.task.TaskAllRecord")
+-- local CurTask = require("luaScript.task.TaskRun")
 local taskObj = CurTask.new()
 TaskData.setCurTask(taskObj) --设置当前执行的任务对象
 

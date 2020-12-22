@@ -42,9 +42,10 @@ end
 
 function TaskBase:loadTask()
 	local HttpTask = require("luaScript.task.base.HttpTask")
-	for k, task_config in pairs(TaskBase.TASK_LIST_URL_CONFIG) do
+	for index, task_config in ipairs(TaskBase.TASK_LIST_URL_CONFIG) do
 		local task = HttpTask.new()
 		task:initWithConfig(task_config)
+		task:setCurTaskIndex(index)
 		table.insert(self._taskList, task)
 	end
 end
@@ -94,6 +95,7 @@ end
 
 --是否开启记录交互记录
 function TaskBase:getIsRecord()
+	-- print("getIsRecord()>> " .. tostring(TaskBase.IS_OPEN_RECORD))
 	return TaskBase.IS_OPEN_RECORD
 end
 
@@ -117,16 +119,16 @@ end
 --curHttpTaskObj: 当前task
 --preHttpTaskObj: 前一个task
 function TaskBase:onNextTask(curHttpTaskObj, preHttpTaskObj)
-	local preTaskName = preHttpTaskObj and preHttpTaskObj:getTaskName() or "empty"
-	print("hcc>>onTaskStart>> curTaskName: " .. curHttpTaskObj:getTaskName() .. " ,preTaskName: " .. preTaskName)
+	--local preTaskName = preHttpTaskObj and preHttpTaskObj:getTaskName() or "empty"
+	--print("hcc>>onTaskStart>> curTaskName: " .. curHttpTaskObj:getTaskName() .. " ,preTaskName: " .. preTaskName)
 end 
 
 --切换下一个token执行任务
 --curHttpTaskObj: 当前task
 --preHttpTaskObj: 前一个task
 function TaskBase:onNextToken(curHttpTaskObj, preHttpTaskObj)
-	local preTaskName = preHttpTaskObj and preHttpTaskObj:getTaskName() or "empty"
-	print("hcc>>onNextToken>> " .. curHttpTaskObj:getTaskName() .. "   ,preTaskName: " .. preTaskName)
+	--local preTaskName = preHttpTaskObj and preHttpTaskObj:getTaskName() or "empty"
+	--print("hcc>>onNextToken>> " .. curHttpTaskObj:getTaskName() .. "   ,preTaskName: " .. preTaskName)
 end
 
 return TaskBase
