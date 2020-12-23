@@ -36,7 +36,8 @@ function TaskStart.onResponseCallBack(httpRes, taskCur)
 			TaskData.getCurTask():onNextTask(taskNext, taskCur)
 			taskNext:start(TaskStart.onResponseCallBack)
 		else
-			Sound.playFinishTaskSound()
+			-- Sound.playFinishTaskSound()
+			Sound.playGetAward()
             --没找到下一个任务，就换一个token执行任务
 			local tokenList = FindData:getInstance():getTokenList()
 			local nextIndex = tonumber(taskCur:getUserData()) + 1
