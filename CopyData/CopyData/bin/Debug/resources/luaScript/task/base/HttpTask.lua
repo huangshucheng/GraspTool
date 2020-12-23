@@ -1,8 +1,8 @@
 --[[一个http任务对象]]
 
 local HttpTask = class("HttpTask")
-local Define = require("luaScript.config.Define")
-local CSFun = require("luaScript.util.CSFun")
+local Define = require("resources.luaScript.config.Define")
+local CSFun = require("resources.luaScript.util.CSFun")
 
 function HttpTask:ctor()
 	self._url 			= ""  -- 请求URL

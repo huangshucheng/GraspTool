@@ -1,10 +1,10 @@
 --[[处理请求体数据]]
-local DealDataBase = require("luaScript.dataDeal.DealDataBase")
+local DealDataBase = require("resources.luaScript.dataDeal.DealDataBase")
 local DealResBody = class("DealResBody", DealDataBase)
 
-local StringUtils = require("luaScript.util.StringUtils")
-local FindData = require("luaScript.data.FindData")
-local Define = require("luaScript.config.Define")
+local StringUtils = require("resources.luaScript.util.StringUtils")
+local FindData = require("resources.luaScript.data.FindData")
+local Define = require("resources.luaScript.config.Define")
 
 
 function DealResBody:getInstance()

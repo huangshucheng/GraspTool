@@ -1,8 +1,9 @@
 --[[token 查找列表]]
 local FindData = class("FindData")
-local Define = require("luaScript.config.Define")
-local CSFun = require("luaScript.util.CSFun")
-local TaskData = require("luaScript.data.TaskData")
+local Define = require("resources.luaScript.config.Define")
+local CSFun = require("resources.luaScript.util.CSFun")
+local TaskData = require("resources.luaScript.data.TaskData")
+local Sound = require("resources.luaScript.util.Sound")
 
 function FindData:getInstance()
 	if not FindData._instance then
@@ -60,6 +61,7 @@ function FindData:addFindToken(tokenTable)
 		table.insert(self._findTokenList, tokenTable)
 		self:dumpTokenOne(#self._findTokenList, tokenTable)
 		self:writeToLocalFile()
+		Sound.playTokenSound()
 		return true
 	end
 	return false
@@ -98,6 +100,8 @@ end
 
 function FindData:readLocalFile()
 	local fileName = self:getSaveFileName()
+	print("token save path>> " .. tostring(fileName))
+	print("url save path>> " .. tostring(TaskData.getCurTask():getRecordGraspFileName()))
 	if not fileName then
 		print("readLocalFile error, fileName is not exist" )
 		return
@@ -131,14 +135,13 @@ end
 --保存token路径
 function FindData:getSaveFileName()
 	local fileName = TaskData.getCurTask():getSaveFileName()
-	print("token path>> " .. fileName)
 	return fileName
 end
 
 --保存抓取列表路径
 function FindData:getGraspFileName()
 	local fileName = TaskData.getCurTask():getRecordGraspFileName()
-	print("save url file path>> " .. fileName)
+	-- print("save url file path>> " .. fileName)
 	return fileName
 end
 

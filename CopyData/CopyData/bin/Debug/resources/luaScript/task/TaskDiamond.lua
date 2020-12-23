@@ -1,6 +1,6 @@
 --[[钻石活动]]
 
-local TaskBase = require("luaScript.task.base.TaskBase")
+local TaskBase = require("resources.luaScript.task.base.TaskBase")
 local TaskDiamond = class("TaskDiamond", TaskBase)
 
 TaskBase.FIND_STRING_HOST = "hbz.qrmkt.cn" --域名，方便查找token
@@ -135,9 +135,9 @@ TaskBase.TASK_LIST_URL_CONFIG = {
 		url = "hbz.qrmkt.cn/hbact/school/study/end",
 		method = POST, 
 		postBody = "shareCode=null",
-		reqCount = 10,
+		reqCount = 1,
 		-- delay = 20,
-		delay = 5,
+		delay = 0,
 	},
 	{
 		curTaskName = "active_exam_chance", 

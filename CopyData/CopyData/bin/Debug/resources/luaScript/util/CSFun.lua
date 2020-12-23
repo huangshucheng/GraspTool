@@ -1,5 +1,5 @@
 local CSFun = class("CSFun")
-local Define = require("luaScript.config.Define")
+local Define = require("resources.luaScript.config.Define")
 
 -- 打印堆栈
 function CSFun.GetTrace()
@@ -64,6 +64,7 @@ end
 //cookies: "cookie1=avlue;cookies2=cvalue"  需要用分号隔开
 //taskEndAction: lua function
 ]]
+--异步请求http
 function CSFun.httpReqAsync(url, method, header, urlBody, postBody, cookies, callFunc)
 	method = method or Define.Method.GET
 	header = header or {}
@@ -85,7 +86,7 @@ function CSFun.httpReqAsync(url, method, header, urlBody, postBody, cookies, cal
 	end
 end
 
---用backGroundWork(工作线程)的形式请求http（会卡住）
+--同步请求http（会卡住）
 function CSFun.HttpReq(url, method, header, urlBody, postBody, cookies)
 	method = method or Define.Method.GET
 	header = header or {}
@@ -147,6 +148,13 @@ end
 function CSFun.CreateFile(fileName)
 	if CreateFile then
 		return CreateFile(fileName)
+	end
+end
+
+--播放wav音效
+function CSFun.PlayWAVSound(filePath)
+	if PlayWAVSound then
+		PlayWAVSound(filePath)
 	end
 end
 

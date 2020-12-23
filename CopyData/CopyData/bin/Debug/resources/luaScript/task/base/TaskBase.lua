@@ -1,7 +1,7 @@
 --[[任务配置类，其他任务可由本任务配置继承拓展]]
 
 local TaskBase = class("TaskBase")
-local Define = require("luaScript.config.Define")
+local Define = require("resources.luaScript.config.Define")
 
 TaskBase.FIND_STRING_HOST = "hbz.qrmkt.cn"  --域名，方便查找token
 TaskBase.FILE_SAVE_NAME = "token.lua" -- 保存本地token文件名字
@@ -41,7 +41,7 @@ function TaskBase:ctor()
 end
 
 function TaskBase:loadTask()
-	local HttpTask = require("luaScript.task.base.HttpTask")
+	local HttpTask = require("resources.luaScript.task.base.HttpTask")
 	for index, task_config in ipairs(TaskBase.TASK_LIST_URL_CONFIG) do
 		local task = HttpTask.new()
 		task:initWithConfig(task_config)
@@ -101,21 +101,23 @@ end
 
 --返回保存tolen文件地址
 function TaskBase:getSaveFileName()
-	local CSFun = require("luaScript.util.CSFun")
+	local CSFun = require("resources.luaScript.util.CSFun")
 	local CUR_DIR_NAME = CSFun.GetCurDir()
-	local fileName = tostring(CUR_DIR_NAME) .. [[\\luaScript\\token\\]] .. TaskBase.FILE_SAVE_NAME; --winform 路径需要用双斜杠， lua保存文件用但斜杠
+	-- local fileName = tostring(CUR_DIR_NAME) .. [[\\luaScript\\token\\]] .. TaskBase.FILE_SAVE_NAME; --winform 路径需要用双斜杠， lua保存文件用但斜杠
+	local fileName = tostring(CUR_DIR_NAME) .. [[\resources\luaScript\token\]] .. TaskBase.FILE_SAVE_NAME; --winform 路径需要用双斜杠， lua保存文件用但斜杠
 	return fileName
 end
 
 --返回保存交互记录文件地址
 function TaskBase:getRecordGraspFileName()
-	local CSFun = require("luaScript.util.CSFun")
+	local CSFun = require("resources.luaScript.util.CSFun")
 	local CUR_DIR_NAME = CSFun.GetCurDir()
-	local fileName = tostring(CUR_DIR_NAME) .. [[\\luaScript\\token\\]] .. TaskBase.RECORD_SAVE_FILE_NAME; --winform 路径需要用双斜杠， lua保存文件用但斜杠
+	-- local fileName = tostring(CUR_DIR_NAME) .. [[\\luaScript\\token\\]] .. TaskBase.RECORD_SAVE_FILE_NAME; --winform 路径需要用双斜杠， lua保存文件用但斜杠
+	local fileName = tostring(CUR_DIR_NAME) .. [[\resources\luaScript\token\]] .. TaskBase.RECORD_SAVE_FILE_NAME; --winform 路径需要用双斜杠， lua保存文件用但斜杠
 	return fileName
 end
 
---开始执行下一个任务
+--开始执行下一个任务,参数为HttpTask对象
 --curHttpTaskObj: 当前task
 --preHttpTaskObj: 前一个task
 function TaskBase:onNextTask(curHttpTaskObj, preHttpTaskObj)

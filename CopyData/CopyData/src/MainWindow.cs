@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LuaInterface;
 using System.IO;
+using JinYiHelp.MediaHelp;
 
 namespace CopyData
 {
@@ -31,6 +32,7 @@ namespace CopyData
             _luaScript.RegisterFunction("GetDeskTopDir", null, typeof(LuaCall).GetMethod("GetDeskTopDir")); //获取桌面位置
             _luaScript.RegisterFunction("HttpRequest", null, typeof(LuaCall).GetMethod("HttpRequest")); //http请求
             _luaScript.RegisterFunction("HttpRequestAsync", null, typeof(LuaCall).GetMethod("HttpRequestAsync")); //http请求 异步
+            _luaScript.RegisterFunction("PlayWAVSound", null, typeof(LuaCall).GetMethod("PlayWAVSound")); //播放音效
 
             //文件相关，静态方法
             _luaScript.RegisterFunction("IsFileExist", null, typeof(LocalStorage).GetMethod("IsFileExist")); //文件是否存在
@@ -40,17 +42,17 @@ namespace CopyData
             _luaScript.RegisterFunction("AppendLine", null, typeof(LocalStorage).GetMethod("AppendLine")); //追加一行
             _luaScript.RegisterFunction("CreateFile", null, typeof(LocalStorage).GetMethod("CreateFile")); //创建文件
 
-            string path = Environment.CurrentDirectory + "\\luaScript\\main.lua";
+            string path = Environment.CurrentDirectory + "\\resources\\luaScript\\main.lua";
             _luaScript.DoFile(path);
         }
 
         //test 按钮点击
         private void btnFinishCatch_Click(object sender, EventArgs e)
         {
+            _luaScript.DoString("testCall()");
+
             //var str = LuaCall.httpRequest("www.baidu.com");
             //LuaCall.httpRequestAsync("www.baidu.com");
-
-            _luaScript.DoString("testCall()");
             //var url = "https://hbz.qrmkt.cn/hbact/hyr/sign/list";
             //LuaCall.httpRequestAsync("www.baidu.com",1,null,"urlBody=hcc","postBody=123", "", null);
             //LuaCall.httpRequestAsync(url, 1,null,"urlBody=hcc","postBody=123", "", null);
@@ -64,6 +66,8 @@ namespace CopyData
             //bool isSuccess = LocalStorage.WriteFile(fileName,"{hcc = you, 张双扣的了房间卡理发店}");
             //string content = LocalStorage.ReadFile(fileName);
             //Console.WriteLine(content);
+           // var path = LuaCall.GetCurDir() + "\\resources\\sound\\ui_click.wav";
+            //MediaHelper.ASyncPlayWAV(path);
         }
 
 

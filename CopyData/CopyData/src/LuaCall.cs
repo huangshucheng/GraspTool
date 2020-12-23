@@ -7,6 +7,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Text;
 using LuaInterface;
+using JinYiHelp.MediaHelp;
 
 //lua 调用的接口
 namespace CopyData
@@ -52,6 +53,15 @@ namespace CopyData
             //param.cookies = cookies;
             //_bgWork.setLuaCallFunc(taskEndAction);
             //_bgWork.startReqHttp(param);
+        }
+
+        //播放音效
+        public static void PlayWAVSound(string path) {
+            try {
+                MediaHelper.ASyncPlayWAV(path);
+            } catch (Exception e) {
+                Console.WriteLine("playEffect error>> " + e.Message);
+            }
         }
 
     }

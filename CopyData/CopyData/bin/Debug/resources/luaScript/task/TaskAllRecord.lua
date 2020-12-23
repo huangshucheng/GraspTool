@@ -1,5 +1,5 @@
 --[[所有交互记录]]
-local TaskBase = require("luaScript.task.base.TaskBase")
+local TaskBase = require("resources.luaScript.task.base.TaskBase")
 local TaskAllRecord = class("TaskAllRecord", TaskBase)
 
 -- TaskBase.FIND_STRING_HOST = "api.weixin.qq.com"

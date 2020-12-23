@@ -1,10 +1,11 @@
-local Define = require("luaScript.config.Define")
-local HttpTask = require("luaScript.task.base.HttpTask")
-local FindData = require("luaScript.data.FindData")
-local CSFun = require("luaScript.util.CSFun")
-local StringUtils = require("luaScript.util.StringUtils")
-local TaskData = require("luaScript.data.TaskData")
-local TaskStart = require("luaScript.task.base.TaskStart")
+local Define = require("resources.luaScript.config.Define")
+local HttpTask = require("resources.luaScript.task.base.HttpTask")
+local FindData = require("resources.luaScript.data.FindData")
+local CSFun = require("resources.luaScript.util.CSFun")
+local StringUtils = require("resources.luaScript.util.StringUtils")
+local TaskData = require("resources.luaScript.data.TaskData")
+local TaskStart = require("resources.luaScript.task.base.TaskStart")
+local Sound = require("resources.luaScript.util.Sound")
 
 --test
 local dic = {
@@ -45,11 +46,15 @@ function testCall()
 		end)
 	end
 	--]]
-	-- local TaskData = require("luaScript.data.TaskData")
+	-- local TaskData = require("resources.luaScript.data.TaskData")
 	-- local fileName = TaskData.getCurTask():getSaveFileName()
 
 	-- CSFun.WriteFile(fileName, "zhonklsdjfksjkdlfjklasdjfkakdsfjklaf" .. "众人就撒考虑到房价快乐阿斯加德开了房经理快递费拉水电费啦ad讲课费垃圾啊凉快圣诞节拉开")
 	-- CSFun.WriteFile(fileName, "zhonklsdjfksjkdlfjklasdjfkakdsfjklaf")
+	-- local path = CSFun.GetCurDir() .. [[\resources\sound\ui_click.wav]]
+	-- CSFun.PlayWAVSound(path)
+	-- Sound.playTokenSound()
+	-- Sound.playFinishTaskSound()
 end
 --[[
 [reqHeader<www.baidu.com>] 

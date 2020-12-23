@@ -1,6 +1,6 @@
 --[[荷声活动--跑步领奖活动]]
 
-local TaskBase = require("luaScript.task.base.TaskBase")
+local TaskBase = require("resources.luaScript.task.base.TaskBase")
 local TaskRun = class("TaskRun", TaskBase)
 
 TaskBase.FIND_STRING_HOST = "hbz.qrmkt.cn"

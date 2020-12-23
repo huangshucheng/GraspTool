@@ -1,8 +1,8 @@
-require("luaScript.util.functions")
-require("luaScript.util.json")
-require("luaScript.test.init")
+require("resources.luaScript.util.functions")
+require("resources.luaScript.util.json")
+require("resources.luaScript.test.init")
 
-local CSFun = require("luaScript.util.CSFun")
+local CSFun = require("resources.luaScript.util.CSFun")
 
 --打印在屏幕上
 print = function(param)
@@ -12,19 +12,19 @@ end
 
 print("hello!")
 
-local StringUtils = require("luaScript.util.StringUtils")
-local DealReqHeader = require("luaScript.dataDeal.DealReqHeader")
-local DealReqBody = require("luaScript.dataDeal.DealReqBody")
-local DealResBody = require("luaScript.dataDeal.DealResBody")
+local StringUtils = require("resources.luaScript.util.StringUtils")
+local DealReqHeader = require("resources.luaScript.dataDeal.DealReqHeader")
+local DealReqBody = require("resources.luaScript.dataDeal.DealReqBody")
+local DealResBody = require("resources.luaScript.dataDeal.DealResBody")
 
-local FindData = require("luaScript.data.FindData")
-local TaskData = require("luaScript.data.TaskData")
+local FindData = require("resources.luaScript.data.FindData")
+local TaskData = require("resources.luaScript.data.TaskData")
 
 --当前正在跑的任务
-local CurTask = require("luaScript.task.TaskDiamond")
--- local CurTask = require("luaScript.task.TaskWeiXinAuth")
--- local CurTask = require("luaScript.task.TaskAllRecord")
--- local CurTask = require("luaScript.task.TaskRun")
+local CurTask = require("resources.luaScript.task.TaskDiamond")
+-- local CurTask = require("resources.luaScript.task.TaskWeiXinAuth")
+-- local CurTask = require("resources.luaScript.task.TaskAllRecord")
+-- local CurTask = require("resources.luaScript.task.TaskRun")
 local taskObj = CurTask.new()
 TaskData.setCurTask(taskObj) --设置当前执行的任务对象
 
@@ -32,15 +32,7 @@ TaskData.setCurTask(taskObj) --设置当前执行的任务对象
 FindData:getInstance():readLocalFile()
 
 function receiveFidderData()
-	local strData = nil
-	local ok, msg = pcall(function()
-		strData = CSFun.GetFidderString()
-	end)
-
-	if not ok then
-		return
-	end
-
+	local strData = CSFun.GetFidderString()
 	-- print("strData>>" .. strData)
 	if strData and strData ~= "" then
 		local splitData = StringUtils.splitString(strData, "\n", 6)
@@ -52,7 +44,6 @@ function receiveFidderData()
 				-- DealReqBody:getInstance():dealData(strData, splitData)
 				break
 			elseif string.find(str, TaskData.getCurTask():getResHeadString()) then --返回头
-
 				break
 			elseif string.find(str, TaskData.getCurTask():getResBodyString()) then --返回体
 				-- DealResBody:getInstance():dealData(strData, splitData)
