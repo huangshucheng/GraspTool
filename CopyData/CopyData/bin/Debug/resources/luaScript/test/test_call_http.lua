@@ -55,6 +55,15 @@ function testCall()
 	-- CSFun.PlayWAVSound(path)
 	-- Sound.playTokenSound()
 	-- Sound.playFinishTaskSound()
+	-- print("中国人")
+	-- local fileName = CSFun.GetCurDir() .. [[\resources\luaScript\token\token.lua]]
+	--[[
+	local readStr = CSFun.ReadFile(fileName)
+	print(readStr)
+	print(CSFun.Utf8ToDefault("读取文字"))
+	local ret = CSFun.StringCompare("中国人", "中国人")
+	print("ret>>>>" .. tostring(ret))
+	]]
 end
 --[[
 [reqHeader<www.baidu.com>] 

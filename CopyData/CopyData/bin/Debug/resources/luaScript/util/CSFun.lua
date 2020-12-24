@@ -158,4 +158,23 @@ function CSFun.PlayWAVSound(filePath)
 	end
 end
 
+--字符串比较
+function CSFun.StringCompare(srcStr, desStr)
+	if StringCompare then
+		return StringCompare(srcStr, desStr)
+	end
+end
+
+function CSFun.Utf8ToDefault(str)
+	if Utf8ToDefault then
+		return Utf8ToDefault(str)
+	end
+end
+
+function CSFun.DefaultToUtf8(str)
+	if DefaultToUtf8 then
+		return DefaultToUtf8(str)
+	end
+end
+
 return CSFun

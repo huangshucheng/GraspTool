@@ -15,26 +15,26 @@ local POST = TaskBase.POST
 --任务列表
 TaskBase.TASK_LIST_URL_CONFIG = {
 	{
-		curTaskName = "sign_act_code", 
+		curTaskName = "请求活动码", 
 		url = "https://hbz.qrmkt.cn/hbact/hyr/home/queryActCode",
 		method = POST, 
 		preTaskName = "", 
-		reqCount = 1,
+		reqCount = 10,
 		urlBody = "", 
 		postBody = "actType=2", 
 		delay = 0,
 	},
 	{
-		curTaskName = "do_sign", 
+		curTaskName = "签到", 
 		url = "hbz.qrmkt.cn/hbact/hyr/sign/doit",
 		method = POST, 
-		reqCount = 1,
+		reqCount = 10,
 		urlBody = "", 
 		postBody = "shareCode=null", 
 		delay = 0,
 	},
 	{
-		curTaskName = "sign_list", 
+		curTaskName = "签到列表", 
 		url = "hbz.qrmkt.cn/hbact/hyr/sign/list",
 		method = POST, 
 		reqCount = 1, 
@@ -43,16 +43,16 @@ TaskBase.TASK_LIST_URL_CONFIG = {
 		delay = 0,
 	},
 	{
-		curTaskName = "card_exchange_42", 
+		curTaskName = "兑换8.88鼓励金红包", 
 		url = "https://hbz.qrmkt.cn/hbact/commucard/exchange",
 		method = GET, 
-		reqCount = 1, 
+		reqCount = 10, 
 		urlBody = "id=42",
 		postBody = "", 
 		delay = 0,
 	},
 	{
-		curTaskName = "card_exchange_43", 
+		curTaskName = "兑换18.8鼓励金红包", 
 		url = "https://hbz.qrmkt.cn/hbact/commucard/exchange",
 		method = GET, 
 		reqCount = 1, 
@@ -61,7 +61,7 @@ TaskBase.TASK_LIST_URL_CONFIG = {
 		delay = 0,
 	},
 	{
-		curTaskName = "card_exchange_51", 
+		curTaskName = "兑换88.8鼓励金红包", 
 		url = "https://hbz.qrmkt.cn/hbact/commucard/exchange",
 		method = GET, 
 		reqCount = 1, 
@@ -70,7 +70,7 @@ TaskBase.TASK_LIST_URL_CONFIG = {
 		delay = 0,
 	},
 	{
-		curTaskName = "card_exchange_45", 
+		curTaskName = "兑换188.0荷石璧", 
 		url = "https://hbz.qrmkt.cn/hbact/commucard/exchange",
 		method = GET, 
 		reqCount = 1, 
@@ -79,7 +79,7 @@ TaskBase.TASK_LIST_URL_CONFIG = {
 		delay = 0,
 	},
 	{
-		curTaskName = "card_exchange_46", 
+		curTaskName = "兑换588.0荷石璧", 
 		url = "https://hbz.qrmkt.cn/hbact/commucard/exchange",
 		method = GET, 
 		reqCount = 1, 
@@ -88,7 +88,7 @@ TaskBase.TASK_LIST_URL_CONFIG = {
 		delay = 0,
 	},
 	{
-		curTaskName = "card_exchange_47", 
+		curTaskName = "兑换888.0荷石璧", 
 		url = "https://hbz.qrmkt.cn/hbact/commucard/exchange",
 		method = GET, 
 		reqCount = 1, 
@@ -97,7 +97,7 @@ TaskBase.TASK_LIST_URL_CONFIG = {
 		delay = 0,
 	},
 	{
-		curTaskName = "card_exchange_49", 
+		curTaskName = "兑换1888.0荷石璧", 
 		url = "https://hbz.qrmkt.cn/hbact/commucard/exchange",
 		method = GET, 
 		reqCount = 1, 
@@ -106,7 +106,7 @@ TaskBase.TASK_LIST_URL_CONFIG = {
 		delay = 0,
 	},
 	{
-		curTaskName = "card_exchange_50", 
+		curTaskName = "兑换988.0荷石璧", 
 		url = "https://hbz.qrmkt.cn/hbact/commucard/exchange",
 		method = GET, 
 		reqCount = 1, 
@@ -115,7 +115,7 @@ TaskBase.TASK_LIST_URL_CONFIG = {
 		delay = 0,
 	},
 	{
-		curTaskName = "card_exchange_52", 
+		curTaskName = "兑换钻石品鉴福利一份", 
 		url = "https://hbz.qrmkt.cn/hbact/commucard/exchange",
 		method = GET, 
 		reqCount = 1, 
@@ -124,14 +124,14 @@ TaskBase.TASK_LIST_URL_CONFIG = {
 		delay = 0,
 	},
 	{
-		curTaskName = "start_study", 
+		curTaskName = "开始学习", 
 		url = "hbz.qrmkt.cn/hbact/school/study/start",
 		method = POST, 
 		reqCount = 1,
 		delay = 0,
 	},	
 	{
-		curTaskName = "end_study", 
+		curTaskName = "结束学习", 
 		url = "hbz.qrmkt.cn/hbact/school/study/end",
 		method = POST, 
 		postBody = "shareCode=null",
@@ -140,22 +140,22 @@ TaskBase.TASK_LIST_URL_CONFIG = {
 		delay = 0,
 	},
 	{
-		curTaskName = "active_exam_chance", 
+		curTaskName = "检测考试机会", 
 		url = "hbz.qrmkt.cn/hbact/exam/chance",
-		method = GET,
-		reqCount = 1,
-		delay = 0,
-	},
-	{
-		curTaskName = "start_exam", 
-		url = "hbz.qrmkt.cn/hbact/exam/random",
 		method = GET,
 		reqCount = 1,
 		delay = 0,
 	},
 	--[[
 	{
-		curTaskName = "finish_exam", 
+		curTaskName = "开始考试", 
+		url = "hbz.qrmkt.cn/hbact/exam/random",
+		method = GET,
+		reqCount = 1,
+		delay = 0,
+	},
+	{
+		curTaskName = "提交考试", 
 		url = "hbz.qrmkt.cn/hbact/exam/finish",
 		method = POST,
 		urlBody ="shareCode=null",
@@ -165,7 +165,7 @@ TaskBase.TASK_LIST_URL_CONFIG = {
 	},
 	]]
 	{
-		curTaskName = "mine_check", 
+		curTaskName = "检测挖矿机会", 
 		url = "hbz.qrmkt.cn/hbact/hyr/mine/check",
 		method = POST,
 		urlBody ="",
@@ -174,7 +174,7 @@ TaskBase.TASK_LIST_URL_CONFIG = {
 		delay = 0,
 	},
 	{
-		curTaskName = "share_code", 
+		curTaskName = "分享码", 
 		url = "hbz.qrmkt.cn/hbact/hyr/home/hasAwd",
 		method = GET,
 		reqCount = 1,
@@ -187,6 +187,9 @@ function TaskDiamond:onNextTask(curHttpTaskObj, preHttpTaskObj)
 	local curTaskName = curHttpTaskObj and curHttpTaskObj:getTaskName() or "empty"
 	local preTaskName = preHttpTaskObj and preHttpTaskObj:getTaskName() or "empty"
 	-- print("hcc>>TaskDiamond>>onTaskStart>> curTaskName: " .. curTaskName .. " ,preTaskName: " .. preTaskName)
+	-- if preTaskName == "请求活动码" then
+	-- 	print("findddd>>>>>>>>>>>")
+	-- end
 end 
 
 --切换下一个token执行任务

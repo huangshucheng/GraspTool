@@ -35,7 +35,7 @@ namespace CopyData
         //postBody: "anything"
         //cookies: "a=avlue;c=cvalue"
         //taskEndAction: lua function
-        public static void HttpRequestAsync(string url = null, int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null, LuaFunction taskEndAction = null)
+        public static void HttpRequestAsync(string url = null,int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null, LuaFunction taskEndAction = null)
         {
             CCHttp.HttpRequestAsync(url, method, headTable, urlBody, postBody, cookies, taskEndAction);
         }

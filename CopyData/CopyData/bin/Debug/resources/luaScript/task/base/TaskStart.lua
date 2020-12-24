@@ -23,7 +23,8 @@ end
 
 function TaskStart.onResponseCallBack(httpRes, taskCur)
 	httpRes = StringUtils.nullOrEmpty(httpRes) and " empty" or httpRes
-	print("hcc>> index>> " .. taskCur:getUserData() .. "  ,name>> " .. taskCur:getTaskName() .. "   ,ret>> ".. tostring(httpRes));
+	local tmpLogStr = CSFun.Utf8ToDefault("下标>> " .. taskCur:getUserData() .. "  ,任务>> " .. taskCur:getTaskName() .. "   ,返回>> ") 
+	print(tmpLogStr .. tostring(httpRes))
 
 	--第一个任务执行次数到了，执行 下一个任务
 	if taskCur:getCurCount() >= taskCur:getReqCount() then

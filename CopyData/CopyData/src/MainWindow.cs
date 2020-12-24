@@ -34,13 +34,18 @@ namespace CopyData
             _luaScript.RegisterFunction("HttpRequestAsync", null, typeof(LuaCall).GetMethod("HttpRequestAsync")); //http请求 异步
             _luaScript.RegisterFunction("PlayWAVSound", null, typeof(LuaCall).GetMethod("PlayWAVSound")); //播放音效
 
-            //文件相关，静态方法
+            //文件相关（静态方法）
             _luaScript.RegisterFunction("IsFileExist", null, typeof(LocalStorage).GetMethod("IsFileExist")); //文件是否存在
             _luaScript.RegisterFunction("WriteFile", null, typeof(LocalStorage).GetMethod("WriteFile")); //写入文件
             _luaScript.RegisterFunction("ReadFile", null, typeof(LocalStorage).GetMethod("ReadFile")); //读取文件内容
             _luaScript.RegisterFunction("AppendText", null, typeof(LocalStorage).GetMethod("AppendText")); //追加文件
             _luaScript.RegisterFunction("AppendLine", null, typeof(LocalStorage).GetMethod("AppendLine")); //追加一行
             _luaScript.RegisterFunction("CreateFile", null, typeof(LocalStorage).GetMethod("CreateFile")); //创建文件
+
+            //字符串相关方法（静态方法）
+            _luaScript.RegisterFunction("Utf8ToDefault", null, typeof(StringUtils).GetMethod("Utf8ToDefault")); //字符串转码
+            _luaScript.RegisterFunction("DefaultToUtf8", null, typeof(StringUtils).GetMethod("DefaultToUtf8")); //字符串转码
+            _luaScript.RegisterFunction("StringCompare", null, typeof(StringUtils).GetMethod("StringCompare")); //字符串比较
 
             string path = Environment.CurrentDirectory + "\\resources\\luaScript\\main.lua";
             _luaScript.DoFile(path);
@@ -66,8 +71,13 @@ namespace CopyData
             //bool isSuccess = LocalStorage.WriteFile(fileName,"{hcc = you, 张双扣的了房间卡理发店}");
             //string content = LocalStorage.ReadFile(fileName);
             //Console.WriteLine(content);
-           // var path = LuaCall.GetCurDir() + "\\resources\\sound\\ui_click.wav";
+            // var path = LuaCall.GetCurDir() + "\\resources\\sound\\ui_click.wav";
             //MediaHelper.ASyncPlayWAV(path);
+
+            //var isEqual = StringUtils.StringCompare("中国人", "中国人啊");
+            //Console.WriteLine(isEqual);
+            //string str =  StringUtils.StringConvert("z看了决胜巅峰");
+            //Console.WriteLine(str);
         }
 
 
@@ -99,25 +109,25 @@ namespace CopyData
         }
 
         // 导出给lua使用，打印字符串到token界面
-        public void LogToken(string str)
+        public void LogToken(string logStr)
         {
             if (richTextBoxFind != null)
             {
-                if (!string.IsNullOrEmpty(str))
+                if (!string.IsNullOrEmpty(logStr))
                 {
-                    richTextBoxFind.AppendText(str + "\n");
+                    richTextBoxFind.AppendText(logStr + "\n");
                 }
             }
         }
 
         // 导出给lua使用，打印字符串到log界面
-        public void LogOut(string str)
+        public void LogOut(string logStr)
         {
             if (richTextBoxLog != null)
             {
-                if (!string.IsNullOrEmpty(str))
+                if (!string.IsNullOrEmpty(logStr))
                 {
-                    richTextBoxLog.AppendText(str + "\n");
+                    richTextBoxLog.AppendText(logStr + "\n");
                 }
             }
         }
@@ -125,8 +135,7 @@ namespace CopyData
         //打印log 到cmd
         public void LogLua(string logStr)
         {
-            if (!string.IsNullOrEmpty(logStr))
-            {
+            if (!string.IsNullOrEmpty(logStr)) {
                 Console.WriteLine(logStr + "\n");
             }
         }
