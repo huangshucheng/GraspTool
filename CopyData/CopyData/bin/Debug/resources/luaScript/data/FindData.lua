@@ -4,6 +4,8 @@ local Define = require("resources.luaScript.config.Define")
 local CSFun = require("resources.luaScript.util.CSFun")
 local TaskData = require("resources.luaScript.data.TaskData")
 local Sound = require("resources.luaScript.util.Sound")
+local StringUtils = require("resources.luaScript.util.StringUtils")
+local ToolUtils = require("resources.luaScript.util.ToolUtils")
 
 function FindData:getInstance()
 	if not FindData._instance then
@@ -60,7 +62,7 @@ function FindData:addFindToken(tokenTable)
 	if tokenTable and next(tokenTable) then
 		table.insert(self._findTokenList, tokenTable)
 		self:dumpTokenOne(#self._findTokenList, tokenTable)
-		self:writeToLocalFile()
+		self:writeOneTokenToLocalFile(tokenTable)
 		Sound.playTokenSound()
 		return true
 	end
@@ -77,10 +79,11 @@ function FindData:isInFindList(tokenTable)
 	return false
 end
 
+--重新写一遍本地文件，资源消耗很大
 function FindData:writeToLocalFile()
 	local fileName = self:getSaveFileName()
 	if not fileName then
-		print("readLocalFile error, fileName is not exist" )
+		print("writeToLocalFile error, fileName is not exist" )
 		return
 	end
 
@@ -98,6 +101,28 @@ function FindData:writeToLocalFile()
 	end
 end
 
+--只同步修改部分，到本地文件
+function FindData:writeOneTokenToLocalFile(tokenTable)
+	local fileName = self:getSaveFileName()
+	if not fileName then
+		print("writeOneTokenToLocalFile error, fileName is not exist" )
+		return
+	end
+
+	local jsonString = nil
+	local ok,msg = pcall(function()
+		jsonString = json.encode(tokenTable)
+	end)
+
+	if not ok then
+		print(tostring(msg))
+		return
+	end
+	if jsonString then
+		CSFun.AppendLine(fileName, jsonString)
+	end
+end
+
 function FindData:readLocalFile()
 	local fileName = self:getSaveFileName()
 	print("token save path>> " .. tostring(fileName))
@@ -110,26 +135,23 @@ function FindData:readLocalFile()
 	local readStr = CSFun.ReadFile(fileName)
 	-- print("token:>> " .. (readStr == "" and " empty!" or readStr))
 	if not readStr or readStr == "" then return end
-
-	local decode_table = nil
-	local ok, msg = pcall(function() 
-		decode_table = json.decode(readStr)
-	end)
-	local isSuccess = msg == nil and "success!" or "failed!"
-	-- print("load token.json >>>> " .. tostring(ok) .. " " .. tostring(isSuccess))
-
-	if not ok then
-		print(tostring("load token.json failed>>" .. msg))
-		return
-	end
-
+	local splitData = StringUtils.splitString(readStr, "\n")
 	self._findTokenList = {}
-	if decode_table and next(decode_table) then
-		table.insertto(self._findTokenList, decode_table)
-		self:dumpToken()
+	if splitData and next(splitData) then
+		for _, token_str in ipairs(splitData) do
+			local tokenTable = nil
+			local ok, msg = pcall(function() 
+				tokenTable = json.decode(token_str)
+			end)
+			-- print("tokenTable>>  " .. tostring(ToolUtils.serialize(tokenTable)))
+			if ok and tokenTable then
+				table.insert(self._findTokenList, tokenTable)
+			else
+				print("readLocalFile failed >>" .. tostring(msg))
+			end
+		end
 	end
-	--to print 
-	self:getGraspFileName()
+	self:dumpToken()
 end
 
 --保存token路径
@@ -146,17 +168,17 @@ function FindData:getGraspFileName()
 end
 
 function FindData:dumpToken()
-	for index, token_tb in ipairs(self._findTokenList) do
-		self:dumpTokenOne(index, token_tb)
+	for index, tokenTable in ipairs(self._findTokenList) do
+		self:dumpTokenOne(index, tokenTable)
 	end	
 end
 
-function FindData:dumpTokenOne(index, token_tb)
+function FindData:dumpTokenOne(index, tokenTable)
 	local conStr = nil
 	local func = function()
 		local str = ""
-		for k,v in pairs(token_tb) do
-			str = str .. k .. "=" .. v .. "\n"
+		for k,v in pairs(tokenTable) do
+			str = str .. tostring(k) .. "=" .. tostring(v) .. "\n"
 		end
 		conStr = str
 	end

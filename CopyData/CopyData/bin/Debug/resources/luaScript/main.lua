@@ -41,12 +41,12 @@ function receiveFidderData()
 				DealReqHeader:getInstance():dealData(strData, splitData)
 				break
 			elseif string.find(str, TaskData.getCurTask():getReqBodyString()) then --请求体
-				-- DealReqBody:getInstance():dealData(strData, splitData)
+				DealReqBody:getInstance():dealData(strData, splitData)
 				break
 			elseif string.find(str, TaskData.getCurTask():getResHeadString()) then --返回头
 				break
 			elseif string.find(str, TaskData.getCurTask():getResBodyString()) then --返回体
-				-- DealResBody:getInstance():dealData(strData, splitData)
+				DealResBody:getInstance():dealData(strData, splitData)
 				break
 			elseif string.find(str, TaskData.getCurTask():getRecordString()) then --记录抓取
 				FindData:getInstance():saveGraspData(strData)
