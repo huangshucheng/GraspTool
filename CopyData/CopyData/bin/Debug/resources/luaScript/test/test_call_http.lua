@@ -6,6 +6,7 @@ local StringUtils = require("resources.luaScript.util.StringUtils")
 local TaskData = require("resources.luaScript.data.TaskData")
 local TaskStart = require("resources.luaScript.task.base.TaskStart")
 local Sound = require("resources.luaScript.util.Sound")
+local LuaCallCShapUI = require("resources.luaScript.uiLogic.LuaCallCShapUI")
 
 --test
 local dic = {
@@ -20,23 +21,8 @@ local dic = {
 	["User-Agent"] = "Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13G34 MicroMessenger/7.0.9(0x17000929) NetType/WIFI Language/zh_CN",
 }
 
--- local ret = HttpRequest("www.baidu.com",0, dic, "","")
--- HttpRequestAsync("www.baidu.com",0, nil, nil, nil, function(ret)
--- 	print("hcc>>ret: " .. tostring(ret))
--- end)
-
--- print("hcc>>ret: " .. tostring(ret))
-
--- HttpRequestAsync("www.baidu.com", 0, nil, nil, nil)
--- HttpRequestAsync("www.baidu.com",0, dic,"hcc=fuck","postbody=body",function(ret)
--- 	print("hcc>>ret: " .. tostring(ret))
--- end)
-
--- local ret = HttpRequestAsync("www.baidu.com",0, dic,"hcc=fuck","postbody=body")
-
-
 function testCall()
-	TaskStart.start()
+	-- TaskStart.start()
 	--[[
 	local cookies = "cookies_a=avlue1;cookies_b=cvalue2"
 	for i = 1 , 1 do
@@ -64,6 +50,32 @@ function testCall()
 	local ret = CSFun.StringCompare("中国人", "中国人")
 	print("ret>>>>" .. tostring(ret))
 	]]
+
+	--[[
+	local HttpTask = require("resources.luaScript.task.base.HttpTask")
+	local task = HttpTask.new()
+	task:setUrl("www.bianfeng.com")
+	task:addCallback(function(ret, t)
+		print("ret>>>>>>>>>>" .. t:getUrl() .. "  >>>>>>>>" .. t:getResPonseData())
+	end)
+	task:start()
+	--]]
+
+	-- local actTable = {"钻石活动", "活动2", "局欧东就删掉快疯了3"}
+	-- local fileName = CSFun.GetCurDir() .. [[\resources\luaScript\config\TaskList.lua]]
+	-- local readStr = CSFun.ReadFile(fileName)
+	-- -- print("hcc>>>>>>add readStr" .. tostring(readStr))
+	-- local actTable = json.decode(readStr)
+	-- LuaCallCShapUI.AddActivityToList(actTable)
+	-- print("hcc>>>>>>add actTable" .. tostring(actTable))
+
+	local act = {
+		["钻石活动码a"] = "aaa", 
+		["活动2"] = "bbb", 
+		["活动3"] = "ccc",
+	}
+	print(CSFun.Utf8ToDefault(json.encode(act)))
+	-- dump(act, "act..........")
 end
 --[[
 [reqHeader<www.baidu.com>] 

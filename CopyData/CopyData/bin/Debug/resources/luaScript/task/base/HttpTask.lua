@@ -18,7 +18,9 @@ function HttpTask:ctor()
 	self._header 		= Define.HTTP_HEADER_TABLE --默认请求头
 	self._delayTime  	= 0   -- 延迟时间
 	self._responseData  = ""  -- 返回数据
-	self._curHttpTaskIndex = 1 -- 当前任务下标
+	self._curHttpTaskIndex = 1      -- 当前任务下标
+	self._respCallback  = nil       -- 回调
+	self._isRedPacket 	= false     -- 是否需要卡包，如果是的话，会优先使用界面上配置的卡包请求次数，否则用配置的请求次数
 end
 
 function HttpTask:initWithConfig(config)
@@ -35,6 +37,7 @@ function HttpTask:initWithConfig(config)
 	self._method 		= config.method or Define.Method.GET
 	self._header 		= config.header or Define.HTTP_HEADER_TABLE
 	self._delayTime 	= config.delay or 0
+	self._isRedPacket   = config.isRedPacket or false
 end
 
 function HttpTask:setUrl(url)
@@ -45,6 +48,10 @@ end
 
 function HttpTask:getUrl()
 	return self._url
+end
+
+function HttpTask:addCallback(callback)
+	self._respCallback  = callback
 end
 
 function HttpTask:setUrlBody(body)
@@ -171,9 +178,18 @@ function HttpTask:getCurTaskIndex()
 	return self._curHttpTaskIndex
 end
 
+function HttpTask:setIsRedPacket(isRedPkt)
+	self._isRedPacket = isRedPkt
+	return self
+end
+
+function HttpTask:getIsRedPacket()
+	return self._isRedPacket
+end
+
 -- 异步执行http请求
-function HttpTask:start(callfunc)
-	-- print("start .. " .. self._url)
+function HttpTask:start()
+	-- print("start .. count>> " .. self._reqCount  .. "  ,url>>" .. self._url)
 	for index = 1 , self._reqCount do
 
 		local reqFunc = function()
@@ -181,8 +197,8 @@ function HttpTask:start(callfunc)
 				self._curCount = self._curCount + 1
 				self._responseData = ret
 				-- print("coutn>>>>" .. self._curCount .. "   " .. self._url)
-				if callfunc then
-					callfunc(ret, self)
+				if self._respCallback then
+					self._respCallback(ret, self)
 				end
 			end)
 		end

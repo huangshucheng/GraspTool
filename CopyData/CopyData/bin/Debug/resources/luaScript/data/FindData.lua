@@ -123,20 +123,24 @@ function FindData:writeOneTokenToLocalFile(tokenTable)
 	end
 end
 
-function FindData:readLocalFile()
-	local fileName = self:getSaveFileName()
-	print("token save path>> " .. tostring(fileName))
-	print("url save path>> " .. tostring(TaskData.getCurTask():getRecordGraspFileName()))
-	if not fileName then
-		print("readLocalFile error, fileName is not exist" )
+function FindData:readLocalFileToken()
+	self._findTokenList = {}
+	local tmpCurTask = TaskData.getCurTask()
+	if not tmpCurTask then
+		print(CSFun.Utf8ToDefault("还没指定任务!"))
 		return
 	end
-
+	local fileName = self:getSaveFileName()
+	print("token save path>> " .. tostring(fileName))
+	print("url save path>> " .. tostring(tmpCurTask:getRecordGraspFileName()))
+	if not fileName or fileName == "" then
+		print("readLocalFileToken error, fileName is not exist" )
+		return
+	end
 	local readStr = CSFun.ReadFile(fileName)
 	-- print("token:>> " .. (readStr == "" and " empty!" or readStr))
 	if not readStr or readStr == "" then return end
 	local splitData = StringUtils.splitString(readStr, "\n")
-	self._findTokenList = {}
 	if splitData and next(splitData) then
 		for _, token_str in ipairs(splitData) do
 			local tokenTable = nil
@@ -147,7 +151,7 @@ function FindData:readLocalFile()
 			if ok and tokenTable then
 				table.insert(self._findTokenList, tokenTable)
 			else
-				print("readLocalFile failed >>" .. tostring(msg))
+				print("readLocalFileToken failed >>" .. tostring(msg))
 			end
 		end
 	end
@@ -156,13 +160,23 @@ end
 
 --保存token路径
 function FindData:getSaveFileName()
-	local fileName = TaskData.getCurTask():getSaveFileName()
+	local tmpCurTask = TaskData.getCurTask()
+	if not tmpCurTask then
+		print(CSFun.Utf8ToDefault("还没指定任务!"))
+		return
+	end
+	local fileName = tmpCurTask:getSaveFileName()
 	return fileName
 end
 
 --保存抓取列表路径
 function FindData:getGraspFileName()
-	local fileName = TaskData.getCurTask():getRecordGraspFileName()
+	local tmpCurTask = TaskData.getCurTask()
+	if not tmpCurTask then
+		print(CSFun.Utf8ToDefault("还没指定任务!"))
+		return
+	end
+	local fileName = tmpCurTask:getRecordGraspFileName()
 	-- print("save url file path>> " .. fileName)
 	return fileName
 end
@@ -178,20 +192,26 @@ function FindData:dumpTokenOne(index, tokenTable)
 	local func = function()
 		local str = ""
 		for k,v in pairs(tokenTable) do
-			str = str .. tostring(k) .. "=" .. tostring(v) .. "\n"
+			str = str .. tostring(k) .. "=" .. tostring(v)
 		end
 		conStr = str
 	end
 	local ok, msg = pcall(func)
 	if ok and conStr then
-		local finalStr = "(" .. tostring(index) .. ")" .. conStr .. "\n"
+		local finalStr = "(" .. tostring(index) .. ")" .. conStr
 		CSFun.LogToken(finalStr)
 	end
 end
 
 -----------------------------
 function FindData:saveGraspData(data)
-	if not TaskData.getCurTask():getIsRecord() then
+	local tmpCurTask = TaskData.getCurTask()
+	if not tmpCurTask then
+		print(CSFun.Utf8ToDefault("还没指定任务!"))
+		return
+	end
+
+	if not tmpCurTask:getIsRecord() then
 		return
 	end
 	local fileName = self:getGraspFileName()

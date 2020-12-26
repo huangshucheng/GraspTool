@@ -153,6 +153,10 @@ end
 
 --播放wav音效
 function CSFun.PlayWAVSound(filePath)
+	local UIConfigData = require("resources.luaScript.data.UIConfigData")
+	if not UIConfigData.getIsOpenTipSound() then
+		return
+	end
 	if PlayWAVSound then
 		PlayWAVSound(filePath)
 	end
@@ -165,16 +169,28 @@ function CSFun.StringCompare(srcStr, desStr)
 	end
 end
 
+--字符串转码
 function CSFun.Utf8ToDefault(str)
 	if Utf8ToDefault then
 		return Utf8ToDefault(str)
 	end
 end
 
+--字符串转码
 function CSFun.DefaultToUtf8(str)
 	if DefaultToUtf8 then
 		return DefaultToUtf8(str)
 	end
+end
+
+-- 清理token日志
+function CSFun.ClearTokenLog()
+	if ClearTokenLog then ClearTokenLog() end
+end
+
+-- 清理输出日志
+function CSFun.ClearOutLog()
+	if ClearOutLog then ClearOutLog() end
 end
 
 return CSFun

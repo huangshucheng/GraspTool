@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using LuaInterface;
 using System.IO;
 using JinYiHelp.MediaHelp;
+using System.Collections;
+using System.Windows.Forms;
 
 namespace CopyData
 {
@@ -26,6 +28,14 @@ namespace CopyData
             _luaScript.RegisterFunction("LogLua", this, GetType().GetMethod("LogLua")); //打印到控制台
             _luaScript.RegisterFunction("GetFidderString", this, GetType().GetMethod("GetFidderString")); //传Fidder数据到lua
             _luaScript.RegisterFunction("SetTimeOut", this, GetType().GetMethod("SetTimeOut")); //延时函数
+            _luaScript.RegisterFunction("AddActivityToList", this, GetType().GetMethod("AddActivityToList")); //增加活动名称到列表
+            _luaScript.RegisterFunction("IsOpenTipSound", this, GetType().GetMethod("IsOpenTipSound")); //获取是否有提示音
+            _luaScript.RegisterFunction("IsAutoGraspCK", this, GetType().GetMethod("IsAutoGraspCK")); //是否自动抓取CK
+            _luaScript.RegisterFunction("IsAutoDoAction", this, GetType().GetMethod("IsAutoDoAction")); //是否自动做任务
+            _luaScript.RegisterFunction("GetReqDelayTime", this, GetType().GetMethod("GetReqDelayTime")); //获取延迟时间
+            _luaScript.RegisterFunction("GetReqPktTime", this, GetType().GetMethod("GetReqPktTime")); //获取卡包次数
+            _luaScript.RegisterFunction("ClearTokenLog", this, GetType().GetMethod("ClearTokenLog")); //清理token日志
+            _luaScript.RegisterFunction("ClearOutLog", this, GetType().GetMethod("ClearOutLog")); //清理输出日志
 
             //静态方法
             _luaScript.RegisterFunction("GetCurDir", null, typeof(LuaCall).GetMethod("GetCurDir")); //获取当前exe文件位置
@@ -80,33 +90,9 @@ namespace CopyData
             //Console.WriteLine(str);
         }
 
-
-        //处理Fidder传过来的数据,传给lua处理
-        private void DealWithRecvData(string dataStr)
-        {
-            if (string.IsNullOrEmpty(dataStr))
-            {
-                return;
-            }
-            try
-            {
-                _luaScript.DoString("receiveFidderData()");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("hcc>>DealWithRecvData error: " + e.Message);
-                if (richTextBoxLog != null)
-                {
-                    richTextBoxLog.AppendText("\n" + e.Message);
-                }
-            }
-        }
-
-        //获取Fidder传过来的String
-        public string GetFidderString()
-        {
-            return this._stringCache;
-        }
+        /// ///////////////////////////////////
+        /// 注册到lua的函数,lua调用
+        /// //////////////////////////////////
 
         // 导出给lua使用，打印字符串到token界面
         public void LogToken(string logStr)
@@ -171,5 +157,222 @@ namespace CopyData
             };
             timer.Enabled = true;//开始触发
         }
+
+        //增加活动名称到列表
+        public void AddActivityToList(LuaTable actTable)
+        {
+            if (actTable != null)
+            {
+                if (actTable.Keys.Count > 0)
+                {
+                    foreach (DictionaryEntry v in actTable)
+                    {
+                        string nameStr = v.Value.ToString();
+                        comboBoxActList.Items.Add(nameStr);
+                    }
+                }
+            }
+        }
+
+        //获取是否有提示音
+        public bool IsOpenTipSound()
+        {
+            return chckSound.Checked;
+        }
+
+        //是否自动抓取CK
+        public bool IsAutoGraspCK()
+        {
+            return checkAutoGraspCk.Checked;
+        }
+
+        // 是否自动做任务
+        public bool IsAutoDoAction()
+        {
+            return checkAutoDoAct.Checked;
+        }
+
+        // 获取延迟时间
+        public decimal GetReqDelayTime()
+        {
+            return numUDDelay.Value;
+        }
+
+        // 获取请求次数
+        public decimal GetReqPktTime()
+        {
+            return numUDGraspTime.Value;
+        }
+
+        //清理token日志
+        public void ClearTokenLog()
+        {
+            if (richTextBoxFind != null)
+                richTextBoxFind.Clear();
+        }
+
+        //清理输出日志
+        public void ClearOutLog()
+        {
+            if (richTextBoxLog != null)
+                richTextBoxLog.Clear();
+        }
+
+        //点击清理token日志
+        private void btnClearTokenClick(object sender, EventArgs e)
+        {
+            this.richTextBoxFind.Clear();
+        }
+
+        //token查找输出，函数将滚动条滚动到最后
+        private void richTextBoxFindTextChanged(object sender, EventArgs e)
+        {
+            richTextBoxFind.SelectionStart = richTextBoxFind.Text.Length;
+            richTextBoxFind.ScrollToCaret();
+        }
+
+        //日志打印查找输出
+        private void richTextBoxLogTextChanged(object sender, EventArgs e)
+        {
+            richTextBoxLog.SelectionStart = richTextBoxLog.Text.Length;
+            richTextBoxLog.ScrollToCaret();
+        }
+
+        //点击清理输出
+        private void buttonClearLogClick(object sender, EventArgs e)
+        {
+            this.richTextBoxLog.Clear();
+        }
+
+        /// ///////////////////////////////////
+        /// 注册到lua的函数,lua调用
+        /// //////////////////////////////////
+
+        //点击开始抓包
+        private void btnStartCatch_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _luaScript.DoString("onClickStartDoAct()");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("btnStartCatch_Click error >> " + ex.Message);
+            }
+        }
+
+        //点击停止抓包
+        private void btnStopCatch_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _luaScript.DoString("onClickStopDoAct()");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("btnStopCatch_Click error >> " + ex.Message);
+            }
+        }
+
+        //是否显示FD日志
+        private void check_btn_log_CheckedChanged(object sender, EventArgs e)
+        {
+            if (check_btn_log != null)
+            {
+                _isReceiveFidderLog = this.check_btn_log.Checked;
+            }
+        }
+
+        //修改了延迟时间
+        private void numUDDelay_ValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var num = (NumericUpDown)sender;
+                var value = num.Value.ToString();
+                _luaScript.DoString("onDelayTimeChanged("+ value + ")");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("numUDDelay_ValueChanged error >> " + ex.Message);
+            }
+        }
+
+        //修改了卡包次数
+        private void numUDGraspTime_ValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var num = (NumericUpDown)sender;
+                var value = num.Value.ToString();
+                _luaScript.DoString("onReqTimeChanged(" + value + ")");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("numUDGraspTime_ValueChanged error >> " + ex.Message);
+            }
+        }
+
+        //选中列表元素
+        private void comboBoxActList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                int selectIndex = comboBoxActList.SelectedIndex + 1;
+                _luaScript.DoString("onSelectActivityFromList(" + selectIndex + ")");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("comboBoxActList_SelectedIndexChanged error >> " + ex.Message);
+            }
+        }
+
+        //点击是否播放音效
+        private void chckSound_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var checkBox = (CheckBox)sender;
+                string isCheckdStr = checkBox.Checked == true ? "true" : "false";
+                var doStirng = "onSelectPlayCound(" + isCheckdStr + ")";
+                _luaScript.DoString(doStirng);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("checkAutoGraspCk_CheckedChanged error >> " + ex.Message);
+            }
+        }
+
+        //点击自动抓CK
+        private void checkAutoGraspCk_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var checkBox = (CheckBox)sender;
+                string isCheckdStr = checkBox.Checked == true ? "true" : "false";
+                var doStirng = "onSelectAutoGraspCk(" + isCheckdStr + ")";
+                _luaScript.DoString(doStirng);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("checkAutoGraspCk_CheckedChanged error >> " + ex.Message);
+            }
+        }
+
+        //点击自动做任务
+        private void checkAutoDoAct_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var checkBox = (CheckBox)sender;
+                string isCheckdStr = checkBox.Checked == true ? "true" : "false";
+                _luaScript.DoString("onSelectAutoDoAct(" + isCheckdStr + ")");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("checkAutoGraspCk_CheckedChanged error >> " + ex.Message);
+            }
+        }
+
     }
 }

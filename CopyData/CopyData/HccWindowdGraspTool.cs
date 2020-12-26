@@ -30,7 +30,7 @@ namespace CopyData
             }
         }
 
-        //捕获消息
+        //捕获FD消息
         protected override void WndProc(ref Message m)
         {
             switch (m.Msg)
@@ -53,46 +53,31 @@ namespace CopyData
             base.WndProc(ref m);
         }
 
-        private void btnClearTokenClick(object sender, EventArgs e)
+        //处理Fidder传过来的数据,传给lua处理
+        private void DealWithRecvData(string dataStr)
         {
-            this.richTextBoxFind.Clear();
-        }
-
-        //token查找输出，函数将滚动条滚动到最后
-        private void richTextBoxFindTextChanged(object sender, EventArgs e)
-        {
-            richTextBoxFind.SelectionStart = richTextBoxFind.Text.Length;
-            richTextBoxFind.ScrollToCaret();
-        }
-
-        //日志打印查找输出
-        private void richTextBoxLogTextChanged(object sender, EventArgs e)
-        {
-            richTextBoxLog.SelectionStart = richTextBoxLog.Text.Length;
-            richTextBoxLog.ScrollToCaret();
-        }
-
-        //点击清理输出
-        private void buttonClearLogClick(object sender, EventArgs e)
-        {
-            this.richTextBoxLog.Clear();
-        }
-      
-        //点击开始抓包
-        private void btnStartCatch_Click(object sender, EventArgs e)
-        {
-        }
-
-        //点击停止抓包
-        private void btnStopCatch_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void check_btn_log_CheckedChanged(object sender, EventArgs e)
-        {
-            if (check_btn_log != null){
-                _isReceiveFidderLog = this.check_btn_log.Checked;
+            if (string.IsNullOrEmpty(dataStr))
+            {
+                return;
             }
+            try
+            {
+                _luaScript.DoString("receiveFidderData()");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("hcc>>DealWithRecvData error: " + e.Message);
+                if (richTextBoxLog != null)
+                {
+                    richTextBoxLog.AppendText("\n" + e.Message);
+                }
+            }
+        }
+
+        //获取Fidder传过来的String
+        public string GetFidderString()
+        {
+            return this._stringCache;
         }
     }
 }
