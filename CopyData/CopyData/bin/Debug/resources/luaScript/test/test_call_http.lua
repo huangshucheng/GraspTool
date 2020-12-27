@@ -68,14 +68,48 @@ function testCall()
 	-- local actTable = json.decode(readStr)
 	-- LuaCallCShapUI.AddActivityToList(actTable)
 	-- print("hcc>>>>>>add actTable" .. tostring(actTable))
-
+	--[[
 	local act = {
 		["钻石活动码a"] = "aaa", 
 		["活动2"] = "bbb", 
 		["活动3"] = "ccc",
 	}
 	print(CSFun.Utf8ToDefault(json.encode(act)))
+	]]
 	-- dump(act, "act..........")
+	-- print("test----")
+	local header = {
+		["Accept"] = "application/json,text/javascript,text/html,text/plain,application/xhtml+xml,application/xml, */*; q=0.01",
+		-- ["Accept"] = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+		-- ["Accept"] = "application/json,application/xml;q=0.9,*/*;q=0.8",
+		["X-Requested-With"] = "",
+		["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8",
+		-- ["User-Agent"] = "Mozilla/5.0 (iPhone; CPU iPhone OS 11_2_1 like Mac OS X) AppleWebKit/604.4.7 (KHTML, like Gecko) Version/11.0 Mobile/15C153 Safari/604.1",
+		["User-Agent"] = "Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13G34 MicroMessenger/7.0.9(0x17000929) NetType/WIFI Language/zh_CN",
+		-- ["Connection"] = "keep-alive",
+		["token"] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ7XCJvcmdJZFwiOlwiaGViZWl6aG9uZ3lhblwiLFwiYXBwaWRcIjpcInd4YWU4YmFhZTU2NmFhODc1OFwiLFwib3BlbmlkXCI6XCJvMVVjTTZCbjRVeTdmZzRXNWI1alBGa1JWdXcwXCIsXCJ1bmlvbmlkXCI6XCJvMEhKVjBuMDg4SjRINGhTc1VrQWhLb0pRclpzXCIsXCJsb2dpblRpbWVcIjoxNjA5MDY5NDY5MDkxLFwidGFnXCI6XCIxNjA5MDY5NDY5MDkxSVQxM1RZTkRORDdYTk5QXCIsXCJ1c2VySWRcIjoxMDY3MDkyMDM5fSIsImV4cCI6MTYwOTA3MzA2OX0.WFlz9Rrx62dKbYkqbqG4mwXsBeZhKULxna4zh3C7ez8",
+	}
+	-- local url = "https://open.weixin.qq.com/qr/code?username=hbzhongyan"
+	-- url = "https://tb1.bdstatic.com/tb/r/image/2019-05-22/a5e3c00f38b64d9ff86b2015746e5584.jpg"
+	--[[
+	local task = HttpTask.new()
+	task:setUrlBody("username=hbzhongyan")
+	task:setUrl(url)
+	-- task:addHeader(header)
+	task:addCallback(function(ret, t)
+		print("ret>>>>>>>>>>" .. t:getUrl() .. "  >>>>>>>>" .. t:getResPonseData())
+	end)
+	task:start()
+	]]
+	-- ShowQRCode(url);
+	--[[
+	local url = "hbz.qrmkt.cn/hbact/hyr/home/queryActCode"
+	local cookies = "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ7XCJvcmdJZFwiOlwiaGViZWl6aG9uZ3lhblwiLFwiYXBwaWRcIjpcInd4YWU4YmFhZTU2NmFhODc1OFwiLFwib3BlbmlkXCI6XCJvMVVjTTZCbjRVeTdmZzRXNWI1alBGa1JWdXcwXCIsXCJ1bmlvbmlkXCI6XCJvMEhKVjBuMDg4SjRINGhTc1VrQWhLb0pRclpzXCIsXCJsb2dpblRpbWVcIjoxNjA5MDY5NDY5MDkxLFwidGFnXCI6XCIxNjA5MDY5NDY5MDkxSVQxM1RZTkRORDdYTk5QXCIsXCJ1c2VySWRcIjoxMDY3MDkyMDM5fSIsImV4cCI6MTYwOTA3MzA2OX0.WFlz9Rrx62dKbYkqbqG4mwXsBeZhKULxna4zh3C7ez8"
+	-- CSFun.httpReqAsync(url, 1 ,header,nil,nil,nil,function(ret) 
+	CSFun.ReqHttpByJetyduAsync(url, 0 ,header,nil,nil,nil,function(ret) 
+		print("hcc>>>>>>>>>>>>>>" .. ret)
+	end)
+	]]
 end
 --[[
 [reqHeader<www.baidu.com>] 

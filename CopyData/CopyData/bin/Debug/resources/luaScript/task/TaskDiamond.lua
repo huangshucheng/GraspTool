@@ -157,8 +157,8 @@ TaskDiamond.TASK_LIST_URL_CONFIG = {
 		method = POST, 
 		postBody = "shareCode=null",
 		reqCount = 1,
-		-- delay = 20,
-		delay = 0,
+		delay = 3,
+		-- delay = 0,
 	},
 	{
 		curTaskName = "检测考试机会", 

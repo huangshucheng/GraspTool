@@ -1,5 +1,5 @@
 local CSFun = class("CSFun")
-local Define = require("resources.luaScript.config.Define")
+local UIConfigData = require("resources.luaScript.data.UIConfigData")
 
 -- 打印堆栈
 function CSFun.GetTrace()
@@ -15,6 +15,9 @@ end
 
 --打印到输出界面
 function CSFun.LogOut(data)
+	if not UIConfigData.getIsShowOutLog() then
+		return
+	end
 	if LogOut then
 		LogOut(tostring(data))
 	end
@@ -22,6 +25,9 @@ end
 
 --打印到命令行
 function CSFun.LogLua(data)
+	if not UIConfigData.getIsShowOutLog() then
+		return
+	end
 	if LogLua then
 		LogLua(tostring(data))
 	end
@@ -56,24 +62,26 @@ function CSFun.GetDeskTopDir()
 end
 
 --[[
-//url: "www.baidu.com"
-//method: Method {GET,POST,PUT,DELETE}: 0 ,1 ,2 ,3
-//headTable:{AAA = "" , bbb = "" }
-//urlBody: "aaa=1&bbb=123"
-//postBody: "anything"
-//cookies: "cookie1=avlue;cookies2=cvalue"  需要用分号隔开
-//taskEndAction: lua function
+url: "www.baidu.com"
+method: Method {GET,POST,PUT,DELETE}: 0 ,1 ,2 ,3
+headTable:{AAA = "" , bbb = "" }
+urlBody: "aaa=1&bbb=123"
+postBody: "anything"
+cookies: "cookie1=avlue;cookies2=cvalue"  需要用分号隔开
+taskEndAction: lua function
+proxyAddress:"false" --代理, 默认false 不开启
 ]]
 --异步请求http
-function CSFun.httpReqAsync(url, method, header, urlBody, postBody, cookies, callFunc)
+function CSFun.httpReqAsync(url, method, headTable, urlBody, postBody, cookies, proxyAddress, callFunc)
+	local Define = require("resources.luaScript.config.Define")
 	method = method or Define.Method.GET
-	header = header or {}
+	headTable = headTable or {}
 	urlBody = urlBody or ""
 	postBody = postBody or ""
 	cookies = cookies or ""
-	callFunc = callFunc or function(ret) end
-	if type(header) ~= "table" then
-		header = {}
+	proxyAddress = proxyAddress or ""
+	if type(headTable) ~= "table" then
+		headTable = {}
 	end
 
 	if not url or url == "" then 
@@ -82,31 +90,8 @@ function CSFun.httpReqAsync(url, method, header, urlBody, postBody, cookies, cal
 	 end
 
 	if HttpRequestAsync then
-		HttpRequestAsync(url, method, header, urlBody, postBody, cookies , callFunc)
+		HttpRequestAsync(url, method, headTable, urlBody, postBody, cookies, proxyAddress, callFunc)
 	end
-end
-
---同步请求http（会卡住）
-function CSFun.HttpReq(url, method, header, urlBody, postBody, cookies)
-	method = method or Define.Method.GET
-	header = header or {}
-	urlBody = urlBody or ""
-	postBody = postBody or ""
-	cookies = cookies or ""
-	if type(header) ~= "table" then
-		header = {}
-	end
-
-	if not url or url == "" then 
-		LogOut("error url is empty>> " .. debug.traceback())
-		return
-	 end
-
-	if not HttpRequest then 
-		return
-	end
-
-	return HttpRequest(url, method, header, urlBody, postBody, cookies)
 end
 
 --文件是否存在

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Diagnostics.Eventing.Reader;
 using System.IO;
-using System.IO.Compression;
 using System.Net;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace CopyData
 {
@@ -92,7 +88,7 @@ namespace CopyData
         public static string ReadAllAsString(Stream stream, Encoding encoding)
         {
             if(stream == null || encoding == null){
-                return null;
+                return string.Empty;
             }
             string html = string.Empty;
             using (var responseStream = new StreamReader(stream, encoding))

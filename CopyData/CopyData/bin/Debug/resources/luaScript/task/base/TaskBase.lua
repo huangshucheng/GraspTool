@@ -35,12 +35,11 @@ TaskBase.TASK_LIST_URL_CONFIG = {
 }
 
 function TaskBase:ctor()
-	self.FIND_STRING_HOST = "hbz.qrmkt.cn"  --域名，方便查找token
-	self.FILE_SAVE_NAME = "token.lua" -- 保存本地token文件名字
-	self.RECORD_SAVE_FILE_NAME = "token_record_url.lua" --交互记录文件
+	self.FIND_STRING_HOST 		= ""  --域名，方便查找token, 如：hbz.qrmkt.cn
+	self.FILE_SAVE_NAME 		= ""  -- 保存本地token文件名字，如: token.lua
+	self.RECORD_SAVE_FILE_NAME 	= ""  --交互记录文件, 如：token_record_url.lua
 	self.DATA_TO_FIND_ARRAY = {}      -- 请求头中要查找的字段，如：token, Cookie
 	self.IS_OPEN_RECORD = false 	  --是否抓取接口保存到本地
-
 	self._taskList = {}
 	self:loadTask()
 end

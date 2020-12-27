@@ -12,32 +12,26 @@ namespace CopyData
     class CCHttp
     {
         //执行一次http请求,异步
-        public async static void HttpRequestAsync(string url = null, int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null, LuaFunction taskEndAction = null)
+        public async static void HttpRequestAsync(string url = null, int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null, string proxyAddress = null, LuaFunction luaCallFunc = null)
         {
-            try
-            {
-                var ret = await CCHttp.StartHttpRequestAsync(url, method, headTable, urlBody, postBody, cookies);
-                if (taskEndAction != null)
-                {
-                    taskEndAction.Call(ret);
+            try {
+                string ret = await CCHttp.StartHttpRequestAsync(url, method, headTable, urlBody, postBody, cookies, proxyAddress);
+                if (luaCallFunc != null){
+                    luaCallFunc.Call(ret);
                 }
             }
-            catch (Exception e)
-            {
-                Console.WriteLine("httpRequestAsync error: " + e.Message);
+            catch (Exception ex) {
+                luaCallFunc.Call(ex.Message);
             }
         }
 
         //执行一次http请求,同步
-        public static string HttpRequest(string url = null, int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null)
+        public static string HttpRequest(string url = null, int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null, string proxyAddress = null)
         {
-            try
-            {
-                if (string.IsNullOrEmpty(url))
-                {
-                    return string.Empty;
-                }
-
+            if (string.IsNullOrEmpty(url)){
+                return string.Empty;
+            }
+            try{
                 EasyHttp http = EasyHttp.With(url);
                 if (http != null)
                 {
@@ -59,6 +53,8 @@ namespace CopyData
                     if (!string.IsNullOrEmpty(cookies)){
                         http.SetCookieHeader(cookies);
                     }
+
+                    http.SetProxy(proxyAddress);
 
                     string ret = null;
                     if (method == (int)EasyHttp.Method.GET)
@@ -83,59 +79,44 @@ namespace CopyData
             return string.Empty;
         }
 
-        private static Task<string> StartHttpRequestAsync(string url = null, int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(url))
-                {
-                    return new Task<string>(() => { return string.Empty; });
-                }
+        public async static Task<string> StartHttpRequestAsync(string url = null, int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null, string proxyAddress = null){
+            if (string.IsNullOrEmpty(url)){
+                return string.Empty;
+            }
+            EasyHttp http = EasyHttp.With(url);
+            if (http == null) {
+                return string.Empty;
+            }
 
-                EasyHttp http = EasyHttp.With(url);
-                if (http != null)
-                {
-                    if (headTable != null)
-                    {
-                        if (headTable.Keys.Count > 0)
-                        {
-                            foreach (DictionaryEntry v in headTable)
-                            {
-                                http.AddHeaderCustome(v.Key.ToString(), v.Value.ToString());
-                            }
-                        }
+            if (headTable != null){
+                if (headTable.Keys.Count > 0){
+                    foreach (DictionaryEntry v in headTable){
+                        http.AddHeaderCustome(v.Key.ToString(), v.Value.ToString());
                     }
-
-                    if (!string.IsNullOrEmpty(cookies)) {
-                        http.SetCookieHeader(cookies);
-                    }
-
-                    if (!string.IsNullOrEmpty(urlBody))
-                    {
-                        http.SetUrlBody(urlBody);
-                    }
-
-                    Task<string> ret = null;
-                    if (method == (int)EasyHttp.Method.GET)
-                    {
-                        ret = http.GetForStringAsyc();
-                    }
-                    else
-                    {
-                        if (!string.IsNullOrEmpty(postBody))
-                        {
-                            http.SetPostBody(postBody);
-                        }
-                        ret = http.PostForStringAsyc();
-                    }
-                    return ret;
                 }
             }
-            catch (Exception e)
-            {
-                Console.WriteLine("doOneTaskReq error:{0}" + e.Message);
+
+            if (!string.IsNullOrEmpty(cookies)) {
+                http.SetCookieHeader(cookies);
             }
-            return new Task<string>(() => { return string.Empty; });
+
+            if (!string.IsNullOrEmpty(urlBody)){
+                http.SetUrlBody(urlBody);
+            }
+
+            http.SetProxy(proxyAddress);
+
+            string ret = null;
+            if (method == (int)EasyHttp.Method.GET){
+                ret = await http.GetForStringAsyc();
+            }
+            else{
+                if (!string.IsNullOrEmpty(postBody)){
+                    http.SetPostBody(postBody);
+                }
+                ret = await http.PostForStringAsyc();
+            }
+            return ret;
         }
     }
 }

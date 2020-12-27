@@ -46,8 +46,12 @@
             this.numUDGraspTime = new System.Windows.Forms.NumericUpDown();
             this.comboBoxActList = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.pictureBoxUrl = new System.Windows.Forms.PictureBox();
+            this.btnGenQRCode = new System.Windows.Forms.Button();
+            this.richTextQRCode = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.numUDDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUDGraspTime)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUrl)).BeginInit();
             this.SuspendLayout();
             // 
             // btnClearToken
@@ -96,7 +100,7 @@
             // 
             // btnStartCatch
             // 
-            this.btnStartCatch.Location = new System.Drawing.Point(-1, 125);
+            this.btnStartCatch.Location = new System.Drawing.Point(11, 125);
             this.btnStartCatch.Name = "btnStartCatch";
             this.btnStartCatch.Size = new System.Drawing.Size(100, 38);
             this.btnStartCatch.TabIndex = 7;
@@ -106,7 +110,7 @@
             // 
             // btnStopCatch
             // 
-            this.btnStopCatch.Location = new System.Drawing.Point(162, 125);
+            this.btnStopCatch.Location = new System.Drawing.Point(149, 125);
             this.btnStopCatch.Name = "btnStopCatch";
             this.btnStopCatch.Size = new System.Drawing.Size(100, 38);
             this.btnStopCatch.TabIndex = 8;
@@ -116,9 +120,9 @@
             // 
             // btnFinishCatch
             // 
-            this.btnFinishCatch.Location = new System.Drawing.Point(-1, 169);
+            this.btnFinishCatch.Location = new System.Drawing.Point(663, 2);
             this.btnFinishCatch.Name = "btnFinishCatch";
-            this.btnFinishCatch.Size = new System.Drawing.Size(100, 38);
+            this.btnFinishCatch.Size = new System.Drawing.Size(80, 22);
             this.btnFinishCatch.TabIndex = 9;
             this.btnFinishCatch.Text = "test";
             this.btnFinishCatch.UseVisualStyleBackColor = true;
@@ -193,6 +197,7 @@
             this.checkShowLog.TabIndex = 17;
             this.checkShowLog.Text = "显示输出日志";
             this.checkShowLog.UseVisualStyleBackColor = false;
+            this.checkShowLog.CheckedChanged += new System.EventHandler(this.checkShowLog_CheckedChanged);
             // 
             // numUDDelay
             // 
@@ -268,11 +273,45 @@
             this.label3.TabIndex = 23;
             this.label3.Text = "活动";
             // 
+            // pictureBoxUrl
+            // 
+            this.pictureBoxUrl.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.pictureBoxUrl.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pictureBoxUrl.Location = new System.Drawing.Point(56, 191);
+            this.pictureBoxUrl.Name = "pictureBoxUrl";
+            this.pictureBoxUrl.Size = new System.Drawing.Size(206, 170);
+            this.pictureBoxUrl.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxUrl.TabIndex = 24;
+            this.pictureBoxUrl.TabStop = false;
+            this.pictureBoxUrl.WaitOnLoad = true;
+            // 
+            // btnGenQRCode
+            // 
+            this.btnGenQRCode.Location = new System.Drawing.Point(202, 369);
+            this.btnGenQRCode.Name = "btnGenQRCode";
+            this.btnGenQRCode.Size = new System.Drawing.Size(60, 30);
+            this.btnGenQRCode.TabIndex = 25;
+            this.btnGenQRCode.Text = "生成";
+            this.btnGenQRCode.UseVisualStyleBackColor = true;
+            this.btnGenQRCode.Click += new System.EventHandler(this.btnGenQRCode_Click);
+            // 
+            // richTextQRCode
+            // 
+            this.richTextQRCode.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.richTextQRCode.Location = new System.Drawing.Point(11, 369);
+            this.richTextQRCode.Name = "richTextQRCode";
+            this.richTextQRCode.Size = new System.Drawing.Size(188, 30);
+            this.richTextQRCode.TabIndex = 26;
+            this.richTextQRCode.Text = "";
+            // 
             // HccWindowdGraspTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(935, 824);
+            this.Controls.Add(this.richTextQRCode);
+            this.Controls.Add(this.btnGenQRCode);
+            this.Controls.Add(this.pictureBoxUrl);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.comboBoxActList);
             this.Controls.Add(this.numUDGraspTime);
@@ -295,6 +334,7 @@
             this.Text = "抓包工具";
             ((System.ComponentModel.ISupportInitialize)(this.numUDDelay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUDGraspTime)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUrl)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -320,6 +360,9 @@
         private System.Windows.Forms.NumericUpDown numUDGraspTime;
         private System.Windows.Forms.ComboBox comboBoxActList;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.PictureBox pictureBoxUrl;
+        private System.Windows.Forms.Button btnGenQRCode;
+        private System.Windows.Forms.RichTextBox richTextQRCode;
     }
 }
 

@@ -8,6 +8,11 @@ using System.IO;
 using JinYiHelp.MediaHelp;
 using System.Collections;
 using System.Windows.Forms;
+using JinYiHelp;
+using JinYiHelp.CompressHelp;
+using System.Drawing;
+using System.Net;
+using JetyDu.HttpParse;
 
 namespace CopyData
 {
@@ -32,10 +37,14 @@ namespace CopyData
             _luaScript.RegisterFunction("IsOpenTipSound", this, GetType().GetMethod("IsOpenTipSound")); //获取是否有提示音
             _luaScript.RegisterFunction("IsAutoGraspCK", this, GetType().GetMethod("IsAutoGraspCK")); //是否自动抓取CK
             _luaScript.RegisterFunction("IsAutoDoAction", this, GetType().GetMethod("IsAutoDoAction")); //是否自动做任务
+            _luaScript.RegisterFunction("IsShowOutLog", this, GetType().GetMethod("IsShowOutLog")); //是否显示输出日志
             _luaScript.RegisterFunction("GetReqDelayTime", this, GetType().GetMethod("GetReqDelayTime")); //获取延迟时间
             _luaScript.RegisterFunction("GetReqPktTime", this, GetType().GetMethod("GetReqPktTime")); //获取卡包次数
             _luaScript.RegisterFunction("ClearTokenLog", this, GetType().GetMethod("ClearTokenLog")); //清理token日志
             _luaScript.RegisterFunction("ClearOutLog", this, GetType().GetMethod("ClearOutLog")); //清理输出日志
+            _luaScript.RegisterFunction("ShowQRCode", this, GetType().GetMethod("ShowQRCode")); //显示二维码
+            _luaScript.RegisterFunction("GetQRCodeString", this, GetType().GetMethod("GetQRCodeString")); //获取生成二维码字符串
+            _luaScript.RegisterFunction("ClearQRCode", this, GetType().GetMethod("ClearQRCode")); //清理二维码图片
 
             //静态方法
             _luaScript.RegisterFunction("GetCurDir", null, typeof(LuaCall).GetMethod("GetCurDir")); //获取当前exe文件位置
@@ -65,34 +74,61 @@ namespace CopyData
         private void btnFinishCatch_Click(object sender, EventArgs e)
         {
             _luaScript.DoString("testCall()");
-
             //var str = LuaCall.httpRequest("www.baidu.com");
             //LuaCall.httpRequestAsync("www.baidu.com");
             //var url = "https://hbz.qrmkt.cn/hbact/hyr/sign/list";
             //LuaCall.httpRequestAsync("www.baidu.com",1,null,"urlBody=hcc","postBody=123", "", null);
             //LuaCall.httpRequestAsync(url, 1,null,"urlBody=hcc","postBody=123", "", null);
-            //LuaCall.httpRequestAsync("www.baidu.com", 1,null,"","", "", null);
+            //LuaCall.HttpRequestAsync("www.baidu.com", 1,null,"","", "", null);
             //SetTimeOut(1);
             //var fileName = "hcc_test.json";
             //var curPath = LuaCall.GetCurDir() + "\\" + fileName;
-            //LocalStorage.AppendText(curPath, "newlineasdfasdf");
-            //LocalStorage.AppendLine(curPath, "newlineasdfasdf");
 
-            //bool isSuccess = LocalStorage.WriteFile(fileName,"{hcc = you, 张双扣的了房间卡理发店}");
-            //string content = LocalStorage.ReadFile(fileName);
-            //Console.WriteLine(content);
-            // var path = LuaCall.GetCurDir() + "\\resources\\sound\\ui_click.wav";
-            //MediaHelper.ASyncPlayWAV(path);
-
-            //var isEqual = StringUtils.StringCompare("中国人", "中国人啊");
-            //Console.WriteLine(isEqual);
-            //string str =  StringUtils.StringConvert("z看了决胜巅峰");
-            //Console.WriteLine(str);
+            //var URL = "https://tb1.bdstatic.com/tb/r/image/2019-05-22/a5e3c00f38b64d9ff86b2015746e5584.jpg";
+            //URL = "https://open.weixin.qq.com/qr/code?username=hbzhongyan";
+            //ShowQRCode(URL);
         }
 
         /// ///////////////////////////////////
         /// 注册到lua的函数,lua调用
         /// //////////////////////////////////
+
+        //清理二维码
+        public void ClearQRCode() {
+            var gra = pictureBoxUrl.CreateGraphics();
+            gra.Clear(Color.White);
+        }
+
+        //显示二维码
+        public void ShowQRCode(string url, string method = "GET", LuaFunction callBack = null) {
+            method = string.IsNullOrEmpty(method) ? "GET" : method;
+            ShowPicToPictureBox(url, this.pictureBoxUrl, method, callBack);
+        }
+
+        //显示图片
+        private async void ShowPicToPictureBox(string url, PictureBox imgNode, string method = "GET", LuaFunction callBack = null)
+        {
+            try{
+                HttpWebRequest req = HttpWebRequest.CreateHttp(url);
+                req.Method = method;
+                var resp = await req.GetResponseAsync();
+                Stream stream = resp.GetResponseStream();
+                if (imgNode != null){
+                    imgNode.Image = Image.FromStream(stream);
+                }
+                stream.Close();
+                if (callBack != null) {
+                    callBack.Call("SUCCESS");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("GetPicStream error>> " + ex.Message);
+                if (callBack != null){
+                    callBack.Call(ex.Message);
+                }
+            }
+        }
 
         // 导出给lua使用，打印字符串到token界面
         public void LogToken(string logStr)
@@ -174,6 +210,11 @@ namespace CopyData
             }
         }
 
+        //获取生成二维码字符串
+        public string GetQRCodeString() {
+            return richTextQRCode.Text;
+        }
+
         //获取是否有提示音
         public bool IsOpenTipSound()
         {
@@ -190,6 +231,12 @@ namespace CopyData
         public bool IsAutoDoAction()
         {
             return checkAutoDoAct.Checked;
+        }
+
+        //是否显示输出日志
+        public bool IsShowOutLog()
+        {
+            return checkShowLog.Checked;
         }
 
         // 获取延迟时间
@@ -245,8 +292,21 @@ namespace CopyData
         }
 
         /// ///////////////////////////////////
-        /// 注册到lua的函数,lua调用
+        /// 调用Lua函数
         /// //////////////////////////////////
+
+        //点击生成二维码
+        private void btnGenQRCode_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _luaScript.DoString("onClickGenQRCode()");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("btnGenQRCode_Click error >> " + ex.Message);
+            }
+        }
 
         //点击开始抓包
         private void btnStartCatch_Click(object sender, EventArgs e)
@@ -367,6 +427,21 @@ namespace CopyData
                 var checkBox = (CheckBox)sender;
                 string isCheckdStr = checkBox.Checked == true ? "true" : "false";
                 _luaScript.DoString("onSelectAutoDoAct(" + isCheckdStr + ")");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("checkAutoGraspCk_CheckedChanged error >> " + ex.Message);
+            }
+        }
+
+        //点击是否显示输出日志
+        private void checkShowLog_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var checkBox = (CheckBox)sender;
+                string isCheckdStr = checkBox.Checked == true ? "true" : "false";
+                _luaScript.DoString("onSelectShowOutLog(" + isCheckdStr + ")");
             }
             catch (Exception ex)
             {

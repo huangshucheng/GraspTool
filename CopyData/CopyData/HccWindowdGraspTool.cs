@@ -5,6 +5,7 @@ using JinYiHelp.EasyHTTPClient;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
+using JetyDu.HttpParse;
 
 namespace CopyData
 {

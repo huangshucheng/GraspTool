@@ -200,4 +200,23 @@ function StringUtils.nullOrEmpty(data)
    return data == nil or data == ""
 end
 
+--将文字控制在可视范围区域
+function StringUtils.stringToShort(srcString,count)
+    local bFlag,ret = pcall(function()
+        local len = StringUtils.getUTF8Length(srcString)
+        local maxLen = count or 60
+        if len > maxLen then
+            return string.sub(srcString, 1, maxLen) .. "..."
+        else
+          return srcString
+        end
+    end)
+
+    if bFlag then
+        return ret
+    else
+        return srcString
+    end
+end
+
 return StringUtils

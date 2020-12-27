@@ -61,7 +61,7 @@ end
 function FindData:addFindToken(tokenTable)
 	if tokenTable and next(tokenTable) then
 		table.insert(self._findTokenList, tokenTable)
-		self:dumpTokenOne(#self._findTokenList, tokenTable)
+		self:dumpTokenOne(#self._findTokenList, tokenTable, true)
 		self:writeOneTokenToLocalFile(tokenTable)
 		Sound.playTokenSound()
 		return true
@@ -131,8 +131,8 @@ function FindData:readLocalFileToken()
 		return
 	end
 	local fileName = self:getSaveFileName()
-	print("token save path>> " .. tostring(fileName))
-	print("url save path>> " .. tostring(tmpCurTask:getRecordGraspFileName()))
+	-- print("token save path>> " .. tostring(fileName))
+	-- print("url save path>> " .. tostring(tmpCurTask:getRecordGraspFileName()))
 	if not fileName or fileName == "" then
 		print("readLocalFileToken error, fileName is not exist" )
 		return
@@ -183,11 +183,11 @@ end
 
 function FindData:dumpToken()
 	for index, tokenTable in ipairs(self._findTokenList) do
-		self:dumpTokenOne(index, tokenTable)
+		self:dumpTokenOne(index, tokenTable, true)
 	end	
 end
 
-function FindData:dumpTokenOne(index, tokenTable)
+function FindData:dumpTokenOne(index, tokenTable, isShort)
 	local conStr = nil
 	local func = function()
 		local str = ""
@@ -199,6 +199,11 @@ function FindData:dumpTokenOne(index, tokenTable)
 	local ok, msg = pcall(func)
 	if ok and conStr then
 		local finalStr = "(" .. tostring(index) .. ")" .. conStr
+		-- print(">>>before: " .. finalStr)
+		if isShort then
+			finalStr = StringUtils.stringToShort(finalStr)
+			-- print(">>>after: " .. finalStr)
+		end
 		CSFun.LogToken(finalStr)
 	end
 end

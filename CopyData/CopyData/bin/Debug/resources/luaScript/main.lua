@@ -11,8 +11,6 @@ print = function(param)
 	CSFun.LogLua(param)
 end
 
-print("hello!")
-
 local StringUtils = require("resources.luaScript.util.StringUtils")
 local DealReqHeader = require("resources.luaScript.dataDeal.DealReqHeader")
 local DealReqBody = require("resources.luaScript.dataDeal.DealReqBody")
@@ -23,6 +21,8 @@ local TaskData = require("resources.luaScript.data.TaskData")
 local UIConfigData = require("resources.luaScript.data.UIConfigData")
 UIConfigData.init() --读取默认UI配置参数
 TaskData.loadTaskList() --读取本地任务列表,显示在任务列表UI
+
+print(CSFun.Utf8ToDefault("hello! 请手动选择活动!"))
 
 --收到FD 传过来的数据
 function receiveFidderData()

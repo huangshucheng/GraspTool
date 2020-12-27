@@ -21,6 +21,7 @@ function HttpTask:ctor()
 	self._curHttpTaskIndex = 1      -- 当前任务下标
 	self._respCallback  = nil       -- 回调
 	self._isRedPacket 	= false     -- 是否需要卡包，如果是的话，会优先使用界面上配置的卡包请求次数，否则用配置的请求次数
+	self._proxyAddress 	= Define.DEFAULT_PROXY --代理如："false", "true", "http://127.0.0.1:8888"，一定要加http:// 或者https://
 end
 
 function HttpTask:initWithConfig(config)
@@ -38,6 +39,7 @@ function HttpTask:initWithConfig(config)
 	self._header 		= config.header or Define.HTTP_HEADER_TABLE
 	self._delayTime 	= config.delay or 0
 	self._isRedPacket   = config.isRedPacket or false
+	self._proxyAddress  = config.proxyAddress or Define.DEFAULT_PROXY
 end
 
 function HttpTask:setUrl(url)
@@ -50,8 +52,18 @@ function HttpTask:getUrl()
 	return self._url
 end
 
+function HttpTask:setProxy(proxyAddress)
+	self._proxyAddress = proxyAddress
+	return self
+end
+
+function HttpTask:getProxy()
+	return self._proxyAddress
+end
+
 function HttpTask:addCallback(callback)
 	self._respCallback  = callback
+	return self
 end
 
 function HttpTask:setUrlBody(body)
@@ -193,16 +205,14 @@ function HttpTask:start()
 	for index = 1 , self._reqCount do
 
 		local reqFunc = function()
-			CSFun.httpReqAsync(self._url, self._method, self._header, self._urlBody, self._postBody, self._cookies ,function(ret)
+			CSFun.httpReqAsync(self._url, self._method, self._header, self._urlBody, self._postBody, self._cookies, self._proxyAddress, function(ret)
 				self._curCount = self._curCount + 1
 				self._responseData = ret
-				-- print("coutn>>>>" .. self._curCount .. "   " .. self._url)
 				if self._respCallback then
 					self._respCallback(ret, self)
 				end
 			end)
 		end
-
 		local delay = tonumber(self._delayTime)
 		if delay and delay > 0 then
 			CSFun.SetDelayTime(delay, reqFunc)

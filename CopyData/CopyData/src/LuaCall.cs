@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json.Linq;
-using System.Threading.Tasks;
-using System.Collections;
-using System.ComponentModel;
-using System.Text;
 using LuaInterface;
 using JinYiHelp.MediaHelp;
 
@@ -14,8 +7,6 @@ namespace CopyData
 {
     class LuaCall
     {
-        private static BackWork _bgWork = new BackWork();
-
         //获取当前文件所在位置目录
         public static string GetCurDir()
         {
@@ -34,25 +25,17 @@ namespace CopyData
         //urlBody: "aaa=1&bbb=123"
         //postBody: "anything"
         //cookies: "a=avlue;c=cvalue"
+        //proxyAddress: "http://127.0.0.1:8080" 代理IP:端口
         //taskEndAction: lua function
-        public static void HttpRequestAsync(string url = null,int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null, LuaFunction taskEndAction = null)
+        public static void HttpRequestAsync(string url = null,int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null, string proxyAddress = null, LuaFunction luaCallfunc = null)
         {
-            CCHttp.HttpRequestAsync(url, method, headTable, urlBody, postBody, cookies, taskEndAction);
+            CCHttp.HttpRequestAsync(url, method, headTable, urlBody, postBody, cookies, proxyAddress, luaCallfunc);
         }
         
         //执行一次http请求,同步
-        public static string HttpRequest(string url = null, int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null)
+        public static string HttpRequest(string url = null, int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null, string proxyAddress = null)
         {
-            return CCHttp.HttpRequest(url, method, headTable, urlBody, postBody, cookies);
-            //HTTP_REQ_PARAM param = new HTTP_REQ_PARAM();
-            //param.url = url;
-            //param.method = method;
-            //param.headTable = headTable;
-            //param.urlBody = urlBody;
-            //param.postBody = postBody;
-            //param.cookies = cookies;
-            //_bgWork.setLuaCallFunc(taskEndAction);
-            //_bgWork.startReqHttp(param);
+            return CCHttp.HttpRequest(url, method, headTable, urlBody, postBody, cookies, proxyAddress);
         }
 
         //播放音效
