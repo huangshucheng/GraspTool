@@ -3,7 +3,8 @@
 local TaskBase = require("resources.luaScript.task.base.TaskBase")
 local TaskZFB = class("TaskZFB", TaskBase)
 local CSFun = require("resources.luaScript.util.CSFun")
-local CUR_DIR_NAME = CSFun.GetCurDir()
+local GET = TaskBase.GET
+local POST = TaskBase.POST
 
 function TaskZFB:ctor()
 	self.FIND_STRING_HOST = "loggw.alipay.com"  --域名，方便查找token

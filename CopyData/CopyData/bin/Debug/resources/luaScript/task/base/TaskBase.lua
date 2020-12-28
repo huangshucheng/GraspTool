@@ -6,6 +6,10 @@ local CSFun = require("resources.luaScript.util.CSFun")
 
 TaskBase.GET = Define.Method.GET
 TaskBase.POST = Define.Method.POST
+
+--额外的请求头,如：{["Refer"]="www.baidu.com"}
+TaskBase.ERQ_HEADER_EXT = {}
+
 --任务列表，例子
 TaskBase.TASK_LIST_URL_CONFIG = {
 --[[
@@ -52,6 +56,9 @@ function TaskBase:loadTask()
 		local task = HttpTask.new()
 		task:initWithConfig(task_config)
 		task:setCurTaskIndex(index)
+		if table.nums(self.ERQ_HEADER_EXT) > 0 then
+			task:addHeader(self.ERQ_HEADER_EXT)
+		end
 		table.insert(self._taskList, task)
 	end
 end

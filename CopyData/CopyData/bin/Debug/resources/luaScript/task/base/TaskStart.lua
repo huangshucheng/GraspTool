@@ -145,13 +145,13 @@ function TaskStart.onChangeActivity(actIndex)
 
 		local ok, msg = pcall(changeTaskFunc)
 		if ok then
-			local printStr = CSFun.Utf8ToDefault("加载任务成功! [" .. actName .."] ,任务脚本>> ") .. tostring(script)
+			local printStr = CSFun.Utf8ToDefault("加载活动成功! [" .. actName .."] ,活动脚本>> ") .. tostring(script)
 			print(printStr)
 			if curTaskObj then
 				TaskData.setCurTask(curTaskObj) --设置当前执行的任务对象
 			end
 		else
-			print(tostring(CSFun.Utf8ToDefault("加载任务失败! ,[" .. actName .. "]  \n")) .. tostring(msg))
+			print(tostring(CSFun.Utf8ToDefault("加载活动失败! ,[" .. actName .. "]  \n")) .. tostring(msg))
 		end
 		TaskStart.onChangeTaskData(activityTable)
 	end

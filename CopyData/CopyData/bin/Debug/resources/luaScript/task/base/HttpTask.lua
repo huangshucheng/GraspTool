@@ -139,8 +139,8 @@ function HttpTask:getHeader()
 end
 --添加请求头，Cookie也在里面的话，自动处理Cookie
 function HttpTask:addHeader(headerTable)
-	if not headerTable or not next(headerTable) then return self end
-	if headerTable and next(headerTable) then
+	if not headerTable then return self end
+	if headerTable then
 		table.merge(self._header, headerTable)
 	end
 	if headerTable[Define.COOKIE_NAME] then

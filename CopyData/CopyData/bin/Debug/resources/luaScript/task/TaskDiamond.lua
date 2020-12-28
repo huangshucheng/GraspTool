@@ -1,5 +1,4 @@
 --[[钻石活动]]
-
 local TaskBase = require("resources.luaScript.task.base.TaskBase")
 local TaskDiamond = class("TaskDiamond", TaskBase)
 local GET = TaskBase.GET
@@ -31,6 +30,11 @@ function TaskDiamond:onNextToken(curHttpTaskObj, preHttpTaskObj)
 	local preTaskName = preHttpTaskObj and preHttpTaskObj:getTaskName() or "empty"
 	-- print("hcc>>TaskDiamond>>onNextToken>> " .. curHttpTaskObj:getTaskName() .. "   ,preTaskName: " .. preTaskName)
 end
+
+--额外的请求头,也可以不用配置
+TaskDiamond.ERQ_HEADER_EXT = {
+	-- ["token"] = "hcctoken",
+}
 
 --任务列表
 TaskDiamond.TASK_LIST_URL_CONFIG = {
@@ -157,7 +161,7 @@ TaskDiamond.TASK_LIST_URL_CONFIG = {
 		method = POST, 
 		postBody = "shareCode=null",
 		reqCount = 1,
-		delay = 3,
+		delay = 0,
 		-- delay = 0,
 	},
 	{

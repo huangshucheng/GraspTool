@@ -20,22 +20,23 @@ function DealReqHeader:dealData(data, splitData)
 	if not UIConfigData.getIsAutoGraspCK() then
 		return
 	end
-	local retTable = StringUtils.parseHttpHeader(data)
-	if not retTable or not next(retTable) then
+	local dataToFind = TaskData.getCurTask():getDataToFind()
+	
+	if #dataToFind <= 0 then
 		return
 	end
 
+	local retTable = StringUtils.parseHttpHeader(data)
 	local findTable = {}
-	local dataToFind = TaskData.getCurTask():getDataToFind()
-	if next(dataToFind) then
-		for _, token in ipairs(dataToFind) do
-			if retTable[token] and retTable[token] ~= "" then
-				findTable[token] = retTable[token]
-			end
+	
+	for _, token in ipairs(dataToFind) do
+		if retTable[token] and retTable[token] ~= "" then
+			findTable[token] = retTable[token]
 		end
 	end
 
-	if table.nums(findTable) > 0 then
+	local findCount = table.nums(findTable)
+	if findCount > 0 and findCount == #dataToFind then
 		if not FindData:getInstance():isInFindList(findTable) then
 			FindData:getInstance():addFindToken(findTable)
 			--是否自动开始执行任务

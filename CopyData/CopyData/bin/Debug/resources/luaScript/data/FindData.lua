@@ -192,7 +192,7 @@ function FindData:dumpTokenOne(index, tokenTable, isShort)
 	local func = function()
 		local str = ""
 		for k,v in pairs(tokenTable) do
-			str = str .. tostring(k) .. "=" .. tostring(v)
+			str = str .. tostring(k) .. "=" .. tostring(v) .. " ,"
 		end
 		conStr = str
 	end
@@ -201,7 +201,7 @@ function FindData:dumpTokenOne(index, tokenTable, isShort)
 		local finalStr = "(" .. tostring(index) .. ")" .. conStr
 		-- print(">>>before: " .. finalStr)
 		if isShort then
-			finalStr = StringUtils.stringToShort(finalStr)
+			finalStr = StringUtils.stringToShort(finalStr,80)
 			-- print(">>>after: " .. finalStr)
 		end
 		CSFun.LogToken(finalStr)
