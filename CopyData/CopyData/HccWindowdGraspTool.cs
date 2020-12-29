@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using LuaInterface;
-using JinYiHelp.EasyHTTPClient;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net.Http;
-using JetyDu.HttpParse;
 
 namespace CopyData
 {
@@ -21,16 +16,16 @@ namespace CopyData
             System.Net.ServicePointManager.DefaultConnectionLimit = 1000;
 
             InitializeComponent();
+            InitListView();
             //加载lua函数，并注册函数到Lua
-            try{
+            try
+            {
                 _luaScript = new Lua();
                 registLuaFunc();
             }
             catch (Exception e){
-                Console.WriteLine("HccWindowdGraspTool error: " + e.Message);
-                if (richTextBoxLog != null){
-                    richTextBoxLog.AppendText(e.Message);
-                }
+                var outText = "初始化错误>>>> " + e.Message;
+                LogOut(outText);
             }
         }
 
@@ -48,7 +43,7 @@ namespace CopyData
                     DealWithRecvData(content);
                     this._stringCache = content;
                     if (_isReceiveFidderLog == true){
-                        richTextBoxFind.AppendText(content);
+                        richTextBoxLog.AppendText(content);
                     }
                     break;
                 default:

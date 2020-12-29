@@ -102,7 +102,7 @@ function TaskStart.onResponseCallBack(httpRes, taskCur)
 			taskNext:start()
 		else
 			local outLogStr = "(" ..taskCur:getUserData() .. ")" .. "完成!"
-			CSFun.LogToken(CSFun.Utf8ToDefault(outLogStr))
+			CSFun.LogOut(CSFun.Utf8ToDefault(outLogStr))
 			Sound.playGetAward()
             --没找到下一个任务，就换一个token执行任务
 			local tokenList = FindData:getInstance():getTokenList()

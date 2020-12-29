@@ -199,12 +199,11 @@ function FindData:dumpTokenOne(index, tokenTable, isShort)
 	local ok, msg = pcall(func)
 	if ok and conStr then
 		local finalStr = "(" .. tostring(index) .. ")" .. conStr
-		-- print(">>>before: " .. finalStr)
 		if isShort then
-			finalStr = StringUtils.stringToShort(finalStr,80)
-			-- print(">>>after: " .. finalStr)
+			finalStr = StringUtils.stringToShort(finalStr,100)
+			-- finalStr = StringUtils.stringToShort(finalStr)
+			CSFun.LogOut(finalStr)
 		end
-		CSFun.LogToken(finalStr)
 	end
 end
 

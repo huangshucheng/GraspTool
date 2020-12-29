@@ -28,8 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnClearToken = new System.Windows.Forms.Button();
-            this.richTextBoxFind = new System.Windows.Forms.RichTextBox();
             this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
             this.btnClearLog = new System.Windows.Forms.Button();
             this.btnStartCatch = new System.Windows.Forms.Button();
@@ -49,32 +47,11 @@
             this.pictureBoxUrl = new System.Windows.Forms.PictureBox();
             this.btnGenQRCode = new System.Windows.Forms.Button();
             this.richTextQRCode = new System.Windows.Forms.RichTextBox();
+            this.listViewToken = new System.Windows.Forms.ListView();
             ((System.ComponentModel.ISupportInitialize)(this.numUDDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUDGraspTime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUrl)).BeginInit();
             this.SuspendLayout();
-            // 
-            // btnClearToken
-            // 
-            this.btnClearToken.BackColor = System.Drawing.SystemColors.Control;
-            this.btnClearToken.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnClearToken.Location = new System.Drawing.Point(749, 2);
-            this.btnClearToken.Name = "btnClearToken";
-            this.btnClearToken.Size = new System.Drawing.Size(80, 22);
-            this.btnClearToken.TabIndex = 2;
-            this.btnClearToken.Text = "清理日志";
-            this.btnClearToken.UseVisualStyleBackColor = false;
-            this.btnClearToken.Click += new System.EventHandler(this.btnClearTokenClick);
-            // 
-            // richTextBoxFind
-            // 
-            this.richTextBoxFind.Location = new System.Drawing.Point(268, 25);
-            this.richTextBoxFind.Name = "richTextBoxFind";
-            this.richTextBoxFind.ReadOnly = true;
-            this.richTextBoxFind.Size = new System.Drawing.Size(661, 398);
-            this.richTextBoxFind.TabIndex = 4;
-            this.richTextBoxFind.Text = "";
-            this.richTextBoxFind.TextChanged += new System.EventHandler(this.richTextBoxFindTextChanged);
             // 
             // richTextBoxLog
             // 
@@ -120,11 +97,11 @@
             // 
             // btnFinishCatch
             // 
-            this.btnFinishCatch.Location = new System.Drawing.Point(663, 2);
+            this.btnFinishCatch.Location = new System.Drawing.Point(2, 372);
             this.btnFinishCatch.Name = "btnFinishCatch";
-            this.btnFinishCatch.Size = new System.Drawing.Size(80, 22);
+            this.btnFinishCatch.Size = new System.Drawing.Size(50, 25);
             this.btnFinishCatch.TabIndex = 9;
-            this.btnFinishCatch.Text = "test";
+            this.btnFinishCatch.Text = "测试";
             this.btnFinishCatch.UseVisualStyleBackColor = true;
             this.btnFinishCatch.Click += new System.EventHandler(this.btnFinishCatch_Click);
             // 
@@ -133,11 +110,11 @@
             this.check_btn_log.AutoSize = true;
             this.check_btn_log.BackColor = System.Drawing.Color.LightGray;
             this.check_btn_log.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.check_btn_log.Location = new System.Drawing.Point(835, 5);
+            this.check_btn_log.Location = new System.Drawing.Point(190, 407);
             this.check_btn_log.Name = "check_btn_log";
-            this.check_btn_log.Size = new System.Drawing.Size(96, 18);
+            this.check_btn_log.Size = new System.Drawing.Size(68, 18);
             this.check_btn_log.TabIndex = 12;
-            this.check_btn_log.Text = "显示FD日志";
+            this.check_btn_log.Text = "FD日志";
             this.check_btn_log.UseVisualStyleBackColor = false;
             this.check_btn_log.CheckedChanged += new System.EventHandler(this.check_btn_log_CheckedChanged);
             // 
@@ -191,11 +168,11 @@
             this.checkShowLog.Checked = true;
             this.checkShowLog.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkShowLog.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.checkShowLog.Location = new System.Drawing.Point(89, 407);
+            this.checkShowLog.Location = new System.Drawing.Point(94, 407);
             this.checkShowLog.Name = "checkShowLog";
-            this.checkShowLog.Size = new System.Drawing.Size(110, 18);
+            this.checkShowLog.Size = new System.Drawing.Size(82, 18);
             this.checkShowLog.TabIndex = 17;
-            this.checkShowLog.Text = "显示输出日志";
+            this.checkShowLog.Text = "输出日志";
             this.checkShowLog.UseVisualStyleBackColor = false;
             this.checkShowLog.CheckedChanged += new System.EventHandler(this.checkShowLog_CheckedChanged);
             // 
@@ -244,7 +221,7 @@
             this.numUDGraspTime.TabIndex = 21;
             this.numUDGraspTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numUDGraspTime.Value = new decimal(new int[] {
-            5,
+            50,
             0,
             0,
             0});
@@ -298,17 +275,32 @@
             // richTextQRCode
             // 
             this.richTextQRCode.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.richTextQRCode.Location = new System.Drawing.Point(11, 369);
+            this.richTextQRCode.Location = new System.Drawing.Point(56, 369);
             this.richTextQRCode.Name = "richTextQRCode";
-            this.richTextQRCode.Size = new System.Drawing.Size(188, 30);
+            this.richTextQRCode.Size = new System.Drawing.Size(143, 30);
             this.richTextQRCode.TabIndex = 26;
             this.richTextQRCode.Text = "";
+            // 
+            // listViewToken
+            // 
+            this.listViewToken.AllowDrop = true;
+            this.listViewToken.CheckBoxes = true;
+            this.listViewToken.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.listViewToken.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.listViewToken.Location = new System.Drawing.Point(285, 13);
+            this.listViewToken.Name = "listViewToken";
+            this.listViewToken.Size = new System.Drawing.Size(638, 403);
+            this.listViewToken.TabIndex = 27;
+            this.listViewToken.TabStop = false;
+            this.listViewToken.UseCompatibleStateImageBehavior = false;
+            this.listViewToken.SelectedIndexChanged += new System.EventHandler(this.listViewToken_SelectedIndexChanged);
             // 
             // HccWindowdGraspTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(935, 824);
+            this.Controls.Add(this.listViewToken);
             this.Controls.Add(this.richTextQRCode);
             this.Controls.Add(this.btnGenQRCode);
             this.Controls.Add(this.pictureBoxUrl);
@@ -328,8 +320,6 @@
             this.Controls.Add(this.btnStartCatch);
             this.Controls.Add(this.btnClearLog);
             this.Controls.Add(this.richTextBoxLog);
-            this.Controls.Add(this.richTextBoxFind);
-            this.Controls.Add(this.btnClearToken);
             this.Name = "HccWindowdGraspTool";
             this.Text = "抓包工具";
             ((System.ComponentModel.ISupportInitialize)(this.numUDDelay)).EndInit();
@@ -341,9 +331,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btnClearToken;
-        private System.Windows.Forms.RichTextBox richTextBoxFind;
         private System.Windows.Forms.RichTextBox richTextBoxLog;
         private System.Windows.Forms.Button btnClearLog;
         private System.Windows.Forms.Button btnStartCatch;
@@ -363,6 +350,7 @@
         private System.Windows.Forms.PictureBox pictureBoxUrl;
         private System.Windows.Forms.Button btnGenQRCode;
         private System.Windows.Forms.RichTextBox richTextQRCode;
+        private System.Windows.Forms.ListView listViewToken;
     }
 }
 

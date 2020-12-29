@@ -26,7 +26,7 @@ TaskFoodSafe.TASK_LIST_URL_CONFIG = {
 		curTaskName = "抽奖", 
 		url = "http://xinhua.mofangdata.cn/wx/prize/tryit3.htm",
 		method = POST, 
-		reqCount = 100,
+		reqCount = 500,
 		urlBody = "", 
 		postBody = "id=88", 
 		delay = 0,

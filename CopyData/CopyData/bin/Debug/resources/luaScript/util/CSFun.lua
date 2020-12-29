@@ -6,13 +6,6 @@ function CSFun.GetTrace()
 	return debug.traceback()
 end
 
---打印到taken界面
-function CSFun.LogToken(data)
-	if LogToken then
-		LogToken(tostring(data))
-	end
-end
-
 --打印到输出界面
 function CSFun.LogOut(data)
 	if not UIConfigData.getIsShowOutLog() then

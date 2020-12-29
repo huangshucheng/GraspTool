@@ -110,6 +110,7 @@ function testCall()
 		print("hcc>>>>>>>>>>>>>>" .. ret)
 	end)
 	]]
+	print("test>>>>>>")
 end
 --[[
 [reqHeader<www.baidu.com>] 

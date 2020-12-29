@@ -1,2 +1,2 @@
 ﻿
-{"Cookie":" JSESSIONID=58240B2FEE95BD2C0336647C3182B41D","Referer":" http://xinhua.mofangdata.cn/wx/prize/game/answercard.htm?id=402881d97622ed0201767e799f370ba0&prizeid=88&basescope=true&cardid=hpcj2020-10&backGroupId=ed4f2e0737334907ab811b17e316d164"}
+{"Cookie":" JSESSIONID=08CAF1E1602C4914C517DE0C609ABF5D","Referer":" http://xinhua.mofangdata.cn/wx/prize/game/answercard.htm?id=402881d97622ed0201767e799f370ba0&prizeid=88&basescope=true&cardid=hpcj2020-10&backGroupId=ed4f2e0737334907ab811b17e316d164"}
