@@ -17,8 +17,8 @@ namespace CopyData
 
         public HccWindowdGraspTool()
         {
-            //设置Http请求的并发连接数最大值为512
-            System.Net.ServicePointManager.DefaultConnectionLimit = 512;
+            //设置Http请求的并发连接数最大值为1000
+            System.Net.ServicePointManager.DefaultConnectionLimit = 1000;
 
             InitializeComponent();
             //加载lua函数，并注册函数到Lua

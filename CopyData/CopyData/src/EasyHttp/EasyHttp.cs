@@ -282,8 +282,7 @@ namespace CopyData
                     Stream responseStream = tmpResponse.GetResponseStream();
                     if (tmpResponse.ContentEncoding.ToLower().Contains("gzip")){
                         responseStream = new GZipStream(responseStream, CompressionMode.Decompress);
-                    }
-                    else if (tmpResponse.ContentEncoding.ToLower().Contains("deflate")) {
+                    }else if (tmpResponse.ContentEncoding.ToLower().Contains("deflate")) {
                         responseStream = new DeflateStream(responseStream, CompressionMode.Decompress);
                     }
                     string retStr = EasyHttpUtils.ReadAllAsString(responseStream, _responseEncoding);
@@ -345,8 +344,7 @@ namespace CopyData
                     Stream responseStream = tmpResponse.GetResponseStream();
                     if (tmpResponse.ContentEncoding.ToLower().Contains("gzip")){
                         responseStream = new GZipStream(responseStream, CompressionMode.Decompress);
-                    }
-                    else if (tmpResponse.ContentEncoding.ToLower().Contains("deflate")) {
+                    }else if (tmpResponse.ContentEncoding.ToLower().Contains("deflate")) {
                         responseStream = new DeflateStream(responseStream, CompressionMode.Decompress);
                     }
                     string retStr = EasyHttpUtils.ReadAllAsString(responseStream, _responseEncoding);
