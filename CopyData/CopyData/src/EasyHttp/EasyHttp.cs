@@ -96,7 +96,7 @@ namespace CopyData
 
         //设置代理地址,如：http://proxy.domain.com:3128
         public void SetProxy(string address) {
-            _proxyAddress = address;
+            _proxyAddress = StringUtils.CheckIsWithHttp(address);
         }
 
         //初始化代理
