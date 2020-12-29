@@ -252,6 +252,7 @@ namespace CopyData
             if (!string.IsNullOrEmpty(_urlBody)){
                 tmpUrl = this._fullUrl + "?" + _urlBody;
             }
+            System.GC.Collect();    //强制进行即时垃圾回收。
             _request = WebRequest.Create(tmpUrl) as HttpWebRequest;
             EasyHttpUtils.CopyHttpHeader(_defaultHeaderRequest, _request);
             _request.CookieContainer = _cookieContainer;
@@ -287,6 +288,9 @@ namespace CopyData
                     }
                     string retStr = EasyHttpUtils.ReadAllAsString(responseStream, _responseEncoding);
                     tmpResponse.Close();
+                    tmpResponse = null;
+                    _request.Abort();
+                    _request = null;
                     responseStream.Close();
                     return retStr;
                 }
@@ -297,6 +301,9 @@ namespace CopyData
                 if (tmpResponse != null){
                     string retStr = EasyHttpUtils.ReadAllAsString(tmpResponse.GetResponseStream(), _responseEncoding);
                     tmpResponse.Close();
+                    tmpResponse = null;
+                    _request.Abort();
+                    _request = null;
                     return retStr;
                 }
             }
@@ -311,6 +318,7 @@ namespace CopyData
             if (!string.IsNullOrEmpty(_urlBody)){
                 tmpUrl = this._fullUrl + "?" + _urlBody;
             }
+            System.GC.Collect();    //强制进行即时垃圾回收。
             _request = WebRequest.Create(tmpUrl) as HttpWebRequest;
             EasyHttpUtils.CopyHttpHeader(_defaultHeaderRequest, _request);
             _request.CookieContainer = _cookieContainer;
@@ -343,7 +351,10 @@ namespace CopyData
                     }
                     string retStr = EasyHttpUtils.ReadAllAsString(responseStream, _responseEncoding);
                     tmpResponse.Close();
+                    tmpResponse = null;
                     responseStream.Close();
+                    _request.Abort();
+                    _request = null;
                     return retStr;
                 }
             }
@@ -353,6 +364,9 @@ namespace CopyData
                 if (tmpResponse != null){
                     string retStr = EasyHttpUtils.ReadAllAsString(tmpResponse.GetResponseStream(), _responseEncoding);
                     tmpResponse.Close();
+                    tmpResponse = null;
+                    _request.Abort();
+                    _request = null;
                     return retStr;
                 }
             }
