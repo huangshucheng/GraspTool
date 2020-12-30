@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using LuaInterface;
 using System.IO;
-using JinYiHelp.MediaHelp;
 using System.Collections;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Net;
+using JinYiHelp;
 
 namespace CopyData
 {
     public partial class HccWindowdGraspTool
     {
+        Dictionary<string, System.Timers.Timer> _timerDic = new Dictionary<string, System.Timers.Timer>();
         //注册函数给lua使用
         void registLuaFunc()
         {
@@ -26,7 +27,9 @@ namespace CopyData
             _luaScript.RegisterFunction("LogOut", this, GetType().GetMethod("LogOut")); //打印到输出界面
             _luaScript.RegisterFunction("LogLua", this, GetType().GetMethod("LogLua")); //打印到控制台
             _luaScript.RegisterFunction("GetFidderString", this, GetType().GetMethod("GetFidderString")); //传Fidder数据到lua
-            _luaScript.RegisterFunction("SetTimeOut", this, GetType().GetMethod("SetTimeOut")); //延时函数
+            _luaScript.RegisterFunction("SetDelayTime", this, GetType().GetMethod("SetDelayTime")); //延时函数
+            _luaScript.RegisterFunction("SetInterval", this, GetType().GetMethod("SetInterval")); //定时器
+            _luaScript.RegisterFunction("StopTimer", this, GetType().GetMethod("StopTimer")); //停止定时器
             _luaScript.RegisterFunction("AddActivityToList", this, GetType().GetMethod("AddActivityToList")); //增加活动名称到列表
             _luaScript.RegisterFunction("IsOpenTipSound", this, GetType().GetMethod("IsOpenTipSound")); //获取是否有提示音
             _luaScript.RegisterFunction("IsAutoGraspCK", this, GetType().GetMethod("IsAutoGraspCK")); //是否自动抓取CK
@@ -95,6 +98,9 @@ namespace CopyData
             //listViewToken.TopItem = listViewToken.Items[listViewToken.Items.Count - 1];
             this.listViewToken.EndUpdate();  //结束数据处理，UI界面一次性绘制。
             */
+            SetInterval(1);
+            //var utime = JinYiHelp.TimeHelp.TimeHelper.GetUnixTime();
+            //LogOut(utime);
         }
 
         /// ///////////////////////////////////
@@ -158,8 +164,54 @@ namespace CopyData
             }
         }
 
+        //定时器, 
+        //interval 秒
+        //返回： 定时器ID(string类型)，用于取消定时器
+        public string SetInterval(double interVal, LuaFunction callback = null) {
+            if (callback == null){
+                return string.Empty;
+            }
+            interVal = interVal * 1000;
+            if (interVal <= 0)
+            {
+                if (callback != null){
+                    callback.Call();
+                }
+                return string.Empty;
+            }
+            System.Timers.Timer timer = new System.Timers.Timer(interVal);
+            timer.Elapsed += delegate (object sender, System.Timers.ElapsedEventArgs e)
+            {
+                Action action = new Action(() => {
+                    //LogOut("timer>>>>>>>>>>>>>");
+                    if (callback != null){
+                        callback.Call();
+                    }
+                });
+                this.Invoke(action);
+            };
+            timer.Enabled = true;//开始触发
+            string timerID = JinYiHelp.TimeHelp.TimeHelper.GetUnixTime();
+            _timerDic.Add(timerID, timer);
+            return timerID;
+        }
+
+        //停止定时器,id: string 类型
+        public bool StopTimer(string timerID) {
+            if (_timerDic.ContainsKey(timerID)) {
+                var timer = _timerDic[timerID];
+                if (timer != null) {
+                    _timerDic[timerID].Stop();
+                    _timerDic[timerID].Close();
+                }
+                _timerDic.Remove(timerID);
+                return true;
+            }
+            return false;
+        }
+
         //延时函数, delayTime:秒
-        public void SetTimeOut(double delayTime, LuaFunction endFunc = null)
+        public void SetDelayTime(double delayTime, LuaFunction endFunc = null)
         {
             delayTime = delayTime * 1000;
             if (delayTime <= 0)
@@ -178,7 +230,6 @@ namespace CopyData
                 timer.Enabled = false;//停用触发
                 timer.Stop();
                 timer.Close();
-
                 Action action = new Action(() => {
                     if (endFunc != null)
                     {
@@ -308,6 +359,10 @@ namespace CopyData
             try
             {
                 _luaScript.DoString("onClickStopDoAct()");
+                //var keys = _timerDic.Keys;
+                //foreach (var value in keys) {
+                //    StopTimer(value);
+                //}
             }
             catch (Exception ex)
             {

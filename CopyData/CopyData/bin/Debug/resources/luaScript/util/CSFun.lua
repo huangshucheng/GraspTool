@@ -35,8 +35,24 @@ end
 
 --设置延时，time 秒
 function CSFun.SetDelayTime(time ,func)
-	if SetTimeOut then
-		SetTimeOut(time, func)
+	if SetDelayTime then
+		SetDelayTime(time, func)
+	end
+end
+
+--定时器
+--返回定时器ID
+function CSFun.SetInterval(time, func)
+	if SetInterval then
+		return SetInterval(time, func)
+	end
+end
+
+--停止某个定时器
+-- timerID: 定时器ID，string类型
+function CSFun.StopTimer(timerID)
+	if StopTimer then
+		return StopTimer(timerID)
 	end
 end
 

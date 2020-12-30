@@ -1,0 +1,81 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "default",
+            "type": "shell",
+            "command": "${workspaceRoot}/simulator/win32/ZheJiangGame.exe -workdir ${workspaceRoot} -writable-path ${workspaceRoot}/writabledir/default -entry launch/default.lua",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "simulator1",
+            "type": "shell",
+            "command": "${workspaceRoot}/simulator/win32/ZheJiangGame.exe -workdir ${workspaceRoot} -writable-path ${workspaceRoot}/writabledir/simulator1 -entry launch/simulator1.lua",
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "simulator2",
+            "type": "shell",
+            "command": "${workspaceRoot}/simulator/win32/ZheJiangGame.exe -workdir ${workspaceRoot} -writable-path ${workspaceRoot}/writabledir/simulator2 -entry launch/simulator2.lua",
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "simulator3",
+            "type": "shell",
+            "command": "${workspaceRoot}/simulator/win32/ZheJiangGame.exe -workdir ${workspaceRoot} -writable-path ${workspaceRoot}/writabledir/simulator3 -entry launch/simulator3.lua",
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "simulator4",
+            "type": "shell",
+            "command": "${workspaceRoot}/simulator/win32/ZheJiangGame.exe -workdir ${workspaceRoot} -writable-path ${workspaceRoot}/writabledir/simulator4 -entry launch/simulator4.lua",
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": []
+        }
+    ]
+}
