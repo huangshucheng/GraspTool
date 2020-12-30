@@ -359,10 +359,6 @@ namespace CopyData
             try
             {
                 _luaScript.DoString("onClickStopDoAct()");
-                //var keys = _timerDic.Keys;
-                //foreach (var value in keys) {
-                //    StopTimer(value);
-                //}
             }
             catch (Exception ex)
             {
