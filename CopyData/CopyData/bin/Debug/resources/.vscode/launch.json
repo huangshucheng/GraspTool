@@ -10,7 +10,9 @@
             "request": "launch",
             "runtimeType": "Cocos2",
             "localRoot": "${workspaceRoot}",
-            "commandLine": "-workdir ${workspaceRoot} -writable-path ${workspaceRoot} -entry luaScript/main.lua",
+            // "commandLine": "-workdir ${workspaceRoot} -writable-path ${workspaceRoot} -entry luaScript/main.lua",
+            // "commandLine": "-workdir ${workspaceRoot} -writable-path ${workspaceRoot}",
+            "commandLine": "-workdir ${workspaceRoot}",
             "fileExtNames": [
                 ".lua",
                 ".txt",

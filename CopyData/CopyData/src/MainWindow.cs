@@ -8,23 +8,31 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Net;
 using JinYiHelp;
+using System.Runtime.InteropServices;
 
 namespace CopyData
 {
     public partial class HccWindowdGraspTool
     {
         Dictionary<string, System.Timers.Timer> _timerDic = new Dictionary<string, System.Timers.Timer>();
+
+        //c++ 的 dll接口导入到c#
+        [DllImport(@"LuaHelperDll.dll", EntryPoint = "LuaTestHcc", CallingConvention = CallingConvention.Cdecl)]
+        static extern bool LuaTestHcc();
+
+
         //注册函数给lua使用
         void registLuaFunc()
         {
-            //例：
-            // 注册CLR对象方法到Lua，供Lua调用   typeof(TestClass).GetMethod("TestPrint")
-            //lua.RegisterFunction("testLuaPrint", obj, obj.GetType().GetMethod("testLuaPrint"));
-            // 注册CLR静态方法到Lua，供Lua调用
-            //lua.RegisterFunction("testStaticLuaPrint", null, typeof(TestLuaCall).GetMethod("testStaticLuaPrint"));
 
-            //类对象方法
-            _luaScript.RegisterFunction("LogOut", this, GetType().GetMethod("LogOut")); //打印到输出界面
+        //例：
+        // 注册CLR对象方法到Lua，供Lua调用   typeof(TestClass).GetMethod("TestPrint")
+        //lua.RegisterFunction("testLuaPrint", obj, obj.GetType().GetMethod("testLuaPrint"));
+        // 注册CLR静态方法到Lua，供Lua调用
+        //lua.RegisterFunction("testStaticLuaPrint", null, typeof(TestLuaCall).GetMethod("testStaticLuaPrint"));
+
+        //类对象方法
+        _luaScript.RegisterFunction("LogOut", this, GetType().GetMethod("LogOut")); //打印到输出界面
             _luaScript.RegisterFunction("LogLua", this, GetType().GetMethod("LogLua")); //打印到控制台
             _luaScript.RegisterFunction("GetFidderString", this, GetType().GetMethod("GetFidderString")); //传Fidder数据到lua
             _luaScript.RegisterFunction("SetDelayTime", this, GetType().GetMethod("SetDelayTime")); //延时函数
@@ -62,8 +70,31 @@ namespace CopyData
             _luaScript.RegisterFunction("DefaultToUtf8", null, typeof(StringUtils).GetMethod("DefaultToUtf8")); //字符串转码
             _luaScript.RegisterFunction("StringCompare", null, typeof(StringUtils).GetMethod("StringCompare")); //字符串比较
 
-            string path = Environment.CurrentDirectory + "/resources/luaScript/main.lua";
-            _luaScript.DoFile(path);
+            /*
+            string path1 = Environment.CurrentDirectory; //获取和设置当前目录（即该进程从中启动的目录）的完全限定路径。
+            string path2 = this.GetType().Assembly.Location;//获取当前进程的完整路径，包含文件名(进程名)。
+            string path3 = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName; //获取新的 Process 组件并将其与当前活动的进程关联的主模块的完整路径，包含文件名(进程名)。
+            string path4 = System.AppDomain.CurrentDomain.BaseDirectory; //获取当前 Thread 的当前应用程序域的基目录，它由程序集冲突解决程序用来探测程序集。
+            string path5 = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase; //获取和设置包含该应用程序的目录的名称。(推荐)
+            string path6 = System.Windows.Forms.Application.StartupPath; //获取启动了应用程序的可执行文件的路径，不包括可执行文件的名称。
+            string path7 = System.Windows.Forms.Application.ExecutablePath; //获取启动了应用程序的可执行文件的路径，包括可执行文件的名称。
+            string path8 = System.IO.Directory.GetCurrentDirectory(); //获取应用程序的当前工作目录(不可靠)。
+            LogOut("path1>> " + path1);
+            LogOut("path2>> " + path2);
+            LogOut("path3>> " + path3);
+            LogOut("path4>> " + path4);
+            LogOut("path5>> " + path5); //推荐
+            LogOut("path6>> " + path6);
+            LogOut("path7>> " + path7);
+            LogOut("path8>> " + path8);
+            */
+
+            string exePath = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string scriptPath = "/resources/luaScript/main.lua";
+            _luaScript.DoFile(exePath + scriptPath);
+
+            var ret = LuaTestHcc();
+            Console.WriteLine("ret>> " + ret.ToString());
         }
 
         //test 按钮点击
@@ -98,7 +129,7 @@ namespace CopyData
             //listViewToken.TopItem = listViewToken.Items[listViewToken.Items.Count - 1];
             this.listViewToken.EndUpdate();  //结束数据处理，UI界面一次性绘制。
             */
-            SetInterval(1);
+            //SetInterval(1);
             //var utime = JinYiHelp.TimeHelp.TimeHelper.GetUnixTime();
             //LogOut(utime);
         }
@@ -183,7 +214,6 @@ namespace CopyData
             timer.Elapsed += delegate (object sender, System.Timers.ElapsedEventArgs e)
             {
                 Action action = new Action(() => {
-                    //LogOut("timer>>>>>>>>>>>>>");
                     if (callback != null){
                         callback.Call();
                     }

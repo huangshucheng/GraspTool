@@ -52,7 +52,7 @@ end
 -- timerID: 定时器ID，string类型
 function CSFun.StopTimer(timerID)
 	if StopTimer then
-		return StopTimer(timerID)
+		return StopTimer(tostring(timerID))
 	end
 end
 

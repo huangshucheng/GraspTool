@@ -22,13 +22,17 @@ local UIConfigData = require("resources.luaScript.data.UIConfigData")
 UIConfigData.init() --读取默认UI配置参数
 TaskData.loadTaskList() --读取本地任务列表,显示在任务列表UI
 
-print(CSFun.Utf8ToDefault("hello! 请手动选择活动222!"))
+print(CSFun.Utf8ToDefault("hello! 请手动选择活动111!"))
 
+--[[
+local string = require("string")
+local math = require("math")
 local debugFunc = function()
 	local breakInfoFun, xpcallFun = require("resources.luaScript.LuaDebug")("localhost", 7003)
 	print("breakInfoFun>> " .. tostring(breakInfoFun) .. " ,xpCallFun>> " .. tostring(breakInfoFun))
 	CSFun.SetInterval(0.3, breakInfoFun)
 end
+]]
 
 -- print("11111111111")
 -- debugFunc()
@@ -43,6 +47,19 @@ end
 local status, msg = pcall(debugFunc, __G__TRACKBACK__)
 print(">>>> " .. tostring(status) .. " >>" .. tostring(msg))
 ]]
+
+--[[
+local count = 0
+local timerID = -1
+timerID = CSFun.SetInterval(0.3, function()
+	count = count + 1
+	print("count>> " .. count .. " ,id:" .. timerID)
+	if count == 10 then
+		CSFun.StopTimer(timerID);
+	end
+end)
+]]
+
 
 --收到FD 传过来的数据
 function receiveFidderData()
