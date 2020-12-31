@@ -238,6 +238,9 @@
     </Compile>
     <Compile Include="src\Program.cs" />
     <Compile Include="src\CCHttp.cs" />
+    <Compile Include="src\ListViewInterface.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\StringUtils.cs" />
     <Compile Include="src\LuaCall.cs" />
     <EmbeddedResource Include="HccWindowdGraspTool.resx">

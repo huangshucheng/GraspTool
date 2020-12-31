@@ -33,12 +33,7 @@ local debugFunc = function()
 	CSFun.SetInterval(0.3, breakInfoFun)
 end
 ]]
-
--- print("11111111111")
 -- debugFunc()
--- print("22222")
-
-
 --[[
 local function __G__TRACKBACK__(msg)
 	local traceback = debug.traceback()

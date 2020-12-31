@@ -7,6 +7,7 @@ local TaskData = require("resources.luaScript.data.TaskData")
 local TaskStart = require("resources.luaScript.task.base.TaskStart")
 local Sound = require("resources.luaScript.util.Sound")
 local LuaCallCShapUI = require("resources.luaScript.uiLogic.LuaCallCShapUI")
+local CShapListView = require("resources.luaScript.uiLogic.CShapListView")
 
 --test
 local dic = {
@@ -110,7 +111,21 @@ function testCall()
 		print("hcc>>>>>>>>>>>>>>" .. ret)
 	end)
 	]]
-	print("test>>>>>>")
+	-- print("test>>>>>>")
+
+	-- CShapListView.ListView_clear()
+	-- CShapListView.ListView_set_height(50)
+	-- local itmeTable = CShapListView.ListView_get_itme_by_index(1)
+	-- dump(itmeTable,"hcc>>itemTable....")
+	local selTable = CShapListView.ListView_get_select_index()
+	dump(selTable,"hcc>>selTable....",10)
+
+	for i,v in ipairs(selTable) do
+		local itmeTable = CShapListView.ListView_get_itme_by_index(v)
+		dump(itmeTable,"hcc>>itemTable....")
+	end
+
+	-- CShapListView.ListView_set_checked(1,true)
 end
 --[[
 [reqHeader<www.baidu.com>] 
