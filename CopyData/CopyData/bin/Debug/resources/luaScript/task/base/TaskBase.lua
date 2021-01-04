@@ -3,6 +3,7 @@
 local TaskBase = class("TaskBase")
 local Define = require("resources.luaScript.config.Define")
 local CSFun = require("resources.luaScript.util.CSFun")
+local CShapListView = require("resources.luaScript.uiLogic.CShapListView")
 
 TaskBase.GET = Define.Method.GET
 TaskBase.POST = Define.Method.POST
@@ -133,20 +134,43 @@ function TaskBase:getRecordGraspFileName()
 	return fileName
 end
 
+local state_table = {
+	"未开始~","进行中~","已完成~"
+}
+--状态改变了
+function TaskBase:onTaskStateChanged(curHttpTaskObj)
+	local state = curHttpTaskObj:getState()
+	local index = tonumber(curHttpTaskObj:getUserData())
+	local stateStr = state_table[curHttpTaskObj:getState()] or ""
+	CShapListView.ListView_set_item({index, nil, nil, CSFun.Utf8ToDefault(stateStr)})
+end
+
+--返回,各个活动自己去做json解析，显示红包多少
+function TaskBase:onResponse(httpRes, taskCur)
+	--[[
+	local index = taskCur:getUserData()
+	if string.find(httpRes,"红包") then
+		CShapListView.ListView_set_item({index, nil, CSFun.Utf8ToDefault("红包"), nil})
+	else
+		CShapListView.ListView_set_item({index, nil, CSFun.Utf8ToDefault("两手空空"), nil})
+	end
+	]]
+end
+
 --开始执行下一个任务,参数为HttpTask对象
---curHttpTaskObj: 当前task
+--nextHttpTaskObj: 接下来要执行的task
 --preHttpTaskObj: 前一个task
-function TaskBase:onNextTask(curHttpTaskObj, preHttpTaskObj)
-	--local preTaskName = preHttpTaskObj and preHttpTaskObj:getTaskName() or "empty"
-	--print("hcc>>onTaskStart>> curTaskName: " .. curHttpTaskObj:getTaskName() .. " ,preTaskName: " .. preTaskName)
+function TaskBase:onNextTask(nextHttpTaskObj, preHttpTaskObj)
+	local index = preHttpTaskObj:getUserData()
+	local resData = preHttpTaskObj:getResPonseData()
+	local retStr = ""
 end 
 
 --切换下一个token执行任务
---curHttpTaskObj: 当前task
+--nextHttpTaskObj: 接下来要执行的task
 --preHttpTaskObj: 前一个task
-function TaskBase:onNextToken(curHttpTaskObj, preHttpTaskObj)
-	--local preTaskName = preHttpTaskObj and preHttpTaskObj:getTaskName() or "empty"
-	--print("hcc>>onNextToken>> " .. curHttpTaskObj:getTaskName() .. "   ,preTaskName: " .. preTaskName)
+function TaskBase:onNextToken(nextHttpTaskObj, preHttpTaskObj)
+
 end
 
 return TaskBase

@@ -233,12 +233,12 @@
     <Compile Include="src\EasyHttp\EasyHttpUtils.cs" />
     <Compile Include="src\EasyHttp\KeyValue.cs" />
     <Compile Include="src\LocalStorage.cs" />
-    <Compile Include="src\MainWindow.cs">
+    <Compile Include="view\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\Program.cs" />
     <Compile Include="src\CCHttp.cs" />
-    <Compile Include="src\ListViewInterface.cs">
+    <Compile Include="view\ListViewInterface.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\StringUtils.cs" />

@@ -22,6 +22,8 @@ namespace CopyData
             _luaScript.RegisterFunction("ListView_get_itme_by_index", this, GetType().GetMethod("ListView_get_itme_by_index"));
             _luaScript.RegisterFunction("ListView_get_select_index", this, GetType().GetMethod("ListView_get_select_index"));
             _luaScript.RegisterFunction("ListView_set_checked", this, GetType().GetMethod("ListView_set_checked"));
+            _luaScript.RegisterFunction("ListView_set_item", this, GetType().GetMethod("ListView_set_item"));
+            _luaScript.RegisterFunction("ListView_get_count", this, GetType().GetMethod("ListView_get_count"));
         }
 
         //listView 初始化
@@ -94,7 +96,7 @@ namespace CopyData
         }
 
         //增加列
-        public void ListView_add_columns(string columnsName, int width) {
+        public void ListView_add_columns(string columnsName, int width = 50) {
             this.listViewToken.Columns.Add(columnsName, width, HorizontalAlignment.Left);
         }
 
@@ -145,6 +147,57 @@ namespace CopyData
             return null;
         }
 
+        //设置某行的内容,luaTable的第一个值表示下标，查找对应的item
+        public bool ListView_set_item(LuaTable itemTable = null) {
+            if (itemTable == null) {
+                return false;
+            }
+
+            bool isEmpty = itemTable.Keys.Count <= 0;
+            if (isEmpty) {
+                return false;
+            }
+
+            int indexSel = -1;
+            foreach (DictionaryEntry v in itemTable)
+            {
+                var index = v.Key.ToString();
+                var value = v.Value.ToString();
+                if (index.Equals("1")){
+                    indexSel = int.Parse(value);
+                    break;
+                }
+            }
+            if (indexSel <= 0 ) {
+                return false;
+            }
+
+            ListViewItem item = null;
+            try {
+                item = this.listViewToken.Items[indexSel-1];
+            }
+            catch (Exception ex) {
+                Console.WriteLine("ListView_set_item>> error>> " + ex.Message);
+            }
+
+            if (item == null){
+                return false;
+            }
+
+            var subItems = item.SubItems;
+            for (int idx = 0; idx < subItems.Count; idx++)
+            {
+                ListViewItem.ListViewSubItem subItem = subItems[idx];
+                if (idx != 0) {
+                    var showStr = itemTable[idx + 1] != null ? itemTable[idx + 1].ToString() : null;
+                    if (showStr != null) {
+                        subItem.Text = showStr;
+                    }
+                }
+            }
+            return true;
+        }
+
         //获取所有选中节点下标
         public string ListView_get_select_index()
         {
@@ -188,6 +241,11 @@ namespace CopyData
         //移除所有的项
         public void ListView_clear() {
             this.listViewToken.Items.Clear();  
+        }
+
+        //获取节点个数
+        public int ListView_get_count() {
+            return this.listViewToken.Items.Count;
         }
 
         //点击listView

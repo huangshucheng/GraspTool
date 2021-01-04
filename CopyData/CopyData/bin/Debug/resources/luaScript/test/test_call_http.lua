@@ -117,6 +117,7 @@ function testCall()
 	-- CShapListView.ListView_set_height(50)
 	-- local itmeTable = CShapListView.ListView_get_itme_by_index(1)
 	-- dump(itmeTable,"hcc>>itemTable....")
+	--[[
 	local selTable = CShapListView.ListView_get_select_index()
 	dump(selTable,"hcc>>selTable....",10)
 
@@ -124,8 +125,13 @@ function testCall()
 		local itmeTable = CShapListView.ListView_get_itme_by_index(v)
 		dump(itmeTable,"hcc>>itemTable....")
 	end
+	]]
 
 	-- CShapListView.ListView_set_checked(1,true)
+	-- CShapListView.ListView_set_item({2, "Cookie=999", "result=999", "state=999"})
+	-- local ret = CShapListView.ListView_set_item({4, "Cookie=999", "", "state=999","123"})
+	-- print("ret>> " .. tostring(ret))
+	-- print(CShapListView.ListView_get_count())
 end
 --[[
 [reqHeader<www.baidu.com>] 

@@ -9,6 +9,7 @@ local UIConfigData = require("resources.luaScript.data.UIConfigData")
 local Define = require("resources.luaScript.config.Define")
 local LuaCallCShapUI = require("resources.luaScript.uiLogic.LuaCallCShapUI")
 local TaskList = require("resources.luaScript.config.TaskList")
+local CShapListView = require("resources.luaScript.uiLogic.CShapListView")
 
 local TaskStart = class("TaskStart")
 
@@ -81,7 +82,8 @@ function TaskStart.onResponseCallBack(httpRes, taskCur)
 	end
 
 	tmpCurTask = clone(tmpCurTask)
-	if taskCur:getCurCount() >= taskCur:getReqCount() then
+	tmpCurTask:onResponse(httpRes, taskCur)
+	if taskCur:getCurCount() >= taskCur:getReqCount() then --需要切换任务
 		local allTaskList = tmpCurTask:getTaskList()
 		local taskNext = allTaskList[taskCur:getCurTaskIndex()+1]
 		if taskNext then 
@@ -100,10 +102,13 @@ function TaskStart.onResponseCallBack(httpRes, taskCur)
 				taskNext:setReqCount(redPktCount)
 			end
 			taskNext:start()
-		else
+		else --需要切换token
 			local outLogStr = "(" ..taskCur:getUserData() .. ")" .. "完成!"
 			CSFun.LogOut(CSFun.Utf8ToDefault(outLogStr))
 			Sound.playGetAward()
+
+			taskCur:setState(taskCur.GRASP_STATE.FINISH)
+
             --没找到下一个任务，就换一个token执行任务
 			local tokenList = FindData:getInstance():getTokenList()
 			local nextTokenIndex = tonumber(taskCur:getUserData()) + 1
@@ -163,14 +168,19 @@ function TaskStart.onChangeTaskData(activityTable)
 
 	--清理token日志
 	CSFun.ClearTokenLog()
+
+	--清理token显示列表
+	CShapListView.ListView_clear()
+
 	--加载本地token缓存
 	FindData:getInstance():readLocalFileToken()
+
 	--清理二维码
 	LuaCallCShapUI.ClearQRCode() 
+
 	--切换二维码
 	local qrCodeStr = activityTable.qrcode
 	local qrCodeUrl = Define.QR_CODE_STR .. (qrCodeStr or "")
-	-- print("qrCodeStr>> " .. qrCodeStr)
 	LuaCallCShapUI.ShowQRCode(qrCodeUrl, "GET", function(retStr)
 		if retStr ~= "SUCCESS" then
 			print(CSFun.Utf8ToDefault("加载二维码失败了! ") .. tostring(retStr))

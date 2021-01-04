@@ -3,6 +3,10 @@
 local HttpTask = class("HttpTask")
 local Define = require("resources.luaScript.config.Define")
 local CSFun = require("resources.luaScript.util.CSFun")
+local TaskData = require("resources.luaScript.data.TaskData")
+
+--抓包状态, 未开始0, 进行中1，已完成2
+HttpTask.GRASP_STATE = {NONE = 1, DOING = 2, FINISH = 3}
 
 function HttpTask:ctor()
 	self._url 			= ""  -- 请求URL
@@ -22,6 +26,7 @@ function HttpTask:ctor()
 	self._respCallback  = nil       -- 回调
 	self._isRedPacket 	= false     -- 是否需要卡包，如果是的话，会优先使用界面上配置的卡包请求次数，否则用配置的请求次数
 	self._proxyAddress 	= Define.DEFAULT_PROXY --代理如："false", "true", "http://127.0.0.1:8888"，一定要加http:// 或者https://
+	self._state 		= HttpTask.GRASP_STATE.NONE --未开始
 end
 
 function HttpTask:initWithConfig(config)
@@ -199,11 +204,23 @@ function HttpTask:getIsRedPacket()
 	return self._isRedPacket
 end
 
+function HttpTask:getState()
+	return self._state
+end
+
+function HttpTask:setState(state)
+	self._state = state
+	local curTask = TaskData.getCurTask()
+	if curTask then
+		curTask:onTaskStateChanged(self)
+	end
+end
+
 -- 异步执行http请求
 function HttpTask:start()
 	-- print("start .. count>> " .. self._reqCount  .. "  ,url>>" .. self._url)
+	self:setState(HttpTask.GRASP_STATE.DOING)
 	for index = 1 , self._reqCount do
-
 		local reqFunc = function()
 			CSFun.httpReqAsync(self._url, self._method, self._header, self._urlBody, self._postBody, self._cookies, self._proxyAddress, function(ret)
 				self._curCount = self._curCount + 1

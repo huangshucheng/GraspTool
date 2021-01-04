@@ -6,6 +6,7 @@ local TaskData = require("resources.luaScript.data.TaskData")
 local Sound = require("resources.luaScript.util.Sound")
 local StringUtils = require("resources.luaScript.util.StringUtils")
 local ToolUtils = require("resources.luaScript.util.ToolUtils")
+local CShapListView = require("resources.luaScript.uiLogic.CShapListView")
 
 function FindData:getInstance()
 	if not FindData._instance then
@@ -199,11 +200,12 @@ function FindData:dumpTokenOne(index, tokenTable, isShort)
 	local ok, msg = pcall(func)
 	if ok and conStr then
 		local finalStr = "(" .. tostring(index) .. ")" .. conStr
-		if isShort then
-			finalStr = StringUtils.stringToShort(finalStr,100)
-			-- finalStr = StringUtils.stringToShort(finalStr)
-			CSFun.LogOut(finalStr)
-		end
+		local wCount = isShort and 100 or nil
+		finalStr = StringUtils.stringToShort(finalStr, wCount)
+		CSFun.LogOut(finalStr)
+
+		--加入显示列表
+		CShapListView.ListView_add_item({index, conStr, "", CSFun.Utf8ToDefault("未开始~")})
 	end
 end
 
