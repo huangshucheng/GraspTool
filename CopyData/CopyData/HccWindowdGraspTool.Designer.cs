@@ -48,6 +48,7 @@
             this.btnGenQRCode = new System.Windows.Forms.Button();
             this.richTextQRCode = new System.Windows.Forms.RichTextBox();
             this.listViewToken = new System.Windows.Forms.ListView();
+            this.btnCatchSel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numUDDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUDGraspTime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUrl)).BeginInit();
@@ -77,9 +78,9 @@
             // 
             // btnStartCatch
             // 
-            this.btnStartCatch.Location = new System.Drawing.Point(11, 125);
+            this.btnStartCatch.Location = new System.Drawing.Point(4, 125);
             this.btnStartCatch.Name = "btnStartCatch";
-            this.btnStartCatch.Size = new System.Drawing.Size(100, 38);
+            this.btnStartCatch.Size = new System.Drawing.Size(90, 38);
             this.btnStartCatch.TabIndex = 7;
             this.btnStartCatch.Text = "开始做任务";
             this.btnStartCatch.UseVisualStyleBackColor = true;
@@ -87,9 +88,9 @@
             // 
             // btnStopCatch
             // 
-            this.btnStopCatch.Location = new System.Drawing.Point(149, 125);
+            this.btnStopCatch.Location = new System.Drawing.Point(199, 125);
             this.btnStopCatch.Name = "btnStopCatch";
-            this.btnStopCatch.Size = new System.Drawing.Size(100, 38);
+            this.btnStopCatch.Size = new System.Drawing.Size(63, 38);
             this.btnStopCatch.TabIndex = 8;
             this.btnStopCatch.Text = "停止";
             this.btnStopCatch.UseVisualStyleBackColor = true;
@@ -295,11 +296,22 @@
             this.listViewToken.UseCompatibleStateImageBehavior = false;
             this.listViewToken.SelectedIndexChanged += new System.EventHandler(this.listViewToken_SelectedIndexChanged);
             // 
+            // btnCatchSel
+            // 
+            this.btnCatchSel.Location = new System.Drawing.Point(101, 125);
+            this.btnCatchSel.Name = "btnCatchSel";
+            this.btnCatchSel.Size = new System.Drawing.Size(90, 38);
+            this.btnCatchSel.TabIndex = 28;
+            this.btnCatchSel.Text = "做选中任务";
+            this.btnCatchSel.UseVisualStyleBackColor = true;
+            this.btnCatchSel.Click += new System.EventHandler(this.btnCatchSel_Click);
+            // 
             // HccWindowdGraspTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(935, 824);
+            this.Controls.Add(this.btnCatchSel);
             this.Controls.Add(this.listViewToken);
             this.Controls.Add(this.richTextQRCode);
             this.Controls.Add(this.btnGenQRCode);
@@ -351,6 +363,7 @@
         private System.Windows.Forms.Button btnGenQRCode;
         private System.Windows.Forms.RichTextBox richTextQRCode;
         private System.Windows.Forms.ListView listViewToken;
+        private System.Windows.Forms.Button btnCatchSel;
     }
 }
 

@@ -78,6 +78,7 @@ local initListView = function()
 	CShapListView.ListView_add_columns(CSFun.Utf8ToDefault("状态~"), 100)
 	CShapListView.ListView_set_height(22)
 	--test
+	--[[
 	local tb = {1, "Cookie=111", "result=111", "state=111"}
 	local tb2 = {[1] = 2, [2] = "Cookie=222", [3] = "result=222", [4] = "state=222"}
 	-- local tb = {[1] = 1, [2] = "Cookie=111", [3] = "result=111", [4] = "state=111"}
@@ -89,13 +90,7 @@ local initListView = function()
 	local tb7 = {[1] = 7, [2] = "Cookie=222", [3] = "result=222", [4] = "state=222"}
 	local tb8 = {[1] = 8, [2] = "Cookie=222", [3] = "result=222", [4] = "state=222"}
 	-- CShapListView.ListView_add_item(tb)
-	-- CShapListView.ListView_add_item(tb2)
-	-- CShapListView.ListView_add_item(tb3)
-	-- CShapListView.ListView_add_item(tb4)
--- 	CShapListView.ListView_add_item(tb5)
--- 	CShapListView.ListView_add_item(tb6)
--- 	CShapListView.ListView_add_item(tb7)
--- 	CShapListView.ListView_add_item(tb8)
+	]]
 end
 
 initListView()

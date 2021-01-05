@@ -16,8 +16,8 @@ namespace CopyData
 
         //c++ 的 dll接口导入到c#
         //https://www.cnblogs.com/skyfreedom/p/11773597.html
-        //[DllImport(@"CppHelperDll.dll", EntryPoint = "LuaTestHcc", CallingConvention = CallingConvention.Cdecl)]
-        //static extern bool LuaTestHcc();
+        //[DllImport(@"CppHelperDll.dll", EntryPoint = "initLua", CallingConvention = CallingConvention.Cdecl)]
+        //static extern bool initLua(IntPtr luaState);
 
         //注册函数给lua使用
         void registLuaFunc()
@@ -76,14 +76,6 @@ namespace CopyData
             string path6 = System.Windows.Forms.Application.StartupPath; //获取启动了应用程序的可执行文件的路径，不包括可执行文件的名称。
             string path7 = System.Windows.Forms.Application.ExecutablePath; //获取启动了应用程序的可执行文件的路径，包括可执行文件的名称。
             string path8 = System.IO.Directory.GetCurrentDirectory(); //获取应用程序的当前工作目录(不可靠)。
-            LogOut("path1>> " + path1);
-            LogOut("path2>> " + path2);
-            LogOut("path3>> " + path3);
-            LogOut("path4>> " + path4);
-            LogOut("path5>> " + path5); //推荐
-            LogOut("path6>> " + path6);
-            LogOut("path7>> " + path7);
-            LogOut("path8>> " + path8);
             */
 
             registLuaFuncListView();
@@ -504,6 +496,19 @@ namespace CopyData
             catch (Exception ex)
             {
                 Console.WriteLine("checkAutoGraspCk_CheckedChanged error >> " + ex.Message);
+            }
+        }
+
+        //做选中任务
+        private void btnCatchSel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _luaScript.DoString("onClickDoSelAction()");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("btnCatchSel_Click error >> " + ex.Message);
             }
         }
     }

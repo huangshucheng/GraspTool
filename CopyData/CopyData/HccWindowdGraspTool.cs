@@ -20,6 +20,9 @@ namespace CopyData
             //加载lua函数，并注册函数到Lua
             try
             {
+                //test
+                //IntPtr luaState = Lua511.LuaDLL.luaL_newstate();
+                //initLua(luaState);
                 _luaScript = new Lua();
                 registLuaFunc();
             }

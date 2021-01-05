@@ -64,3 +64,7 @@ function onClickGenQRCode()
 		end
 	end)
 end
+
+function onClickDoSelAction()
+	TaskStart.doSelectAction()
+end

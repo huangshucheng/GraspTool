@@ -27,6 +27,7 @@ function HttpTask:ctor()
 	self._isRedPacket 	= false     -- 是否需要卡包，如果是的话，会优先使用界面上配置的卡包请求次数，否则用配置的请求次数
 	self._proxyAddress 	= Define.DEFAULT_PROXY --代理如："false", "true", "http://127.0.0.1:8888"，一定要加http:// 或者https://
 	self._state 		= HttpTask.GRASP_STATE.NONE --未开始
+	self._isContinue    = true 	--执行完成后是否执行下一个CK
 end
 
 function HttpTask:initWithConfig(config)
@@ -214,6 +215,15 @@ function HttpTask:setState(state)
 	if curTask then
 		curTask:onTaskStateChanged(self)
 	end
+end
+
+function HttpTask:setIsContinue(isContinue)
+	self._isContinue = isContinue
+	return self
+end
+
+function HttpTask:getIsContinue()
+	return self._isContinue
 end
 
 -- 异步执行http请求
