@@ -28,6 +28,7 @@ function HttpTask:ctor()
 	self._proxyAddress 	= Define.DEFAULT_PROXY --代理如："false", "true", "http://127.0.0.1:8888"，一定要加http:// 或者https://
 	self._state 		= HttpTask.GRASP_STATE.NONE --未开始
 	self._isContinue    = true 	--执行完成后是否执行下一个CK
+	self._graspRedPktCount   = 0 	--抢到的红包个数
 end
 
 function HttpTask:initWithConfig(config)
@@ -226,8 +227,30 @@ function HttpTask:getIsContinue()
 	return self._isContinue
 end
 
+--获取此条CK已经抓到的红包个数
+function HttpTask:getGraspRedPktCount()
+	return self._graspRedPktCount
+end
+--设置此条CK已经抓到的红包个数
+function HttpTask:setGraspRedPktCount(count)
+	self._graspRedPktCount = count
+	return self
+end
 -- 异步执行http请求
 function HttpTask:start()
+	-- 以配置为准，否则用 界面上的配置
+	local UIConfigData = require("resources.luaScript.data.UIConfigData")
+	local delayTime = tonumber(UIConfigData.getReqDelayTime()) --延迟时间
+	local kaBaoCount = tonumber(UIConfigData.getReqPktCount()) --卡包次数
+
+	if delayTime and delayTime > 0 then
+		self._delayTime = delayTime
+	end
+
+	if self._isRedPacket and kaBaoCount and kaBaoCount > 0 then
+		self._reqCount = kaBaoCount
+	end
+
 	-- print("start .. count>> " .. self._reqCount  .. "  ,url>>" .. self._url)
 	self:setState(HttpTask.GRASP_STATE.DOING)
 	for index = 1 , self._reqCount do

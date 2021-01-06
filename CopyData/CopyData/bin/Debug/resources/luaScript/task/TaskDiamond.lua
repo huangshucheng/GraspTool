@@ -66,14 +66,37 @@ TaskDiamond.TASK_LIST_URL_CONFIG = {
 		delay = 0,
 	},
 	{
+		curTaskName = "开始学习啊", 
+		url = "hbz.qrmkt.cn/hbact/school/study/start",
+		method = POST, 
+		reqCount = 1,
+		delay = 0,
+	},	
+	{
+		curTaskName = "结束学习", 
+		url = "hbz.qrmkt.cn/hbact/school/study/end",
+		method = POST, 
+		postBody = "shareCode=null",
+		reqCount = 1,
+		delay = 0,
+		delay = 20,
+	},
+	{
+		curTaskName = "检测考试机会", 
+		url = "hbz.qrmkt.cn/hbact/exam/chance",
+		method = GET,
+		reqCount = 1,
+		delay = 0,
+	},
+	{
 		curTaskName = "兑换8.88鼓励金红包啊", 
 		url = "https://hbz.qrmkt.cn/hbact/commucard/exchange",
 		method = GET, 
-		reqCount = 10, 
+		reqCount = 1, 
 		urlBody = "id=42",
 		postBody = "", 
 		delay = 0,
-		isRedPacket = true,
+		-- isRedPacket = true,
 	},
 	{
 		curTaskName = "兑换18.8鼓励金红包啊", 
@@ -83,7 +106,7 @@ TaskDiamond.TASK_LIST_URL_CONFIG = {
 		urlBody = "id=43", 
 		postBody = "", 
 		delay = 0,
-		isRedPacket = true,
+		-- isRedPacket = true,
 	},
 	{
 		curTaskName = "兑换88.8鼓励金红包啊", 
@@ -94,6 +117,7 @@ TaskDiamond.TASK_LIST_URL_CONFIG = {
 		postBody = "", 
 		delay = 0,
 	},
+	--[[
 	{
 		curTaskName = "兑换188.0荷石璧啊", 
 		url = "https://hbz.qrmkt.cn/hbact/commucard/exchange",
@@ -148,29 +172,7 @@ TaskDiamond.TASK_LIST_URL_CONFIG = {
 		postBody = "", 
 		delay = 0,
 	},
-	{
-		curTaskName = "开始学习啊", 
-		url = "hbz.qrmkt.cn/hbact/school/study/start",
-		method = POST, 
-		reqCount = 1,
-		delay = 0,
-	},	
-	{
-		curTaskName = "结束学习", 
-		url = "hbz.qrmkt.cn/hbact/school/study/end",
-		method = POST, 
-		postBody = "shareCode=null",
-		reqCount = 1,
-		delay = 0,
-		-- delay = 0,
-	},
-	{
-		curTaskName = "检测考试机会", 
-		url = "hbz.qrmkt.cn/hbact/exam/chance",
-		method = GET,
-		reqCount = 1,
-		delay = 0,
-	},
+	]]
 	--[[
 	{
 		curTaskName = "开始考试", 

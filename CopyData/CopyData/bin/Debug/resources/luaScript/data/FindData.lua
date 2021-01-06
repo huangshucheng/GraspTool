@@ -189,23 +189,23 @@ function FindData:dumpToken()
 end
 
 function FindData:dumpTokenOne(index, tokenTable, isShort)
-	local conStr = nil
+	local showTokenStr = nil
 	local func = function()
 		local str = ""
 		for k,v in pairs(tokenTable) do
 			str = str .. tostring(k) .. "=" .. tostring(v) .. " ,"
 		end
-		conStr = str
+		showTokenStr = str
 	end
 	local ok, msg = pcall(func)
-	if ok and conStr then
-		local finalStr = "(" .. tostring(index) .. ")" .. conStr
+	if ok and showTokenStr then
+		local finalStr = "(" .. tostring(index) .. ")" .. showTokenStr
 		local wCount = isShort and 100 or nil
 		finalStr = StringUtils.stringToShort(finalStr, wCount)
 		CSFun.LogOut(finalStr)
 
 		--加入显示列表
-		CShapListView.ListView_add_item({index, conStr, "", CSFun.Utf8ToDefault("未开始~")})
+		CShapListView.ListView_add_item({index, showTokenStr, "", 0, CSFun.Utf8ToDefault("未开始~")})
 	end
 end
 

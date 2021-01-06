@@ -142,19 +142,17 @@ function TaskBase:onTaskStateChanged(curHttpTaskObj)
 	local state = curHttpTaskObj:getState()
 	local index = tonumber(curHttpTaskObj:getUserData())
 	local stateStr = state_table[curHttpTaskObj:getState()] or ""
-	CShapListView.ListView_set_item({index, nil, nil, CSFun.Utf8ToDefault(stateStr)})
+	CShapListView.ListView_set_item({index, nil, nil, nil, CSFun.Utf8ToDefault(stateStr)})
 end
 
 --返回,各个活动自己去做json解析，显示红包多少
 function TaskBase:onResponse(httpRes, taskCur)
-	--[[
 	local index = taskCur:getUserData()
 	if string.find(httpRes,"红包") then
-		CShapListView.ListView_set_item({index, nil, CSFun.Utf8ToDefault("红包"), nil})
-	else
-		CShapListView.ListView_set_item({index, nil, CSFun.Utf8ToDefault("两手空空"), nil})
+		taskCur:setGraspRedPktCount(taskCur:getGraspRedPktCount() + 1)
+		local redPktCount = taskCur:getGraspRedPktCount()
+		CShapListView.ListView_set_item({index, nil, nil, redPktCount, nil})
 	end
-	]]
 end
 
 --开始执行下一个任务,参数为HttpTask对象

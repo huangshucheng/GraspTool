@@ -82,7 +82,7 @@
             this.btnStartCatch.Name = "btnStartCatch";
             this.btnStartCatch.Size = new System.Drawing.Size(90, 38);
             this.btnStartCatch.TabIndex = 7;
-            this.btnStartCatch.Text = "开始做任务";
+            this.btnStartCatch.Text = "开始执行";
             this.btnStartCatch.UseVisualStyleBackColor = true;
             this.btnStartCatch.Click += new System.EventHandler(this.btnStartCatch_Click);
             // 
@@ -302,7 +302,7 @@
             this.btnCatchSel.Name = "btnCatchSel";
             this.btnCatchSel.Size = new System.Drawing.Size(90, 38);
             this.btnCatchSel.TabIndex = 28;
-            this.btnCatchSel.Text = "做选中任务";
+            this.btnCatchSel.Text = "选中执行";
             this.btnCatchSel.UseVisualStyleBackColor = true;
             this.btnCatchSel.Click += new System.EventHandler(this.btnCatchSel_Click);
             // 

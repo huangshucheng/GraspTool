@@ -73,10 +73,6 @@ function TaskStart.onResponseCallBack(httpRes, taskCur)
 		return
 	end
 
-	-- 以配置为准，否则用 界面上的配置
-	local delayTime = tonumber(UIConfigData.getReqDelayTime()) --延迟时间
-	local redPktCount = tonumber(UIConfigData.getReqPktCount()) --卡包次数
-
 	--第一个任务执行次数到了，执行下一个任务
 	local tmpCurTask = TaskData.getCurTask()
 	if not tmpCurTask then 
@@ -95,15 +91,6 @@ function TaskStart.onResponseCallBack(httpRes, taskCur)
 			taskNext:setIsContinue(taskCur:getIsContinue())
 			tmpCurTask:onNextTask(taskNext, taskCur)
 			taskNext:addCallback(TaskStart.onResponseCallBack)
-
-			--使用UI界面的延迟时间，否则用配置的延迟时间
-			if delayTime and delayTime > 0 then
-				taskNext:setDelay(delayTime)
-			end
-			--用UI界面的卡包次数，否则用配置的卡包次数
-			if taskNext:getIsRedPacket() and redPktCount and redPktCount > 0 then
-				taskNext:setReqCount(redPktCount)
-			end
 			taskNext:start()
 		else --需要切换token
 			local outLogStr = "(" ..taskCur:getUserData() .. ")" .. "完成!"
@@ -139,12 +126,6 @@ function TaskStart.onResponseCallBack(httpRes, taskCur)
 					taskListTop:addHeader(nextToken)
 					tmpCurTask:onNextTask(taskListTop, taskCur)
 					taskListTop:addCallback(TaskStart.onResponseCallBack)
-					if delayTime and delayTime > 0 then
-						taskListTop:setDelay(delayTime)
-					end
-					if taskListTop:getIsRedPacket() and redPktCount and redPktCount > 0 then
-						taskListTop:setReqCount(redPktCount)
-					end
 					taskListTop:start()
 				end
 			end
