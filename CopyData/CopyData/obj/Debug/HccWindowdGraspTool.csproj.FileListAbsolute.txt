@@ -323,3 +323,14 @@ E:\MyGame\GraspTool\CopyData\CopyData\bin\Debug\Microsoft.Extensions.Logging.Abs
 E:\MyGame\GraspTool\CopyData\CopyData\bin\Debug\Microsoft.Extensions.Options.xml
 E:\MyGame\GraspTool\CopyData\CopyData\bin\Debug\System.Text.Encodings.Web.xml
 E:\MyGame\GraspTool\CopyData\CopyData\bin\Debug\System.Threading.Tasks.Extensions.xml
+E:\MyGame\GraspTool\CopyData\CopyData\bin\Debug\BouncyCastle.Crypto.dll
+E:\MyGame\GraspTool\CopyData\CopyData\bin\Debug\BrotliSharpLib.dll
+E:\MyGame\GraspTool\CopyData\CopyData\bin\Debug\Microsoft.Win32.Registry.dll
+E:\MyGame\GraspTool\CopyData\CopyData\bin\Debug\System.Security.AccessControl.dll
+E:\MyGame\GraspTool\CopyData\CopyData\bin\Debug\System.Security.Principal.Windows.dll
+E:\MyGame\GraspTool\CopyData\CopyData\bin\Debug\Titanium.Web.Proxy.dll
+E:\MyGame\GraspTool\CopyData\CopyData\bin\Debug\BouncyCastle.Crypto.xml
+E:\MyGame\GraspTool\CopyData\CopyData\bin\Debug\BrotliSharpLib.xml
+E:\MyGame\GraspTool\CopyData\CopyData\bin\Debug\Microsoft.Win32.Registry.xml
+E:\MyGame\GraspTool\CopyData\CopyData\bin\Debug\System.Security.AccessControl.xml
+E:\MyGame\GraspTool\CopyData\CopyData\bin\Debug\System.Security.Principal.Windows.xml

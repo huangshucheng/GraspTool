@@ -79,6 +79,7 @@ namespace CopyData
             */
 
             registLuaFuncListView();
+            testWebProxy();
 
             string exePath = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string scriptPath = "/resources/luaScript/main.lua";
