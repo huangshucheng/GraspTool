@@ -11,38 +11,60 @@ using System.Net;
 using Titanium.Web.Proxy.EventArguments;
 using Titanium.Web.Proxy.Models;
 using System.Collections.ObjectModel;
+using Titanium.Web.Proxy.Helpers;
+
+//TODO 不能监听手机端消息
+//偶先监听不到resBody情况
+//https://github.com/justcoding121/Titanium-Web-Proxy
 
 namespace CopyData
 {
     public partial class HccWindowdGraspTool
     {
+        int EXPLICIT_PORT = 8111;
+        int TRANSPARENT_PORT = 8112;
+
+        private ProxyServer proxyServer;
+        private ExplicitProxyEndPoint explicitEndPoint;
+
         public void testWebProxy() {
-            setHttpProxy();
+            //initHttpProxy();
+            //startHttpProsy();
+            //stopHttpProxy();
         }
 
         //设置代理，增加监听事件
-        private void setHttpProxy() {
+        private void initHttpProxy() {
             Console.WriteLine("start http proxy!!");
-            var proxyServer = new ProxyServer();
+            proxyServer = new ProxyServer();
 
             // 此代理使用的本地信任根证书 
             //proxyServer.CertificateManager.TrustRootCertificate(true);
             proxyServer.CertificateManager.CertificateEngine = Titanium.Web.Proxy.Network.CertificateEngine.DefaultWindows;
             proxyServer.CertificateManager.EnsureRootCertificate();
 
+            proxyServer.TcpTimeWaitSeconds = 10;
+            proxyServer.ConnectionTimeOutSeconds = 15;
+            proxyServer.ReuseSocket = false;
+            proxyServer.EnableConnectionPool = false;
+            proxyServer.ForwardToUpstreamGateway = true;
+            proxyServer.CertificateManager.SaveFakeCertificates = true;
+        }
+
+        public void startHttpProsy() {
             // 可选地设置证书引擎
             proxyServer.BeforeRequest += OnRequest;
             proxyServer.BeforeResponse += OnBeforeResponse;
-            proxyServer.AfterResponse+= OnAfterResponse;
+            proxyServer.AfterResponse += OnAfterResponse;
             proxyServer.ServerCertificateValidationCallback += OnCertificateValidation;
             proxyServer.ClientCertificateSelectionCallback += OnCertificateSelection;
 
-            var explicitEndPoint = new ExplicitProxyEndPoint(IPAddress.Any, 8000, true)
+            explicitEndPoint = new ExplicitProxyEndPoint(IPAddress.Any, EXPLICIT_PORT, true)
             {
                 // 在所有https请求上使用自颁发的通用证书
                 // 通过不为每个启用http的域创建证书来优化性能
                 // 当代理客户端不需要证书信任时非常有用
-               //GenericCertificate = new X509Certificate2(Path.Combine(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "genericcert.pfx"), "password")
+                //GenericCertificate = new X509Certificate2(Path.Combine(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "genericcert.pfx"), "password")
             };
 
             // 当接收到连接请求时触发
@@ -56,7 +78,7 @@ namespace CopyData
             // 透明endpoint 对于反向代理很有用(客户端不知道代理的存在)
             // 透明endpoint 通常需要一个网络路由器端口来转发HTTP(S)包或DNS
             // 发送数据到此endpoint 
-            var transparentEndPoint = new TransparentProxyEndPoint(IPAddress.Any, 8001, true)
+            var transparentEndPoint = new TransparentProxyEndPoint(IPAddress.Any, TRANSPARENT_PORT, true)
             {
                 // 要使用的通用证书主机名,当SNI被客户端禁用时
                 GenericCertificateName = "google.com"
@@ -66,15 +88,22 @@ namespace CopyData
             //proxyServer.UpStreamHttpProxy = new ExternalProxy() { HostName = "localhost", Port = 8888 };
             //proxyServer.UpStreamHttpsProxy = new ExternalProxy() { HostName = "localhost", Port = 8888 };
 
-            foreach (var endPoint in proxyServer.ProxyEndPoints){
-                Console.WriteLine("Listening on '{0}' endpoint at Ip {1} and port: {2} ",endPoint.GetType().Name, endPoint.IpAddress, endPoint.Port);
+            foreach (var endPoint in proxyServer.ProxyEndPoints)
+            {
+                Console.WriteLine("Listening on '{0}' endpoint at Ip {1} and port: {2} ", endPoint.GetType().Name, endPoint.IpAddress, endPoint.Port);
             }
 
             // 只有显式代理可以设置为系统代理!
-            proxyServer.SetAsSystemHttpProxy(explicitEndPoint);
-            proxyServer.SetAsSystemHttpsProxy(explicitEndPoint);
+            if (RunTime.IsWindows)
+            {
+                //proxyServer.SetAsSystemHttpProxy(explicitEndPoint);
+                proxyServer.SetAsSystemProxy(explicitEndPoint, ProxyProtocolType.AllHttp);
+            }
 
-            // 停止使用代理（如果直接关掉软件的话，代理不会自动去掉，无法上网）
+        }
+
+        // 停止使用代理（如果直接关掉软件的话，代理不会自动去掉，无法上网）
+        public void stopHttpProxy() {
             explicitEndPoint.BeforeTunnelConnectRequest -= OnBeforeTunnelConnectRequest;
             proxyServer.BeforeRequest -= OnRequest;
             proxyServer.BeforeResponse -= OnBeforeResponse;
@@ -83,22 +112,24 @@ namespace CopyData
             proxyServer.ClientCertificateSelectionCallback -= OnCertificateSelection;
             proxyServer.Stop();
         }
+
         //请求时出发
         public async Task OnRequest(object sender, SessionEventArgs e)
         {
             string method = e.HttpClient.Request.Method.ToUpper();
-            if ((method == "POST" || method == "PUT" || method == "PATCH"))
+            //if (method == "GET" || method == "POST" || method == "PUT" || method == "PATCH")
             {
-                // Get/Set request body bytes
-                byte[] bodyBytes = await e.GetRequestBody();
-                e.SetRequestBody(bodyBytes);
-
-                // Get/Set request body as string
-                string bodyString = await e.GetRequestBodyAsString();
-                e.SetRequestBodyString(bodyString);
-
-                // 这样你就能从响应处理器中找到它
-                //e.UserData = e.HttpClient.Request;
+                if (e.HttpClient.Request.HasBody) {
+                    
+                    byte[] bodyBytes = await e.GetRequestBody();
+                    e.SetRequestBody(bodyBytes);
+                    
+                    string bodyString = await e.GetRequestBodyAsString();
+                    e.SetRequestBodyString(bodyString);
+                    
+                    // 这样设置后，能从响应处理器中找到它
+                    //e.UserData = e.HttpClient.Request;
+                }
             }
         }
 
@@ -113,29 +144,26 @@ namespace CopyData
             Console.WriteLine("hcc>>OnRequest: host: " + e.HttpClient.Request.Host + " ,Method: " + method);
             Console.WriteLine("hcc>>Header: " + e.HttpClient.Request.HeaderText);
 
-            if ((method == "POST" || method == "PUT" || method == "PATCH"))
+           // if (method == "GET" || method == "POST" || method == "PUT" || method == "PATCH")
             {
                 try
                 {
-
                     if (e.HttpClient.Request.HasBody)
                     {
                         var reqbody = await e.GetRequestBodyAsString();
-                        var reqBodyString = e.HttpClient.Request.BodyString;
                         Console.WriteLine("reqBody>>>: " + reqbody);
                     }
 
-                    if (e.HttpClient.Response.StatusCode == 200)
-                    {
-                        string respTrim = e.HttpClient.Response.ContentType.Trim().ToLower();
-                        if (e.HttpClient.Response.ContentType != null && e.HttpClient.Response.ContentLength > 0)
+                    var respObj = e.HttpClient.Response;
+                    //if (respObj != null && respObj.StatusCode == (int)HttpStatusCode.OK)
+                    if (respObj != null && respObj.StatusCode == (int)HttpStatusCode.OK && respObj.HasBody)
                         {
-                            if (respTrim.Contains("text") || respTrim.Contains("html") || respTrim.Contains("json"))
+                        string respTrim = respObj.ContentType.Trim().ToLower();
+                        if (respObj.ContentType != null && respObj.ContentLength > 0)
+                        {
+                            //if (respTrim.Contains("text") || respTrim.Contains("html") || respTrim.Contains("json") || respTrim.Contains("xml") || respTrim.Contains("xhtml"))
                             {
-                                byte[] bodyBytes = await e.GetResponseBody();
-                                e.SetResponseBody(bodyBytes);
                                 string resBody = await e.GetResponseBodyAsString();
-                                e.SetResponseBodyString(resBody);
                                 Console.WriteLine("resBody>>>: " + resBody);
                             }
                         }
