@@ -79,7 +79,7 @@ namespace CopyData
             */
 
             registLuaFuncListView();
-            testWebProxy();
+            initSocket();
 
             string exePath = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string scriptPath = "/resources/luaScript/main.lua";
@@ -89,7 +89,7 @@ namespace CopyData
         //test 按钮点击
         private void btnFinishCatch_Click(object sender, EventArgs e)
         {
-            _luaScript.DoString("testCall()");
+            //_luaScript.DoString("testCall()");
             //var str = LuaCall.httpRequest("www.baidu.com");
             //LuaCall.httpRequestAsync("www.baidu.com");
             //var url = "https://hbz.qrmkt.cn/hbact/hyr/sign/list";
@@ -121,6 +121,8 @@ namespace CopyData
             //SetInterval(1);
             //var utime = JinYiHelp.TimeHelp.TimeHelper.GetUnixTime();
             //LogOut(utime);
+            _webSocket.Close();
+            _webSocket.Dispose();
         }
 
         /// ///////////////////////////////////
@@ -351,7 +353,8 @@ namespace CopyData
         {
             try
             {
-                _luaScript.DoString("onClickGenQRCode()");
+                //_luaScript.DoString("onClickGenQRCode()");
+                _webSocket.Send("发送了数据。。。。。2222");
             }
             catch (Exception ex)
             {

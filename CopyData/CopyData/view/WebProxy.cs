@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
-using Titanium.Web.Proxy;
-using Titanium.Web.Proxy.Http;
+//using Titanium.Web.Proxy;
+//using Titanium.Web.Proxy.Http;
 using System.Net;
-using Titanium.Web.Proxy.EventArguments;
-using Titanium.Web.Proxy.Models;
-using System.Collections.ObjectModel;
-using Titanium.Web.Proxy.Helpers;
+//using Titanium.Web.Proxy.EventArguments;
+//using Titanium.Web.Proxy.Models;
+//using System.Collections.ObjectModel;
+//using Titanium.Web.Proxy.Helpers;
 
 //TODO 不能监听手机端消息
 //偶先监听不到resBody情况
@@ -24,6 +24,7 @@ namespace CopyData
         int EXPLICIT_PORT = 8111;
         int TRANSPARENT_PORT = 8112;
 
+        /*
         private ProxyServer proxyServer;
         private ExplicitProxyEndPoint explicitEndPoint;
 
@@ -216,5 +217,6 @@ namespace CopyData
                 e.DecryptSsl = false;
             }
         }
+        */
     }
 }
