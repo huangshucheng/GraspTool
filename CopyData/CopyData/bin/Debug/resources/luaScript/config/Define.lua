@@ -26,4 +26,21 @@ Define.HTTP_HEADER_TABLE = {
 	-- ["Referer"] = "www.baidu.com",
 }
 
+--[[
+数据格式：
+[reqHeader<res.wx.qq.com>] 
+GET https://res.wx.qq.com/open/libs/weui/2.0-alpha.1/weui.min.css HTTP/1.1
+Host: res.wx.qq.com
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36 QBCore/4.0.1301.400 QQBrowser/9.0.2524.400 Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36 NetType/WIFI MicroMessenger/7.0.20.1781(0x6700143B) WindowsWechat
+Accept: text/css,*/*;q=0.1
+
+[reqBody<res.wx.qq.com>] 
+xxx=1223
+
+[resBody<www.baidu.com>]
+123
+
+]]
+
 return Define

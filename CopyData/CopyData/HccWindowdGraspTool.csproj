@@ -270,6 +270,7 @@
     <Compile Include="src\EasyHttp\EasyHttpHeaderApi.cs" />
     <Compile Include="src\EasyHttp\EasyHttpUtils.cs" />
     <Compile Include="src\EasyHttp\KeyValue.cs" />
+    <Compile Include="src\HCCWebSocket.cs" />
     <Compile Include="src\LocalStorage.cs" />
     <Compile Include="view\MainWindow.cs">
       <SubType>Form</SubType>

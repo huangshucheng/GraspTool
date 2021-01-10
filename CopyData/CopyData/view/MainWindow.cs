@@ -121,8 +121,7 @@ namespace CopyData
             //SetInterval(1);
             //var utime = JinYiHelp.TimeHelp.TimeHelper.GetUnixTime();
             //LogOut(utime);
-            _webSocket.Close();
-            _webSocket.Dispose();
+            //_webSocket.Dispose();
         }
 
         /// ///////////////////////////////////
@@ -169,12 +168,11 @@ namespace CopyData
         // 导出给lua使用，打印字符串到log界面
         public void LogOut(string logStr)
         {
-            if (richTextBoxLog != null)
-            {
-                if (!string.IsNullOrEmpty(logStr))
-                {
-                    richTextBoxLog.AppendText(logStr + "\n");
-                }
+            if (string.IsNullOrEmpty(logStr)) {
+                return;
+            }
+            if (richTextBoxLog != null){
+                richTextBoxLog.AppendText(logStr + "\n");
             }
         }
 
@@ -353,8 +351,8 @@ namespace CopyData
         {
             try
             {
-                //_luaScript.DoString("onClickGenQRCode()");
-                _webSocket.Send("发送了数据。。。。。2222");
+                _luaScript.DoString("onClickGenQRCode()");
+                _//webSocket.websocket_SendMessage("发送了数据。。。。。2222");
             }
             catch (Exception ex)
             {

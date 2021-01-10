@@ -11,8 +11,6 @@ namespace CopyData
     class BackWork
     {
         BackgroundWorker _bgWorker = null; //工作线程
-        //public event DataDelegateHander _dataChangedEvent;//声明一个事件，有返回数据，就派发出去
-        //LuaFunction luaCallBack = null; // lua 回调
 
         public BackWork() {
             InitBackGroundWorker();
@@ -36,7 +34,6 @@ namespace CopyData
                 var param = eventArgs.Argument;
                 if (param != null) {
                     HTTP_REQ_PARAM reqParam = (HTTP_REQ_PARAM)param;
-                    //string retStr = CCHttp.httpRequest(reqParam.url, reqParam.method, reqParam.headTable, reqParam.urlBody, reqParam.postBody, reqParam.cookies);
                     //_bgWorker.ReportProgress(100, retStr);
                 }
             } catch (Exception e) {
@@ -52,7 +49,6 @@ namespace CopyData
                 info = "";
             }
             Console.WriteLine("ret>> " + info);
-            //_dataChangedEvent.Invoke(info);
         }
 
         //工作完成，回调
@@ -63,8 +59,7 @@ namespace CopyData
         //开始工作，外部调用
         private void startBackWork(object argument)
         {
-            if (_bgWorker.IsBusy)
-            {
+            if (_bgWorker.IsBusy){
                 Console.WriteLine("error: bgWorker is busy");
                 return;
             }
@@ -75,10 +70,5 @@ namespace CopyData
                 Console.WriteLine("error: bgWorker>> " + e.Message);
             }
         }
-
-        public void startReqHttp(HTTP_REQ_PARAM param) {
-            startBackWork(param);
-        }
-
     }
 }
