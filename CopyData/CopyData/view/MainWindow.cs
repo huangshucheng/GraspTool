@@ -122,6 +122,9 @@ namespace CopyData
             //var utime = JinYiHelp.TimeHelp.TimeHelper.GetUnixTime();
             //LogOut(utime);
             //_webSocket.Dispose();
+            if (_webSocket != null) {
+                _webSocket.websocket_SendMessage("发送了数据。。。。。2222");
+            }
         }
 
         /// ///////////////////////////////////
@@ -351,8 +354,7 @@ namespace CopyData
         {
             try
             {
-                _luaScript.DoString("onClickGenQRCode()");
-                _//webSocket.websocket_SendMessage("发送了数据。。。。。2222");
+                _luaScript.DoString("onClickGenQRCode()"); 
             }
             catch (Exception ex)
             {

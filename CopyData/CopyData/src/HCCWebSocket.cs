@@ -81,19 +81,19 @@ namespace CopyData
         private void websocket_Opened(object sender, EventArgs e)
         {
             _webSocket.Send("Hello webSocket server!");
-            //Console.WriteLine("cc>>websocket_Opened");
+            Console.WriteLine("cc>>websocket_Opened");
             _webSocketeEvent?.Invoke("wesocket opened");
         }
 
         private void websocket_Error(object sender, ErrorEventArgs e)
         {
-            //Console.WriteLine("cc>>websocket_Error, e: " + e.ToString());
+            Console.WriteLine("cc>>websocket_Error, e: " + e.ToString());
             _webSocketeEvent?.Invoke("wesocket error");
         }
 
         private void websocket_Closed(object sender, EventArgs e)
         {
-            //Console.WriteLine("cc>>websocket_Closed Code>> " + e.ToString());
+            Console.WriteLine("cc>>websocket_Closed Code>> " + e.ToString());
             _webSocketeEvent?.Invoke("wesocket closed");
         }
 
@@ -102,7 +102,7 @@ namespace CopyData
             var data = args.Data;
             var decodeData = Encoding.UTF8.GetString(data);
             if (decodeData != null){
-                //Console.WriteLine("cc>>websocket_DataReceived decodeData:>> " + decodeData);
+                Console.WriteLine("cc>>websocket_DataReceived decodeData:>> " + decodeData);
                 _webSocketeEvent?.Invoke("wesocket data: " + decodeData);
             }
         }
@@ -110,7 +110,7 @@ namespace CopyData
         private void websocket_MessageReceived(object sender, MessageReceivedEventArgs args)
         {
             var message = args.Message;
-            //Console.WriteLine("cc>>websocket_MessageReceived>> " + message);
+            Console.WriteLine("cc>>websocket_MessageReceived>> " + message);
             _webSocketeEvent?.Invoke("wesocket data: " + message);
         }
 
