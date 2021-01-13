@@ -14,6 +14,7 @@ namespace CopyData
         {
             //设置Http请求的并发连接数最大值为1000
             System.Net.ServicePointManager.DefaultConnectionLimit = 1000;
+            Control.CheckForIllegalCrossThreadCalls = false;
 
             InitializeComponent();
             InitListView();
@@ -64,7 +65,10 @@ namespace CopyData
             }
             try
             {
-                _luaScript.DoString("receiveFidderData()");
+                var func = _luaScript.GetFunction("Fidder_OnRecvData");
+                if (func != null){
+                    _luaScript.DoString("Fidder_OnRecvData()");
+                }
             }
             catch (Exception e)
             {

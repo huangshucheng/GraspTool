@@ -79,7 +79,7 @@ namespace CopyData
             */
 
             registLuaFuncListView();
-            initSocket();
+            registWebSocket();
 
             string exePath = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string scriptPath = "/resources/luaScript/main.lua";
@@ -118,14 +118,6 @@ namespace CopyData
             //listViewToken.TopItem = listViewToken.Items[listViewToken.Items.Count - 1];
             this.listViewToken.EndUpdate();  //结束数据处理，UI界面一次性绘制。
             */
-            //SetInterval(1);
-            //var utime = JinYiHelp.TimeHelp.TimeHelper.GetUnixTime();
-            //LogOut(utime);
-            //_webSocket.Dispose();
-            if (_webSocket != null) {
-                var send_str = "Hello webSocket server!";
-                _webSocket.websocket_SendMessage(send_str);
-            }
         }
 
         /// ///////////////////////////////////
@@ -176,6 +168,7 @@ namespace CopyData
                 return;
             }
             if (richTextBoxLog != null){
+                //Control.CheckForIllegalCrossThreadCalls = false;
                 richTextBoxLog.AppendText(logStr + "\n");
             }
         }
@@ -355,7 +348,11 @@ namespace CopyData
         {
             try
             {
-                _luaScript.DoString("onClickGenQRCode()"); 
+                var func = _luaScript.GetFunction("onClickGenQRCode");
+                if (func != null)
+                {
+                    _luaScript.DoString("onClickGenQRCode()");
+                }
             }
             catch (Exception ex)
             {
@@ -368,7 +365,11 @@ namespace CopyData
         {
             try
             {
-                _luaScript.DoString("onClickStartDoAct()");
+                var func = _luaScript.GetFunction("onClickStartDoAct");
+                if (func != null)
+                {
+                    _luaScript.DoString("onClickStartDoAct()");
+                }
             }
             catch (Exception ex)
             {
@@ -381,7 +382,11 @@ namespace CopyData
         {
             try
             {
-                _luaScript.DoString("onClickStopDoAct()");
+                var func = _luaScript.GetFunction("onClickStopDoAct");
+                if (func != null)
+                {
+                    _luaScript.DoString("onClickStopDoAct()");
+                }
             }
             catch (Exception ex)
             {
@@ -403,9 +408,13 @@ namespace CopyData
         {
             try
             {
-                var num = (NumericUpDown)sender;
-                var value = num.Value.ToString();
-                _luaScript.DoString("onDelayTimeChanged("+ value + ")");
+                var func = _luaScript.GetFunction("onDelayTimeChanged");
+                if (func != null)
+                {
+                    var num = (NumericUpDown)sender;
+                    var value = num.Value.ToString();
+                    _luaScript.DoString("onDelayTimeChanged("+ value + ")");
+                }
             }
             catch (Exception ex)
             {
@@ -418,9 +427,13 @@ namespace CopyData
         {
             try
             {
-                var num = (NumericUpDown)sender;
-                var value = num.Value.ToString();
-                _luaScript.DoString("onReqTimeChanged(" + value + ")");
+                var func = _luaScript.GetFunction("onReqTimeChanged");
+                if (func != null)
+                {
+                    var num = (NumericUpDown)sender;
+                    var value = num.Value.ToString();
+                    _luaScript.DoString("onReqTimeChanged(" + value + ")");
+                }
             }
             catch (Exception ex)
             {
@@ -433,8 +446,12 @@ namespace CopyData
         {
             try
             {
-                int selectIndex = comboBoxActList.SelectedIndex + 1;
-                _luaScript.DoString("onSelectActivityFromList(" + selectIndex + ")");
+                var func = _luaScript.GetFunction("onSelectActivityFromList");
+                if (func != null)
+                {
+                    int selectIndex = comboBoxActList.SelectedIndex + 1;
+                    _luaScript.DoString("onSelectActivityFromList(" + selectIndex + ")");
+                }
             }
             catch (Exception ex)
             {
@@ -447,10 +464,14 @@ namespace CopyData
         {
             try
             {
-                var checkBox = (CheckBox)sender;
-                string isCheckdStr = checkBox.Checked == true ? "true" : "false";
-                var doStirng = "onSelectPlayCound(" + isCheckdStr + ")";
-                _luaScript.DoString(doStirng);
+                var func = _luaScript.GetFunction("onSelectPlayCound");
+                if (func != null)
+                {
+                    var checkBox = (CheckBox)sender;
+                    string isCheckdStr = checkBox.Checked == true ? "true" : "false";
+                    var doStirng = "onSelectPlayCound(" + isCheckdStr + ")";
+                    _luaScript.DoString(doStirng);
+                }
             }
             catch (Exception ex)
             {
@@ -463,10 +484,13 @@ namespace CopyData
         {
             try
             {
-                var checkBox = (CheckBox)sender;
-                string isCheckdStr = checkBox.Checked == true ? "true" : "false";
-                var doStirng = "onSelectAutoGraspCk(" + isCheckdStr + ")";
-                _luaScript.DoString(doStirng);
+                var func = _luaScript.GetFunction("onSelectAutoGraspCk");
+                if (func != null) {
+                    var checkBox = (CheckBox)sender;
+                    string isCheckdStr = checkBox.Checked == true ? "true" : "false";
+                    var doStirng = "onSelectAutoGraspCk(" + isCheckdStr + ")";
+                    _luaScript.DoString(doStirng);
+                }
             }
             catch (Exception ex)
             {
@@ -479,9 +503,13 @@ namespace CopyData
         {
             try
             {
-                var checkBox = (CheckBox)sender;
-                string isCheckdStr = checkBox.Checked == true ? "true" : "false";
-                _luaScript.DoString("onSelectAutoDoAct(" + isCheckdStr + ")");
+                var func = _luaScript.GetFunction("onSelectAutoDoAct");
+                if (func != null)
+                {
+                    var checkBox = (CheckBox)sender;
+                    string isCheckdStr = checkBox.Checked == true ? "true" : "false";
+                    _luaScript.DoString("onSelectAutoDoAct(" + isCheckdStr + ")");
+                }
             }
             catch (Exception ex)
             {
@@ -494,9 +522,14 @@ namespace CopyData
         {
             try
             {
-                var checkBox = (CheckBox)sender;
-                string isCheckdStr = checkBox.Checked == true ? "true" : "false";
-                _luaScript.DoString("onSelectShowOutLog(" + isCheckdStr + ")");
+                var func = _luaScript.GetFunction("onSelectShowOutLog");
+                if (func != null)
+                {
+                    var checkBox = (CheckBox)sender;
+                    string isCheckdStr = checkBox.Checked == true ? "true" : "false";
+                    _luaScript.DoString("onSelectShowOutLog(" + isCheckdStr + ")");
+
+                }
             }
             catch (Exception ex)
             {
@@ -509,7 +542,11 @@ namespace CopyData
         {
             try
             {
-                _luaScript.DoString("onClickDoSelAction()");
+                var func = _luaScript.GetFunction("onClickDoSelAction");
+                if (func != null)
+                {
+                    _luaScript.DoString("onClickDoSelAction()");
+                }
             }
             catch (Exception ex)
             {

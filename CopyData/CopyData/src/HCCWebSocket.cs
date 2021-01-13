@@ -11,16 +11,21 @@ namespace CopyData
     {
         public event Action<string> _webSocketeEvent;
         private WebSocket _webSocket = null;
+        private bool _webSocketIsConnected = false;
+        private string _wsUrl = "";
 
-        Thread _thread = null;
-        bool _isRunning = true;
-
+        //构造，传入url
         public HCCWebSocket(string url) {
-            if (string.IsNullOrEmpty(url)){
-                return;
+            this._wsUrl = url;
+        }
+
+        public string StartSocket() {
+            if (string.IsNullOrEmpty(this._wsUrl)){
+                return "create websocket failed, url is null";
             }
-            try{
-                _webSocket = new WebSocket(url);
+            try
+            {
+                _webSocket = new WebSocket(this._wsUrl);
                 _webSocket.NoDelay = true;
                 _webSocket.AutoSendPingInterval = 5;
                 _webSocket.EnableAutoSendPing = true;
@@ -31,114 +36,115 @@ namespace CopyData
                 _webSocket.DataReceived += new EventHandler<DataReceivedEventArgs>(websocket_DataReceived);
                 _webSocket.MessageReceived += new EventHandler<MessageReceivedEventArgs>(websocket_MessageReceived);
                 _webSocket.Open();
-                Start();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("connectWebSocket error " + ex.Message);
                 _webSocket = null;
+                return "create websocket failed: " + ex.Message;
+            }
+            return "websocket create success at: " + this._wsUrl;
+        }
+
+        //是否已经连接
+        public bool IsConnected() {
+            if (_webSocket == null) {
+                return false;
+            }
+            if (this._webSocket.State != WebSocket4Net.WebSocketState.Open && this._webSocket.State != WebSocket4Net.WebSocketState.Connecting) {
+                return false;
+            }
+
+            if (_webSocketIsConnected == false) {
+                return false;
+            }
+
+            return true;
+        }
+
+        //重新连接
+        public void DoReConnect() {
+            if (IsConnected() == true) {
+                return;
+            }
+            if (_webSocket == null) {
+                return;
+            }
+            try{
+                this._webSocket.Close();
+                this._webSocket.Open();
+                Console.WriteLine("正在重连...");
+            }
+            catch (Exception ex){
+                Console.WriteLine("webSocket doReConnect error >>" + ex.Message);
             }
         }
 
-        public bool Start()
-        {
-            bool result = true;
-            try
-            {
-                this._isRunning = true;
-                this._thread = new Thread(new ThreadStart(CheckConnection));
-                this._thread.Start();
-            }
-            catch (Exception ex)
-            {
-               Console.WriteLine("webSocket start error " + ex.ToString());
-                result = false;
-            }
-            return result;
-        }
-
-        // 检查重连线程
-        private void CheckConnection()
-        {
-            do{
-                try{
-                    if (this._webSocket.State != WebSocket4Net.WebSocketState.Open && this._webSocket.State != WebSocket4Net.WebSocketState.Connecting)
-                    {
-                        Console.WriteLine(" Reconnect websocket WebSocketState: " + this._webSocket.State);
-                        this._webSocket.Close();
-                        this._webSocket.Open();
-                        Console.WriteLine("正在重连...");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
-                }
-                System.Threading.Thread.Sleep(5000);
-            } while (this._isRunning);
-        }
-
+        //socket已经连接上
         private void websocket_Opened(object sender, EventArgs e)
         {
-            _webSocket.Send("Hello webSocket server!");
+            //_webSocket.Send("{\"websocket\" : \"hello from hcc client!!\"}");
             Console.WriteLine("cc>>websocket_Opened");
-            _webSocketeEvent?.Invoke("wesocket opened");
+            _webSocketeEvent?.Invoke("{\"websocket\" : \"socket_opend\"}");
+            _webSocketIsConnected = true;
         }
 
+        //发生错误
         private void websocket_Error(object sender, ErrorEventArgs e)
         {
             Console.WriteLine("cc>>websocket_Error, e: " + e.ToString());
-            _webSocketeEvent?.Invoke("wesocket error");
+            _webSocketeEvent?.Invoke("{\"websocket\" : \"socket_error\"}");
+            _webSocketIsConnected = false;
         }
 
+        //被动关闭
         private void websocket_Closed(object sender, EventArgs e)
         {
             Console.WriteLine("cc>>websocket_Closed Code>> " + e.ToString());
             _webSocketeEvent?.Invoke("wesocket closed");
+            _webSocketeEvent?.Invoke("{\"websocket\" : \"socket_closed\"}");
+            _webSocketIsConnected = false;
         }
 
+        //接收字节数据
         private void websocket_DataReceived(object sender, DataReceivedEventArgs args)
         {
             var data = args.Data;
             var decodeData = Encoding.UTF8.GetString(data);
             if (decodeData != null){
-                Console.WriteLine("cc>>websocket_DataReceived decodeData:>> " + decodeData);
-                _webSocketeEvent?.Invoke("wesocket data: " + decodeData);
+                //Console.WriteLine("cc>>websocket_DataReceived decodeData:>> " + decodeData);
+                _webSocketeEvent?.Invoke(decodeData);
             }
         }
 
+        //接收字符串数据
         private void websocket_MessageReceived(object sender, MessageReceivedEventArgs args)
         {
             var message = args.Message;
-            Console.WriteLine("cc>>websocket_MessageReceived>> " + message);
-            _webSocketeEvent?.Invoke("wesocket data: " + message);
+            //Console.WriteLine("cc>>websocket_MessageReceived>> " + message);
+            _webSocketeEvent?.Invoke(message);
         }
 
+        //发送消息
         public void websocket_SendMessage(string message) {
-            Task.Factory.StartNew(() =>{
-                if (_webSocket != null && _webSocket.State == WebSocket4Net.WebSocketState.Open){
-                    this._webSocket.Send(message);
-                }
-            });
+            if (_webSocket != null && _webSocket.State == WebSocket4Net.WebSocketState.Open){
+                this._webSocket.Send(message);
+            }
         }
 
+        //主动断开
         public void Dispose()
         {
             if (this._webSocket == null) {
                 return;
             }
-            this._isRunning = false;
             try{
-                if (_thread != null) {
-                    _thread.Abort();
-                    _thread = null;
-                }
                 this._webSocket.Close();
                 this._webSocket.Dispose();
                 this._webSocket = null;
-                _isRunning = false;
+                _webSocketIsConnected = false;
             }
-            catch{
+            catch(Exception ex){
+                Console.WriteLine("webSocket Dispose error >>" + ex.Message);
             }
         }
     }
