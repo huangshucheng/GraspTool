@@ -123,7 +123,8 @@ namespace CopyData
             //LogOut(utime);
             //_webSocket.Dispose();
             if (_webSocket != null) {
-                _webSocket.websocket_SendMessage("发送了数据。。。。。2222");
+                var send_str = "Hello webSocket server!";
+                _webSocket.websocket_SendMessage(send_str);
             }
         }
 

@@ -19,7 +19,8 @@ namespace CopyData
         private void initSocket() {
             //_webSocket = new HCCWebSocket("ws://localhost:8005");//本地调试
             //_webSocket = new HCCWebSocket("ws://121.41.0.245:8005");//使用外网IP
-            _webSocket = new HCCWebSocket("ws://hccfun.com:8005"); //使用域名
+            //_webSocket = new HCCWebSocket("ws://hccfun.com:8005"); //使用域名
+            _webSocket = new HCCWebSocket("ws://hccfun.com:8002/do-not-proxy"); //anyproxy 自带websocket端口
             _webSocket._webSocketeEvent += (string message) => {
                 if (richTextBoxLog.InvokeRequired)
                 {
