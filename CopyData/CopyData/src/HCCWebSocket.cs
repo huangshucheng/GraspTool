@@ -21,7 +21,7 @@ namespace CopyData
 
         public string StartSocket() {
             if (string.IsNullOrEmpty(this._wsUrl)){
-                return "create websocket failed, url is null";
+                return "create cc_websocket failed, url is null";
             }
             try
             {
@@ -40,9 +40,9 @@ namespace CopyData
             catch (Exception ex)
             {
                 _webSocket = null;
-                return "create websocket failed: " + ex.Message;
+                return "create cc_websocket failed: " + ex.Message;
             }
-            return "websocket create success at: " + this._wsUrl;
+            return "cc_websocket create success at: " + this._wsUrl;
         }
 
         //是否已经连接
@@ -83,25 +83,25 @@ namespace CopyData
         private void websocket_Opened(object sender, EventArgs e)
         {
             //_webSocket.Send("{\"websocket\" : \"hello from hcc client!!\"}");
-            Console.WriteLine("cc>>websocket_Opened");
-            _webSocketeEvent?.Invoke("{\"websocket\" : \"socket_opend\"}");
+            //Console.WriteLine("cc>>websocket_Opened");
+            _webSocketeEvent?.Invoke("{\"cc_websocket\" : \"socket_opend\"}");
             _webSocketIsConnected = true;
         }
 
         //发生错误
         private void websocket_Error(object sender, ErrorEventArgs e)
         {
-            Console.WriteLine("cc>>websocket_Error, e: " + e.ToString());
-            _webSocketeEvent?.Invoke("{\"websocket\" : \"socket_error\"}");
+           // Console.WriteLine("cc>>websocket_Error, e: " + e.ToString());
+            _webSocketeEvent?.Invoke("{\"cc_websocket\" : \"socket_error\"}");
             _webSocketIsConnected = false;
         }
 
         //被动关闭
         private void websocket_Closed(object sender, EventArgs e)
         {
-            Console.WriteLine("cc>>websocket_Closed Code>> " + e.ToString());
+            //Console.WriteLine("cc>>websocket_Closed Code>> " + e.ToString());
             _webSocketeEvent?.Invoke("wesocket closed");
-            _webSocketeEvent?.Invoke("{\"websocket\" : \"socket_closed\"}");
+            _webSocketeEvent?.Invoke("{\"cc_websocket\" : \"socket_closed\"}");
             _webSocketIsConnected = false;
         }
 

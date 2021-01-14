@@ -87,15 +87,15 @@ end
 function WebSocket_OnSocketData()
 	print("wsData________________________start")
 	local wsData = CSWebSocket.WebSocket_GetSocketData()
-	print(wsData)
+	-- print(wsData)
 	local decode_json_obj = nil
 	local ok, msg = pcall(function()
 		decode_json_obj = json.decode(wsData)
 	end)
 	if ok then
-		 -- dump(decode_json_obj,"decode_json_obj>>",10)
+		 dump(decode_json_obj,"decode_json_obj>>",10)
 		 for k , v in pairs(decode_json_obj) do
-		 	if k == "websocket" then
+		 	if k == "cc_websocket" then
 		 		if v == "socket_opend" then
 		 			print("socket_opend>>>>>>>>>>>>>>>>>")
 		 			break
