@@ -70,8 +70,8 @@ namespace CopyData
         }
 
         public void WebSocket_SendMessage(string message) {
-            if (_webSocket == null && string.IsNullOrEmpty(message)){
-                this._webSocket.websocket_SendMessage(message);
+            if (_webSocket != null && !string.IsNullOrEmpty(message)){
+                this._webSocket.WebSocket_SendMessage(message);
             }
         }
 

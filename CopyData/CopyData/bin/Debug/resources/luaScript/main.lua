@@ -85,31 +85,50 @@ function Fidder_OnRecvData()
 end
 
 function WebSocket_OnSocketData()
-	print("wsData________________________start")
-	local wsData = CSWebSocket.WebSocket_GetSocketData()
-	-- print(wsData)
-	local decode_json_obj = nil
-	local ok, msg = pcall(function()
-		decode_json_obj = json.decode(wsData)
+	-- print("\nwsData________________________start")
+	local websocket_data = CSWebSocket.WebSocket_GetSocketData()
+	-- print(websocket_data)
+	local ok, out_msg = pcall(function()
+		local decode_table = json.decode(websocket_data)
+		if decode_table then
+			return decode_table
+		end
 	end)
 	if ok then
-		 dump(decode_json_obj,"decode_json_obj>>",10)
-		 for k , v in pairs(decode_json_obj) do
-		 	if k == "cc_websocket" then
+		 -- dump(out_msg,"decode_table>>",10)
+		 out_msg = out_msg or {}
+		 for k , v in pairs(out_msg) do
+		 	if k == "cc_websocket" then --是websocket的连接事件: open, error, closed
 		 		if v == "socket_opend" then
-		 			print("socket_opend>>>>>>>>>>>>>>>>>")
+		 			print(CSFun.Utf8ToDefault("网络已连接~"))
 		 			break
 		 		elseif v == "socket_error" then
-		 			print("socket_error>>>>>>>>>>>>>>>>>")
+		 			-- print("socket_error>>>>>>>>>>>>>>>>>")
+		 			print(CSFun.Utf8ToDefault("网络连接错误~"))
+
 					break
 		 		elseif v == "socket_closed" then
-		 			print("socket_closed>>>>>>>>>>>>>>>>>")
+		 			-- print("socket_closed>>>>>>>>>>>>>>>>>")
+		 			print(CSFun.Utf8ToDefault("网络连接已关闭~"))
 					break
 		 		end
+		 		break
+		 	elseif k == "Headers" then --是http请求
+				local tmpCurTask = TaskData.getCurTask()
+				if tmpCurTask then
+					local host_to_find = tmpCurTask:getHost()
+					local host_req = out_msg["ReqHost"]
+					if host_req and host_to_find and host_to_find ~= "" then
+						if string.find(host_req, host_to_find) then
+							DealReqHeader:getInstance():recordData(v)
+						end 		
+					end
+				end
+		 		break
 		 	end
 		 end
 	else
-		print("decode_json_obj error>>>>>>>>>>>>>>>  " .. tostring(msg))
+		print("decode_json_obj error>>>>>>>>>>>>>>>  " .. tostring(out_msg))
 	end
-	print("wsData________________________end")
+	-- print("wsData________________________end\n")
 end

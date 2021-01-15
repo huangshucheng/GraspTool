@@ -84,6 +84,10 @@ function TaskBase:getTaskCount()
 	return #self._taskList
 end
 
+function TaskBase:getHost()
+	return self.FIND_STRING_HOST
+end
+
 --请求头
 function TaskBase:getReqHeadString()
 	-- print("getReqHeadString()>> " .. Define.REQ_HEAD_BEFORE .. self.FIND_STRING_HOST)

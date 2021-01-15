@@ -3,16 +3,16 @@ local Define = require("resources.luaScript.config.Define")
 
 function CSWebSocket.init()
 	-- CSWebSocket.WebSocket_CreateSocket(Define.ANYPROXY_WEB_SOCKET_URL) --anyproxy 自带的端口
-	CSWebSocket.WebSocket_CreateSocket(Define.ANYPROXY_SELF_WS_URL) --anyproxy 我自己的ws端口
+	local ret_str = CSWebSocket.WebSocket_CreateSocket(Define.ANYPROXY_SELF_WS_URL) --anyproxy 我自己的ws端口
 	-- CSWebSocket.WebSocket_CreateSocket("ws://127.0.0.1:8005") //本地调试
-	print(ret_str)
+	print(tostring(ret_str))
 	local CSFun = require("resources.luaScript.util.CSFun")
 	local interval = 3
 	local timerID = CSFun.SetInterval(3, function()
 		local isConnected = CSWebSocket.WebSocket_IsConnected()
 		if not isConnected then
 			CSWebSocket.WebSocket_DoReConnect()
-			print("hcc>>websocket isConnected: false , reconnect ing...")
+			print(CSFun.Utf8ToDefault("网络正在重连..."))
 		end
 	end)
 end

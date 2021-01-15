@@ -111,6 +111,8 @@ function testCall()
 		print("hcc>>>>>>>>>>>>>>" .. ret)
 	end)
 	]]
+	local CSWebSocket = require("resources.luaScript.util.CSWebSocket")
+	CSWebSocket.WebSocket_SendMessage("test_client_message>>>>>>>>>>")
 end
 --[[
 [reqHeader<www.baidu.com>] 

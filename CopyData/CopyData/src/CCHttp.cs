@@ -21,7 +21,10 @@ namespace CopyData
                 }
             }
             catch (Exception ex) {
-                luaCallFunc.Call(ex.Message);
+                if (luaCallFunc != null){
+                    luaCallFunc.Call(ex.Message);
+                }
+                Console.WriteLine("HttpRequestAsync error : " + ex.Message);
             }
         }
 

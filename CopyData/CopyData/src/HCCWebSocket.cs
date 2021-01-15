@@ -30,11 +30,11 @@ namespace CopyData
                 _webSocket.AutoSendPingInterval = 5;
                 _webSocket.EnableAutoSendPing = true;
 
-                _webSocket.Opened += new EventHandler(websocket_Opened);
-                _webSocket.Error += new EventHandler<ErrorEventArgs>(websocket_Error);
-                _webSocket.Closed += new EventHandler(websocket_Closed);
-                _webSocket.DataReceived += new EventHandler<DataReceivedEventArgs>(websocket_DataReceived);
-                _webSocket.MessageReceived += new EventHandler<MessageReceivedEventArgs>(websocket_MessageReceived);
+                _webSocket.Opened += new EventHandler(WebSocket_Opened);
+                _webSocket.Error += new EventHandler<ErrorEventArgs>(WebSocket_Error);
+                _webSocket.Closed += new EventHandler(WebSocket_Closed);
+                _webSocket.DataReceived += new EventHandler<DataReceivedEventArgs>(WebSocket_DataReceived);
+                _webSocket.MessageReceived += new EventHandler<MessageReceivedEventArgs>(WebSocket_MessageReceived);
                 _webSocket.Open();
             }
             catch (Exception ex)
@@ -80,7 +80,7 @@ namespace CopyData
         }
 
         //socket已经连接上
-        private void websocket_Opened(object sender, EventArgs e)
+        private void WebSocket_Opened(object sender, EventArgs e)
         {
             //_webSocket.Send("{\"websocket\" : \"hello from hcc client!!\"}");
             //Console.WriteLine("cc>>websocket_Opened");
@@ -89,7 +89,7 @@ namespace CopyData
         }
 
         //发生错误
-        private void websocket_Error(object sender, ErrorEventArgs e)
+        private void WebSocket_Error(object sender, ErrorEventArgs e)
         {
            // Console.WriteLine("cc>>websocket_Error, e: " + e.ToString());
             _webSocketeEvent?.Invoke("{\"cc_websocket\" : \"socket_error\"}");
@@ -97,7 +97,7 @@ namespace CopyData
         }
 
         //被动关闭
-        private void websocket_Closed(object sender, EventArgs e)
+        private void WebSocket_Closed(object sender, EventArgs e)
         {
             //Console.WriteLine("cc>>websocket_Closed Code>> " + e.ToString());
             _webSocketeEvent?.Invoke("wesocket closed");
@@ -106,7 +106,7 @@ namespace CopyData
         }
 
         //接收字节数据
-        private void websocket_DataReceived(object sender, DataReceivedEventArgs args)
+        private void WebSocket_DataReceived(object sender, DataReceivedEventArgs args)
         {
             var data = args.Data;
             var decodeData = Encoding.UTF8.GetString(data);
@@ -117,7 +117,7 @@ namespace CopyData
         }
 
         //接收字符串数据
-        private void websocket_MessageReceived(object sender, MessageReceivedEventArgs args)
+        private void WebSocket_MessageReceived(object sender, MessageReceivedEventArgs args)
         {
             var message = args.Message;
             //Console.WriteLine("cc>>websocket_MessageReceived>> " + message);
@@ -125,7 +125,7 @@ namespace CopyData
         }
 
         //发送消息
-        public void websocket_SendMessage(string message) {
+        public void WebSocket_SendMessage(string message) {
             if (_webSocket != null && _webSocket.State == WebSocket4Net.WebSocketState.Open){
                 this._webSocket.Send(message);
             }

@@ -89,7 +89,10 @@ namespace CopyData
         //test 按钮点击
         private void btnFinishCatch_Click(object sender, EventArgs e)
         {
-            //_luaScript.DoString("testCall()");
+            if (_luaScript.GetFunction("testCall") != null) {
+                _luaScript.DoString("testCall()");
+            }
+
             //var str = LuaCall.httpRequest("www.baidu.com");
             //LuaCall.httpRequestAsync("www.baidu.com");
             //var url = "https://hbz.qrmkt.cn/hbact/hyr/sign/list";
