@@ -179,15 +179,18 @@ function TaskStart.onChangeTaskData(activityTable)
 
 	--清理二维码
 	LuaCallCShapUI.ClearQRCode()
+	LuaCallCShapUI.SetQRCodeString("")
 
 	--切换二维码
 	local qrCodeStr = activityTable.qrcode
 	local qrCodeUrl = Define.QR_CODE_STR .. (qrCodeStr or "")
+	LuaCallCShapUI.SetQRCodeString(qrCodeStr)
 	LuaCallCShapUI.ShowQRCode(qrCodeUrl, "GET", function(retStr)
 		if retStr ~= "SUCCESS" then
 			print(CSFun.Utf8ToDefault("加载二维码失败了! ") .. tostring(retStr))
 		end
 	end)
+	
 end
 
 function TaskStart.doSelectAction()

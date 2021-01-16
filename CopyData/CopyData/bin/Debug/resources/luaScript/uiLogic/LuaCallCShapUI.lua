@@ -47,13 +47,6 @@ function LuaCallCShapUI.GetReqDelayTime()
 	end
 end
 
--- 获取卡包次数
-function LuaCallCShapUI.GetReqPktTime()
-	if GetReqPktTime then
-		return GetReqPktTime()
-	end
-end
-
 --显示二维码图片
 --method: "GEt" or "POST"
 function LuaCallCShapUI.ShowQRCode(url, method, callfuck)
@@ -68,6 +61,13 @@ end
 function LuaCallCShapUI.GetQRCodeString()
 	if GetQRCodeString then
 		return GetQRCodeString()
+	end
+end
+
+--设置二维码字符串
+function LuaCallCShapUI.SetQRCodeString(str)
+	if SetQRCodeString then
+		SetQRCodeString(str)
 	end
 end
 

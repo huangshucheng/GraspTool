@@ -24,7 +24,6 @@ function HttpTask:ctor()
 	self._responseData  = ""  -- 返回数据
 	self._curHttpTaskIndex = 1      -- 当前任务下标
 	self._respCallback  = nil       -- 回调
-	self._isRedPacket 	= false     -- 是否需要卡包，如果是的话，会优先使用界面上配置的卡包请求次数，否则用配置的请求次数
 	self._proxyAddress 	= Define.DEFAULT_PROXY --代理如："false", "true", "http://127.0.0.1:8888"，一定要加http:// 或者https://
 	self._state 		= HttpTask.GRASP_STATE.NONE --未开始
 	self._isContinue    = true 	--执行完成后是否执行下一个CK
@@ -45,7 +44,6 @@ function HttpTask:initWithConfig(config)
 	self._method 		= config.method or Define.Method.GET
 	self._header 		= config.header or Define.HTTP_HEADER_TABLE
 	self._delayTime 	= config.delay or 0
-	self._isRedPacket   = config.isRedPacket or false
 	self._proxyAddress  = config.proxyAddress or Define.DEFAULT_PROXY
 end
 
@@ -197,15 +195,6 @@ function HttpTask:getCurTaskIndex()
 	return self._curHttpTaskIndex
 end
 
-function HttpTask:setIsRedPacket(isRedPkt)
-	self._isRedPacket = isRedPkt
-	return self
-end
-
-function HttpTask:getIsRedPacket()
-	return self._isRedPacket
-end
-
 function HttpTask:getState()
 	return self._state
 end
@@ -241,14 +230,9 @@ function HttpTask:start()
 	-- 以配置为准，否则用 界面上的配置
 	local UIConfigData = require("resources.luaScript.data.UIConfigData")
 	local delayTime = tonumber(UIConfigData.getReqDelayTime()) --延迟时间
-	local kaBaoCount = tonumber(UIConfigData.getReqPktCount()) --卡包次数
 
 	if delayTime and delayTime > 0 then
 		self._delayTime = delayTime
-	end
-
-	if self._isRedPacket and kaBaoCount and kaBaoCount > 0 then
-		self._reqCount = kaBaoCount
 	end
 
 	-- print("start .. count>> " .. self._reqCount  .. "  ,url>>" .. self._url)

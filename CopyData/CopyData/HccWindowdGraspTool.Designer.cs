@@ -40,8 +40,6 @@
             this.checkShowLog = new System.Windows.Forms.CheckBox();
             this.numUDDelay = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.numUDGraspTime = new System.Windows.Forms.NumericUpDown();
             this.comboBoxActList = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.pictureBoxUrl = new System.Windows.Forms.PictureBox();
@@ -50,7 +48,6 @@
             this.listViewToken = new System.Windows.Forms.ListView();
             this.btnCatchSel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numUDDelay)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numUDGraspTime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUrl)).BeginInit();
             this.SuspendLayout();
             // 
@@ -82,7 +79,7 @@
             this.btnStartCatch.Name = "btnStartCatch";
             this.btnStartCatch.Size = new System.Drawing.Size(90, 38);
             this.btnStartCatch.TabIndex = 7;
-            this.btnStartCatch.Text = "开始执行";
+            this.btnStartCatch.Text = "全部执行";
             this.btnStartCatch.UseVisualStyleBackColor = true;
             this.btnStartCatch.Click += new System.EventHandler(this.btnStartCatch_Click);
             // 
@@ -203,31 +200,6 @@
             this.label1.TabIndex = 19;
             this.label1.Text = "延时(秒):";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(136, 77);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(70, 14);
-            this.label2.TabIndex = 20;
-            this.label2.Text = "卡包次数:";
-            // 
-            // numUDGraspTime
-            // 
-            this.numUDGraspTime.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.numUDGraspTime.Location = new System.Drawing.Point(212, 75);
-            this.numUDGraspTime.Name = "numUDGraspTime";
-            this.numUDGraspTime.Size = new System.Drawing.Size(50, 23);
-            this.numUDGraspTime.TabIndex = 21;
-            this.numUDGraspTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numUDGraspTime.Value = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
-            this.numUDGraspTime.ValueChanged += new System.EventHandler(this.numUDGraspTime_ValueChanged);
-            // 
             // comboBoxActList
             // 
             this.comboBoxActList.AllowDrop = true;
@@ -318,8 +290,6 @@
             this.Controls.Add(this.pictureBoxUrl);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.comboBoxActList);
-            this.Controls.Add(this.numUDGraspTime);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.numUDDelay);
             this.Controls.Add(this.checkShowLog);
@@ -335,7 +305,6 @@
             this.Name = "HccWindowdGraspTool";
             this.Text = "抓包工具";
             ((System.ComponentModel.ISupportInitialize)(this.numUDDelay)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numUDGraspTime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUrl)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -355,8 +324,6 @@
         private System.Windows.Forms.CheckBox checkShowLog;
         private System.Windows.Forms.NumericUpDown numUDDelay;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown numUDGraspTime;
         private System.Windows.Forms.ComboBox comboBoxActList;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.PictureBox pictureBoxUrl;

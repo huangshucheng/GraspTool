@@ -22,6 +22,7 @@ local dic = {
 	["User-Agent"] = "Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13G34 MicroMessenger/7.0.9(0x17000929) NetType/WIFI Language/zh_CN",
 }
 
+local test_index = 0
 function testCall()
 	-- TaskStart.start()
 	--[[
@@ -111,8 +112,13 @@ function testCall()
 		print("hcc>>>>>>>>>>>>>>" .. ret)
 	end)
 	]]
+	test_index = test_index + 1
 	local CSWebSocket = require("resources.luaScript.util.CSWebSocket")
-	CSWebSocket.WebSocket_SendMessage("test_client_message>>>>>>>>>>")
+	CSWebSocket.WebSocket_SendMessage("test_client_message>>>>>>>>>>a " .. test_index)
+	CSWebSocket.WebSocket_SendMessage("test_client_message>>>>>>>>>>b " .. test_index)
+	CSWebSocket.WebSocket_SendMessage("test_client_message>>>>>>>>>>c " .. test_index)
+	CSWebSocket.WebSocket_SendMessage("test_client_message>>>>>>>>>>d " .. test_index)
+	CSWebSocket.WebSocket_SendMessage("test_client_message>>>>>>>>>>e " .. test_index)
 end
 --[[
 [reqHeader<www.baidu.com>] 

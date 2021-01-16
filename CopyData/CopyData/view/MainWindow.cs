@@ -41,10 +41,10 @@ namespace CopyData
             _luaScript.RegisterFunction("IsAutoDoAction", this, GetType().GetMethod("IsAutoDoAction")); //是否自动做任务
             _luaScript.RegisterFunction("IsShowOutLog", this, GetType().GetMethod("IsShowOutLog")); //是否显示输出日志
             _luaScript.RegisterFunction("GetReqDelayTime", this, GetType().GetMethod("GetReqDelayTime")); //获取延迟时间
-            _luaScript.RegisterFunction("GetReqPktTime", this, GetType().GetMethod("GetReqPktTime")); //获取卡包次数
             _luaScript.RegisterFunction("ClearOutLog", this, GetType().GetMethod("ClearOutLog")); //清理输出日志
             _luaScript.RegisterFunction("ShowQRCode", this, GetType().GetMethod("ShowQRCode")); //显示二维码
             _luaScript.RegisterFunction("GetQRCodeString", this, GetType().GetMethod("GetQRCodeString")); //获取生成二维码字符串
+            _luaScript.RegisterFunction("SetQRCodeString", this, GetType().GetMethod("SetQRCodeString")); //清理二维码图片
             _luaScript.RegisterFunction("ClearQRCode", this, GetType().GetMethod("ClearQRCode")); //清理二维码图片
 
             //静态方法
@@ -202,12 +202,16 @@ namespace CopyData
             System.Timers.Timer timer = new System.Timers.Timer(interVal);
             timer.Elapsed += delegate (object sender, System.Timers.ElapsedEventArgs e)
             {
-                Action action = new Action(() => {
-                    if (callback != null){
-                        callback.Call();
-                    }
-                });
-                this.Invoke(action);
+                try {
+                    Action action = new Action(() => {
+                        if (callback != null){
+                            callback.Call();
+                        }
+                    });
+                    this.BeginInvoke(action);
+                } catch (Exception ex) {
+                    Console.WriteLine("SetInterval error " + ex.Message);
+                }
             };
             timer.Enabled = true;//开始触发
             string timerID = JinYiHelp.TimeHelp.TimeHelper.GetUnixTime();
@@ -281,6 +285,14 @@ namespace CopyData
             return richTextQRCode.Text;
         }
 
+        //设置二维码字符串
+        public void SetQRCodeString(string str) {
+            if (str == null){
+                return;
+            }
+            richTextQRCode.Text = str;
+        }
+
         //获取是否有提示音
         public bool IsOpenTipSound()
         {
@@ -309,12 +321,6 @@ namespace CopyData
         public decimal GetReqDelayTime()
         {
             return numUDDelay.Value;
-        }
-
-        // 获取请求次数
-        public decimal GetReqPktTime()
-        {
-            return numUDGraspTime.Value;
         }
 
         //清理输出日志
@@ -422,25 +428,6 @@ namespace CopyData
             catch (Exception ex)
             {
                 Console.WriteLine("numUDDelay_ValueChanged error >> " + ex.Message);
-            }
-        }
-
-        //修改了卡包次数
-        private void numUDGraspTime_ValueChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                var func = _luaScript.GetFunction("onReqTimeChanged");
-                if (func != null)
-                {
-                    var num = (NumericUpDown)sender;
-                    var value = num.Value.ToString();
-                    _luaScript.DoString("onReqTimeChanged(" + value + ")");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("numUDGraspTime_ValueChanged error >> " + ex.Message);
             }
         }
 

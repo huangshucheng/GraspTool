@@ -56,7 +56,7 @@ end)
 ]]
 
 
---收到FD 传过来的数据
+--收到FD 消息
 function Fidder_OnRecvData()
 	local tmpCurTask = TaskData.getCurTask()
 	if not tmpCurTask then
@@ -84,6 +84,7 @@ function Fidder_OnRecvData()
 	end
 end
 
+--接收anyproxy消息
 function WebSocket_OnSocketData()
 	-- print("\nwsData________________________start")
 	local websocket_data = CSWebSocket.WebSocket_GetSocketData()

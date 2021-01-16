@@ -26,19 +26,6 @@ namespace CopyData
             //_webSocket = new HCCWebSocket("ws://121.41.0.245:8005");//使用外网IP
             //_webSocket = new HCCWebSocket("ws://hccfun.com:8005"); //使用域名
             //_webSocket = new HCCWebSocket("ws://hccfun.com:8002/do-not-proxy"); //anyproxy 自带websocket端口
-            /*
-            _webSocket._webSocketeEvent += (string message) => {
-                if (richTextBoxLog.InvokeRequired)
-                {
-                    //利用代理操作UI
-                    //DataDelegateHander _myInvoke = new DataDelegateHander(setText);
-                    //this.Invoke(_myInvoke, new object[] { message });
-                }
-                else {
-                    //LogOut(message);
-                }
-            };
-            */
             _luaScript.RegisterFunction("WebSocket_CreateSocket", this, GetType().GetMethod("WebSocket_CreateSocket"));
             _luaScript.RegisterFunction("WebSocket_SendMessage", this, GetType().GetMethod("WebSocket_SendMessage"));
             _luaScript.RegisterFunction("WebSocket_GetSocketData", this, GetType().GetMethod("WebSocket_GetSocketData")); //传webSocket数据到lua
@@ -56,15 +43,20 @@ namespace CopyData
             _webSocket = new HCCWebSocket(wsUrl);
             var ret_str = _webSocket.StartSocket();
             _webSocket._webSocketeEvent += (string message) => {
-                this._webSocketDataCache = message;
-                try{
-                    var func = _luaScript.GetFunction("WebSocket_OnSocketData");
-                    if (func != null) {
-                        _luaScript.DoString("WebSocket_OnSocketData()");
-                    }
-                }catch (Exception ex){
-                    Console.WriteLine("_webSocketeEvent error >> " + ex.Message);
-                }
+                Task.Run(new Action(()=> {
+                    BeginInvoke(new MethodInvoker(() =>{
+                        try{
+                            this._webSocketDataCache = message;
+                            var func = _luaScript.GetFunction("WebSocket_OnSocketData");
+                            if (func != null){
+                                _luaScript.DoString("WebSocket_OnSocketData()");
+                            }
+                        }
+                        catch (Exception ex){
+                            Console.WriteLine("bw_RunWorkerCompleted error " + ex.Message);
+                        }
+                    }));
+                }));
             };
             return ret_str;
         }

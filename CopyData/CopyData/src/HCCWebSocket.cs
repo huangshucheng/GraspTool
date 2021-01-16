@@ -72,7 +72,6 @@ namespace CopyData
             try{
                 this._webSocket.Close();
                 this._webSocket.Open();
-                Console.WriteLine("正在重连...");
             }
             catch (Exception ex){
                 Console.WriteLine("webSocket doReConnect error >>" + ex.Message);
@@ -82,7 +81,6 @@ namespace CopyData
         //socket已经连接上
         private void WebSocket_Opened(object sender, EventArgs e)
         {
-            //_webSocket.Send("{\"websocket\" : \"hello from hcc client!!\"}");
             //Console.WriteLine("cc>>websocket_Opened");
             _webSocketeEvent?.Invoke("{\"cc_websocket\" : \"socket_opend\"}");
             _webSocketIsConnected = true;
@@ -100,7 +98,6 @@ namespace CopyData
         private void WebSocket_Closed(object sender, EventArgs e)
         {
             //Console.WriteLine("cc>>websocket_Closed Code>> " + e.ToString());
-            _webSocketeEvent?.Invoke("wesocket closed");
             _webSocketeEvent?.Invoke("{\"cc_websocket\" : \"socket_closed\"}");
             _webSocketIsConnected = false;
         }
@@ -111,7 +108,6 @@ namespace CopyData
             var data = args.Data;
             var decodeData = Encoding.UTF8.GetString(data);
             if (decodeData != null){
-                //Console.WriteLine("cc>>websocket_DataReceived decodeData:>> " + decodeData);
                 _webSocketeEvent?.Invoke(decodeData);
             }
         }
@@ -120,7 +116,6 @@ namespace CopyData
         private void WebSocket_MessageReceived(object sender, MessageReceivedEventArgs args)
         {
             var message = args.Message;
-            //Console.WriteLine("cc>>websocket_MessageReceived>> " + message);
             _webSocketeEvent?.Invoke(message);
         }
 

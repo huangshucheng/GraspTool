@@ -22,8 +22,11 @@ namespace CopyData
             _luaScript.RegisterFunction("ListView_get_itme_by_index", this, GetType().GetMethod("ListView_get_itme_by_index"));
             _luaScript.RegisterFunction("ListView_get_select_index", this, GetType().GetMethod("ListView_get_select_index"));
             _luaScript.RegisterFunction("ListView_set_checked", this, GetType().GetMethod("ListView_set_checked"));
+            _luaScript.RegisterFunction("ListView_set_all_checked", this, GetType().GetMethod("ListView_set_all_checked"));
             _luaScript.RegisterFunction("ListView_set_item", this, GetType().GetMethod("ListView_set_item"));
             _luaScript.RegisterFunction("ListView_get_count", this, GetType().GetMethod("ListView_get_count"));
+
+            
         }
 
         //listView 初始化
@@ -41,6 +44,7 @@ namespace CopyData
             //listViewToken.CheckedItems = null; //获取控件中当前复选框选中的项(有用)
             listViewToken.HideSelection = true; //设置选定项在控件没焦点时是否隐藏突出显示
             //listViewToken.TopItem = ;// 获取或设置控件中的第一个可见项，可用于定位。（效果类似于EnsureVisible方法）
+            listViewToken.ColumnClick += new ColumnClickEventHandler(ListView_column_click);
 
             /*
             //列表头创建（记得，需要先创建列表头）
@@ -93,6 +97,20 @@ namespace CopyData
             //this.listViewToken.Clear();  //从控件中移除所有项和列（包括列表头）。
             //this.listViewToken.Items.Clear();  //只移除所有的项。
             */
+        }
+
+        //点击表头
+        public void ListView_column_click(object sender, ColumnClickEventArgs e)
+        {
+            try{
+                var func = _luaScript.GetFunction("ListView_on_colum_click");
+                if (func != null){
+                    _luaScript.DoString("ListView_on_colum_click(" + e.Column +")");
+                }
+            }
+            catch (Exception ex){
+                Console.WriteLine("bw_RunWorkerCompleted error " + ex.Message);
+            }
         }
 
         //增加列
@@ -227,13 +245,24 @@ namespace CopyData
         }
 
         //设置某个节点是否选中
-        public void ListView_set_checked(int index = 0, bool isCheck = false, bool isAll = false) {
+        public void ListView_set_checked(int index = 0, bool isCheck = false) {
             var items = this.listViewToken.Items;
             if (items.Count <= 0) {
                 return;
             }
             var item = items[index - 1];
             if (item != null) {
+                item.Checked = isCheck;
+            }
+        }
+
+        //所有节点是否选中
+        public void ListView_set_all_checked(bool isCheck = false) {
+            var items = this.listViewToken.Items;
+            if (items.Count <= 0){
+                return;
+            }
+            foreach (ListViewItem item in items) {
                 item.Checked = isCheck;
             }
         }

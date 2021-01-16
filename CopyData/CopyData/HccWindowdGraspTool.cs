@@ -14,7 +14,7 @@ namespace CopyData
         {
             //设置Http请求的并发连接数最大值为1000
             System.Net.ServicePointManager.DefaultConnectionLimit = 1000;
-            Control.CheckForIllegalCrossThreadCalls = false;
+            //Control.CheckForIllegalCrossThreadCalls = false; //开启多个线程能同时访问UI,会引起一系列问题
 
             InitializeComponent();
             InitListView();

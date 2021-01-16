@@ -47,12 +47,18 @@ function CShapListView.ListView_get_select_index()
 end
 
 --设置选中某个行
-function CShapListView.ListView_set_checked(index, isCheck, isAll)
+function CShapListView.ListView_set_checked(index, isCheck)
 	if ListView_set_checked then
 		index = index or 1
 		isCheck = isCheck or false
-		isAll = isAll or false
-		return ListView_set_checked(index, isCheck, isAll)
+		return ListView_set_checked(index, isCheck)
+	end
+end
+
+--设置是否全部选中
+function CShapListView.ListView_set_all_checked(isCheck)
+	if ListView_set_all_checked then
+		ListView_set_all_checked(isCheck)
 	end
 end
 
@@ -72,7 +78,7 @@ function CShapListView.ListView_get_count()
 end
 
 local initListView = function()
-	CShapListView.ListView_add_columns(CSFun.Utf8ToDefault("序号"), 80)
+	CShapListView.ListView_add_columns(CSFun.Utf8ToDefault("序号(全选~)"), 80)
 	CShapListView.ListView_add_columns(CSFun.Utf8ToDefault("Cookie"), 230)
 	CShapListView.ListView_add_columns(CSFun.Utf8ToDefault("结果"), 180)
 	CShapListView.ListView_add_columns(CSFun.Utf8ToDefault("红包~"), 60)

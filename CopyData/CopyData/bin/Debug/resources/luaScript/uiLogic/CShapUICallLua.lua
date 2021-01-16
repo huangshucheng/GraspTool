@@ -24,12 +24,6 @@ function onDelayTimeChanged(time)
 	UIConfigData.setReqDelayTime(tonumber(time))
 end
 
---修改了卡包次数
-function onReqTimeChanged(count)
-	print("onReqTimeChanged>> " .. tostring(count))
-	UIConfigData.setReqPktCount(tonumber(count))
-end
-
 --修改了自动抓CK
 function onSelectAutoGraspCk(isAutoGrasp)
 	print("onSelectAutoGraspCk>> " .. tostring(isAutoGrasp))
@@ -48,6 +42,7 @@ function onSelectPlayCound(isPlay)
 	UIConfigData.setIsOpenTipSound(isPlay)
 end
 
+--点击是否显示日志
 function onSelectShowOutLog(isShow)
 	print("onSelectShowOutLog>> " .. tostring(isShow))
 	UIConfigData.setIsShowOutLog(isShow)
@@ -65,6 +60,17 @@ function onClickGenQRCode()
 	end)
 end
 
+--点击选择下拉列表的活动
 function onClickDoSelAction()
 	TaskStart.doSelectAction()
+end
+
+--点击ListView表头
+local SELECT_COLUM_FLAG = true
+function ListView_on_colum_click(columIndex)
+	if 0 == tonumber(columIndex) then --点中了第一个表头
+		local CShapListView = require("resources.luaScript.uiLogic.CShapListView")
+		CShapListView.ListView_set_all_checked(SELECT_COLUM_FLAG)
+		SELECT_COLUM_FLAG = not SELECT_COLUM_FLAG
+	end
 end
