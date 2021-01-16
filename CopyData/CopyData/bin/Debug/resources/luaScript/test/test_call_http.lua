@@ -112,13 +112,12 @@ function testCall()
 		print("hcc>>>>>>>>>>>>>>" .. ret)
 	end)
 	]]
-	test_index = test_index + 1
-	local CSWebSocket = require("resources.luaScript.util.CSWebSocket")
-	CSWebSocket.WebSocket_SendMessage("test_client_message>>>>>>>>>>a " .. test_index)
-	CSWebSocket.WebSocket_SendMessage("test_client_message>>>>>>>>>>b " .. test_index)
-	CSWebSocket.WebSocket_SendMessage("test_client_message>>>>>>>>>>c " .. test_index)
-	CSWebSocket.WebSocket_SendMessage("test_client_message>>>>>>>>>>d " .. test_index)
-	CSWebSocket.WebSocket_SendMessage("test_client_message>>>>>>>>>>e " .. test_index)
+	local proxy_url = "http://hccfun.com:8001"
+	-- local proxy_url = "http://127.0.0.1:8001"
+	-- local proxy_url = "127.0.0.1:8001"
+	CSFun.IsProxyCanUse(proxy_url,function(ret)
+		print("canUse: " .. tostring(ret))
+	end)
 end
 --[[
 [reqHeader<www.baidu.com>] 

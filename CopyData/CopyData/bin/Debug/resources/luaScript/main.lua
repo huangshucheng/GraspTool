@@ -4,20 +4,18 @@ require("resources.luaScript.test.init")
 require("resources.luaScript.uiLogic.init")
 
 local CSFun = require("resources.luaScript.util.CSFun")
-
 --打印在屏幕上
 print = function(param)
 	CSFun.LogOut(param)
 	CSFun.LogLua(param)
 end
 
-local CSWebSocket = require("resources.luaScript.util.CSWebSocket")
-local StringUtils = require("resources.luaScript.util.StringUtils")
+local CSWebSocket 	= require("resources.luaScript.util.CSWebSocket")
+local StringUtils 	= require("resources.luaScript.util.StringUtils")
 local DealReqHeader = require("resources.luaScript.dataDeal.DealReqHeader")
-
-local FindData = require("resources.luaScript.data.FindData")
-local TaskData = require("resources.luaScript.data.TaskData")
-local UIConfigData = require("resources.luaScript.data.UIConfigData")
+local FindData 		= require("resources.luaScript.data.FindData")
+local TaskData 		= require("resources.luaScript.data.TaskData")
+local UIConfigData 	= require("resources.luaScript.data.UIConfigData")
 UIConfigData.init() --读取默认UI配置参数
 TaskData.loadTaskList() --读取本地任务列表,显示在任务列表UI
 CSWebSocket.init()
@@ -56,7 +54,7 @@ end)
 ]]
 
 
---收到FD 消息
+--收到FD消息
 function Fidder_OnRecvData()
 	local tmpCurTask = TaskData.getCurTask()
 	if not tmpCurTask then
@@ -84,11 +82,9 @@ function Fidder_OnRecvData()
 	end
 end
 
---接收anyproxy消息
+--接收网络消息
 function WebSocket_OnSocketData()
-	-- print("\nwsData________________________start")
 	local websocket_data = CSWebSocket.WebSocket_GetSocketData()
-	-- print(websocket_data)
 	local ok, out_msg = pcall(function()
 		local decode_table = json.decode(websocket_data)
 		if decode_table then
@@ -96,7 +92,6 @@ function WebSocket_OnSocketData()
 		end
 	end)
 	if ok then
-		 -- dump(out_msg,"decode_table>>",10)
 		 out_msg = out_msg or {}
 		 for k , v in pairs(out_msg) do
 		 	if k == "cc_websocket" then --是websocket的连接事件: open, error, closed
@@ -104,12 +99,10 @@ function WebSocket_OnSocketData()
 		 			print(CSFun.Utf8ToDefault("网络已连接~"))
 		 			break
 		 		elseif v == "socket_error" then
-		 			-- print("socket_error>>>>>>>>>>>>>>>>>")
 		 			print(CSFun.Utf8ToDefault("网络连接错误~"))
 
 					break
 		 		elseif v == "socket_closed" then
-		 			-- print("socket_closed>>>>>>>>>>>>>>>>>")
 		 			print(CSFun.Utf8ToDefault("网络连接已关闭~"))
 					break
 		 		end
@@ -129,7 +122,13 @@ function WebSocket_OnSocketData()
 		 	end
 		 end
 	else
-		print("decode_json_obj error>>>>>>>>>>>>>>>  " .. tostring(out_msg))
+		print("decode_json error>>  " .. tostring(out_msg))
 	end
-	-- print("wsData________________________end\n")
+	if UIConfigData.getIsShowNetLog() then
+		-- print(websocket_data)
+		local time_str = os.date("%H:%M:%S")
+		local show_str  = tostring(time_str) .. ",recvData"
+		dump(out_msg, show_str)
+		print("\n")
+	end
 end

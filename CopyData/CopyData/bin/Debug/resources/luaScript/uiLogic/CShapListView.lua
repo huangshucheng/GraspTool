@@ -80,7 +80,7 @@ end
 local initListView = function()
 	CShapListView.ListView_add_columns(CSFun.Utf8ToDefault("序号(全选~)"), 80)
 	CShapListView.ListView_add_columns(CSFun.Utf8ToDefault("Cookie"), 230)
-	CShapListView.ListView_add_columns(CSFun.Utf8ToDefault("结果"), 180)
+	CShapListView.ListView_add_columns(CSFun.Utf8ToDefault("结果"), 150)
 	CShapListView.ListView_add_columns(CSFun.Utf8ToDefault("红包~"), 60)
 	CShapListView.ListView_add_columns(CSFun.Utf8ToDefault("状态~"), 100)
 	CShapListView.ListView_set_height(22)

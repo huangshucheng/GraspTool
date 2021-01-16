@@ -17,7 +17,6 @@ namespace CopyData
         private WebHeaderCollection _headers            = new WebHeaderCollection();   //自定义请求头
         private CookieContainer _cookieContainer        = new CookieContainer();       //cookie 容器
         private string          _customePostData;       // post data, 固定是放在body里面的
-        private string          _baseUrl;               // https://+域名，例如: https://hbz.qrmkt.cn
         private string          _fullUrl;               // 全部url, 带urlBody,例如： https://hbz.qrmkt.cn/hbact/hyr/home/queryActCode
         private string          _urlBody;               // url 参数，追加在Url后面的，post,get都能用，格式：code=123&name=hcc&sex=1
         private string          _proxyAddress;          // 代理IP端口如：https://www.baidu.com:8080
@@ -78,7 +77,6 @@ namespace CopyData
             _request = null;
             _proxyAddress = null;
             _customePostData = null;
-            _baseUrl = tmpUri.Scheme + "://" + tmpUri.Host;
             initDefaultHeaderRequest();
         }
 
@@ -156,7 +154,7 @@ namespace CopyData
                 return;
             }
             try{
-                _cookieContainer.Add(new Uri(_baseUrl), new Cookie(name, value));
+                _cookieContainer.Add(new Uri(this._fullUrl),new Cookie(name, value));
             }
             catch (Exception e){
                 Console.WriteLine("添加Cookie出错," + e.Message);
@@ -230,27 +228,20 @@ namespace CopyData
             }
         }
 
-        //将_url从?后面删除掉
-        //给_baseUrl赋值
-        private void UrlToQuery(string url){
-            Uri uri = new Uri(url);
-            string query = uri.Query;
-            if (!string.IsNullOrEmpty(query)){
-                this._fullUrl = url.Remove(url.IndexOf('?'));
-            }
-            else {
-                this._fullUrl = uri.ToString();
-            }
-            _baseUrl = uri.Scheme + "://" + uri.Host;
-        }
-
         //同步执行Http请求，会卡住
         public string Execute(Method method){
-            UrlToQuery(this._fullUrl);
             string tmpUrl = this._fullUrl;
             //URL追加body
-            if (!string.IsNullOrEmpty(_urlBody)){
-                tmpUrl = this._fullUrl + "?" + _urlBody;
+            if (!string.IsNullOrEmpty(_urlBody))
+            {
+                if (tmpUrl.IndexOf("/?") > 0 || tmpUrl.IndexOf("?") > 0)
+                {
+                    tmpUrl = this._fullUrl + "&" + _urlBody;
+                }
+                else
+                {
+                    tmpUrl = this._fullUrl + "/?" + _urlBody;
+                }
             }
             System.GC.Collect();    //强制进行即时垃圾回收。
             _request = WebRequest.Create(tmpUrl) as HttpWebRequest;
@@ -311,11 +302,16 @@ namespace CopyData
 
         //异步请求，不会卡住UI
         public async Task<string> ExecuteAsyc(Method method){
-            UrlToQuery(this._fullUrl);
             string tmpUrl = this._fullUrl;
             //URL追加body
             if (!string.IsNullOrEmpty(_urlBody)){
-                tmpUrl = this._fullUrl + "?" + _urlBody;
+                if (tmpUrl.IndexOf("/?") > 0 || tmpUrl.IndexOf("?") > 0)
+                {
+                    tmpUrl = this._fullUrl + "&" + _urlBody;
+                }
+                else {
+                    tmpUrl = this._fullUrl + "/?" + _urlBody;
+                }
             }
             System.GC.Collect();    //强制进行即时垃圾回收。
             _request = WebRequest.Create(tmpUrl) as HttpWebRequest;

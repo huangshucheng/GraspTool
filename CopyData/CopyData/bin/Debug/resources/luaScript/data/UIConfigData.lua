@@ -6,9 +6,12 @@ local _isAutoGraspCK 	= true -- 是否自动抓CK
 local _isAutoDoAction 	= false -- 是否抓到CK后自动执行任务
 local _isShowOutLog 	= true -- 是否显示输出日志
 local _reqDelayTime 	= 0  -- 所有请求延时时间
+local _isShowNetLog 	= false -- 是否显示网络日志
 
 function UIConfigData.init()
 	local LuaCallCShapUI = require("resources.luaScript.uiLogic.LuaCallCShapUI")
+	local Define = require("resources.luaScript.config.Define")
+	local StringUtils = require("resources.luaScript.util.StringUtils")
 	_isOpenTipSound 	= LuaCallCShapUI.IsOpenTipSound()
 	_isAutoGraspCK 		= LuaCallCShapUI.IsAutoGraspCK()
 	_isAutoDoAction 	= LuaCallCShapUI.IsAutoDoAction()
@@ -20,7 +23,24 @@ function UIConfigData.init()
 	print(LuaCallCShapUI.Utf8ToDefault("自动执行: ") .. tostring(_isAutoDoAction))
 	print(LuaCallCShapUI.Utf8ToDefault("显示日志: ") .. tostring(_isShowOutLog))
 	print(LuaCallCShapUI.Utf8ToDefault("延迟时间: ") .. tostring(_reqDelayTime))
+	print(LuaCallCShapUI.Utf8ToDefault("网络日志: ") .. tostring(_isShowNetLog))
 	print("-----" .. LuaCallCShapUI.Utf8ToDefault("默认设置") .. "-----\n")
+
+	LuaCallCShapUI.httpReqAsync(Define.IP_ADDRESS_URL,function(ret)
+		print(LuaCallCShapUI.Utf8ToDefault("外网IP信息: ") .. tostring(ret))
+		local localIP = LuaCallCShapUI.GetLocalIP()
+		local addressInfo = LuaCallCShapUI.Utf8ToDefault("本地IP: ") .. tostring(localIP)
+		local ok,decode_msg = pcall(function()
+			local splitData = StringUtils.splitString(ret, "=")
+			if splitData and next(splitData) then
+				return json.decode(splitData[2])
+			end
+		end)
+		if ok then
+			addressInfo = addressInfo .. "  " .. (decode_msg.cname or "")
+		end
+		LuaCallCShapUI.SetIPText(addressInfo)
+	end)
 end
 
 function UIConfigData.setIsOpenTipSound(flag)
@@ -61,6 +81,14 @@ end
 
 function UIConfigData.getReqDelayTime()
 	return _reqDelayTime
+end
+
+function UIConfigData.setIsShowNetLog(flag)
+	_isShowNetLog = flag
+end
+
+function UIConfigData.getIsShowNetLog()
+	return _isShowNetLog
 end
 
 return UIConfigData

@@ -1,5 +1,4 @@
 --[[黄浦食品安全活动]] 
---这个活动http的，不是https
 local TaskBase = require("resources.luaScript.task.base.TaskBase")
 local TaskFoodSafe = class("TaskFoodSafe", TaskBase)
 local CShapListView = require("resources.luaScript.uiLogic.CShapListView")
@@ -9,6 +8,7 @@ local GET = TaskBase.GET
 local POST = TaskBase.POST
 
 function TaskFoodSafe:ctor()
+	self.CUR_TASK_TITLE = "黄浦活动"  --当前任务标题
 	self.FIND_STRING_HOST = "xinhua.mofangdata.cn"  --域名，方便查找token
 	self.FILE_SAVE_NAME = "task_foodsafe_token.lua" -- 保存本地token文件名字
 	self.RECORD_SAVE_FILE_NAME = "task_foodsafe_record.lua" --交互记录文件
@@ -52,7 +52,6 @@ TaskFoodSafe.TASK_LIST_URL_CONFIG = {
 		urlBody = "", 
 		postBody = "id=88", 
 		delay = 0,
-		-- isRedPacket = true, --是否支持界面配置卡包次数，否则用代码配置：reqCount = xxx
 	},
 }
 

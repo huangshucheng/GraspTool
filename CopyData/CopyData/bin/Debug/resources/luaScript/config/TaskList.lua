@@ -16,10 +16,6 @@ TaskList.ActMapTable = {
 		script = "resources.luaScript.task.TaskRun",
 		qrcode = "juemuren_dev",
 	},
-	{
-		name = "支付宝a",
-		script = "resources.luaScript.task.TaskZFB",
-	},
 }
 
 return TaskList

@@ -81,7 +81,7 @@ taskEndAction: lua function
 proxyAddress:"false" --代理, 默认false 不开启
 ]]
 --异步请求http
-function CSFun.httpReqAsync(url, method, headTable, urlBody, postBody, cookies, proxyAddress, callFunc)
+function CSFun.httpReqAsync(url, callFunc, method, headTable, urlBody, postBody, cookies, proxyAddress)
 	local Define = require("resources.luaScript.config.Define")
 	method = method or Define.Method.GET
 	headTable = headTable or {}
@@ -97,6 +97,8 @@ function CSFun.httpReqAsync(url, method, headTable, urlBody, postBody, cookies, 
 		LogOut("error url is empty>> " .. debug.traceback())
 		return
 	 end
+
+	 callFunc = callFunc or function(ret) end
 
 	if HttpRequestAsync then
 		HttpRequestAsync(url, method, headTable, urlBody, postBody, cookies, proxyAddress, callFunc)
@@ -185,6 +187,34 @@ end
 -- 清理输出日志
 function CSFun.ClearOutLog()
 	if ClearOutLog then ClearOutLog() end
+end
+
+--代理IP是否可用
+function CSFun.IsProxyCanUse(proxyUrl,callback)
+	if not proxyUrl or proxyUrl == "" then
+		if callback then
+			callback(false)
+		end
+		return
+	end
+	--默认用http 不用https
+	if not string.find(proxyUrl,"http://") and not string.find(proxyUrl,"https://") then
+		proxyUrl = "http://" .. proxyUrl
+	end
+	print("proxyUrl: " .. proxyUrl)
+	local Define = require("resources.luaScript.config.Define")
+	CSFun.httpReqAsync(Define.IP_ADDRESS_URL,function(self_address)
+		CSFun.httpReqAsync(Define.IP_ADDRESS_URL,function(proxy_address) 
+			print(CSFun.Utf8ToDefault("本机地址: ") .. self_address)
+			print(CSFun.Utf8ToDefault("代理地址: ") .. proxy_address)
+			local isFindStr = string.find(proxy_address,"returnCitySN")
+			local is_proxy_useful = isFindStr and proxy_address and proxy_address ~= "" and (self_address ~= proxy_address)
+			is_proxy_useful = is_proxy_useful or false
+			if callback then
+				callback(is_proxy_useful)
+			end
+		end,nil,nil,nil,nil,nil,proxyUrl)
+	end)
 end
 
 return CSFun

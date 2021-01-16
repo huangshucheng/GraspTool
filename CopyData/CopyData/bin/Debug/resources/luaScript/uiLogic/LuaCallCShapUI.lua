@@ -78,4 +78,18 @@ function LuaCallCShapUI.ClearQRCode()
 	end
 end
 
+--获取本机IP
+function LuaCallCShapUI.GetLocalIP()
+	if GetLocalIP then
+		return GetLocalIP()
+	end
+end
+
+--设置IP文本
+function LuaCallCShapUI.SetIPText(str)
+	if SetIPText then
+		SetIPText(str)
+	end
+end
+
 return LuaCallCShapUI

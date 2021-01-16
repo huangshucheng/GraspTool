@@ -74,3 +74,10 @@ function ListView_on_colum_click(columIndex)
 		SELECT_COLUM_FLAG = not SELECT_COLUM_FLAG
 	end
 end
+
+--点击了是否显示网络日志
+function onCheckNetLog(bShowLog)
+	local isShow = 1 == tonumber(bShowLog)
+	UIConfigData.setIsShowNetLog(isShow)
+	print("showNetLog>> " .. tostring(isShow))
+end

@@ -11,6 +11,10 @@ TaskBase.POST = Define.Method.POST
 --额外的请求头,如：{["Refer"]="www.baidu.com"}
 TaskBase.ERQ_HEADER_EXT = {}
 
+local state_table = {
+	"未开始~","进行中~","已完成~"
+}
+
 --任务列表，例子
 TaskBase.TASK_LIST_URL_CONFIG = {
 --[[
@@ -23,7 +27,6 @@ TaskBase.TASK_LIST_URL_CONFIG = {
 		urlBody = "",  --URL参数
 		postBody = "",  --post参数
 		delay = 0.2, --延迟
-		isRedPacket = false, --当前任务是否需要卡包，是的话会执行多次当前任务，进行卡包
 	},
 	{
 		taskName = "开始学习", 
@@ -34,16 +37,16 @@ TaskBase.TASK_LIST_URL_CONFIG = {
 		urlBody = "", 
 		postBody = "", 
 		delay = 0.2,
-		isRedPacket = false,
 	},
 	]]
 }
 
 function TaskBase:ctor()
+	self.CUR_TASK_TITLE 		= ""  --当前任务标题
 	self.FIND_STRING_HOST 		= ""  --域名，方便查找token, 如：hbz.qrmkt.cn
-	self.FILE_SAVE_NAME 		= ""  -- 保存本地token文件名字，如: token.lua
+	self.FILE_SAVE_NAME 		= ""  --保存本地token文件名字，如: token.lua
 	self.RECORD_SAVE_FILE_NAME 	= ""  --交互记录文件, 如：token_record_url.lua
-	self.DATA_TO_FIND_ARRAY = {}      -- 请求头中要查找的字段，如：token, Cookie
+	self.DATA_TO_FIND_ARRAY = {}      --请求头中要查找的字段，如：token, Cookie
 	self.IS_OPEN_RECORD = false 	  --是否抓取接口保存到本地
 	self._taskList = {}
 	self:loadTask()
@@ -124,6 +127,11 @@ function TaskBase:getIsRecord()
 	return self.IS_OPEN_RECORD
 end
 
+--任务标题
+function TaskBase:getTitle()
+	return self.CUR_TASK_TITLE
+end
+
 --返回保存tolen文件地址
 function TaskBase:getSaveFileName()
 	local CUR_DIR_NAME = CSFun.GetCurDir()
@@ -138,9 +146,6 @@ function TaskBase:getRecordGraspFileName()
 	return fileName
 end
 
-local state_table = {
-	"未开始~","进行中~","已完成~"
-}
 --状态改变了
 function TaskBase:onTaskStateChanged(curHttpTaskObj)
 	local state = curHttpTaskObj:getState()

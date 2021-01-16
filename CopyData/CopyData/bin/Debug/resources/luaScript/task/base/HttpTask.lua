@@ -24,7 +24,7 @@ function HttpTask:ctor()
 	self._responseData  = ""  -- 返回数据
 	self._curHttpTaskIndex = 1      -- 当前任务下标
 	self._respCallback  = nil       -- 回调
-	self._proxyAddress 	= Define.DEFAULT_PROXY --代理如："false", "true", "http://127.0.0.1:8888"，一定要加http:// 或者https://
+	self._proxyAddress 	= Define.DEFAULT_PROXY --代理如: "http://127.0.0.1:8888"，一定要加http:// 或者https://
 	self._state 		= HttpTask.GRASP_STATE.NONE --未开始
 	self._isContinue    = true 	--执行完成后是否执行下一个CK
 	self._graspRedPktCount   = 0 	--抢到的红包个数
@@ -239,13 +239,21 @@ function HttpTask:start()
 	self:setState(HttpTask.GRASP_STATE.DOING)
 	for index = 1 , self._reqCount do
 		local reqFunc = function()
-			CSFun.httpReqAsync(self._url, self._method, self._header, self._urlBody, self._postBody, self._cookies, self._proxyAddress, function(ret)
+			CSFun.httpReqAsync(
+			self._url,
+			function(ret)
 				self._curCount = self._curCount + 1
 				self._responseData = ret
 				if self._respCallback then
 					self._respCallback(ret, self)
 				end
-			end)
+			end,
+			self._method, 
+			self._header, 
+			self._urlBody, 
+			self._postBody, 
+			self._cookies, 
+			self._proxyAddress)
 		end
 		local delay = tonumber(self._delayTime)
 		if delay and delay > 0 then

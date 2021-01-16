@@ -6,7 +6,6 @@ namespace CopyData
 {
     public partial class HccWindowdGraspTool : Form
     {
-        private bool _isReceiveFidderLog = false;//是否开启打印Fidder传过来的日志
         private Lua _luaScript = null; //Lua对象
         private string _stringCache = ""; //数据缓存
 
@@ -19,17 +18,12 @@ namespace CopyData
             InitializeComponent();
             InitListView();
             //加载lua函数，并注册函数到Lua
-            try
-            {
-                //test
-                //IntPtr luaState = Lua511.LuaDLL.luaL_newstate();
-                //initLua(luaState);
+            try{
                 _luaScript = new Lua();
                 registLuaFunc();
             }
             catch (Exception e){
-                var outText = "初始化错误>>>> " + e.Message;
-                LogOut(outText);
+                LogOut("初始化错误>>>> " + e.Message);
             }
         }
 
@@ -46,9 +40,6 @@ namespace CopyData
                     string content = mystr.lpData;
                     DealWithRecvData(content);
                     this._stringCache = content;
-                    if (_isReceiveFidderLog == true){
-                        richTextBoxLog.AppendText(content);
-                    }
                     break;
                 default:
                     break;
@@ -81,8 +72,7 @@ namespace CopyData
         }
 
         //获取Fidder传过来的String
-        public string GetFidderString()
-        {
+        public string GetFidderString(){
             return this._stringCache;
         }
     }

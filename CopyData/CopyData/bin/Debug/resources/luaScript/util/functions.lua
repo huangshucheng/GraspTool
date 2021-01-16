@@ -55,8 +55,8 @@ function dump(value, description, nesting)
     local lookupTable = {}
     local result = {}
 
-    local traceback = string.split(debug.traceback("", 2), "\n")
-    print("dump from: " .. string.trim(traceback[3]))
+    -- local traceback = string.split(debug.traceback("", 2), "\n")
+    -- print("dump from: " .. string.trim(traceback[3]))
 
     local function dump_(value, description, indent, nest, keylen)
         description = description or "<var>"
@@ -99,7 +99,8 @@ function dump(value, description, nesting)
             end
         end
     end
-    dump_(value, description, "- ", 1)
+    -- dump_(value, description, "- ", 1)
+    dump_(value, description, "", 1)
 
     for i, line in ipairs(result) do
         print(line)

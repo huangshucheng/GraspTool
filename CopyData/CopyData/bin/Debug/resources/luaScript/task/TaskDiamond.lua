@@ -5,6 +5,7 @@ local GET = TaskBase.GET
 local POST = TaskBase.POST
 
 function TaskDiamond:ctor()
+	self.CUR_TASK_TITLE = "钻石活动"  --当前任务标题
 	self.FIND_STRING_HOST = "hbz.qrmkt.cn"  --域名，方便查找token
 	self.FILE_SAVE_NAME = "task_diamond_token.lua" -- 保存本地token文件名字
 	self.RECORD_SAVE_FILE_NAME = "task_diamond_record.lua" --交互记录文件
@@ -56,15 +57,15 @@ TaskDiamond.TASK_LIST_URL_CONFIG = {
 		postBody = "shareCode=null", 
 		delay = 0,
 	},
-	{
-		curTaskName = "签到列表", 
-		url = "hbz.qrmkt.cn/hbact/hyr/sign/list",
-		method = POST, 
-		reqCount = 1, 
-		urlBody = "", 
-		postBody = "", 
-		delay = 0,
-	},
+	-- {
+	-- 	curTaskName = "签到列表", 
+	-- 	url = "hbz.qrmkt.cn/hbact/hyr/sign/list",
+	-- 	method = POST, 
+	-- 	reqCount = 1, 
+	-- 	urlBody = "", 
+	-- 	postBody = "", 
+	-- 	delay = 0,
+	-- },
 	{
 		curTaskName = "开始学习啊", 
 		url = "hbz.qrmkt.cn/hbact/school/study/start",
@@ -97,7 +98,6 @@ TaskDiamond.TASK_LIST_URL_CONFIG = {
 		urlBody = "id=42",
 		postBody = "", 
 		delay = 0,
-		-- isRedPacket = true,
 	},
 	{
 		curTaskName = "兑换18.8鼓励金红包啊", 
@@ -107,7 +107,6 @@ TaskDiamond.TASK_LIST_URL_CONFIG = {
 		urlBody = "id=43", 
 		postBody = "", 
 		delay = 0,
-		-- isRedPacket = true,
 	},
 	{
 		curTaskName = "兑换88.8鼓励金红包啊", 
@@ -209,6 +208,5 @@ TaskDiamond.TASK_LIST_URL_CONFIG = {
 	},
 	]]
 }
-
 
 return TaskDiamond

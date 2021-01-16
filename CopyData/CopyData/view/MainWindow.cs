@@ -6,7 +6,7 @@ using System.Collections;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Net;
-using System.Runtime.InteropServices;
+using System.Net.Sockets;
 
 namespace CopyData
 {
@@ -46,6 +46,7 @@ namespace CopyData
             _luaScript.RegisterFunction("GetQRCodeString", this, GetType().GetMethod("GetQRCodeString")); //获取生成二维码字符串
             _luaScript.RegisterFunction("SetQRCodeString", this, GetType().GetMethod("SetQRCodeString")); //清理二维码图片
             _luaScript.RegisterFunction("ClearQRCode", this, GetType().GetMethod("ClearQRCode")); //清理二维码图片
+            _luaScript.RegisterFunction("SetIPText", this, GetType().GetMethod("SetIPText")); //设置IP文本显示
 
             //静态方法
             _luaScript.RegisterFunction("GetCurDir", null, typeof(LuaCall).GetMethod("GetCurDir")); //获取当前exe文件位置
@@ -53,6 +54,7 @@ namespace CopyData
             _luaScript.RegisterFunction("HttpRequest", null, typeof(LuaCall).GetMethod("HttpRequest")); //http请求
             _luaScript.RegisterFunction("HttpRequestAsync", null, typeof(LuaCall).GetMethod("HttpRequestAsync")); //http请求 异步
             _luaScript.RegisterFunction("PlayWAVSound", null, typeof(LuaCall).GetMethod("PlayWAVSound")); //播放音效
+            _luaScript.RegisterFunction("GetLocalIP", null, typeof(LuaCall).GetMethod("GetLocalIP")); //获取本机IP接口
 
             //文件相关（静态方法）
             _luaScript.RegisterFunction("IsFileExist", null, typeof(LocalStorage).GetMethod("IsFileExist")); //文件是否存在
@@ -121,11 +123,22 @@ namespace CopyData
             //listViewToken.TopItem = listViewToken.Items[listViewToken.Items.Count - 1];
             this.listViewToken.EndUpdate();  //结束数据处理，UI界面一次性绘制。
             */
+            //Console.WriteLine("IP>>>" + LuaCall.GetLocalIP());
+            //var showText = "IP:" + LuaCall.GetLocalIP() + " 来自:浙江省杭州市";
+            //SetIPText(showText);
         }
 
         /// ///////////////////////////////////
         /// 注册到lua的函数,lua调用
         /// //////////////////////////////////
+
+        //设置IP文本显示
+        public void SetIPText(string ipInfoText) {
+            if (ipInfoText == null) {
+                return;
+            }
+            text_box_ip_info.Text = ipInfoText;
+        }
 
         //清理二维码
         public void ClearQRCode() {
@@ -340,6 +353,17 @@ namespace CopyData
         {
             richTextBoxLog.SelectionStart = richTextBoxLog.Text.Length;
             richTextBoxLog.ScrollToCaret();
+
+            //限制行数
+            int maxLinds = 1500;
+            if (this.richTextBoxLog.Lines.Length > maxLinds)
+            {
+                int moreLines = this.richTextBoxLog.Lines.Length - maxLinds;
+                string[] lines = this.richTextBoxLog.Lines;
+                Array.Copy(lines, moreLines, lines, 0, maxLinds);
+                Array.Resize(ref lines, maxLinds);
+                this.richTextBoxLog.Lines = lines;
+            }
         }
 
         //点击清理输出
@@ -403,12 +427,18 @@ namespace CopyData
             }
         }
 
-        //是否显示FD日志
+        //是否显示网络数据日志
         private void check_btn_log_CheckedChanged(object sender, EventArgs e)
         {
-            if (check_btn_log != null)
-            {
-                _isReceiveFidderLog = this.check_btn_log.Checked;
+            try{
+                var func = _luaScript.GetFunction("onCheckNetLog");
+                if (func != null){
+                    var bShowLog = check_btn_log.Checked == true ? "1" : "0";
+                    _luaScript.DoString("onCheckNetLog(" + bShowLog + ")");
+                }
+            }
+            catch (Exception ex){
+                Console.WriteLine("check_btn_log_CheckedChanged error >> " + ex.Message);
             }
         }
 

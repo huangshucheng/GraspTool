@@ -63,19 +63,15 @@ end
 
 --任务返回
 function TaskStart.onResponseCallBack(httpRes, taskCur)
-	-- local date = os.date("%Y-%m-%d %H:%M:%S")
+	--第一个任务执行次数到了，执行下一个任务
+	local tmpCurTask = TaskData.getCurTask()
+	if not tmpCurTask then  return end
 	local date = os.date("%H:%M:%S")
 	httpRes = StringUtils.nullOrEmpty(httpRes) and CSFun.Utf8ToDefault("空~") or httpRes
-	local tmpLogStr = CSFun.Utf8ToDefault("[" .. taskCur:getUserData() .. "]  任务>> " .. taskCur:getTaskName() .. " ,>> ") 
+	local tmpLogStr = CSFun.Utf8ToDefault("[" .. tmpCurTask:getTitle() .. ">>" .. taskCur:getUserData() .. "]>> " .. taskCur:getTaskName() .. " ,>> ")
 	print(date .. " " .. tmpLogStr .. tostring(httpRes))
 
 	if TaskStart.isStop then --停止任务
-		return
-	end
-
-	--第一个任务执行次数到了，执行下一个任务
-	local tmpCurTask = TaskData.getCurTask()
-	if not tmpCurTask then 
 		return
 	end
 
@@ -93,7 +89,8 @@ function TaskStart.onResponseCallBack(httpRes, taskCur)
 			taskNext:addCallback(TaskStart.onResponseCallBack)
 			taskNext:start()
 		else --需要切换token
-			local outLogStr = "(" ..taskCur:getUserData() .. ")" .. "完成!"
+			local date = os.date("%H:%M:%S")
+			local outLogStr = date .. " [" .. tmpCurTask:getTitle() .. ">>" ..taskCur:getUserData() .. "]>> " .. "完成!!!!!!!!!!!!!!!!!!!!!!!!!"
 			CSFun.LogOut(CSFun.Utf8ToDefault(outLogStr))
 			Sound.playGetAward()
 			taskCur:setState(taskCur.GRASP_STATE.FINISH)

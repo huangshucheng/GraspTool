@@ -132,25 +132,21 @@ function FindData:readLocalFileToken()
 		return
 	end
 	local fileName = self:getSaveFileName()
-	-- print("token save path>> " .. tostring(fileName))
-	-- print("url save path>> " .. tostring(tmpCurTask:getRecordGraspFileName()))
 	if not fileName or fileName == "" then
 		print("readLocalFileToken error, fileName is not exist" )
 		return
 	end
 	local readStr = CSFun.ReadFile(fileName)
-	-- print("token:>> " .. (readStr == "" and " empty!" or readStr))
 	if not readStr or readStr == "" then return end
 	local splitData = StringUtils.splitString(readStr, "\n")
 	if splitData and next(splitData) then
 		for _, token_str in ipairs(splitData) do
 			local tokenTable = nil
 			local ok, msg = pcall(function() 
-				tokenTable = json.decode(token_str)
+				return json.decode(token_str)
 			end)
-			-- print("tokenTable>>  " .. tostring(ToolUtils.serialize(tokenTable)))
-			if ok and tokenTable then
-				table.insert(self._findTokenList, tokenTable)
+			if ok and msg then
+				table.insert(self._findTokenList, msg)
 			else
 				print("readLocalFileToken failed >>" .. tostring(msg))
 			end
@@ -178,7 +174,6 @@ function FindData:getGraspFileName()
 		return
 	end
 	local fileName = tmpCurTask:getRecordGraspFileName()
-	-- print("save url file path>> " .. fileName)
 	return fileName
 end
 
@@ -202,8 +197,7 @@ function FindData:dumpTokenOne(index, tokenTable, isShort)
 		local finalStr = "(" .. tostring(index) .. ")" .. showTokenStr
 		local wCount = isShort and 100 or nil
 		finalStr = StringUtils.stringToShort(finalStr, wCount)
-		CSFun.LogOut(finalStr)
-
+		-- CSFun.LogOut(finalStr)
 		--加入显示列表
 		CShapListView.ListView_add_item({index, showTokenStr, "", 0, CSFun.Utf8ToDefault("未开始~")})
 	end

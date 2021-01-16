@@ -47,25 +47,31 @@
             this.richTextQRCode = new System.Windows.Forms.RichTextBox();
             this.listViewToken = new System.Windows.Forms.ListView();
             this.btnCatchSel = new System.Windows.Forms.Button();
+            this.text_box_ip_info = new System.Windows.Forms.TextBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             ((System.ComponentModel.ISupportInitialize)(this.numUDDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUrl)).BeginInit();
+            this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBoxLog
             // 
-            this.richTextBoxLog.BackColor = System.Drawing.SystemColors.WindowText;
-            this.richTextBoxLog.ForeColor = System.Drawing.Color.Lime;
-            this.richTextBoxLog.Location = new System.Drawing.Point(3, 429);
+            this.richTextBoxLog.BackColor = System.Drawing.Color.Black;
+            this.richTextBoxLog.DetectUrls = false;
+            this.richTextBoxLog.ForeColor = System.Drawing.Color.MediumTurquoise;
+            this.richTextBoxLog.Location = new System.Drawing.Point(285, 429);
             this.richTextBoxLog.Name = "richTextBoxLog";
             this.richTextBoxLog.ReadOnly = true;
-            this.richTextBoxLog.Size = new System.Drawing.Size(926, 383);
+            this.richTextBoxLog.Size = new System.Drawing.Size(644, 383);
             this.richTextBoxLog.TabIndex = 5;
             this.richTextBoxLog.Text = "";
             this.richTextBoxLog.TextChanged += new System.EventHandler(this.richTextBoxLogTextChanged);
             // 
             // btnClearLog
             // 
-            this.btnClearLog.Location = new System.Drawing.Point(3, 405);
+            this.btnClearLog.Location = new System.Drawing.Point(198, 395);
             this.btnClearLog.Name = "btnClearLog";
             this.btnClearLog.Size = new System.Drawing.Size(80, 22);
             this.btnClearLog.TabIndex = 6;
@@ -85,7 +91,7 @@
             // 
             // btnStopCatch
             // 
-            this.btnStopCatch.Location = new System.Drawing.Point(199, 125);
+            this.btnStopCatch.Location = new System.Drawing.Point(215, 125);
             this.btnStopCatch.Name = "btnStopCatch";
             this.btnStopCatch.Size = new System.Drawing.Size(63, 38);
             this.btnStopCatch.TabIndex = 8;
@@ -95,7 +101,7 @@
             // 
             // btnFinishCatch
             // 
-            this.btnFinishCatch.Location = new System.Drawing.Point(2, 372);
+            this.btnFinishCatch.Location = new System.Drawing.Point(228, 424);
             this.btnFinishCatch.Name = "btnFinishCatch";
             this.btnFinishCatch.Size = new System.Drawing.Size(50, 25);
             this.btnFinishCatch.TabIndex = 9;
@@ -108,11 +114,11 @@
             this.check_btn_log.AutoSize = true;
             this.check_btn_log.BackColor = System.Drawing.Color.LightGray;
             this.check_btn_log.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.check_btn_log.Location = new System.Drawing.Point(190, 407);
+            this.check_btn_log.Location = new System.Drawing.Point(105, 397);
             this.check_btn_log.Name = "check_btn_log";
-            this.check_btn_log.Size = new System.Drawing.Size(68, 18);
+            this.check_btn_log.Size = new System.Drawing.Size(82, 18);
             this.check_btn_log.TabIndex = 12;
-            this.check_btn_log.Text = "FD日志";
+            this.check_btn_log.Text = "网络日志";
             this.check_btn_log.UseVisualStyleBackColor = false;
             this.check_btn_log.CheckedChanged += new System.EventHandler(this.check_btn_log_CheckedChanged);
             // 
@@ -123,7 +129,7 @@
             this.checkAutoGraspCk.Checked = true;
             this.checkAutoGraspCk.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkAutoGraspCk.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.checkAutoGraspCk.Location = new System.Drawing.Point(3, 40);
+            this.checkAutoGraspCk.Location = new System.Drawing.Point(4, 40);
             this.checkAutoGraspCk.Name = "checkAutoGraspCk";
             this.checkAutoGraspCk.Size = new System.Drawing.Size(82, 18);
             this.checkAutoGraspCk.TabIndex = 14;
@@ -136,7 +142,7 @@
             this.checkAutoDoAct.AutoSize = true;
             this.checkAutoDoAct.BackColor = System.Drawing.Color.LightGray;
             this.checkAutoDoAct.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.checkAutoDoAct.Location = new System.Drawing.Point(3, 73);
+            this.checkAutoDoAct.Location = new System.Drawing.Point(4, 73);
             this.checkAutoDoAct.Name = "checkAutoDoAct";
             this.checkAutoDoAct.Size = new System.Drawing.Size(96, 18);
             this.checkAutoDoAct.TabIndex = 15;
@@ -151,7 +157,7 @@
             this.chckSound.Checked = true;
             this.chckSound.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chckSound.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.chckSound.Location = new System.Drawing.Point(194, 12);
+            this.chckSound.Location = new System.Drawing.Point(210, 12);
             this.chckSound.Name = "chckSound";
             this.chckSound.Size = new System.Drawing.Size(68, 18);
             this.chckSound.TabIndex = 16;
@@ -166,7 +172,7 @@
             this.checkShowLog.Checked = true;
             this.checkShowLog.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkShowLog.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.checkShowLog.Location = new System.Drawing.Point(94, 407);
+            this.checkShowLog.Location = new System.Drawing.Point(12, 397);
             this.checkShowLog.Name = "checkShowLog";
             this.checkShowLog.Size = new System.Drawing.Size(82, 18);
             this.checkShowLog.TabIndex = 17;
@@ -183,7 +189,7 @@
             0,
             0,
             65536});
-            this.numUDDelay.Location = new System.Drawing.Point(212, 40);
+            this.numUDDelay.Location = new System.Drawing.Point(228, 40);
             this.numUDDelay.Name = "numUDDelay";
             this.numUDDelay.Size = new System.Drawing.Size(50, 23);
             this.numUDDelay.TabIndex = 18;
@@ -194,7 +200,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(136, 45);
+            this.label1.Location = new System.Drawing.Point(152, 44);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(70, 14);
             this.label1.TabIndex = 19;
@@ -206,9 +212,9 @@
             this.comboBoxActList.BackColor = System.Drawing.SystemColors.Control;
             this.comboBoxActList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxActList.FormattingEnabled = true;
-            this.comboBoxActList.Location = new System.Drawing.Point(3, 10);
+            this.comboBoxActList.Location = new System.Drawing.Point(42, 10);
             this.comboBoxActList.Name = "comboBoxActList";
-            this.comboBoxActList.Size = new System.Drawing.Size(100, 20);
+            this.comboBoxActList.Size = new System.Drawing.Size(134, 20);
             this.comboBoxActList.TabIndex = 22;
             this.comboBoxActList.TabStop = false;
             this.comboBoxActList.SelectedIndexChanged += new System.EventHandler(this.comboBoxActList_SelectedIndexChanged);
@@ -217,7 +223,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(109, 13);
+            this.label3.Location = new System.Drawing.Point(1, 12);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(35, 14);
             this.label3.TabIndex = 23;
@@ -227,7 +233,7 @@
             // 
             this.pictureBoxUrl.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.pictureBoxUrl.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pictureBoxUrl.Location = new System.Drawing.Point(56, 191);
+            this.pictureBoxUrl.Location = new System.Drawing.Point(27, 169);
             this.pictureBoxUrl.Name = "pictureBoxUrl";
             this.pictureBoxUrl.Size = new System.Drawing.Size(206, 170);
             this.pictureBoxUrl.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -237,29 +243,32 @@
             // 
             // btnGenQRCode
             // 
-            this.btnGenQRCode.Location = new System.Drawing.Point(202, 369);
+            this.btnGenQRCode.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnGenQRCode.Location = new System.Drawing.Point(205, 345);
             this.btnGenQRCode.Name = "btnGenQRCode";
-            this.btnGenQRCode.Size = new System.Drawing.Size(60, 30);
+            this.btnGenQRCode.Size = new System.Drawing.Size(73, 30);
             this.btnGenQRCode.TabIndex = 25;
-            this.btnGenQRCode.Text = "生成";
+            this.btnGenQRCode.Text = "生成二维码";
             this.btnGenQRCode.UseVisualStyleBackColor = true;
             this.btnGenQRCode.Click += new System.EventHandler(this.btnGenQRCode_Click);
             // 
             // richTextQRCode
             // 
             this.richTextQRCode.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.richTextQRCode.Location = new System.Drawing.Point(56, 369);
+            this.richTextQRCode.ForeColor = System.Drawing.Color.Red;
+            this.richTextQRCode.Location = new System.Drawing.Point(27, 345);
             this.richTextQRCode.Name = "richTextQRCode";
-            this.richTextQRCode.Size = new System.Drawing.Size(143, 30);
+            this.richTextQRCode.Size = new System.Drawing.Size(172, 30);
             this.richTextQRCode.TabIndex = 26;
-            this.richTextQRCode.Text = "";
+            this.richTextQRCode.Text = "fsdfsdf";
             // 
             // listViewToken
             // 
             this.listViewToken.AllowDrop = true;
+            this.listViewToken.BackColor = System.Drawing.Color.LightGray;
             this.listViewToken.CheckBoxes = true;
             this.listViewToken.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.listViewToken.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.listViewToken.ForeColor = System.Drawing.Color.Blue;
             this.listViewToken.Location = new System.Drawing.Point(285, 13);
             this.listViewToken.Name = "listViewToken";
             this.listViewToken.Size = new System.Drawing.Size(638, 403);
@@ -270,7 +279,7 @@
             // 
             // btnCatchSel
             // 
-            this.btnCatchSel.Location = new System.Drawing.Point(101, 125);
+            this.btnCatchSel.Location = new System.Drawing.Point(109, 125);
             this.btnCatchSel.Name = "btnCatchSel";
             this.btnCatchSel.Size = new System.Drawing.Size(90, 38);
             this.btnCatchSel.TabIndex = 28;
@@ -278,11 +287,53 @@
             this.btnCatchSel.UseVisualStyleBackColor = true;
             this.btnCatchSel.Click += new System.EventHandler(this.btnCatchSel_Click);
             // 
+            // text_box_ip_info
+            // 
+            this.text_box_ip_info.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.text_box_ip_info.ForeColor = System.Drawing.Color.Red;
+            this.text_box_ip_info.Location = new System.Drawing.Point(4, 791);
+            this.text_box_ip_info.Name = "text_box_ip_info";
+            this.text_box_ip_info.Size = new System.Drawing.Size(275, 21);
+            this.text_box_ip_info.TabIndex = 29;
+            this.text_box_ip_info.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(12, 459);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(250, 273);
+            this.tabControl1.TabIndex = 30;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(242, 247);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(242, 247);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
             // HccWindowdGraspTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(935, 824);
+            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.text_box_ip_info);
             this.Controls.Add(this.btnCatchSel);
             this.Controls.Add(this.listViewToken);
             this.Controls.Add(this.richTextQRCode);
@@ -306,6 +357,7 @@
             this.Text = "抓包工具";
             ((System.ComponentModel.ISupportInitialize)(this.numUDDelay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUrl)).EndInit();
+            this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -331,6 +383,10 @@
         private System.Windows.Forms.RichTextBox richTextQRCode;
         private System.Windows.Forms.ListView listViewToken;
         private System.Windows.Forms.Button btnCatchSel;
+        private System.Windows.Forms.TextBox text_box_ip_info;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
     }
 }
 
