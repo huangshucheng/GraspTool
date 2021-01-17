@@ -49,9 +49,9 @@ namespace HCCFidderExtension
             string resBody = onSession.GetResponseBodyAsString();
 
             string reqHeader = onSession.RequestHeaders.ToString(true, true, true);
-            string resHeader = onSession.ResponseHeaders.ToString(true, true);
+            //string resHeader = onSession.ResponseHeaders.ToString(true, true);
 
-            FiddlerObject.log("<<<<<<<<<<<<<<<【" + host + "】<<<<<<<<<<<<<<<<<start");
+            //FiddlerObject.log("<<<<<<<<<<<<<<<【" + host + "】<<<<<<<<<<<<<<<<<start");
             //FiddlerObject.log("hcc>>host: " + host);
             //FiddlerObject.log("hcc>>path: " + path);
             //FiddlerObject.log("hcc>>mthd: " + mthd);
@@ -59,13 +59,13 @@ namespace HCCFidderExtension
             //FiddlerObject.log("hcc>>resHeader:  " + resHeader);
             //FiddlerObject.log("hcc>>reqBody: " + reqBody);
             //FiddlerObject.log("hcc>>resBody: " + resBody);
-            FiddlerObject.log(reqHeader + "\n");
-            FiddlerObject.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>end\n");
+            //FiddlerObject.log(reqHeader + "\n");
+            //FiddlerObject.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>end\n");
 
             string dataHeader = "\n" + "[reqHeader<" + host + ">] \n" + reqHeader;
-            string dataReqBody = "\n" + "[reqBody<" + host + ">] \n" + reqBody;
-            string dataResHeader = "\n" + "[resHeader<" + host + ">] \n" + resHeader;
-            string dataResBody = "\n" + "[resBody<" + host + ">] \n" + resBody + "\n";
+            //string dataReqBody = "\n" + "[reqBody<" + host + ">] \n" + reqBody;
+            //string dataResHeader = "\n" + "[resHeader<" + host + ">] \n" + resHeader;
+            //string dataResBody = "\n" + "[resBody<" + host + ">] \n" + resBody + "\n";
 
             string tmpReqBody = string.IsNullOrEmpty(reqBody) ? "" : "[postBody]\n" + reqBody + "\n";
             string tmpResBody = string.IsNullOrEmpty(resBody) ? "" : "[resBody]\n" + resBody + "\n";
@@ -92,8 +92,8 @@ namespace HCCFidderExtension
                             //自己的进程句柄
                             //IntPtr hwndSendWindow = Process.GetCurrentProcess().Handle;
                             Send_message(hwndRecvWindow, dataHeader);
-                            Send_message(hwndRecvWindow, dataReqBody);
-                            Send_message(hwndRecvWindow, dataResHeader);
+                            //Send_message(hwndRecvWindow, dataReqBody);
+                            //Send_message(hwndRecvWindow, dataResHeader);
                             //Send_message(hwndRecvWindow, dataResBody);
                             Send_message(hwndRecvWindow, allAppendString);
                         }

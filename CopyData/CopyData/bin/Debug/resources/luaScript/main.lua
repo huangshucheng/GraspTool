@@ -67,6 +67,7 @@ function Fidder_OnRecvData()
 		for index, str in ipairs(splitData) do
 			if string.find(str, tmpCurTask:getReqHeadString()) then --请求头
 				DealReqHeader:getInstance():dealData(strData, splitData)
+				print("Header>>\n" .. strData)
 				break
 			elseif string.find(str, tmpCurTask:getReqBodyString()) then --请求体
 				break
