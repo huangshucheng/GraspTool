@@ -36,7 +36,7 @@ Define.HTTP_HEADER_TABLE = {
 }
 
 --[[
-数据格式：
+FD数据格式：
 [reqHeader<res.wx.qq.com>] 
 GET https://res.wx.qq.com/open/libs/weui/2.0-alpha.1/weui.min.css HTTP/1.1
 Host: res.wx.qq.com

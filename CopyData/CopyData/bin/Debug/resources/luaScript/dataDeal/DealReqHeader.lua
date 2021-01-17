@@ -1,11 +1,9 @@
 --[[处理Fidder发送头数据]]
-local DealDataBase = require("resources.luaScript.dataDeal.DealDataBase")
-local DealReqHeader = class("DealReqHeader", DealDataBase)
+local DealReqHeader = class("DealReqHeader")
 
 local StringUtils = require("resources.luaScript.util.StringUtils")
 local FindData = require("resources.luaScript.data.FindData")
 local TaskData = require("resources.luaScript.data.TaskData")
-local Define = require("resources.luaScript.config.Define")
 local UIConfigData = require("resources.luaScript.data.UIConfigData")
 local TaskStart = require("resources.luaScript.task.base.TaskStart")
 

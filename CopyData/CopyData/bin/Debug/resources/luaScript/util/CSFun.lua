@@ -2,11 +2,6 @@ local CSFun = class("CSFun")
 local UIConfigData = require("resources.luaScript.data.UIConfigData")
 local StringUtils = require("resources.luaScript.util.StringUtils")
 
--- 打印堆栈
-function CSFun.GetTrace()
-	return debug.traceback()
-end
-
 --打印到输出界面
 function CSFun.LogOut(data)
 	if not UIConfigData.getIsShowOutLog() then
@@ -178,11 +173,6 @@ function CSFun.DefaultToUtf8(str)
 	if DefaultToUtf8 then
 		return DefaultToUtf8(str)
 	end
-end
-
--- 清理token日志
-function CSFun.ClearTokenLog()
-	if ClearTokenLog then ClearTokenLog() end
 end
 
 -- 清理输出日志

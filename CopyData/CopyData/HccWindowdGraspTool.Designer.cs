@@ -68,7 +68,8 @@
             // 
             this.richTextBoxLog.BackColor = System.Drawing.Color.Black;
             this.richTextBoxLog.DetectUrls = false;
-            this.richTextBoxLog.ForeColor = System.Drawing.Color.MediumTurquoise;
+            this.richTextBoxLog.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBoxLog.ForeColor = System.Drawing.Color.Lime;
             this.richTextBoxLog.Location = new System.Drawing.Point(4, 438);
             this.richTextBoxLog.Name = "richTextBoxLog";
             this.richTextBoxLog.ReadOnly = true;

@@ -7,7 +7,7 @@ local CSFun = require("resources.luaScript.util.CSFun")
 --打印在屏幕上
 print = function(param)
 	CSFun.LogOut(param)
-	CSFun.LogLua(param)
+	-- CSFun.LogLua(param)
 end
 
 local CSWebSocket 	= require("resources.luaScript.util.CSWebSocket")
@@ -125,9 +125,9 @@ function WebSocket_OnSocketData()
 		print("decode_json error>>  " .. tostring(out_msg))
 	end
 	if UIConfigData.getIsShowNetLog() then
-		-- print(websocket_data)
 		local time_str = os.date("%H:%M:%S")
 		-- local show_str  = tostring(time_str) .. ",recvData"
+		-- print(time_str .. ": " .. websocket_data)
 		dump(out_msg, time_str)
 		print("\n")
 	end

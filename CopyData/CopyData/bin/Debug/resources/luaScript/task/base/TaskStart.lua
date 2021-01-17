@@ -1,16 +1,14 @@
 --[[任务启动脚本]]
 
-local FindData = require("resources.luaScript.data.FindData")
-local CSFun = require("resources.luaScript.util.CSFun")
-local StringUtils = require("resources.luaScript.util.StringUtils")
-local TaskData = require("resources.luaScript.data.TaskData")
-local Sound = require("resources.luaScript.util.Sound")
-local UIConfigData = require("resources.luaScript.data.UIConfigData")
-local Define = require("resources.luaScript.config.Define")
-local LuaCallCShapUI = require("resources.luaScript.uiLogic.LuaCallCShapUI")
-local TaskList = require("resources.luaScript.config.TaskList")
+local FindData 		= require("resources.luaScript.data.FindData")
+local CSFun 		= require("resources.luaScript.util.CSFun")
+local StringUtils 	= require("resources.luaScript.util.StringUtils")
+local TaskData 		= require("resources.luaScript.data.TaskData")
+local Sound 		= require("resources.luaScript.util.Sound")
+local Define 		= require("resources.luaScript.config.Define")
+local TaskList 		= require("resources.luaScript.config.TaskList")
 local CShapListView = require("resources.luaScript.uiLogic.CShapListView")
-local ToolUtils = require("resources.luaScript.util.ToolUtils")
+local LuaCallCShapUI = require("resources.luaScript.uiLogic.LuaCallCShapUI")
 
 local TaskStart = class("TaskStart")
 local SELECT_CK_INDEX = {} --选中的CK下标
@@ -158,9 +156,6 @@ end
 function TaskStart.onChangeTaskData(activityTable)
 	activityTable = activityTable or {}
 
-	--清理token日志
-	CSFun.ClearTokenLog()
-
 	--清理token显示列表
 	CShapListView.ListView_clear()
 
@@ -189,7 +184,6 @@ end
 function TaskStart.doSelectAction()
 	local selTable = CShapListView.ListView_get_select_index()
 	SELECT_CK_INDEX = clone(selTable)
-	-- print("select index>> " .. ToolUtils.serialize(selTable))
 	if selTable and next(selTable) then
 		dump(selTable,CSFun.Utf8ToDefault("当前选中: "))
 		local tmpCurTask = TaskData.getCurTask()

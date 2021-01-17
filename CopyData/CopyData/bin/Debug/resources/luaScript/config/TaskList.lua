@@ -1,5 +1,4 @@
 local TaskList = {}
-local Define = require("resources.luaScript.config.Define")
 
 --设置代理二维码
 

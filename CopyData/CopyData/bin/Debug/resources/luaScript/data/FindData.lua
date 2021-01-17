@@ -199,7 +199,7 @@ function FindData:dumpTokenOne(index, tokenTable, isShort)
 		finalStr = StringUtils.stringToShort(finalStr, wCount)
 		-- CSFun.LogOut(finalStr)
 		--加入显示列表
-		CShapListView.ListView_add_item({index, showTokenStr, "", 0, CSFun.Utf8ToDefault("未开始~")})
+		CShapListView.ListView_add_item({index, finalStr, "", 0, CSFun.Utf8ToDefault("未开始~")})
 	end
 end
 
