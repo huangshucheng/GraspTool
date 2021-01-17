@@ -22,38 +22,6 @@ CSWebSocket.init()
 
 print(CSFun.Utf8ToDefault("hello! 请手动选择活动!!!"))
 
---[[
-local string = require("string")
-local math = require("math")
-local debugFunc = function()
-	local breakInfoFun, xpcallFun = require("resources.luaScript.LuaDebug")("localhost", 7003)
-	print("breakInfoFun>> " .. tostring(breakInfoFun) .. " ,xpCallFun>> " .. tostring(breakInfoFun))
-	CSFun.SetInterval(0.3, breakInfoFun)
-end
-]]
--- debugFunc()
---[[
-local function __G__TRACKBACK__(msg)
-	local traceback = debug.traceback()
-	print(msg, traceback)
-end
-local status, msg = pcall(debugFunc, __G__TRACKBACK__)
-print(">>>> " .. tostring(status) .. " >>" .. tostring(msg))
-]]
-
---[[
-local count = 0
-local timerID = -1
-timerID = CSFun.SetInterval(0.3, function()
-	count = count + 1
-	print("count>> " .. count .. " ,id:" .. timerID)
-	if count == 10 then
-		CSFun.StopTimer(timerID);
-	end
-end)
-]]
-
-
 --收到FD消息
 function Fidder_OnRecvData()
 	local strData = CSFun.GetFidderString()
@@ -85,7 +53,7 @@ function Fidder_OnRecvData()
 	end
 end
 
---接收网络消息
+--接收proxy网络消息
 function WebSocket_OnSocketData()
 	local websocket_data = CSWebSocket.WebSocket_GetSocketData()
 	local ok, out_msg = pcall(function()

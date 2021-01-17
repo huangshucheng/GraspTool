@@ -68,6 +68,7 @@ end
 
 --[[
 url: "www.baidu.com"
+callFunc: 回调
 method: Method {GET,POST,PUT,DELETE}: 0 ,1 ,2 ,3
 headTable:{AAA = "" , bbb = "" }
 urlBody: "aaa=1&bbb=123"

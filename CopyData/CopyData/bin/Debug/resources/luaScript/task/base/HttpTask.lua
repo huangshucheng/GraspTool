@@ -237,13 +237,11 @@ function HttpTask:start()
 	 	local ranNum = math.random(proxyCount) --从1 到总数，随机选一个proxy
 		self._proxyAddress = proxyConfig[ranNum]
 	end
-	--print("hcc>>proxyAddress: " .. self._proxyAddress)
 
 	if delayTime and delayTime > 0 then
 		self._delayTime = delayTime
 	end
 
-	-- print("start .. count>> " .. self._reqCount  .. "  ,url>>" .. self._url)
 	self:setState(HttpTask.GRASP_STATE.DOING)
 	for index = 1 , self._reqCount do
 		local reqFunc = function()

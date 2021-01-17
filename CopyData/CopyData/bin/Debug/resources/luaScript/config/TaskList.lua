@@ -1,8 +1,8 @@
 local TaskList = {}
 
---设置代理二维码
-
+--设置手机代理的 二维码URL
 local proxy_qrcode = [[http://hcc.hccfun.com/qr_code_proxy_2.png]]
+
 TaskList.ActMapTable = {
 	{
 		name = "请下载证书~",
