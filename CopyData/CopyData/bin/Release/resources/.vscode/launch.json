@@ -1,0 +1,29 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "本地调试GSP",
+            "type": "lua",
+            "request": "launch",
+            "runtimeType": "Cocos2",
+            "localRoot": "${workspaceRoot}",
+            // "commandLine": "-workdir ${workspaceRoot} -writable-path ${workspaceRoot} -entry luaScript/main.lua",
+            // "commandLine": "-workdir ${workspaceRoot} -writable-path ${workspaceRoot}",
+            "commandLine": "-workdir ${workspaceRoot}",
+            "fileExtNames": [
+                ".lua",
+                ".txt",
+                ".lua.txt",
+                ".bytes",
+                ".luac"
+            ],
+            "port": 7003,
+            "exePath": "${workspaceRoot}../../HccWindowdGraspTool.exe",
+            "isFoxGloryProject": false,
+            "printType": 1
+        },
+    ]
+}
