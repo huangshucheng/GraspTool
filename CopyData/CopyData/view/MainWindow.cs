@@ -13,6 +13,7 @@ namespace CopyData
     public partial class HccWindowdGraspTool
     {
         Dictionary<string, System.Timers.Timer> _timerDic = new Dictionary<string, System.Timers.Timer>();
+        private int _logLineCountLimit = 1500; //日志限制行数
 
         //c++ 的 dll接口导入到c#
         //https://www.cnblogs.com/skyfreedom/p/11773597.html
@@ -47,6 +48,9 @@ namespace CopyData
             _luaScript.RegisterFunction("SetQRCodeString", this, GetType().GetMethod("SetQRCodeString")); //清理二维码图片
             _luaScript.RegisterFunction("ClearQRCode", this, GetType().GetMethod("ClearQRCode")); //清理二维码图片
             _luaScript.RegisterFunction("SetIPText", this, GetType().GetMethod("SetIPText")); //设置IP文本显示
+            _luaScript.RegisterFunction("SetLogLineCountLimie", this, GetType().GetMethod("SetLogLineCountLimie")); //设置日志行数限制
+            _luaScript.RegisterFunction("GetProxyString", this, GetType().GetMethod("GetProxyString")); //获取代理IP文本内容
+
 
             //静态方法
             _luaScript.RegisterFunction("GetCurDir", null, typeof(LuaCall).GetMethod("GetCurDir")); //获取当前exe文件位置
@@ -343,9 +347,14 @@ namespace CopyData
                 richTextBoxLog.Clear();
         }
 
-        //点击清理token日志
-        private void btnClearTokenClick(object sender, EventArgs e)
-        {
+        //限制日志行数，默认1500
+        public bool SetLogLineCountLimie(int lineCount) {
+            if (_logLineCountLimit <= 0 )
+            {
+                return false;
+            }
+            _logLineCountLimit = lineCount;
+            return true;
         }
 
         //日志打印查找输出
@@ -353,15 +362,13 @@ namespace CopyData
         {
             richTextBoxLog.SelectionStart = richTextBoxLog.Text.Length;
             richTextBoxLog.ScrollToCaret();
-
             //限制行数
-            int maxLinds = 1500;
-            if (this.richTextBoxLog.Lines.Length > maxLinds)
+            if (this.richTextBoxLog.Lines.Length > _logLineCountLimit)
             {
-                int moreLines = this.richTextBoxLog.Lines.Length - maxLinds;
+                int moreLines = this.richTextBoxLog.Lines.Length - _logLineCountLimit;
                 string[] lines = this.richTextBoxLog.Lines;
-                Array.Copy(lines, moreLines, lines, 0, maxLinds);
-                Array.Resize(ref lines, maxLinds);
+                Array.Copy(lines, moreLines, lines, 0, _logLineCountLimit);
+                Array.Resize(ref lines, _logLineCountLimit);
                 this.richTextBoxLog.Lines = lines;
             }
         }
@@ -370,6 +377,11 @@ namespace CopyData
         private void buttonClearLogClick(object sender, EventArgs e)
         {
             this.richTextBoxLog.Clear();
+        }
+
+        //获取代理IP文本
+        public string GetProxyString() {
+            return text_box_proxy_ip.Text;
         }
 
         /// ///////////////////////////////////
@@ -572,6 +584,56 @@ namespace CopyData
             {
                 Console.WriteLine("btnCatchSel_Click error >> " + ex.Message);
             }
+        }
+
+        //点击使用代理
+        private void btn_use_proxy_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var func = _luaScript.GetFunction("onClickUseProxy");
+                if (func != null)
+                {
+                    var checkBox = (CheckBox)sender;
+                    string isCheckdStr = checkBox.Checked == true ? "true" : "false";
+                    var doStirng = "onClickUseProxy(" + isCheckdStr + ")";
+                    _luaScript.DoString(doStirng);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("btn_use_proxy_CheckedChanged error >> " + ex.Message);
+            }
+        }
+
+        //点击验证代理
+        private void btn_proxy_check_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var func = _luaScript.GetFunction("onClickCheckProxy");
+                if (func != null)
+                {
+                    var doStirng = "onClickCheckProxy()";
+                    _luaScript.DoString(doStirng);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("btn_proxy_check_Click error >> " + ex.Message);
+            }
+        }
+
+        //点击代理IP tab页
+        private void tab_proxy_ip_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        //点击接码 tab页
+        private void tab_jiema_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

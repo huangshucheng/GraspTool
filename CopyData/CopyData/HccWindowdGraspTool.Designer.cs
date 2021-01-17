@@ -48,12 +48,19 @@
             this.listViewToken = new System.Windows.Forms.ListView();
             this.btnCatchSel = new System.Windows.Forms.Button();
             this.text_box_ip_info = new System.Windows.Forms.TextBox();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tab_proxy_ip = new System.Windows.Forms.TabPage();
+            this.text_box_proxy_ip = new System.Windows.Forms.RichTextBox();
+            this.btn_use_proxy = new System.Windows.Forms.CheckBox();
+            this.btn_proxy_check = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.tab_control = new System.Windows.Forms.TabControl();
+            this.tab_jiema = new System.Windows.Forms.TabPage();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numUDDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUrl)).BeginInit();
-            this.tabControl1.SuspendLayout();
+            this.tab_proxy_ip.SuspendLayout();
+            this.tab_control.SuspendLayout();
+            this.tab_jiema.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBoxLog
@@ -61,7 +68,7 @@
             this.richTextBoxLog.BackColor = System.Drawing.Color.Black;
             this.richTextBoxLog.DetectUrls = false;
             this.richTextBoxLog.ForeColor = System.Drawing.Color.MediumTurquoise;
-            this.richTextBoxLog.Location = new System.Drawing.Point(285, 429);
+            this.richTextBoxLog.Location = new System.Drawing.Point(4, 438);
             this.richTextBoxLog.Name = "richTextBoxLog";
             this.richTextBoxLog.ReadOnly = true;
             this.richTextBoxLog.Size = new System.Drawing.Size(644, 383);
@@ -71,7 +78,7 @@
             // 
             // btnClearLog
             // 
-            this.btnClearLog.Location = new System.Drawing.Point(198, 395);
+            this.btnClearLog.Location = new System.Drawing.Point(180, 417);
             this.btnClearLog.Name = "btnClearLog";
             this.btnClearLog.Size = new System.Drawing.Size(80, 22);
             this.btnClearLog.TabIndex = 6;
@@ -81,9 +88,10 @@
             // 
             // btnStartCatch
             // 
-            this.btnStartCatch.Location = new System.Drawing.Point(4, 125);
+            this.btnStartCatch.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnStartCatch.Location = new System.Drawing.Point(833, 127);
             this.btnStartCatch.Name = "btnStartCatch";
-            this.btnStartCatch.Size = new System.Drawing.Size(90, 38);
+            this.btnStartCatch.Size = new System.Drawing.Size(90, 30);
             this.btnStartCatch.TabIndex = 7;
             this.btnStartCatch.Text = "全部执行";
             this.btnStartCatch.UseVisualStyleBackColor = true;
@@ -91,19 +99,20 @@
             // 
             // btnStopCatch
             // 
-            this.btnStopCatch.Location = new System.Drawing.Point(215, 125);
+            this.btnStopCatch.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnStopCatch.Location = new System.Drawing.Point(833, 83);
             this.btnStopCatch.Name = "btnStopCatch";
-            this.btnStopCatch.Size = new System.Drawing.Size(63, 38);
+            this.btnStopCatch.Size = new System.Drawing.Size(90, 30);
             this.btnStopCatch.TabIndex = 8;
-            this.btnStopCatch.Text = "停止";
+            this.btnStopCatch.Text = "停止执行";
             this.btnStopCatch.UseVisualStyleBackColor = true;
             this.btnStopCatch.Click += new System.EventHandler(this.btnStopCatch_Click);
             // 
             // btnFinishCatch
             // 
-            this.btnFinishCatch.Location = new System.Drawing.Point(228, 424);
+            this.btnFinishCatch.Location = new System.Drawing.Point(266, 419);
             this.btnFinishCatch.Name = "btnFinishCatch";
-            this.btnFinishCatch.Size = new System.Drawing.Size(50, 25);
+            this.btnFinishCatch.Size = new System.Drawing.Size(50, 20);
             this.btnFinishCatch.TabIndex = 9;
             this.btnFinishCatch.Text = "测试";
             this.btnFinishCatch.UseVisualStyleBackColor = true;
@@ -114,7 +123,7 @@
             this.check_btn_log.AutoSize = true;
             this.check_btn_log.BackColor = System.Drawing.Color.LightGray;
             this.check_btn_log.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.check_btn_log.Location = new System.Drawing.Point(105, 397);
+            this.check_btn_log.Location = new System.Drawing.Point(92, 419);
             this.check_btn_log.Name = "check_btn_log";
             this.check_btn_log.Size = new System.Drawing.Size(82, 18);
             this.check_btn_log.TabIndex = 12;
@@ -128,10 +137,10 @@
             this.checkAutoGraspCk.BackColor = System.Drawing.Color.LightGray;
             this.checkAutoGraspCk.Checked = true;
             this.checkAutoGraspCk.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkAutoGraspCk.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.checkAutoGraspCk.Location = new System.Drawing.Point(4, 40);
+            this.checkAutoGraspCk.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.checkAutoGraspCk.Location = new System.Drawing.Point(654, 47);
             this.checkAutoGraspCk.Name = "checkAutoGraspCk";
-            this.checkAutoGraspCk.Size = new System.Drawing.Size(82, 18);
+            this.checkAutoGraspCk.Size = new System.Drawing.Size(91, 20);
             this.checkAutoGraspCk.TabIndex = 14;
             this.checkAutoGraspCk.Text = "自动抓CK";
             this.checkAutoGraspCk.UseVisualStyleBackColor = false;
@@ -141,10 +150,10 @@
             // 
             this.checkAutoDoAct.AutoSize = true;
             this.checkAutoDoAct.BackColor = System.Drawing.Color.LightGray;
-            this.checkAutoDoAct.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.checkAutoDoAct.Location = new System.Drawing.Point(4, 73);
+            this.checkAutoDoAct.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.checkAutoDoAct.Location = new System.Drawing.Point(654, 83);
             this.checkAutoDoAct.Name = "checkAutoDoAct";
-            this.checkAutoDoAct.Size = new System.Drawing.Size(96, 18);
+            this.checkAutoDoAct.Size = new System.Drawing.Size(107, 20);
             this.checkAutoDoAct.TabIndex = 15;
             this.checkAutoDoAct.Text = "自动做任务";
             this.checkAutoDoAct.UseVisualStyleBackColor = false;
@@ -156,10 +165,10 @@
             this.chckSound.BackColor = System.Drawing.Color.LightGray;
             this.chckSound.Checked = true;
             this.chckSound.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chckSound.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.chckSound.Location = new System.Drawing.Point(210, 12);
+            this.chckSound.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.chckSound.Location = new System.Drawing.Point(654, 10);
             this.chckSound.Name = "chckSound";
-            this.chckSound.Size = new System.Drawing.Size(68, 18);
+            this.chckSound.Size = new System.Drawing.Size(75, 20);
             this.chckSound.TabIndex = 16;
             this.chckSound.Text = "提示音";
             this.chckSound.UseVisualStyleBackColor = false;
@@ -172,7 +181,7 @@
             this.checkShowLog.Checked = true;
             this.checkShowLog.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkShowLog.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.checkShowLog.Location = new System.Drawing.Point(12, 397);
+            this.checkShowLog.Location = new System.Drawing.Point(4, 419);
             this.checkShowLog.Name = "checkShowLog";
             this.checkShowLog.Size = new System.Drawing.Size(82, 18);
             this.checkShowLog.TabIndex = 17;
@@ -189,9 +198,9 @@
             0,
             0,
             65536});
-            this.numUDDelay.Location = new System.Drawing.Point(228, 40);
+            this.numUDDelay.Location = new System.Drawing.Point(853, 42);
             this.numUDDelay.Name = "numUDDelay";
-            this.numUDDelay.Size = new System.Drawing.Size(50, 23);
+            this.numUDDelay.Size = new System.Drawing.Size(70, 23);
             this.numUDDelay.TabIndex = 18;
             this.numUDDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numUDDelay.ValueChanged += new System.EventHandler(this.numUDDelay_ValueChanged);
@@ -200,21 +209,22 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(152, 44);
+            this.label1.Location = new System.Drawing.Point(809, 47);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 14);
+            this.label1.Size = new System.Drawing.Size(35, 14);
             this.label1.TabIndex = 19;
-            this.label1.Text = "延时(秒):";
+            this.label1.Text = "延时";
             // 
             // comboBoxActList
             // 
             this.comboBoxActList.AllowDrop = true;
             this.comboBoxActList.BackColor = System.Drawing.SystemColors.Control;
             this.comboBoxActList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxActList.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.comboBoxActList.FormattingEnabled = true;
-            this.comboBoxActList.Location = new System.Drawing.Point(42, 10);
+            this.comboBoxActList.Location = new System.Drawing.Point(779, 9);
             this.comboBoxActList.Name = "comboBoxActList";
-            this.comboBoxActList.Size = new System.Drawing.Size(134, 20);
+            this.comboBoxActList.Size = new System.Drawing.Size(150, 27);
             this.comboBoxActList.TabIndex = 22;
             this.comboBoxActList.TabStop = false;
             this.comboBoxActList.SelectedIndexChanged += new System.EventHandler(this.comboBoxActList_SelectedIndexChanged);
@@ -223,7 +233,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(1, 12);
+            this.label3.Location = new System.Drawing.Point(735, 16);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(35, 14);
             this.label3.TabIndex = 23;
@@ -233,7 +243,7 @@
             // 
             this.pictureBoxUrl.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.pictureBoxUrl.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pictureBoxUrl.Location = new System.Drawing.Point(27, 169);
+            this.pictureBoxUrl.Location = new System.Drawing.Point(691, 163);
             this.pictureBoxUrl.Name = "pictureBoxUrl";
             this.pictureBoxUrl.Size = new System.Drawing.Size(206, 170);
             this.pictureBoxUrl.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -244,7 +254,7 @@
             // btnGenQRCode
             // 
             this.btnGenQRCode.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnGenQRCode.Location = new System.Drawing.Point(205, 345);
+            this.btnGenQRCode.Location = new System.Drawing.Point(850, 350);
             this.btnGenQRCode.Name = "btnGenQRCode";
             this.btnGenQRCode.Size = new System.Drawing.Size(73, 30);
             this.btnGenQRCode.TabIndex = 25;
@@ -254,13 +264,16 @@
             // 
             // richTextQRCode
             // 
+            this.richTextQRCode.DetectUrls = false;
             this.richTextQRCode.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.richTextQRCode.ForeColor = System.Drawing.Color.Red;
-            this.richTextQRCode.Location = new System.Drawing.Point(27, 345);
+            this.richTextQRCode.Location = new System.Drawing.Point(685, 350);
+            this.richTextQRCode.Multiline = false;
             this.richTextQRCode.Name = "richTextQRCode";
-            this.richTextQRCode.Size = new System.Drawing.Size(172, 30);
+            this.richTextQRCode.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Horizontal;
+            this.richTextQRCode.Size = new System.Drawing.Size(150, 30);
             this.richTextQRCode.TabIndex = 26;
-            this.richTextQRCode.Text = "fsdfsdf";
+            this.richTextQRCode.Text = "";
             // 
             // listViewToken
             // 
@@ -269,9 +282,9 @@
             this.listViewToken.CheckBoxes = true;
             this.listViewToken.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.listViewToken.ForeColor = System.Drawing.Color.Blue;
-            this.listViewToken.Location = new System.Drawing.Point(285, 13);
+            this.listViewToken.Location = new System.Drawing.Point(4, 3);
             this.listViewToken.Name = "listViewToken";
-            this.listViewToken.Size = new System.Drawing.Size(638, 403);
+            this.listViewToken.Size = new System.Drawing.Size(638, 410);
             this.listViewToken.TabIndex = 27;
             this.listViewToken.TabStop = false;
             this.listViewToken.UseCompatibleStateImageBehavior = false;
@@ -279,9 +292,10 @@
             // 
             // btnCatchSel
             // 
-            this.btnCatchSel.Location = new System.Drawing.Point(109, 125);
+            this.btnCatchSel.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnCatchSel.Location = new System.Drawing.Point(655, 127);
             this.btnCatchSel.Name = "btnCatchSel";
-            this.btnCatchSel.Size = new System.Drawing.Size(90, 38);
+            this.btnCatchSel.Size = new System.Drawing.Size(90, 30);
             this.btnCatchSel.TabIndex = 28;
             this.btnCatchSel.Text = "选中执行";
             this.btnCatchSel.UseVisualStyleBackColor = true;
@@ -291,48 +305,114 @@
             // 
             this.text_box_ip_info.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.text_box_ip_info.ForeColor = System.Drawing.Color.Red;
-            this.text_box_ip_info.Location = new System.Drawing.Point(4, 791);
+            this.text_box_ip_info.Location = new System.Drawing.Point(654, 800);
             this.text_box_ip_info.Name = "text_box_ip_info";
             this.text_box_ip_info.Size = new System.Drawing.Size(275, 21);
             this.text_box_ip_info.TabIndex = 29;
             this.text_box_ip_info.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // tabControl1
+            // tab_proxy_ip
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(12, 459);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(250, 273);
-            this.tabControl1.TabIndex = 30;
+            this.tab_proxy_ip.BackColor = System.Drawing.SystemColors.Window;
+            this.tab_proxy_ip.Controls.Add(this.text_box_proxy_ip);
+            this.tab_proxy_ip.Controls.Add(this.btn_use_proxy);
+            this.tab_proxy_ip.Controls.Add(this.btn_proxy_check);
+            this.tab_proxy_ip.Controls.Add(this.label4);
+            this.tab_proxy_ip.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tab_proxy_ip.Location = new System.Drawing.Point(4, 22);
+            this.tab_proxy_ip.Name = "tab_proxy_ip";
+            this.tab_proxy_ip.Padding = new System.Windows.Forms.Padding(3);
+            this.tab_proxy_ip.Size = new System.Drawing.Size(252, 271);
+            this.tab_proxy_ip.TabIndex = 0;
+            this.tab_proxy_ip.Text = "代理IP";
+            this.tab_proxy_ip.Click += new System.EventHandler(this.tab_proxy_ip_Click);
             // 
-            // tabPage1
+            // text_box_proxy_ip
             // 
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(242, 247);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.text_box_proxy_ip.BackColor = System.Drawing.Color.MistyRose;
+            this.text_box_proxy_ip.DetectUrls = false;
+            this.text_box_proxy_ip.ForeColor = System.Drawing.Color.Blue;
+            this.text_box_proxy_ip.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.text_box_proxy_ip.Location = new System.Drawing.Point(18, 72);
+            this.text_box_proxy_ip.Name = "text_box_proxy_ip";
+            this.text_box_proxy_ip.Size = new System.Drawing.Size(215, 107);
+            this.text_box_proxy_ip.TabIndex = 32;
+            this.text_box_proxy_ip.Text = "";
+            this.text_box_proxy_ip.WordWrap = false;
             // 
-            // tabPage2
+            // btn_use_proxy
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(242, 247);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.btn_use_proxy.AutoSize = true;
+            this.btn_use_proxy.BackColor = System.Drawing.Color.LightGray;
+            this.btn_use_proxy.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_use_proxy.Location = new System.Drawing.Point(70, 237);
+            this.btn_use_proxy.Name = "btn_use_proxy";
+            this.btn_use_proxy.Size = new System.Drawing.Size(107, 20);
+            this.btn_use_proxy.TabIndex = 31;
+            this.btn_use_proxy.Text = "使用代理IP";
+            this.btn_use_proxy.UseVisualStyleBackColor = false;
+            this.btn_use_proxy.CheckedChanged += new System.EventHandler(this.btn_use_proxy_CheckedChanged);
+            // 
+            // btn_proxy_check
+            // 
+            this.btn_proxy_check.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_proxy_check.Location = new System.Drawing.Point(66, 196);
+            this.btn_proxy_check.Name = "btn_proxy_check";
+            this.btn_proxy_check.Size = new System.Drawing.Size(115, 30);
+            this.btn_proxy_check.TabIndex = 2;
+            this.btn_proxy_check.Text = "验证是否可用";
+            this.btn_proxy_check.UseVisualStyleBackColor = true;
+            this.btn_proxy_check.Click += new System.EventHandler(this.btn_proxy_check_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label4.ForeColor = System.Drawing.Color.Red;
+            this.label4.Location = new System.Drawing.Point(16, 21);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(208, 32);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "如有多个请换行,会随机使用\r\n例:127.0.0.1:8001";
+            // 
+            // tab_control
+            // 
+            this.tab_control.Controls.Add(this.tab_proxy_ip);
+            this.tab_control.Controls.Add(this.tab_jiema);
+            this.tab_control.Location = new System.Drawing.Point(663, 417);
+            this.tab_control.Name = "tab_control";
+            this.tab_control.SelectedIndex = 0;
+            this.tab_control.Size = new System.Drawing.Size(260, 297);
+            this.tab_control.TabIndex = 30;
+            // 
+            // tab_jiema
+            // 
+            this.tab_jiema.BackColor = System.Drawing.Color.PapayaWhip;
+            this.tab_jiema.Controls.Add(this.label2);
+            this.tab_jiema.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tab_jiema.Location = new System.Drawing.Point(4, 22);
+            this.tab_jiema.Name = "tab_jiema";
+            this.tab_jiema.Size = new System.Drawing.Size(252, 271);
+            this.tab_jiema.TabIndex = 1;
+            this.tab_jiema.Text = "接码打码";
+            this.tab_jiema.Click += new System.EventHandler(this.tab_jiema_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.Red;
+            this.label2.Location = new System.Drawing.Point(55, 119);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(126, 14);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "功能正在开发中...";
             // 
             // HccWindowdGraspTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(935, 824);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.tab_control);
             this.Controls.Add(this.text_box_ip_info);
             this.Controls.Add(this.btnCatchSel);
             this.Controls.Add(this.listViewToken);
@@ -357,7 +437,11 @@
             this.Text = "抓包工具";
             ((System.ComponentModel.ISupportInitialize)(this.numUDDelay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUrl)).EndInit();
-            this.tabControl1.ResumeLayout(false);
+            this.tab_proxy_ip.ResumeLayout(false);
+            this.tab_proxy_ip.PerformLayout();
+            this.tab_control.ResumeLayout(false);
+            this.tab_jiema.ResumeLayout(false);
+            this.tab_jiema.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -384,9 +468,14 @@
         private System.Windows.Forms.ListView listViewToken;
         private System.Windows.Forms.Button btnCatchSel;
         private System.Windows.Forms.TextBox text_box_ip_info;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tab_proxy_ip;
+        private System.Windows.Forms.TabControl tab_control;
+        private System.Windows.Forms.TabPage tab_jiema;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.CheckBox btn_use_proxy;
+        private System.Windows.Forms.Button btn_proxy_check;
+        private System.Windows.Forms.RichTextBox text_box_proxy_ip;
     }
 }
 

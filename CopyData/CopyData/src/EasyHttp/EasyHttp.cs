@@ -92,9 +92,17 @@ namespace CopyData
             SetDefaultAllowAutoRedirect(false);
         }
 
-        //设置代理地址,如：http://proxy.domain.com:3128
+        //设置代理地址,如：http://proxy.domain.com:3128, 此方法自动给加上http://前缀
         public void SetProxy(string address) {
-            _proxyAddress = StringUtils.CheckIsWithHttp(address);
+            if (address.Length < 8){
+                _proxyAddress = address;
+                return;
+            }
+            if ((address.Substring(0, 7) != "http://") && (address.Substring(0, 8) != "https://"))
+            {
+                address = "http://" + address;
+            }
+            _proxyAddress = address;
         }
 
         //初始化代理

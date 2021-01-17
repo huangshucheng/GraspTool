@@ -21,8 +21,8 @@ namespace CopyData
 {
     public partial class HccWindowdGraspTool
     {
-        int EXPLICIT_PORT = 8111;
-        int TRANSPARENT_PORT = 8112;
+        //int EXPLICIT_PORT = 8111;
+       // int TRANSPARENT_PORT = 8112;
 
         /*
         private ProxyServer proxyServer;
