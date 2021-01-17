@@ -7,5 +7,8 @@ local ok , msg = pcall(function()
 	end
 end)
 
-print(ok)
-print(msg)
+-- print(ok)
+-- print(msg)
+math.randomseed(os.time())
+local ranNum = math.random(1000)
+print("ranNum" , ranNum)

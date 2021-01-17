@@ -133,27 +133,20 @@ end
 -- 切换活动
 --活动下标，在TaskList.ActMapTable
 function TaskStart.onChangeActivity(actIndex)
-
 	local ActMapTable = TaskList.ActMapTable or {}
 	if ActMapTable and ActMapTable[actIndex] then
 		local activityTable = ActMapTable[actIndex]
 		local actName = activityTable.name or ""
 		local script = activityTable.script or ""
-		local curTaskObj = nil
-		local changeTaskFunc = function()
-			local CurTask = require(script)
-			if CurTask then
-				curTaskObj = CurTask.new()
+		local ok, msg = pcall(function()
+			if script and script ~= "" then
+		 		return require(script).new() 
 			end
-		end
-
-		local ok, msg = pcall(changeTaskFunc)
+		 end)
 		if ok then
 			local printStr = CSFun.Utf8ToDefault("加载活动成功! [" .. actName .."] ,活动脚本>> ") .. tostring(script)
 			print(printStr)
-			if curTaskObj then
-				TaskData.setCurTask(curTaskObj) --设置当前执行的任务对象
-			end
+			TaskData.setCurTask(msg) --设置当前执行的任务对象
 		else
 			print(tostring(CSFun.Utf8ToDefault("加载活动失败! ,[" .. actName .. "]  \n")) .. tostring(msg))
 		end
@@ -163,7 +156,7 @@ end
 
 --切换了任务对象
 function TaskStart.onChangeTaskData(activityTable)
-	if not activityTable then return end
+	activityTable = activityTable or {}
 
 	--清理token日志
 	CSFun.ClearTokenLog()
@@ -179,8 +172,11 @@ function TaskStart.onChangeTaskData(activityTable)
 	LuaCallCShapUI.SetQRCodeString("")
 
 	--切换二维码
-	local qrCodeStr = activityTable.qrcode
-	local qrCodeUrl = Define.QR_CODE_STR .. (qrCodeStr or "")
+	local qrCodeStr = activityTable.qrcode or ""
+	local qrCodeUrl = qrCodeStr
+	if not StringUtils.checkWithHttp(qrCodeStr) then
+		qrCodeUrl = Define.QR_CODE_STR .. qrCodeStr
+	end
 	LuaCallCShapUI.SetQRCodeString(qrCodeStr)
 	LuaCallCShapUI.ShowQRCode(qrCodeUrl, "GET", function(retStr)
 		if retStr ~= "SUCCESS" then

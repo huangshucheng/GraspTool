@@ -24,7 +24,7 @@ function HttpTask:ctor()
 	self._responseData  = ""  -- 返回数据
 	self._curHttpTaskIndex = 1      -- 当前任务下标
 	self._respCallback  = nil       -- 回调
-	self._proxyAddress 	= Define.DEFAULT_PROXY --代理如: "http://127.0.0.1:8888"，一定要加http:// 或者https://
+	self._proxyAddress 	= Define.DEFAULT_PROXY --代理如: "http://127.0.0.1:8888",如果不加http://前缀，会默认给你加http://
 	self._state 		= HttpTask.GRASP_STATE.NONE --未开始
 	self._isContinue    = true 	--执行完成后是否执行下一个CK
 	self._graspRedPktCount   = 0 	--抢到的红包个数
@@ -230,6 +230,14 @@ function HttpTask:start()
 	-- 以配置为准，否则用 界面上的配置
 	local UIConfigData = require("resources.luaScript.data.UIConfigData")
 	local delayTime = tonumber(UIConfigData.getReqDelayTime()) --延迟时间
+	local proxyConfig = UIConfigData.getProxyIpConfig()
+	if proxyConfig and #proxyConfig > 0 then
+		math.randomseed(os.time())
+		local proxyCount = #proxyConfig
+	 	local ranNum = math.random(proxyCount) --从1 到总数，随机选一个proxy
+		self._proxyAddress = proxyConfig[ranNum]
+	end
+	--print("hcc>>proxyAddress: " .. self._proxyAddress)
 
 	if delayTime and delayTime > 0 then
 		self._delayTime = delayTime

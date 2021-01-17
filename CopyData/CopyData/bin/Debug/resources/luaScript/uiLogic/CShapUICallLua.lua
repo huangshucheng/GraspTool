@@ -2,6 +2,7 @@
 local UIConfigData = require("resources.luaScript.data.UIConfigData")
 local TaskStart = require("resources.luaScript.task.base.TaskStart")
 local Define = require("resources.luaScript.config.Define")
+local StringUtils = require("resources.luaScript.util.StringUtils")
 
 --点击选择活动
 function onSelectActivityFromList(index)
@@ -51,8 +52,11 @@ end
 --点击生成二维码图片
 function onClickGenQRCode()
 	local LuaCallCShapUI = require("resources.luaScript.uiLogic.LuaCallCShapUI")
-	local qrCodeStr = LuaCallCShapUI.GetQRCodeString()
-	local qrCodeUrl = Define.QR_CODE_STR .. (qrCodeStr or "")
+	local qrCodeStr = LuaCallCShapUI.GetQRCodeString() or ""
+	local qrCodeUrl = qrCodeStr
+	if not StringUtils.checkWithHttp(qrCodeStr) then
+		qrCodeUrl = Define.QR_CODE_STR .. qrCodeStr
+	end
 	LuaCallCShapUI.ShowQRCode(qrCodeUrl, "GET", function(retStr)
 		if retStr ~= "SUCCESS" then
 			print(tostring(retStr))
@@ -80,4 +84,83 @@ function onCheckNetLog(bShowLog)
 	local isShow = 1 == tonumber(bShowLog)
 	UIConfigData.setIsShowNetLog(isShow)
 	print("showNetLog>> " .. tostring(isShow))
+end
+
+--获取字符串里面的地理位置信息
+-- var returnCitySN = {"cip": "115.205.71.148", "cid": "330100", "cname": "浙江省杭州市"};
+local function getRealAddress(retInfo)
+	local ok,decode_msg = pcall(function()
+		local splitData = StringUtils.splitString(retInfo, "=")
+		if splitData and next(splitData) then
+			return json.decode(splitData[2])
+		end
+	end)
+	if ok then
+		 return (decode_msg.cname or "")
+	end
+	return ""
+end
+
+--点击使用代理
+function onClickUseProxy(bUseProxy)
+	-- print(type(bUseProxy) .. "  " .. tostring(bUseProxy))
+	local LuaCallCShapUI = require("resources.luaScript.uiLogic.LuaCallCShapUI")
+	if not bUseProxy then
+		UIConfigData.setProxyIpConfig({})
+		print(LuaCallCShapUI.Utf8ToDefault("已禁用代理~"))
+	else
+		local proxyString = StringUtils.trim(LuaCallCShapUI.GetProxyString())
+		if not proxyString or proxyString == "" then
+			print(LuaCallCShapUI.Utf8ToDefault("输入代理IP信息为空~"))
+			return
+		end
+
+		local splitData = StringUtils.splitString(proxyString,"\n")
+		-- dump(splitData,LuaCallCShapUI.Utf8ToDefault("测试代理IP:"))
+		local showLogData = {} --打印用
+		local useProxyData = {} --实际使用
+		for _ , proxy_url in ipairs(splitData) do
+			LuaCallCShapUI.IsProxyCanUse(proxy_url,function(ret_proxy_url, canUse, proxy_address_info)
+				local canUseTip = LuaCallCShapUI.Utf8ToDefault(canUse and "可用~" or "不可用~")
+				local addressTip = getRealAddress(proxy_address_info)
+				showLogData[ret_proxy_url] = canUseTip .. "  ," .. tostring(addressTip)
+				if canUse then
+					table.insert(useProxyData,ret_proxy_url)
+				end
+				if table.nums(showLogData) == #splitData then
+					-- dump(showLogData,LuaCallCShapUI.Utf8ToDefault("结果"))
+					UIConfigData.setProxyIpConfig(useProxyData)
+					if #useProxyData > 0 then
+						print(LuaCallCShapUI.Utf8ToDefault("已开启代理~"))
+					else
+						print(LuaCallCShapUI.Utf8ToDefault("已开启代理~但是没有代理IP可用~"))
+					end
+				end
+			end)
+		end
+	end		
+end
+
+--点击验证代理
+function onClickCheckProxy()
+	local LuaCallCShapUI = require("resources.luaScript.uiLogic.LuaCallCShapUI")
+	local proxyString = StringUtils.trim(LuaCallCShapUI.GetProxyString())
+	if proxyString == "" then
+		print(LuaCallCShapUI.Utf8ToDefault("输入代理IP信息为空~"))
+	end
+	if proxyString and proxyString ~= "" then
+		local splitData = StringUtils.splitString(proxyString,"\n")
+		dump(splitData,LuaCallCShapUI.Utf8ToDefault("测试代理IP:"))
+		local showLogData = {}
+		for _ , proxy_url in ipairs(splitData) do
+			LuaCallCShapUI.IsProxyCanUse(proxy_url,function(ret_proxy_url, canUse, proxy_address_info)
+				local canUseTip = LuaCallCShapUI.Utf8ToDefault(canUse and "可用~" or "不可用~")
+				local addressTip = getRealAddress(proxy_address_info)
+				showLogData[ret_proxy_url] = canUseTip .. "  ," .. tostring(addressTip)
+				if table.nums(showLogData) == #splitData then
+					dump(showLogData,LuaCallCShapUI.Utf8ToDefault("结果"))
+				end
+			end)
+		end
+	end
 end

@@ -92,4 +92,18 @@ function LuaCallCShapUI.SetIPText(str)
 	end
 end
 
+--设置日志行数限制
+function LuaCallCShapUI.SetLogLineCountLimie(lineCount)
+	if SetLogLineCountLimie then
+		return SetLogLineCountLimie(lineCount)
+	end
+end
+
+--获取代理IP文本内容
+function LuaCallCShapUI.GetProxyString()
+	if GetProxyString then
+		return GetProxyString()
+	end
+end
+
 return LuaCallCShapUI

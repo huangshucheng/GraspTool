@@ -219,4 +219,15 @@ function StringUtils.stringToShort(srcString,count)
     end
 end
 
+--是否带http://或https://
+function StringUtils.checkWithHttp(str)
+  if not str or str == "" then
+    return false
+  end
+  if string.find(str,"http://") or string.find(str, "https://") then
+    return true
+  end
+  return false
+end
+
 return StringUtils

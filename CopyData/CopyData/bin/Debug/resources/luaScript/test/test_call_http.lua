@@ -111,13 +111,13 @@ function testCall()
 	CSFun.ReqHttpByJetyduAsync(url, 0 ,header,nil,nil,nil,function(ret) 
 		print("hcc>>>>>>>>>>>>>>" .. ret)
 	end)
-	]]
 	local proxy_url = "http://hccfun.com:8001"
 	-- local proxy_url = "http://127.0.0.1:8001"
 	-- local proxy_url = "127.0.0.1:8001"
 	CSFun.IsProxyCanUse(proxy_url,function(ret)
 		print("canUse: " .. tostring(ret))
 	end)
+	]]
 end
 --[[
 [reqHeader<www.baidu.com>] 

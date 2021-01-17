@@ -1,5 +1,6 @@
 local CSFun = class("CSFun")
 local UIConfigData = require("resources.luaScript.data.UIConfigData")
+local StringUtils = require("resources.luaScript.util.StringUtils")
 
 -- 打印堆栈
 function CSFun.GetTrace()
@@ -193,27 +194,29 @@ end
 function CSFun.IsProxyCanUse(proxyUrl,callback)
 	if not proxyUrl or proxyUrl == "" then
 		if callback then
-			callback(false)
+			callback(proxyUrl,false,nil)
 		end
 		return
 	end
 	--默认用http 不用https
-	if not string.find(proxyUrl,"http://") and not string.find(proxyUrl,"https://") then
-		proxyUrl = "http://" .. proxyUrl
+	local tmpProxyUrl = proxyUrl
+	if not StringUtils.checkWithHttp(proxyUrl) then
+		tmpProxyUrl = "http://" .. proxyUrl
 	end
-	print("proxyUrl: " .. proxyUrl)
+	-- print(CSFun.Utf8ToDefault("测试URL: ") .. tostring(proxyUrl))
 	local Define = require("resources.luaScript.config.Define")
 	CSFun.httpReqAsync(Define.IP_ADDRESS_URL,function(self_address)
 		CSFun.httpReqAsync(Define.IP_ADDRESS_URL,function(proxy_address) 
-			print(CSFun.Utf8ToDefault("本机地址: ") .. self_address)
-			print(CSFun.Utf8ToDefault("代理地址: ") .. proxy_address)
+			-- print(CSFun.Utf8ToDefault("本机地址: ") .. self_address)
+			-- print(CSFun.Utf8ToDefault("代理地址: ") .. proxy_address)
 			local isFindStr = string.find(proxy_address,"returnCitySN")
 			local is_proxy_useful = isFindStr and proxy_address and proxy_address ~= "" and (self_address ~= proxy_address)
 			is_proxy_useful = is_proxy_useful or false
+			-- print(CSFun.Utf8ToDefault("代理是否可用: ") .. proxyUrl .. "   " .. tostring(is_proxy_useful))
 			if callback then
-				callback(is_proxy_useful)
+				callback(proxyUrl, is_proxy_useful, proxy_address)
 			end
-		end,nil,nil,nil,nil,nil,proxyUrl)
+		end,nil,nil,nil,nil,nil,tmpProxyUrl)
 	end)
 end
 

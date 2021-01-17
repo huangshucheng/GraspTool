@@ -7,6 +7,7 @@ local _isAutoDoAction 	= false -- 是否抓到CK后自动执行任务
 local _isShowOutLog 	= true -- 是否显示输出日志
 local _reqDelayTime 	= 0  -- 所有请求延时时间
 local _isShowNetLog 	= false -- 是否显示网络日志
+local _proxyIPTable 	= {} --代理IP
 
 function UIConfigData.init()
 	local LuaCallCShapUI = require("resources.luaScript.uiLogic.LuaCallCShapUI")
@@ -41,6 +42,7 @@ function UIConfigData.init()
 		end
 		LuaCallCShapUI.SetIPText(addressInfo)
 	end)
+	LuaCallCShapUI.SetLogLineCountLimie(Define.LOG_LINE_COUNT_LIMIE) --日志行数限制设置
 end
 
 function UIConfigData.setIsOpenTipSound(flag)
@@ -89,6 +91,17 @@ end
 
 function UIConfigData.getIsShowNetLog()
 	return _isShowNetLog
+end
+
+--设置代理IP
+function UIConfigData.setProxyIpConfig(ip_table)
+	_proxyIPTable = ip_table
+	local LuaCallCShapUI = require("resources.luaScript.uiLogic.LuaCallCShapUI")
+	dump(_proxyIPTable,LuaCallCShapUI.Utf8ToDefault("使用中~"))
+end
+
+function UIConfigData.getProxyIpConfig()
+	return _proxyIPTable
 end
 
 return UIConfigData

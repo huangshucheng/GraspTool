@@ -127,8 +127,8 @@ function WebSocket_OnSocketData()
 	if UIConfigData.getIsShowNetLog() then
 		-- print(websocket_data)
 		local time_str = os.date("%H:%M:%S")
-		local show_str  = tostring(time_str) .. ",recvData"
-		dump(out_msg, show_str)
+		-- local show_str  = tostring(time_str) .. ",recvData"
+		dump(out_msg, time_str)
 		print("\n")
 	end
 end
