@@ -21,19 +21,19 @@ namespace CopyData
         private string _webSocketDataCache = "";
         //test
         private void registWebSocket() {
+            //test
             //var test_url = "ws://hccfun.com:8002/do-not-proxy";
             //_webSocket = new HCCWebSocket("ws://localhost:8005");//本地调试
             //_webSocket = new HCCWebSocket("ws://121.41.0.245:8005");//使用外网IP
-            //_webSocket = new HCCWebSocket("ws://hccfun.com:8005"); //使用域名
             //_webSocket = new HCCWebSocket("ws://hccfun.com:8002/do-not-proxy"); //anyproxy 自带websocket端口
+            //CreateWebSocket(test_url);
+            //注册lua接口
             _luaScript.RegisterFunction("WebSocket_CreateSocket", this, GetType().GetMethod("WebSocket_CreateSocket"));
             _luaScript.RegisterFunction("WebSocket_SendMessage", this, GetType().GetMethod("WebSocket_SendMessage"));
             _luaScript.RegisterFunction("WebSocket_GetSocketData", this, GetType().GetMethod("WebSocket_GetSocketData")); //传webSocket数据到lua
             _luaScript.RegisterFunction("WebSocket_IsConnected", this, GetType().GetMethod("WebSocket_IsConnected"));
             _luaScript.RegisterFunction("WebSocket_DoReConnect", this, GetType().GetMethod("WebSocket_DoReConnect"));
             _luaScript.RegisterFunction("WebSocket_Close", this, GetType().GetMethod("WebSocket_Close"));
-            //test
-            //CreateWebSocket(test_url);
         }
 
         public string WebSocket_CreateSocket(string wsUrl) {

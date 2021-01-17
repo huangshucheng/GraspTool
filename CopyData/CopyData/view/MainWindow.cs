@@ -14,6 +14,7 @@ namespace CopyData
     {
         Dictionary<string, System.Timers.Timer> _timerDic = new Dictionary<string, System.Timers.Timer>();
         private int _logLineCountLimit = 1500; //日志限制行数
+        private string _proxyLogUrl = "www.baidu.com";
 
         //c++ 的 dll接口导入到c#
         //https://www.cnblogs.com/skyfreedom/p/11773597.html
@@ -37,6 +38,7 @@ namespace CopyData
             _luaScript.RegisterFunction("SetInterval", this, GetType().GetMethod("SetInterval")); //定时器
             _luaScript.RegisterFunction("StopTimer", this, GetType().GetMethod("StopTimer")); //停止定时器
             _luaScript.RegisterFunction("AddActivityToList", this, GetType().GetMethod("AddActivityToList")); //增加活动名称到列表
+            _luaScript.RegisterFunction("SetActivitySelIndex", this, GetType().GetMethod("SetActivitySelIndex")); //设置下拉列表，选中某个下标
             _luaScript.RegisterFunction("IsOpenTipSound", this, GetType().GetMethod("IsOpenTipSound")); //获取是否有提示音
             _luaScript.RegisterFunction("IsAutoGraspCK", this, GetType().GetMethod("IsAutoGraspCK")); //是否自动抓取CK
             _luaScript.RegisterFunction("IsAutoDoAction", this, GetType().GetMethod("IsAutoDoAction")); //是否自动做任务
@@ -50,7 +52,7 @@ namespace CopyData
             _luaScript.RegisterFunction("SetIPText", this, GetType().GetMethod("SetIPText")); //设置IP文本显示
             _luaScript.RegisterFunction("SetLogLineCountLimie", this, GetType().GetMethod("SetLogLineCountLimie")); //设置日志行数限制
             _luaScript.RegisterFunction("GetProxyString", this, GetType().GetMethod("GetProxyString")); //获取代理IP文本内容
-
+            _luaScript.RegisterFunction("SetProxyLinkUrl", this, GetType().GetMethod("SetProxyLinkUrl")); //设置日志显示连接
 
             //静态方法
             _luaScript.RegisterFunction("GetCurDir", null, typeof(LuaCall).GetMethod("GetCurDir")); //获取当前exe文件位置
@@ -98,38 +100,6 @@ namespace CopyData
             if (_luaScript.GetFunction("testCall") != null) {
                 _luaScript.DoString("testCall()");
             }
-
-            //var str = LuaCall.httpRequest("www.baidu.com");
-            //LuaCall.httpRequestAsync("www.baidu.com");
-            //var url = "https://hbz.qrmkt.cn/hbact/hyr/sign/list";
-            //LuaCall.httpRequestAsync("www.baidu.com",1,null,"urlBody=hcc","postBody=123", "", null);
-            //LuaCall.httpRequestAsync(url, 1,null,"urlBody=hcc","postBody=123", "", null);
-            //LuaCall.HttpRequestAsync("www.baidu.com", 1,null,"","", "", null);
-            //SetTimeOut(1);
-            //var fileName = "hcc_test.json";
-            //var curPath = LuaCall.GetCurDir() + "\\" + fileName;
-
-            /*
-            //添加数据项    
-            this.listViewToken.BeginUpdate();   //数据更新，UI暂时挂起，直到EndUpdate绘制控件，可以有效避免闪烁并大大提高加载速度
-            for (int i = 0; i < 2; i++)   //添加10行数据
-            {
-                ListViewItem lvi = new ListViewItem();
-                lvi.ImageIndex = i;     //通过与imageList绑定，显示imageList中第i项图标
-                lvi.Text = "" + i;
-                lvi.SubItems.Add("第2列,第 " + i + " 行》》》》");
-                lvi.SubItems.Add("第3列,第 " + i + " 行");
-                lvi.SubItems.Add("第4列,第 " + i + " 行");
-                this.listViewToken.Items.Add(lvi);
-            }
-            ////滚动到最后
-            listViewToken.Items[listViewToken.Items.Count - 1].EnsureVisible();
-            //listViewToken.TopItem = listViewToken.Items[listViewToken.Items.Count - 1];
-            this.listViewToken.EndUpdate();  //结束数据处理，UI界面一次性绘制。
-            */
-            //Console.WriteLine("IP>>>" + LuaCall.GetLocalIP());
-            //var showText = "IP:" + LuaCall.GetLocalIP() + " 来自:浙江省杭州市";
-            //SetIPText(showText);
         }
 
         /// ///////////////////////////////////
@@ -188,7 +158,6 @@ namespace CopyData
                 return;
             }
             if (richTextBoxLog != null){
-                //Control.CheckForIllegalCrossThreadCalls = false;
                 richTextBoxLog.AppendText(logStr + "\n");
             }
         }
@@ -297,6 +266,12 @@ namespace CopyData
             }
         }
 
+        //设置下拉列表，选中某个下标
+        public void SetActivitySelIndex(int index) {
+            if (index >= 0 && index < comboBoxActList.Items.Count) {
+                comboBoxActList.SelectedIndex = index;
+            }
+        }
         //获取生成二维码字符串
         public string GetQRCodeString() {
             return richTextQRCode.Text;
@@ -360,8 +335,6 @@ namespace CopyData
         //日志打印查找输出
         private void richTextBoxLogTextChanged(object sender, EventArgs e)
         {
-            richTextBoxLog.SelectionStart = richTextBoxLog.Text.Length;
-            richTextBoxLog.ScrollToCaret();
             //限制行数
             if (this.richTextBoxLog.Lines.Length > _logLineCountLimit)
             {
@@ -371,6 +344,8 @@ namespace CopyData
                 Array.Resize(ref lines, _logLineCountLimit);
                 this.richTextBoxLog.Lines = lines;
             }
+            richTextBoxLog.SelectionStart = richTextBoxLog.Text.Length;
+            richTextBoxLog.ScrollToCaret();
         }
 
         //点击清理输出
@@ -382,6 +357,11 @@ namespace CopyData
         //获取代理IP文本
         public string GetProxyString() {
             return text_box_proxy_ip.Text;
+        }
+
+        //设置日志链接Url
+        public void SetProxyLinkUrl(string url_str) {
+            this._proxyLogUrl = url_str;
         }
 
         /// ///////////////////////////////////
@@ -634,6 +614,17 @@ namespace CopyData
         private void tab_jiema_Click(object sender, EventArgs e)
         {
 
+        }
+
+        //点击查看网页日志
+        private void text_link_label_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try {
+                this.text_link_label.Links[0].LinkData = this._proxyLogUrl;
+                System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
+            } catch (Exception ex) {
+                Console.WriteLine("text_link_label_LinkClicked error: " + ex.Message);
+            }
         }
     }
 }

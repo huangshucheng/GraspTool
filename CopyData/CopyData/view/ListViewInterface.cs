@@ -25,8 +25,6 @@ namespace CopyData
             _luaScript.RegisterFunction("ListView_set_all_checked", this, GetType().GetMethod("ListView_set_all_checked"));
             _luaScript.RegisterFunction("ListView_set_item", this, GetType().GetMethod("ListView_set_item"));
             _luaScript.RegisterFunction("ListView_get_count", this, GetType().GetMethod("ListView_get_count"));
-
-            
         }
 
         //listView 初始化
@@ -280,7 +278,6 @@ namespace CopyData
         //点击listView
         private void listViewToken_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //Console.WriteLine("cccc");
         }
     }
 }

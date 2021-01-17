@@ -240,14 +240,11 @@ namespace CopyData
         public string Execute(Method method){
             string tmpUrl = this._fullUrl;
             //URL追加body
-            if (!string.IsNullOrEmpty(_urlBody))
-            {
-                if (tmpUrl.IndexOf("/?") > 0 || tmpUrl.IndexOf("?") > 0)
-                {
+            if (!string.IsNullOrEmpty(_urlBody)){
+                if (tmpUrl.IndexOf("/?") > 0 || tmpUrl.IndexOf("?") > 0){
                     tmpUrl = this._fullUrl + "&" + _urlBody;
                 }
-                else
-                {
+                else{
                     tmpUrl = this._fullUrl + "/?" + _urlBody;
                 }
             }
@@ -313,8 +310,7 @@ namespace CopyData
             string tmpUrl = this._fullUrl;
             //URL追加body
             if (!string.IsNullOrEmpty(_urlBody)){
-                if (tmpUrl.IndexOf("/?") > 0 || tmpUrl.IndexOf("?") > 0)
-                {
+                if (tmpUrl.IndexOf("/?") > 0 || tmpUrl.IndexOf("?") > 0){
                     tmpUrl = this._fullUrl + "&" + _urlBody;
                 }
                 else {

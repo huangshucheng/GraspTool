@@ -2,28 +2,6 @@
 using System.Runtime.InteropServices;
 using LuaInterface;
 
-//jose-jwt使用：
-//https://github.com/dvsekhvalnov/jose-jwt
-
-/*
- * https://github.com/cnwenli/JWT.Net
-var password = Guid.NewGuid().ToString("N");
-
-var jwtp1 = new JWTPackage("yswenli", "jwt test", "everyone",Guid.NewGuid().ToString("N"), password);
-
-var sign = jwtp1.Signature;
-var password = Guid.NewGuid().ToString("N");
-
-var jwtp1 = new JWTPackage<User>(new User()
-{
-    Id = "1",
-    Name = "yswenli",
-    Role = "Admin"
-}, 180, password);
-
-var sign = jwtp1.Signature;
-*/
-
 //全局定义
 namespace CopyData
 {
@@ -40,7 +18,6 @@ namespace CopyData
 
     public delegate void httpDataReturnHandler(object sender, string data);//定义一个http请求返回的委托
 
-
     //COPYDATASTRUCT结构,用于其他软件传数据
     public struct COPYDATASTRUCT
     {
@@ -50,17 +27,6 @@ namespace CopyData
         public string lpData;
     }
     
-    //http 请求参数
-    public struct HTTP_REQ_PARAM
-    {
-        public string url;
-        public int method;
-        public string urlBody;
-        public string postBody;
-        public string cookies;
-        public LuaTable headTable;
-    };
-
     public class Define
     {
         public const int WM_COPYDATA = 0x004A; //copydata的域

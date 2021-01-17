@@ -47,7 +47,6 @@
             this.richTextQRCode = new System.Windows.Forms.RichTextBox();
             this.listViewToken = new System.Windows.Forms.ListView();
             this.btnCatchSel = new System.Windows.Forms.Button();
-            this.text_box_ip_info = new System.Windows.Forms.TextBox();
             this.tab_proxy_ip = new System.Windows.Forms.TabPage();
             this.text_box_proxy_ip = new System.Windows.Forms.RichTextBox();
             this.btn_use_proxy = new System.Windows.Forms.CheckBox();
@@ -56,6 +55,8 @@
             this.tab_control = new System.Windows.Forms.TabControl();
             this.tab_jiema = new System.Windows.Forms.TabPage();
             this.label2 = new System.Windows.Forms.Label();
+            this.text_box_ip_info = new System.Windows.Forms.RichTextBox();
+            this.text_link_label = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.numUDDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUrl)).BeginInit();
             this.tab_proxy_ip.SuspendLayout();
@@ -104,13 +105,13 @@
             this.btnStopCatch.Name = "btnStopCatch";
             this.btnStopCatch.Size = new System.Drawing.Size(90, 30);
             this.btnStopCatch.TabIndex = 8;
-            this.btnStopCatch.Text = "停止执行";
+            this.btnStopCatch.Text = "停止操作";
             this.btnStopCatch.UseVisualStyleBackColor = true;
             this.btnStopCatch.Click += new System.EventHandler(this.btnStopCatch_Click);
             // 
             // btnFinishCatch
             // 
-            this.btnFinishCatch.Location = new System.Drawing.Point(266, 419);
+            this.btnFinishCatch.Location = new System.Drawing.Point(592, 418);
             this.btnFinishCatch.Name = "btnFinishCatch";
             this.btnFinishCatch.Size = new System.Drawing.Size(50, 20);
             this.btnFinishCatch.TabIndex = 9;
@@ -233,11 +234,11 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(735, 16);
+            this.label3.Location = new System.Drawing.Point(741, 7);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 14);
+            this.label3.Size = new System.Drawing.Size(35, 28);
             this.label3.TabIndex = 23;
-            this.label3.Text = "活动";
+            this.label3.Text = "活动\r\n列表";
             // 
             // pictureBoxUrl
             // 
@@ -264,6 +265,7 @@
             // 
             // richTextQRCode
             // 
+            this.richTextQRCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.richTextQRCode.DetectUrls = false;
             this.richTextQRCode.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.richTextQRCode.ForeColor = System.Drawing.Color.Red;
@@ -297,23 +299,13 @@
             this.btnCatchSel.Name = "btnCatchSel";
             this.btnCatchSel.Size = new System.Drawing.Size(90, 30);
             this.btnCatchSel.TabIndex = 28;
-            this.btnCatchSel.Text = "选中执行";
+            this.btnCatchSel.Text = "选中操作";
             this.btnCatchSel.UseVisualStyleBackColor = true;
             this.btnCatchSel.Click += new System.EventHandler(this.btnCatchSel_Click);
             // 
-            // text_box_ip_info
-            // 
-            this.text_box_ip_info.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.text_box_ip_info.ForeColor = System.Drawing.Color.Red;
-            this.text_box_ip_info.Location = new System.Drawing.Point(654, 800);
-            this.text_box_ip_info.Name = "text_box_ip_info";
-            this.text_box_ip_info.Size = new System.Drawing.Size(275, 21);
-            this.text_box_ip_info.TabIndex = 29;
-            this.text_box_ip_info.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // tab_proxy_ip
             // 
-            this.tab_proxy_ip.BackColor = System.Drawing.SystemColors.Window;
+            this.tab_proxy_ip.BackColor = System.Drawing.SystemColors.ControlLight;
             this.tab_proxy_ip.Controls.Add(this.text_box_proxy_ip);
             this.tab_proxy_ip.Controls.Add(this.btn_use_proxy);
             this.tab_proxy_ip.Controls.Add(this.btn_proxy_check);
@@ -329,7 +321,8 @@
             // 
             // text_box_proxy_ip
             // 
-            this.text_box_proxy_ip.BackColor = System.Drawing.Color.MistyRose;
+            this.text_box_proxy_ip.BackColor = System.Drawing.SystemColors.Control;
+            this.text_box_proxy_ip.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.text_box_proxy_ip.DetectUrls = false;
             this.text_box_proxy_ip.ForeColor = System.Drawing.Color.Blue;
             this.text_box_proxy_ip.ImeMode = System.Windows.Forms.ImeMode.NoControl;
@@ -371,9 +364,9 @@
             this.label4.ForeColor = System.Drawing.Color.Red;
             this.label4.Location = new System.Drawing.Point(16, 21);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(208, 32);
+            this.label4.Size = new System.Drawing.Size(224, 32);
             this.label4.TabIndex = 0;
-            this.label4.Text = "如有多个请换行,会随机使用\r\n例:127.0.0.1:8001";
+            this.label4.Text = "如有多个请换行,系统随机使用\r\n例:127.0.0.1:8001";
             // 
             // tab_control
             // 
@@ -405,15 +398,41 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(126, 14);
             this.label2.TabIndex = 0;
-            this.label2.Text = "功能正在开发中...";
+            this.label2.Text = "正在努力开发中...";
+            // 
+            // text_box_ip_info
+            // 
+            this.text_box_ip_info.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_box_ip_info.DetectUrls = false;
+            this.text_box_ip_info.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.text_box_ip_info.ForeColor = System.Drawing.Color.Red;
+            this.text_box_ip_info.Location = new System.Drawing.Point(655, 769);
+            this.text_box_ip_info.Name = "text_box_ip_info";
+            this.text_box_ip_info.ReadOnly = true;
+            this.text_box_ip_info.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Horizontal;
+            this.text_box_ip_info.Size = new System.Drawing.Size(274, 43);
+            this.text_box_ip_info.TabIndex = 31;
+            this.text_box_ip_info.Text = "";
+            // 
+            // text_link_label
+            // 
+            this.text_link_label.AutoSize = true;
+            this.text_link_label.Location = new System.Drawing.Point(509, 422);
+            this.text_link_label.Name = "text_link_label";
+            this.text_link_label.Size = new System.Drawing.Size(77, 12);
+            this.text_link_label.TabIndex = 32;
+            this.text_link_label.TabStop = true;
+            this.text_link_label.Text = "查看网页日志";
+            this.text_link_label.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.text_link_label_LinkClicked);
             // 
             // HccWindowdGraspTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(935, 824);
-            this.Controls.Add(this.tab_control);
+            this.Controls.Add(this.text_link_label);
             this.Controls.Add(this.text_box_ip_info);
+            this.Controls.Add(this.tab_control);
             this.Controls.Add(this.btnCatchSel);
             this.Controls.Add(this.listViewToken);
             this.Controls.Add(this.richTextQRCode);
@@ -467,7 +486,6 @@
         private System.Windows.Forms.RichTextBox richTextQRCode;
         private System.Windows.Forms.ListView listViewToken;
         private System.Windows.Forms.Button btnCatchSel;
-        private System.Windows.Forms.TextBox text_box_ip_info;
         private System.Windows.Forms.TabPage tab_proxy_ip;
         private System.Windows.Forms.TabControl tab_control;
         private System.Windows.Forms.TabPage tab_jiema;
@@ -476,6 +494,8 @@
         private System.Windows.Forms.CheckBox btn_use_proxy;
         private System.Windows.Forms.Button btn_proxy_check;
         private System.Windows.Forms.RichTextBox text_box_proxy_ip;
+        private System.Windows.Forms.RichTextBox text_box_ip_info;
+        private System.Windows.Forms.LinkLabel text_link_label;
     }
 }
 

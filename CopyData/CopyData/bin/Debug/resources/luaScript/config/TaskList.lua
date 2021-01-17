@@ -3,10 +3,10 @@ local Define = require("resources.luaScript.config.Define")
 
 --设置代理二维码
 
-local proxy_qrcode = [[http://hcc.hccfun.com/%E8%AF%81%E4%B9%A6%E9%AA%8C%E8%AF%81%E7%A0%81.png]]
+local proxy_qrcode = [[http://hcc.hccfun.com/qr_code_proxy_2.png]]
 TaskList.ActMapTable = {
 	{
-		name = "设置手机代理~",
+		name = "请下载证书~",
 		script = "",
 		qrcode = proxy_qrcode,
 	},

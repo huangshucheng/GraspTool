@@ -176,8 +176,8 @@ function TaskStart.onChangeTaskData(activityTable)
 	local qrCodeUrl = qrCodeStr
 	if not StringUtils.checkWithHttp(qrCodeStr) then
 		qrCodeUrl = Define.QR_CODE_STR .. qrCodeStr
+		LuaCallCShapUI.SetQRCodeString(qrCodeStr)
 	end
-	LuaCallCShapUI.SetQRCodeString(qrCodeStr)
 	LuaCallCShapUI.ShowQRCode(qrCodeUrl, "GET", function(retStr)
 		if retStr ~= "SUCCESS" then
 			print(CSFun.Utf8ToDefault("加载二维码失败了! ") .. tostring(retStr))

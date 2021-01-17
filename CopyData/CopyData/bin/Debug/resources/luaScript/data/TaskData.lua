@@ -25,6 +25,7 @@ function TaskData.loadTaskList()
 	if next(tmpActTable) then
 		LuaCallCShapUI.AddActivityToList(tmpActTable)
 	end
+	LuaCallCShapUI.SetActivitySelIndex(0)--设置选中某个列表的下标
 end
 
 return TaskData

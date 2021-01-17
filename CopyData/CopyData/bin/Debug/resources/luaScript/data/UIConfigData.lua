@@ -30,7 +30,8 @@ function UIConfigData.init()
 	LuaCallCShapUI.httpReqAsync(Define.IP_ADDRESS_URL,function(ret)
 		print(LuaCallCShapUI.Utf8ToDefault("外网IP信息: ") .. tostring(ret))
 		local localIP = LuaCallCShapUI.GetLocalIP()
-		local addressInfo = LuaCallCShapUI.Utf8ToDefault("本地IP: ") .. tostring(localIP)
+		local localIpInfo = "\n" .. LuaCallCShapUI.Utf8ToDefault("内网IP:") .. tostring(localIP)
+		local addressInfo = LuaCallCShapUI.Utf8ToDefault("外网IP:")
 		local ok,decode_msg = pcall(function()
 			local splitData = StringUtils.splitString(ret, "=")
 			if splitData and next(splitData) then
@@ -38,11 +39,14 @@ function UIConfigData.init()
 			end
 		end)
 		if ok then
-			addressInfo = addressInfo .. "  " .. (decode_msg.cname or "")
+			decode_msg = decode_msg or {}
+			addressInfo = addressInfo .. (decode_msg.cip or "null") .. " " .. (decode_msg.cname or "null")
 		end
-		LuaCallCShapUI.SetIPText(addressInfo)
+		addressInfo = addressInfo .. localIpInfo
+		LuaCallCShapUI.SetIPText(addressInfo) --显示IP信息
 	end)
 	LuaCallCShapUI.SetLogLineCountLimie(Define.LOG_LINE_COUNT_LIMIE) --日志行数限制设置
+	LuaCallCShapUI.SetProxyLinkUrl(Define.PROXY_LOG_URL) --点击跳转日志显示页面
 end
 
 function UIConfigData.setIsOpenTipSound(flag)

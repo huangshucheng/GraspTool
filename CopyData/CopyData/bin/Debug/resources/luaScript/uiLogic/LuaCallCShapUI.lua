@@ -12,6 +12,16 @@ function LuaCallCShapUI.AddActivityToList(actTable)
 	 end
 end
 
+--设置选中某个列表的下标
+function LuaCallCShapUI.SetActivitySelIndex(index)
+	index = tonumber(index) or 0
+	if index >= 0 then
+		if SetActivitySelIndex then
+			SetActivitySelIndex(index)
+		end
+	end
+end
+
 -- 是否有提示音
 function LuaCallCShapUI.IsOpenTipSound()
 	if IsOpenTipSound then
@@ -106,4 +116,13 @@ function LuaCallCShapUI.GetProxyString()
 	end
 end
 
+--设置日志显示页面的URL,通过点击跳转到此连接
+function LuaCallCShapUI.SetProxyLinkUrl(urlStr)
+	if not urlStr or urlStr == "" then
+		return
+	end
+	if SetProxyLinkUrl then
+		SetProxyLinkUrl(urlStr)
+	end
+end
 return LuaCallCShapUI

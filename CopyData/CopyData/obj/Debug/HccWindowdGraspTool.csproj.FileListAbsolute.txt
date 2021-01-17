@@ -448,11 +448,7 @@ D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\System.Xml.XmlDocument.dll
 D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\System.Xml.XmlSerializer.dll
 D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\System.Xml.XPath.dll
 D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\System.Xml.XPath.XDocument.dll
-D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\BouncyCastle.Crypto.dll
-D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\BrotliSharpLib.dll
-D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\Conari.dll
 D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\JinYiHelp.dll
-D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\JsonFx.dll
 D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\lua51.dll
 D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\LuaInterface.dll
 D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\Microsoft.AspNetCore.WebUtilities.dll
@@ -480,10 +476,6 @@ D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\System.Text.Encodings.Web.dll
 D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\System.Threading.Tasks.Extensions.dll
 D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\System.ValueTuple.dll
 D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\VikingErik.LuaInterface.dll
-D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\BouncyCastle.Crypto.xml
-D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\BrotliSharpLib.xml
-D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\Conari.xml
-D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\JsonFx.xml
 D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\Microsoft.AspNetCore.WebUtilities.xml
 D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
 D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\Microsoft.Extensions.Configuration.xml

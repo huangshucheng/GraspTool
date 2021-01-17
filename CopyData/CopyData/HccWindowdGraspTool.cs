@@ -75,6 +75,5 @@ namespace CopyData
         public string GetFidderString(){
             return this._stringCache;
         }
-
     }
 }

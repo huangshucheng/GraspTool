@@ -118,6 +118,7 @@ function testCall()
 		print("canUse: " .. tostring(ret))
 	end)
 	]]
+	print(CSFun.Utf8ToDefault("测试~"))
 end
 --[[
 [reqHeader<www.baidu.com>] 

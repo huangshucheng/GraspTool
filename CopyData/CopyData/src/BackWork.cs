@@ -33,7 +33,6 @@ namespace CopyData
             try {
                 var param = eventArgs.Argument;
                 if (param != null) {
-                    HTTP_REQ_PARAM reqParam = (HTTP_REQ_PARAM)param;
                     //_bgWorker.ReportProgress(100, retStr);
                 }
             } catch (Exception e) {
