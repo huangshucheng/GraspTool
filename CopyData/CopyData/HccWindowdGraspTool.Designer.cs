@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HccWindowdGraspTool));
             this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
             this.btnClearLog = new System.Windows.Forms.Button();
             this.btnStartCatch = new System.Windows.Forms.Button();
@@ -453,8 +454,9 @@
             this.Controls.Add(this.btnStartCatch);
             this.Controls.Add(this.btnClearLog);
             this.Controls.Add(this.richTextBoxLog);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "HccWindowdGraspTool";
-            this.Text = "抓包工具";
+            this.Text = "活动大师";
             ((System.ComponentModel.ISupportInitialize)(this.numUDDelay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUrl)).EndInit();
             this.tab_proxy_ip.ResumeLayout(false);

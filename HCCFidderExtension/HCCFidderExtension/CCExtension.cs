@@ -85,7 +85,7 @@ namespace HCCFidderExtension
                     if (p.ProcessName != "System" && p.ProcessName != "Idle")
                     {
                         //if (p.ProcessName == "HccWindowdGraspTool.vshost" || p.ProcessName == "HccWindowdGraspTool") //
-                        if (p.ProcessName.Contains("HccWindowdGraspTool"))
+                        if (p.ProcessName.Contains("活动大师"))
                         {
                             //接收端的窗口句柄  
                             IntPtr hwndRecvWindow = p.MainWindowHandle;

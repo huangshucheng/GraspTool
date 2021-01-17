@@ -343,16 +343,9 @@ C:\Users\95\Desktop\FD\GraspTool\CopyData\CopyData\bin\Debug\Microsoft.Win32.Reg
 C:\Users\95\Desktop\FD\GraspTool\CopyData\CopyData\bin\Debug\System.Security.AccessControl.xml
 C:\Users\95\Desktop\FD\GraspTool\CopyData\CopyData\bin\Debug\System.Security.Principal.Windows.xml
 D:\myGame\GraspTool\CopyData\CopyData\obj\Debug\HccWindowdGraspTool.csprojAssemblyReference.cache
-D:\myGame\GraspTool\CopyData\CopyData\obj\Debug\HccWindowdGraspTool.exe.config
 D:\myGame\GraspTool\CopyData\CopyData\obj\Debug\CopyData.HccWindowdGraspTool.resources
-D:\myGame\GraspTool\CopyData\CopyData\obj\Debug\HccWindowdGraspTool.Properties.Resources.resources
 D:\myGame\GraspTool\CopyData\CopyData\obj\Debug\HccWindowdGraspTool.csproj.GenerateResource.cache
 D:\myGame\GraspTool\CopyData\CopyData\obj\Debug\HccWindowdGraspTool.csproj.CoreCompileInputs.cache
-D:\myGame\GraspTool\CopyData\CopyData\obj\Debug\HccWindowdGraspTool.exe
-D:\myGame\GraspTool\CopyData\CopyData\obj\Debug\HccWindowdGraspTool.pdb
-D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\HccWindowdGraspTool.exe.config
-D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\HccWindowdGraspTool.exe
-D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\HccWindowdGraspTool.pdb
 D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\Microsoft.Win32.Primitives.dll
 D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\netstandard.dll
 D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\System.AppContext.dll
@@ -504,3 +497,10 @@ D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\SuperSocket.ClientEngine.dll
 D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\WebSocket4Net.dll
 E:\MyGame\GraspTool\CopyData\CopyData\bin\Debug\SuperSocket.ClientEngine.dll
 E:\MyGame\GraspTool\CopyData\CopyData\bin\Debug\WebSocket4Net.dll
+D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\活动大师.exe.config
+D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\活动大师.exe
+D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\活动大师.pdb
+D:\myGame\GraspTool\CopyData\CopyData\obj\Debug\活动大师.exe.config
+D:\myGame\GraspTool\CopyData\CopyData\obj\Debug\活动大师.exe
+D:\myGame\GraspTool\CopyData\CopyData\obj\Debug\活动大师.pdb
+D:\myGame\GraspTool\CopyData\CopyData\obj\Debug\HccWindowdGraspTool.Properties.Resources.resources

@@ -268,9 +268,6 @@ C:\Users\95\Desktop\FD\GraspTool\CopyData\CopyData\obj\Release\HccWindowdGraspTo
 C:\Users\95\Desktop\FD\GraspTool\CopyData\CopyData\obj\Release\HccWindowdGraspTool.csproj.GenerateResource.cache
 C:\Users\95\Desktop\FD\GraspTool\CopyData\CopyData\obj\Release\HccWindowdGraspTool.csproj.CoreCompileInputs.cache
 C:\Users\95\Desktop\FD\GraspTool\CopyData\CopyData\obj\Release\HccWindowdGraspTool.csproj.CopyComplete
-D:\myGame\GraspTool\CopyData\CopyData\bin\Release\HccWindowdGraspTool.exe.config
-D:\myGame\GraspTool\CopyData\CopyData\bin\Release\HccWindowdGraspTool.exe
-D:\myGame\GraspTool\CopyData\CopyData\bin\Release\HccWindowdGraspTool.pdb
 D:\myGame\GraspTool\CopyData\CopyData\bin\Release\Microsoft.Win32.Primitives.dll
 D:\myGame\GraspTool\CopyData\CopyData\bin\Release\netstandard.dll
 D:\myGame\GraspTool\CopyData\CopyData\bin\Release\System.AppContext.dll
@@ -420,11 +417,14 @@ D:\myGame\GraspTool\CopyData\CopyData\bin\Release\System.Text.Encodings.Web.xml
 D:\myGame\GraspTool\CopyData\CopyData\bin\Release\System.Threading.Tasks.Extensions.xml
 D:\myGame\GraspTool\CopyData\CopyData\bin\Release\System.ValueTuple.xml
 D:\myGame\GraspTool\CopyData\CopyData\obj\Release\HccWindowdGraspTool.csprojAssemblyReference.cache
-D:\myGame\GraspTool\CopyData\CopyData\obj\Release\HccWindowdGraspTool.exe.config
 D:\myGame\GraspTool\CopyData\CopyData\obj\Release\CopyData.HccWindowdGraspTool.resources
 D:\myGame\GraspTool\CopyData\CopyData\obj\Release\HccWindowdGraspTool.Properties.Resources.resources
 D:\myGame\GraspTool\CopyData\CopyData\obj\Release\HccWindowdGraspTool.csproj.GenerateResource.cache
 D:\myGame\GraspTool\CopyData\CopyData\obj\Release\HccWindowdGraspTool.csproj.CoreCompileInputs.cache
 D:\myGame\GraspTool\CopyData\CopyData\obj\Release\HccWindowdGraspTool.csproj.CopyComplete
-D:\myGame\GraspTool\CopyData\CopyData\obj\Release\HccWindowdGraspTool.exe
-D:\myGame\GraspTool\CopyData\CopyData\obj\Release\HccWindowdGraspTool.pdb
+D:\myGame\GraspTool\CopyData\CopyData\bin\Release\活动大师.exe.config
+D:\myGame\GraspTool\CopyData\CopyData\bin\Release\活动大师.exe
+D:\myGame\GraspTool\CopyData\CopyData\bin\Release\活动大师.pdb
+D:\myGame\GraspTool\CopyData\CopyData\obj\Release\活动大师.exe.config
+D:\myGame\GraspTool\CopyData\CopyData\obj\Release\活动大师.exe
+D:\myGame\GraspTool\CopyData\CopyData\obj\Release\活动大师.pdb

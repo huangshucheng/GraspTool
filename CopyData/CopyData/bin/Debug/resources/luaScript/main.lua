@@ -56,18 +56,20 @@ end)
 
 --收到FD消息
 function Fidder_OnRecvData()
+	local strData = CSFun.GetFidderString()
+	if UIConfigData.getIsShowNetLog() then
+		print(strData)
+	end
 	local tmpCurTask = TaskData.getCurTask()
 	if not tmpCurTask then
 		return
 	end
-	local strData = CSFun.GetFidderString()
-	-- print("strData>>" .. strData)
 	if strData and strData ~= "" then
 		local splitData = StringUtils.splitString(strData, "\n", 6)
 		for index, str in ipairs(splitData) do
 			if string.find(str, tmpCurTask:getReqHeadString()) then --请求头
 				DealReqHeader:getInstance():dealData(strData, splitData)
-				print("Header>>\n" .. strData)
+				-- print("Header>>\n" .. strData)
 				break
 			elseif string.find(str, tmpCurTask:getReqBodyString()) then --请求体
 				break
