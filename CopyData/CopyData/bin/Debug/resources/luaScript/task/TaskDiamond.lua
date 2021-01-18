@@ -1,10 +1,10 @@
 --[[钻石活动]]
 local TaskBase = require("resources.luaScript.task.base.TaskBase")
-local TaskDiamond = class("TaskDiamond", TaskBase)
+local TaskTMP = class("TaskTMP", TaskBase)
 local GET = TaskBase.GET
 local POST = TaskBase.POST
 
-function TaskDiamond:ctor()
+function TaskTMP:ctor()
 	self.CUR_TASK_TITLE = "钻石活动"  --当前任务标题
 	self.FIND_STRING_HOST = "hbz.qrmkt.cn"  --域名，方便查找token
 	self.FILE_SAVE_NAME = "task_diamond_token.lua" -- 保存本地token文件名字
@@ -16,29 +16,29 @@ function TaskDiamond:ctor()
 end
 
 --开始执行下一个任务
-function TaskDiamond:onNextTask(curHttpTaskObj, preHttpTaskObj)
+function TaskTMP:onNextTask(curHttpTaskObj, preHttpTaskObj)
 	local curTaskName = curHttpTaskObj and curHttpTaskObj:getTaskName() or "empty"
 	local preTaskName = preHttpTaskObj and preHttpTaskObj:getTaskName() or "empty"
-	-- print("hcc>>TaskDiamond>>onTaskStart>> curTaskName: " .. curTaskName .. " ,preTaskName: " .. preTaskName)
+	-- print("hcc>>TaskTMP>>onTaskStart>> curTaskName: " .. curTaskName .. " ,preTaskName: " .. preTaskName)
 	-- if preTaskName == "请求活动码" then
 	-- 	print("findddd>>>>>>>>>>>")
 	-- end
 end 
 
 --切换下一个token执行任务
-function TaskDiamond:onNextToken(curHttpTaskObj, preHttpTaskObj)
+function TaskTMP:onNextToken(curHttpTaskObj, preHttpTaskObj)
 	local curTaskName = curHttpTaskObj and curHttpTaskObj:getTaskName() or "empty"
 	local preTaskName = preHttpTaskObj and preHttpTaskObj:getTaskName() or "empty"
-	-- print("hcc>>TaskDiamond>>onNextToken>> " .. curHttpTaskObj:getTaskName() .. "   ,preTaskName: " .. preTaskName)
+	-- print("hcc>>TaskTMP>>onNextToken>> " .. curHttpTaskObj:getTaskName() .. "   ,preTaskName: " .. preTaskName)
 end
 
 --额外的请求头,也可以不用配置
-TaskDiamond.ERQ_HEADER_EXT = {
+TaskTMP.ERQ_HEADER_EXT = {
 	-- ["token"] = "hcctoken",
 }
 
 --任务列表
-TaskDiamond.TASK_LIST_URL_CONFIG = {
+TaskTMP.TASK_LIST_URL_CONFIG = {
 	{
 		curTaskName = "请求活动码啊", 
 		url = "https://hbz.qrmkt.cn/hbact/hyr/home/queryActCode",
@@ -209,4 +209,4 @@ TaskDiamond.TASK_LIST_URL_CONFIG = {
 	]]
 }
 
-return TaskDiamond
+return TaskTMP

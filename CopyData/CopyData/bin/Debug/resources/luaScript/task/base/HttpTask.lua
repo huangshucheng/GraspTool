@@ -263,6 +263,9 @@ function HttpTask:start()
 		end
 		local delay = tonumber(self._delayTime)
 		if delay and delay > 0 then
+			if delay >= 3 then
+				print(CSFun.Utf8ToDefault("正在等待中~,  " .. delay .. '秒后继续...'))
+			end
 			CSFun.SetDelayTime(delay, reqFunc)
 		else
 			reqFunc()

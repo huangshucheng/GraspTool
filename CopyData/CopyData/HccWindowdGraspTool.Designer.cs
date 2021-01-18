@@ -49,7 +49,6 @@
             this.listViewToken = new System.Windows.Forms.ListView();
             this.btnCatchSel = new System.Windows.Forms.Button();
             this.tab_proxy_ip = new System.Windows.Forms.TabPage();
-            this.text_box_proxy_ip = new System.Windows.Forms.RichTextBox();
             this.btn_use_proxy = new System.Windows.Forms.CheckBox();
             this.btn_proxy_check = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
@@ -58,11 +57,15 @@
             this.label2 = new System.Windows.Forms.Label();
             this.text_box_ip_info = new System.Windows.Forms.RichTextBox();
             this.text_link_label = new System.Windows.Forms.LinkLabel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.text_box_proxy_ip = new System.Windows.Forms.TextBox();
+            this.tab_qr_code = new System.Windows.Forms.TabPage();
             ((System.ComponentModel.ISupportInitialize)(this.numUDDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUrl)).BeginInit();
             this.tab_proxy_ip.SuspendLayout();
             this.tab_control.SuspendLayout();
             this.tab_jiema.SuspendLayout();
+            this.tab_qr_code.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBoxLog
@@ -246,9 +249,9 @@
             // 
             this.pictureBoxUrl.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.pictureBoxUrl.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pictureBoxUrl.Location = new System.Drawing.Point(691, 163);
+            this.pictureBoxUrl.Location = new System.Drawing.Point(21, 19);
             this.pictureBoxUrl.Name = "pictureBoxUrl";
-            this.pictureBoxUrl.Size = new System.Drawing.Size(206, 170);
+            this.pictureBoxUrl.Size = new System.Drawing.Size(206, 192);
             this.pictureBoxUrl.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxUrl.TabIndex = 24;
             this.pictureBoxUrl.TabStop = false;
@@ -256,8 +259,8 @@
             // 
             // btnGenQRCode
             // 
-            this.btnGenQRCode.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnGenQRCode.Location = new System.Drawing.Point(850, 350);
+            this.btnGenQRCode.Font = new System.Drawing.Font("宋体", 8.5F);
+            this.btnGenQRCode.Location = new System.Drawing.Point(176, 224);
             this.btnGenQRCode.Name = "btnGenQRCode";
             this.btnGenQRCode.Size = new System.Drawing.Size(73, 30);
             this.btnGenQRCode.TabIndex = 25;
@@ -271,11 +274,11 @@
             this.richTextQRCode.DetectUrls = false;
             this.richTextQRCode.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.richTextQRCode.ForeColor = System.Drawing.Color.Red;
-            this.richTextQRCode.Location = new System.Drawing.Point(685, 350);
+            this.richTextQRCode.Location = new System.Drawing.Point(5, 224);
             this.richTextQRCode.Multiline = false;
             this.richTextQRCode.Name = "richTextQRCode";
             this.richTextQRCode.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Horizontal;
-            this.richTextQRCode.Size = new System.Drawing.Size(150, 30);
+            this.richTextQRCode.Size = new System.Drawing.Size(167, 30);
             this.richTextQRCode.TabIndex = 26;
             this.richTextQRCode.Text = "";
             // 
@@ -309,6 +312,7 @@
             // 
             this.tab_proxy_ip.BackColor = System.Drawing.SystemColors.ControlLight;
             this.tab_proxy_ip.Controls.Add(this.text_box_proxy_ip);
+            this.tab_proxy_ip.Controls.Add(this.label5);
             this.tab_proxy_ip.Controls.Add(this.btn_use_proxy);
             this.tab_proxy_ip.Controls.Add(this.btn_proxy_check);
             this.tab_proxy_ip.Controls.Add(this.label4);
@@ -321,26 +325,12 @@
             this.tab_proxy_ip.Text = "代理IP";
             this.tab_proxy_ip.Click += new System.EventHandler(this.tab_proxy_ip_Click);
             // 
-            // text_box_proxy_ip
-            // 
-            this.text_box_proxy_ip.BackColor = System.Drawing.SystemColors.Control;
-            this.text_box_proxy_ip.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_box_proxy_ip.DetectUrls = false;
-            this.text_box_proxy_ip.ForeColor = System.Drawing.Color.Blue;
-            this.text_box_proxy_ip.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.text_box_proxy_ip.Location = new System.Drawing.Point(18, 72);
-            this.text_box_proxy_ip.Name = "text_box_proxy_ip";
-            this.text_box_proxy_ip.Size = new System.Drawing.Size(215, 107);
-            this.text_box_proxy_ip.TabIndex = 32;
-            this.text_box_proxy_ip.Text = "";
-            this.text_box_proxy_ip.WordWrap = false;
-            // 
             // btn_use_proxy
             // 
             this.btn_use_proxy.AutoSize = true;
             this.btn_use_proxy.BackColor = System.Drawing.Color.LightGray;
             this.btn_use_proxy.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btn_use_proxy.Location = new System.Drawing.Point(70, 237);
+            this.btn_use_proxy.Location = new System.Drawing.Point(74, 232);
             this.btn_use_proxy.Name = "btn_use_proxy";
             this.btn_use_proxy.Size = new System.Drawing.Size(107, 20);
             this.btn_use_proxy.TabIndex = 31;
@@ -351,7 +341,7 @@
             // btn_proxy_check
             // 
             this.btn_proxy_check.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btn_proxy_check.Location = new System.Drawing.Point(66, 196);
+            this.btn_proxy_check.Location = new System.Drawing.Point(70, 177);
             this.btn_proxy_check.Name = "btn_proxy_check";
             this.btn_proxy_check.Size = new System.Drawing.Size(115, 30);
             this.btn_proxy_check.TabIndex = 2;
@@ -364,17 +354,18 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label4.ForeColor = System.Drawing.Color.Red;
-            this.label4.Location = new System.Drawing.Point(16, 21);
+            this.label4.Location = new System.Drawing.Point(72, 39);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(224, 32);
+            this.label4.Size = new System.Drawing.Size(96, 16);
             this.label4.TabIndex = 0;
-            this.label4.Text = "如有多个请换行,系统随机使用\r\n例:127.0.0.1:8001";
+            this.label4.Text = "输入代理IP:";
             // 
             // tab_control
             // 
+            this.tab_control.Controls.Add(this.tab_qr_code);
             this.tab_control.Controls.Add(this.tab_proxy_ip);
             this.tab_control.Controls.Add(this.tab_jiema);
-            this.tab_control.Location = new System.Drawing.Point(663, 417);
+            this.tab_control.Location = new System.Drawing.Point(663, 188);
             this.tab_control.Name = "tab_control";
             this.tab_control.SelectedIndex = 0;
             this.tab_control.Size = new System.Drawing.Size(260, 297);
@@ -427,6 +418,39 @@
             this.text_link_label.Text = "查看网页日志";
             this.text_link_label.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.text_link_label_LinkClicked);
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label5.ForeColor = System.Drawing.Color.Gray;
+            this.label5.Location = new System.Drawing.Point(48, 125);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(144, 16);
+            this.label5.TabIndex = 33;
+            this.label5.Text = "例:127.0.0.1:8001";
+            // 
+            // text_box_proxy_ip
+            // 
+            this.text_box_proxy_ip.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.text_box_proxy_ip.ForeColor = System.Drawing.Color.Red;
+            this.text_box_proxy_ip.Location = new System.Drawing.Point(18, 80);
+            this.text_box_proxy_ip.Name = "text_box_proxy_ip";
+            this.text_box_proxy_ip.Size = new System.Drawing.Size(214, 30);
+            this.text_box_proxy_ip.TabIndex = 34;
+            this.text_box_proxy_ip.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // tab_qr_code
+            // 
+            this.tab_qr_code.Controls.Add(this.pictureBoxUrl);
+            this.tab_qr_code.Controls.Add(this.richTextQRCode);
+            this.tab_qr_code.Controls.Add(this.btnGenQRCode);
+            this.tab_qr_code.Location = new System.Drawing.Point(4, 22);
+            this.tab_qr_code.Name = "tab_qr_code";
+            this.tab_qr_code.Size = new System.Drawing.Size(252, 271);
+            this.tab_qr_code.TabIndex = 2;
+            this.tab_qr_code.Text = "二维码";
+            this.tab_qr_code.UseVisualStyleBackColor = true;
+            // 
             // HccWindowdGraspTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -437,9 +461,6 @@
             this.Controls.Add(this.tab_control);
             this.Controls.Add(this.btnCatchSel);
             this.Controls.Add(this.listViewToken);
-            this.Controls.Add(this.richTextQRCode);
-            this.Controls.Add(this.btnGenQRCode);
-            this.Controls.Add(this.pictureBoxUrl);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.comboBoxActList);
             this.Controls.Add(this.label1);
@@ -464,6 +485,7 @@
             this.tab_control.ResumeLayout(false);
             this.tab_jiema.ResumeLayout(false);
             this.tab_jiema.PerformLayout();
+            this.tab_qr_code.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -496,9 +518,11 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox btn_use_proxy;
         private System.Windows.Forms.Button btn_proxy_check;
-        private System.Windows.Forms.RichTextBox text_box_proxy_ip;
         private System.Windows.Forms.RichTextBox text_box_ip_info;
         private System.Windows.Forms.LinkLabel text_link_label;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox text_box_proxy_ip;
+        private System.Windows.Forms.TabPage tab_qr_code;
     }
 }
 

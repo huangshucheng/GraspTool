@@ -1,13 +1,13 @@
 --[[黄浦食品安全活动]] 
 local TaskBase = require("resources.luaScript.task.base.TaskBase")
-local TaskFoodSafe = class("TaskFoodSafe", TaskBase)
+local TaskTMP = class("TaskTMP", TaskBase)
 local CShapListView = require("resources.luaScript.uiLogic.CShapListView")
 local CSFun = require("resources.luaScript.util.CSFun")
 
 local GET = TaskBase.GET
 local POST = TaskBase.POST
 
-function TaskFoodSafe:ctor()
+function TaskTMP:ctor()
 	self.CUR_TASK_TITLE = "黄浦活动"  --当前任务标题
 	self.FIND_STRING_HOST = "xinhua.mofangdata.cn"  --域名，方便查找token
 	self.FILE_SAVE_NAME = "task_foodsafe_token.lua" -- 保存本地token文件名字
@@ -19,7 +19,7 @@ function TaskFoodSafe:ctor()
 end
 
 --额外的请求头,也可以不用配置
-TaskFoodSafe.ERQ_HEADER_EXT = {
+TaskTMP.ERQ_HEADER_EXT = {
 	-- ["token"] = "hcctoken",
 }
 
@@ -30,7 +30,7 @@ local tmpRetData = {
 	[3] = [[{"recordid":6314121,"msg":"","data":{"id":557,"actid":88,"name":"无!!","imgurl":"","grade":null,"seq":2,"maxcount":1000,"prizecount":0,"isprize":0,"intro":"","coins":null,"redpack_sum":null,"sendername":"","wishing":"","remark":"谢谢参与"},"success":true,"record":{"id":6314121,"actid":88,"itemid":557,"name":"谢谢参与","imgurl":"","grade":null,"isprize":0,"intro":"","userid":"402881d9769497620176a9f710220483","username":null,"photourl":null,"addr":null,"coins":null,"prizedate":"2021-01-04 23:57:08","ipaddress":null,"verification":"N121","paymentNo":null,"moneySum":null}}]],
 }
 --返回,各个活动自己去做json解析，显示红包多少
-function TaskFoodSafe:onResponse(httpRes, taskCur)
+function TaskTMP:onResponse(httpRes, taskCur)
 	local index = taskCur:getUserData()
 	-- httpRes = tmpRetData[index]
 	if string.find(httpRes,"红包") then
@@ -43,7 +43,7 @@ function TaskFoodSafe:onResponse(httpRes, taskCur)
 end
 
 --任务列表
-TaskFoodSafe.TASK_LIST_URL_CONFIG = {
+TaskTMP.TASK_LIST_URL_CONFIG = {
 	{
 		curTaskName = "抽奖", 
 		url = "http://xinhua.mofangdata.cn/wx/prize/tryit3.htm",
@@ -56,4 +56,4 @@ TaskFoodSafe.TASK_LIST_URL_CONFIG = {
 }
 
 
-return TaskFoodSafe
+return TaskTMP

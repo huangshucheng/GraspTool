@@ -66,7 +66,7 @@ function TaskStart.onResponseCallBack(httpRes, taskCur)
 	if not tmpCurTask then  return end
 	local date = os.date("%H:%M:%S")
 	httpRes = StringUtils.nullOrEmpty(httpRes) and CSFun.Utf8ToDefault("空~") or httpRes
-	local tmpLogStr = CSFun.Utf8ToDefault("[" .. tmpCurTask:getTitle() .. ">>" .. taskCur:getUserData() .. "]>> " .. taskCur:getTaskName() .. " ,>> ")
+	local tmpLogStr = CSFun.Utf8ToDefault("[" .. tmpCurTask:getTitle() .. ">>" .. taskCur:getUserData() .. "]>> " .. taskCur:getTaskName() .. " ,返回:  ")
 	print(date .. " " .. tmpLogStr .. tostring(httpRes))
 
 	if TaskStart.isStop then --停止任务
