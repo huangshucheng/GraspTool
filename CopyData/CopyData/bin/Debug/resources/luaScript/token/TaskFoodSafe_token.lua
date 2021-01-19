@@ -1,0 +1,2 @@
+﻿
+{"Cookie":"JSESSIONID=6E41DF69DD499594089B9D7AB3DD24BB","Referer":"http://xinhua.mofangdata.cn/wx/prize/game/answercard.htm?id=402881d97622ed0201767e799f370ba0&prizeid=88&basescope=true&cardid=hpcj2020-10&backGroupId=ed4f2e0737334907ab811b17e316d164"}

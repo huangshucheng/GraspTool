@@ -14,7 +14,7 @@ Define.QR_CODE_STR = "https://open.weixin.qq.com/qr/code?username=" --二维码�
 Define.PROXY_LOG_URL = "http://hccfun.com:8002/" --日志显示链接
 -- Define.DEFAULT_PROXY = "http://127.0.0.1:8888" --如："http://127.0.0.1:8080", 如果不想用填false, 要用的话填true或指定IP端口
 -- true可以被Fidder捕捉到，"false"不能捕捉到
-Define.DEFAULT_PROXY = "true" --默认使用代理 ，如果使用代理则如："http://127.0.0.1:8080"，如果指定了http://就用指定的http://，如果没加就会默认加上https://
+Define.DEFAULT_PROXY = "false" --默认使用代理 ，如果使用代理则如："http://127.0.0.1:8080"，如果指定了http://就用指定的http://，如果没加就会默认加上https://
 
 Define.LOG_LINE_COUNT_LIMIE = 1000 --日志限制行数
 

@@ -1,5 +1,4 @@
 --[[任务启动脚本]]
-
 local FindData 		= require("resources.luaScript.data.FindData")
 local CSFun 		= require("resources.luaScript.util.CSFun")
 local StringUtils 	= require("resources.luaScript.util.StringUtils")
@@ -136,17 +135,17 @@ function TaskStart.onChangeActivity(actIndex)
 		local activityTable = ActMapTable[actIndex]
 		local actName = activityTable.name or ""
 		local script = activityTable.script or ""
-		local ok, msg = pcall(function()
+		local ok, cur_task_obj = pcall(function()
 			if script and script ~= "" then
-		 		return require(script).new() 
+		 		return require(script).new(activityTable) 
 			end
-		 end)
+	 	end)
 		if ok then
 			local printStr = CSFun.Utf8ToDefault("加载活动成功! [" .. actName .."] ,活动脚本>> ") .. tostring(script)
 			print(printStr)
-			TaskData.setCurTask(msg) --设置当前执行的任务对象
+			TaskData.setCurTask(cur_task_obj) --设置当前执行的任务对象
 		else
-			print(tostring(CSFun.Utf8ToDefault("加载活动失败! ,[" .. actName .. "]  \n")) .. tostring(msg))
+			print(tostring(CSFun.Utf8ToDefault("加载活动失败! ,[" .. actName .. "]  \n")) .. tostring(cur_task_obj))
 		end
 		TaskStart.onChangeTaskData(activityTable)
 	end
@@ -173,14 +172,18 @@ function TaskStart.onChangeTaskData(activityTable)
 		qrCodeUrl = Define.QR_CODE_STR .. qrCodeStr
 		LuaCallCShapUI.SetQRCodeString(qrCodeStr)
 	end
-	LuaCallCShapUI.ShowQRCode(qrCodeUrl, "GET", function(retStr)
-		if retStr ~= "SUCCESS" then
-			print(CSFun.Utf8ToDefault("加载二维码失败了! ") .. tostring(retStr))
-		end
-	end)
-	
+	if qrCodeStr == "" then
+		print(CSFun.Utf8ToDefault("暂无二维码~"))
+	else
+		LuaCallCShapUI.ShowQRCode(qrCodeUrl, "GET", function(retStr)
+			if retStr ~= "SUCCESS" then
+				print(CSFun.Utf8ToDefault("加载二维码失败了! ") .. tostring(retStr))
+			end
+		end)
+	end
 end
 
+--选中了当前活动的某一部分CK
 function TaskStart.doSelectAction()
 	local selTable = CShapListView.ListView_get_select_index()
 	SELECT_CK_INDEX = clone(selTable)

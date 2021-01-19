@@ -1,9 +1,8 @@
 --[[一个http任务对象]]
-
-local HttpTask = class("HttpTask")
-local Define = require("resources.luaScript.config.Define")
-local CSFun = require("resources.luaScript.util.CSFun")
-local TaskData = require("resources.luaScript.data.TaskData")
+local HttpTask 		= class("HttpTask")
+local Define 		= require("resources.luaScript.config.Define")
+local CSFun 		= require("resources.luaScript.util.CSFun")
+local TaskData 		= require("resources.luaScript.data.TaskData")
 
 --抓包状态, 未开始0, 进行中1，已完成2
 HttpTask.GRASP_STATE = {NONE = 1, DOING = 2, FINISH = 3}

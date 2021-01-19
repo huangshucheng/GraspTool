@@ -1,15 +1,21 @@
 --[[任务配置类，其他任务可由本任务配置继承拓展]]
 
-local TaskBase = class("TaskBase")
-local Define = require("resources.luaScript.config.Define")
-local CSFun = require("resources.luaScript.util.CSFun")
+local TaskBase 		= class("TaskBase")
+local Define 		= require("resources.luaScript.config.Define")
+local CSFun 		= require("resources.luaScript.util.CSFun")
 local CShapListView = require("resources.luaScript.uiLogic.CShapListView")
+local StringUtils 	= require("resources.luaScript.util.StringUtils")
 
-TaskBase.GET = Define.Method.GET
-TaskBase.POST = Define.Method.POST
+TaskBase.GET 		= Define.Method.GET
+TaskBase.POST 		= Define.Method.POST
 
---额外的请求头,如：{["Refer"]="www.baidu.com"}
-TaskBase.ERQ_HEADER_EXT = {}
+TaskBase.CUR_TASK_TITLE 		= ""  --当前任务标题
+TaskBase.FIND_STRING_HOST 		= ""  --域名，方便查找token, 如：hbz.qrmkt.cn
+TaskBase.FILE_SAVE_NAME 		= ""  --保存本地token文件名字，如: token.lua
+TaskBase.RECORD_SAVE_FILE_NAME 	= ""  --交互记录文件, 如：token_record_url.lua
+TaskBase.DATA_TO_FIND_ARRAY 	= {}  --请求头中要查找的字段，如：token, Cookie
+TaskBase.IS_OPEN_RECORD 		= false 	  --是否抓取接口保存到本地
+TaskBase.ERQ_HEADER_EXT 		= {}          --额外的请求头,如：{["Refer"]="www.baidu.com"}
 
 local state_table = {
 	"未开始~","进行中~","已完成~"
@@ -41,15 +47,51 @@ TaskBase.TASK_LIST_URL_CONFIG = {
 	]]
 }
 
-function TaskBase:ctor()
-	self.CUR_TASK_TITLE 		= ""  --当前任务标题
-	self.FIND_STRING_HOST 		= ""  --域名，方便查找token, 如：hbz.qrmkt.cn
-	self.FILE_SAVE_NAME 		= ""  --保存本地token文件名字，如: token.lua
-	self.RECORD_SAVE_FILE_NAME 	= ""  --交互记录文件, 如：token_record_url.lua
-	self.DATA_TO_FIND_ARRAY = {}      --请求头中要查找的字段，如：token, Cookie
-	self.IS_OPEN_RECORD = false 	  --是否抓取接口保存到本地
+--taken 记录的文件名，如果活动脚本为：TaskDiamond.lua 那么则为TaskDiamond_token.lua
+local function getTaskTokenSaveFileName(script_path)
+	local retTable = StringUtils.split2(script_path,".")
+	-- dump(retTable, "hcc>>retTable")
+	if retTable and next(retTable) then
+		local script_name = retTable[#retTable] .. "_token.lua"
+		return script_name
+	end
+end
+
+--日志记录的文件名, 如果活动脚本为：TaskDiamond.lua 那么则为TaskDiamond_record.lua
+local function getTaskRecordSaveFileName(script_path)
+	local retTable = StringUtils.split2(script_path,".")
+	if retTable and next(retTable) then
+		local script_name = retTable[#retTable] .. "_record.lua"
+		return script_name
+	end
+end
+
+function TaskBase:ctor(param)
+	self:initWithParam(param)
 	self._taskList = {}
 	self:loadTask()
+end
+
+function TaskBase:initWithParam(param)
+	-- dump(param,"hcc>>param>>>>>")
+	if not param or not next(param) then
+		return
+	end
+
+	--设置活动标题
+	self:setTitle(param.name or "")
+
+	--设置保存tokan 的文件路径
+	local scriptName = getTaskTokenSaveFileName(param.script or "")
+	if scriptName then
+		self:setSaveFileName(scriptName)
+	end
+
+     --设置保存抓token日志 的文件路径
+	local scriptName2 = getTaskRecordSaveFileName(param.script or "")
+	if scriptName2 then
+		self:setRecordGraspFileName(scriptName2)
+	end
 end
 
 --加载所有任务到任务列表
@@ -127,9 +169,22 @@ function TaskBase:getIsRecord()
 	return self.IS_OPEN_RECORD
 end
 
+--设置任务标题，切换任务的时候回自动修改
+function TaskBase:setTitle(titleStr)
+	self.CUR_TASK_TITLE = titleStr
+end
+
 --任务标题
 function TaskBase:getTitle()
 	return self.CUR_TASK_TITLE
+end
+
+--设置，保存tolen文件地址
+function TaskBase:setSaveFileName(scriptName)
+	if not scriptName or scriptName == "" then
+		return
+	end
+	self.FILE_SAVE_NAME = scriptName
 end
 
 --返回保存tolen文件地址
@@ -137,6 +192,14 @@ function TaskBase:getSaveFileName()
 	local CUR_DIR_NAME = CSFun.GetCurDir()
 	local fileName = tostring(CUR_DIR_NAME) .. [[\resources\luaScript\token\]] .. self.FILE_SAVE_NAME
 	return fileName
+end
+
+--设置，保存交互记录文件地址
+function TaskBase:setRecordGraspFileName(scriptName)
+	if not scriptName or scriptName == "" then
+		return
+	end
+	self.RECORD_SAVE_FILE_NAME = scriptName
 end
 
 --返回保存交互记录文件地址

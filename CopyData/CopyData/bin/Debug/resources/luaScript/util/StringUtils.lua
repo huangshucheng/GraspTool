@@ -230,4 +230,26 @@ function StringUtils.checkWithHttp(str)
   return false
 end
 
+--点也可以分割
+function StringUtils.split2(str,reps)
+    str = str or ""
+    if not reps or reps == "" then 
+      return {str}
+    end
+    local resultStrList = {}
+    string.gsub(str,'[^'..reps..']+',function ( w )
+        table.insert(resultStrList,w)
+    end)
+    return resultStrList
+end
+
 return StringUtils
+
+--test
+--[[
+-- local sssss = split2("resources.luaScript.task.TaskGACXYL",".")
+local sssss = StringUtils.split2("","")
+for i,v in ipairs(sssss) do
+  print(i,v)
+end
+--]]

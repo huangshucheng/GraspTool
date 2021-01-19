@@ -1,35 +1,23 @@
 --[[钻石活动]]
-local TaskBase = require("resources.luaScript.task.base.TaskBase")
-local TaskTMP = class("TaskTMP", TaskBase)
-local GET = TaskBase.GET
-local POST = TaskBase.POST
+local TaskBase 		= require("resources.luaScript.task.base.TaskBase")
+local TaskTMP 		= class("TaskTMP", TaskBase)
+local GET 			= TaskBase.GET
+local POST 			= TaskBase.POST
 
-function TaskTMP:ctor()
-	self.CUR_TASK_TITLE = "钻石活动"  --当前任务标题
-	self.FIND_STRING_HOST = "hbz.qrmkt.cn"  --域名，方便查找token
-	self.FILE_SAVE_NAME = "task_diamond_token.lua" -- 保存本地token文件名字
-	self.RECORD_SAVE_FILE_NAME = "task_diamond_record.lua" --交互记录文件
-	self.DATA_TO_FIND_ARRAY = {"token"}      --需要查找的taken 或者cookie
-	self.IS_OPEN_RECORD = false 	  --是否抓取接口保存到本地
-	self._taskList = {}
-	self:loadTask()
-end
+TaskTMP.FIND_STRING_HOST 	= "hbz.qrmkt.cn"  --域名，方便查找token
+TaskTMP.DATA_TO_FIND_ARRAY 	= {"token"}      --需要查找的taken 或者cookie
+TaskTMP.IS_OPEN_RECORD 		= false 	  --是否抓取接口保存到本地
 
 --开始执行下一个任务
 function TaskTMP:onNextTask(curHttpTaskObj, preHttpTaskObj)
 	local curTaskName = curHttpTaskObj and curHttpTaskObj:getTaskName() or "empty"
 	local preTaskName = preHttpTaskObj and preHttpTaskObj:getTaskName() or "empty"
-	-- print("hcc>>TaskTMP>>onTaskStart>> curTaskName: " .. curTaskName .. " ,preTaskName: " .. preTaskName)
-	-- if preTaskName == "请求活动码" then
-	-- 	print("findddd>>>>>>>>>>>")
-	-- end
 end 
 
 --切换下一个token执行任务
 function TaskTMP:onNextToken(curHttpTaskObj, preHttpTaskObj)
 	local curTaskName = curHttpTaskObj and curHttpTaskObj:getTaskName() or "empty"
 	local preTaskName = preHttpTaskObj and preHttpTaskObj:getTaskName() or "empty"
-	-- print("hcc>>TaskTMP>>onNextToken>> " .. curHttpTaskObj:getTaskName() .. "   ,preTaskName: " .. preTaskName)
 end
 
 --额外的请求头,也可以不用配置

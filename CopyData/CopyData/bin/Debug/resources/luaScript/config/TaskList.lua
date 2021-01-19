@@ -1,13 +1,16 @@
 local TaskList = {}
 
---设置手机代理的 二维码URL
-local proxy_qrcode = [[http://hcc.hccfun.com/qr_code_proxy_2.png]]
 
 TaskList.ActMapTable = {
 	{
 		name = "请下载证书~",
 		script = "",
-		qrcode = proxy_qrcode,
+		qrcode = "http://hcc.hccfun.com/qr_code_proxy_2.png",--设置手机代理的 二维码URL
+	},
+	{
+		name = "广安储蓄有礼", --活动名称
+		script = "resources.luaScript.task.TaskGACXYL", --活动控制脚本
+		qrcode = "", --活动二维码（公众号名字）
 	},
 	{
 		name = "钻石活动", --活动名称

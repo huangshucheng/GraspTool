@@ -12,7 +12,7 @@ end
 
 local CSWebSocket 	= require("resources.luaScript.util.CSWebSocket")
 local StringUtils 	= require("resources.luaScript.util.StringUtils")
-local DealReqHeader = require("resources.luaScript.dataDeal.DealReqHeader")
+local DealHttpReqData = require("resources.luaScript.dataDeal.DealHttpReqData")
 local FindData 		= require("resources.luaScript.data.FindData")
 local TaskData 		= require("resources.luaScript.data.TaskData")
 local UIConfigData 	= require("resources.luaScript.data.UIConfigData")
@@ -36,7 +36,7 @@ function Fidder_OnRecvData()
 		local splitData = StringUtils.splitString(strData, "\n", 6)
 		for index, str in ipairs(splitData) do
 			if string.find(str, tmpCurTask:getReqHeadString()) then --请求头
-				DealReqHeader:getInstance():dealData(strData, splitData)
+				DealHttpReqData:getInstance():dealHeaderData(strData, splitData)
 				-- print("Header>>\n" .. strData)
 				break
 			elseif string.find(str, tmpCurTask:getReqBodyString()) then --请求体
@@ -82,11 +82,12 @@ function WebSocket_OnSocketData()
 				local tmpCurTask = TaskData.getCurTask()
 				if tmpCurTask then
 					local host_to_find = tmpCurTask:getHost()
+					--print("host_to_find: " .. tostring(host_to_find))
 					local host_req = out_msg["ReqHost"]
 					if host_req and host_to_find and host_to_find ~= "" then
 						if string.find(host_req, host_to_find) then
-							DealReqHeader:getInstance():recordData(v)
-						end 		
+							DealHttpReqData:getInstance():recordHeaderData(v)
+						end
 					end
 				end
 		 		break

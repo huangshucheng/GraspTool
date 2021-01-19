@@ -1,27 +1,15 @@
 --[[黄浦食品安全活动]] 
-local TaskBase = require("resources.luaScript.task.base.TaskBase")
-local TaskTMP = class("TaskTMP", TaskBase)
+local TaskBase 		= require("resources.luaScript.task.base.TaskBase")
+local TaskTMP 		= class("TaskTMP", TaskBase)
 local CShapListView = require("resources.luaScript.uiLogic.CShapListView")
-local CSFun = require("resources.luaScript.util.CSFun")
+local CSFun 		= require("resources.luaScript.util.CSFun")
 
 local GET = TaskBase.GET
 local POST = TaskBase.POST
 
-function TaskTMP:ctor()
-	self.CUR_TASK_TITLE = "黄浦活动"  --当前任务标题
-	self.FIND_STRING_HOST = "xinhua.mofangdata.cn"  --域名，方便查找token
-	self.FILE_SAVE_NAME = "task_foodsafe_token.lua" -- 保存本地token文件名字
-	self.RECORD_SAVE_FILE_NAME = "task_foodsafe_record.lua" --交互记录文件
-	self.DATA_TO_FIND_ARRAY = {"Cookie","Referer"}      --需要查找的taken 或者cookie
-	self.IS_OPEN_RECORD = false 	  --是否抓取接口保存到本地
-	self._taskList = {}
-	self:loadTask()
-end
-
---额外的请求头,也可以不用配置
-TaskTMP.ERQ_HEADER_EXT = {
-	-- ["token"] = "hcctoken",
-}
+TaskTMP.FIND_STRING_HOST 		= "xinhua.mofangdata.cn"
+TaskTMP.DATA_TO_FIND_ARRAY 		= {"Cookie","Referer"}
+TaskTMP.IS_OPEN_RECORD 			= false
 
 --test
 local tmpRetData = {
