@@ -87,6 +87,8 @@ function WebSocket_OnSocketData()
 					if host_req and host_to_find and host_to_find ~= "" then
 						if string.find(host_req, host_to_find) then
 							DealHttpReqData:getInstance():recordHeaderData(v)
+							--抓取reqBody
+							DealHttpReqData:getInstance():dealReqBody(out_msg)
 						end
 					end
 				end

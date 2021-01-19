@@ -1,4 +1,4 @@
---[[任务配置类，其他任务可由本任务配置继承拓展]]
+--[[任务配置类，其他任务可由本任务配置继承拓展, 任务配置，管理者很多个httpTask的配置]]
 
 local TaskBase 		= class("TaskBase")
 local Define 		= require("resources.luaScript.config.Define")
@@ -16,6 +16,7 @@ TaskBase.RECORD_SAVE_FILE_NAME 	= ""  --交互记录文件, 如：token_record_u
 TaskBase.DATA_TO_FIND_ARRAY 	= {}  --请求头中要查找的字段，如：token, Cookie
 TaskBase.IS_OPEN_RECORD 		= false 	  --是否抓取接口保存到本地
 TaskBase.ERQ_HEADER_EXT 		= {}          --额外的请求头,如：{["Refer"]="www.baidu.com"}
+TaskBase.IS_WRITE_TOKEN_TO_POSTBODY = false   --是否将token放到请求体里面
 
 local state_table = {
 	"未开始~","进行中~","已完成~"
@@ -241,6 +242,16 @@ end
 --preHttpTaskObj: 前一个task
 function TaskBase:onNextToken(nextHttpTaskObj, preHttpTaskObj)
 
+end
+
+--子类自己实现reqBody的接口
+function TaskBase:onReqBodyFind(reqBodyStr)
+
+end
+
+--是否将token放到请求体里面
+function TaskBase:isWriteTokenToPostBody()
+	return self.IS_WRITE_TOKEN_TO_POSTBODY
 end
 
 return TaskBase

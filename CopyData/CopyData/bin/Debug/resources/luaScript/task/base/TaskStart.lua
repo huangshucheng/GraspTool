@@ -25,7 +25,11 @@ function TaskStart.start()
 	if topToken then
 		local taskListTop = tmpCurTask:getTop()
 		taskListTop:setUserData(tokenIndex)
-		taskListTop:addHeader(topToken)
+		if tmpCurTask:isWriteTokenToPostBody() then
+			taskListTop:setPostBody(topToken)
+		else
+			taskListTop:addHeader(topToken)
+		end
 		taskListTop:addCallback(TaskStart.onResponseCallBack)
 		taskListTop:start()
 	end
@@ -44,7 +48,11 @@ function TaskStart.startEnd()
 	if lastToken then
 		local taskListTop = tmpCurTask:getTop()
 		taskListTop:setUserData(tokenIndex)
-		taskListTop:addHeader(lastToken)
+		if tmpCurTask:isWriteTokenToPostBody() then
+			taskListTop:setPostBody(lastToken)
+		else
+			taskListTop:addHeader(lastToken)
+		end
 		taskListTop:addCallback(TaskStart.onResponseCallBack)
 		taskListTop:start()
 	end
@@ -80,7 +88,11 @@ function TaskStart.onResponseCallBack(httpRes, taskCur)
 		if taskNext then 
 			--找到了下一个任务，继续用当前用户的token执行下一个任务
 			taskNext:setUserData(taskCur:getUserData())
-			taskNext:addHeader(taskCur:getHeader())
+			if tmpCurTask:isWriteTokenToPostBody() then
+				taskNext:setPostBody(taskCur:getHeader())
+			else
+				taskNext:addHeader(taskCur:getHeader())
+			end
 			taskNext:setIsContinue(taskCur:getIsContinue())
 			tmpCurTask:onNextTask(taskNext, taskCur)
 			taskNext:addCallback(TaskStart.onResponseCallBack)
@@ -102,7 +114,11 @@ function TaskStart.onResponseCallBack(httpRes, taskCur)
 						local taskListTop = tmpCurTask:getTop()
 						taskListTop:setUserData(SELECT_CK_INDEX[nextTokenIndex])
 						taskListTop:setIsContinue(taskCur:getIsContinue()) --只执行当前token任务，不再继续执行下一个token任务
-						taskListTop:addHeader(token)
+						if tmpCurTask:isWriteTokenToPostBody() then
+							taskListTop:setPostBody(token)
+						else
+							taskListTop:addHeader(token)
+						end
 						taskListTop:addCallback(TaskStart.onResponseCallBack)
 						taskListTop:start()
 					end
@@ -117,7 +133,11 @@ function TaskStart.onResponseCallBack(httpRes, taskCur)
 					local taskListTop = tmpCurTask:getTop()
 					taskListTop:setUserData(nextTokenIndex)
 					taskListTop:setIsContinue(taskCur:getIsContinue())
-					taskListTop:addHeader(nextToken)
+					if tmpCurTask:isWriteTokenToPostBody() then
+						taskListTop:setPostBody(nextToken)
+					else
+						taskListTop:addHeader(nextToken)
+					end
 					tmpCurTask:onNextTask(taskListTop, taskCur)
 					taskListTop:addCallback(TaskStart.onResponseCallBack)
 					taskListTop:start()
@@ -202,7 +222,14 @@ function TaskStart.doSelectAction()
 			local taskListTop = tmpCurTask:getTop()
 			taskListTop:setUserData(tokenIndex)
 			taskListTop:setIsContinue(false) --只执行当前token任务，不再继续执行下一个token任务
-			taskListTop:addHeader(token)
+			if tmpCurTask:isWriteTokenToPostBody() then
+				--dump(token,"hcc>>>>token")
+				--print("11111".. " token: " .. tostring(token))
+				taskListTop:setPostBody(token)
+			else
+				taskListTop:addHeader(token)
+				--print("22222")
+			end
 			taskListTop:addCallback(TaskStart.onResponseCallBack)
 			taskListTop:start()
 		end

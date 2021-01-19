@@ -2,7 +2,6 @@
 local HttpTask 		= class("HttpTask")
 local Define 		= require("resources.luaScript.config.Define")
 local CSFun 		= require("resources.luaScript.util.CSFun")
-local TaskData 		= require("resources.luaScript.data.TaskData")
 
 --抓包状态, 未开始0, 进行中1，已完成2
 HttpTask.GRASP_STATE = {NONE = 1, DOING = 2, FINISH = 3}
@@ -80,9 +79,25 @@ function HttpTask:getUrlBody()
 	return self._urlBody
 end
 
+--TODO  只解决了postBody 是JSON的情况
 function HttpTask:setPostBody(body)
+	-- print("33333".. " token: " .. tostring(self._postBody))
 	if not body then return self end
-	self._postBody = body
+	
+	local ok, json_table_self = pcall(function()
+		return json.decode(self._postBody)
+	end)
+	
+	if ok then
+		table.merge(json_table_self, body)
+	end
+
+	-- dump(json_table_self,"hcc>>json_table_self")
+
+	pcall(function() 
+		self._postBody = json.encode(json_table_self)
+	end)
+
 	return self
 end
 
@@ -200,6 +215,7 @@ end
 
 function HttpTask:setState(state)
 	self._state = state
+	local TaskData 		= require("resources.luaScript.data.TaskData")
 	local curTask = TaskData.getCurTask()
 	if curTask then
 		curTask:onTaskStateChanged(self)

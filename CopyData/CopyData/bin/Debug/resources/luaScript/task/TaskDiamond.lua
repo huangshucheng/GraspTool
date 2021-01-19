@@ -22,7 +22,8 @@ end
 
 --额外的请求头,也可以不用配置
 TaskTMP.ERQ_HEADER_EXT = {
-	-- ["token"] = "hcctoken",
+	-- ["Cookie"] = "hccCookie=123;",
+	-- ["Referer"] = "https://www.baidu.com/",
 }
 
 --任务列表
