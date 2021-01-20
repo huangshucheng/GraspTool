@@ -2,6 +2,7 @@
 local HttpTask 		= class("HttpTask")
 local Define 		= require("resources.luaScript.config.Define")
 local CSFun 		= require("resources.luaScript.util.CSFun")
+local TaskData 		= require("resources.luaScript.data.TaskData")
 
 --抓包状态, 未开始0, 进行中1，已完成2
 HttpTask.GRASP_STATE = {NONE = 1, DOING = 2, FINISH = 3}
@@ -79,25 +80,43 @@ function HttpTask:getUrlBody()
 	return self._urlBody
 end
 
---TODO  只解决了postBody 是JSON的情况
-function HttpTask:setPostBody(body)
-	-- print("33333".. " token: " .. tostring(self._postBody))
-	if not body then return self end
-	
-	local ok, json_table_self = pcall(function()
-		return json.decode(self._postBody)
-	end)
-	
-	if ok then
-		table.merge(json_table_self, body)
+
+--用JSON table 的格式设置postBody，最后转换成string
+function HttpTask:addPostBodyForJsonTable(bodyTable)
+	if not bodyTable or not next(bodyTable) then
+	 	return self 
 	end
 
-	-- dump(json_table_self,"hcc>>json_table_self")
+	local curTask = TaskData.getCurTask()
+	if curTask then
+		if not curTask:isWriteTokenToPostBody() then --是否使用Json格式将token写到 reqBody
+			return self
+		end
+	end
+	
+	local ok = nil
+	local json_table_self = {}
+	if self._postBody and self._postBody ~= "" then
+		ok, json_table_self = pcall(function()
+			return json.decode(self._postBody)
+		end)
+	end
+	
+	if ok then
+		table.merge(json_table_self, bodyTable)
+	end
+	--dump(json_table_self,"hcc>>json_table_self")
 
-	pcall(function() 
+	pcall(function()
 		self._postBody = json.encode(json_table_self)
 	end)
 
+	return self
+end
+
+--设置postBody文本
+function HttpTask:setPostBody(bodyString)
+	self._postBody = bodyString
 	return self
 end
 
@@ -156,12 +175,22 @@ end
 function HttpTask:getHeader()
 	return self._header
 end
+
 --添加请求头，Cookie也在里面的话，自动处理Cookie
+--如果脚本指定了使用postBody做凭证，token就放到postBody进去
 function HttpTask:addHeader(headerTable)
-	if not headerTable then return self end
-	if headerTable then
-		table.merge(self._header, headerTable)
+	if not headerTable or not next(headerTable) then
+	 	return self
+  	end
+
+	local curTask = TaskData.getCurTask()
+	if curTask then
+		if curTask:isWriteTokenToPostBody() then --是否使用Json格式将token写到 reqBody, 如果是，就不写到Header了
+			return self
+		end
 	end
+
+	table.merge(self._header, headerTable)
 	if headerTable[Define.COOKIE_NAME] then
 		self:setCookies(headerTable[Define.COOKIE_NAME])
 	end

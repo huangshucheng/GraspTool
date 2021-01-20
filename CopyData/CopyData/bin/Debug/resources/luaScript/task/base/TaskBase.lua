@@ -16,7 +16,7 @@ TaskBase.RECORD_SAVE_FILE_NAME 	= ""  --交互记录文件, 如：token_record_u
 TaskBase.DATA_TO_FIND_ARRAY 	= {}  --请求头中要查找的字段，如：token, Cookie
 TaskBase.IS_OPEN_RECORD 		= false 	  --是否抓取接口保存到本地
 TaskBase.ERQ_HEADER_EXT 		= {}          --额外的请求头,如：{["Refer"]="www.baidu.com"}
-TaskBase.IS_WRITE_TOKEN_TO_POSTBODY = false   --是否将token放到请求体里面
+TaskBase.IS_WRITE_TOKEN_TO_POSTBODY = false   --是否将抓到的token放到请求体里面（原本就是token字段放在请求体的，只处理这种情况）
 
 local state_table = {
 	"未开始~","进行中~","已完成~"
