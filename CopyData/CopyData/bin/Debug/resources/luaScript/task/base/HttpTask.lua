@@ -17,7 +17,7 @@ function HttpTask:ctor()
 	self._reqCount 		= 1   -- 请求次数
 	self._curCount 		= 0   -- 当前请求次数
 	self._method 		= Define.Method.GET -- 请求方法
-	self._header 		= Define.HTTP_HEADER_TABLE --默认请求头
+	self._header 		= clone(Define.HTTP_HEADER_TABLE) --默认请求头
 	self._delayTime  	= 0   -- 延迟时间
 	self._responseData  = ""  -- 返回数据
 	self._curHttpTaskIndex = 1      -- 当前任务下标
@@ -40,7 +40,7 @@ function HttpTask:initWithConfig(config)
 	self._reqCount 		= config.reqCount or 1
 	self._curCount 		= config.curCount or 0
 	self._method 		= config.method or Define.Method.GET
-	self._header 		= config.header or Define.HTTP_HEADER_TABLE
+	self._header 		= config.header or clone(Define.HTTP_HEADER_TABLE)
 	self._delayTime 	= config.delay or 0
 	self._proxyAddress  = config.proxyAddress or Define.DEFAULT_PROXY
 end

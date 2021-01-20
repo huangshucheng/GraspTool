@@ -103,6 +103,7 @@ function TaskBase:loadTask()
 		local task = HttpTask.new()
 		task:initWithConfig(task_config)
 		task:setCurTaskIndex(index)
+		-- dump(self.ERQ_HEADER_EXT,"hcc>>ERQ_HEADER_EXT")
 		if table.nums(self.ERQ_HEADER_EXT) > 0 then
 			task:addHeader(self.ERQ_HEADER_EXT)
 		end

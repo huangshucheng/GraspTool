@@ -157,7 +157,7 @@ function TaskStart.onChangeActivity(actIndex)
 		local script = activityTable.script or ""
 		local ok, cur_task_obj = pcall(function()
 			if script and script ~= "" then
-		 		return require(script).new(activityTable) 
+		 		return require(script).new(activityTable)
 			end
 	 	end)
 		if ok then
@@ -222,8 +222,8 @@ function TaskStart.doSelectAction()
 			local taskListTop = tmpCurTask:getTop()
 			taskListTop:setUserData(tokenIndex)
 			taskListTop:setIsContinue(false) --只执行当前token任务，不再继续执行下一个token任务
+			--dump(token,"hcc>>>>token")
 			if tmpCurTask:isWriteTokenToPostBody() then
-				--dump(token,"hcc>>>>token")
 				--print("11111".. " token: " .. tostring(token))
 				taskListTop:setPostBody(token)
 			else

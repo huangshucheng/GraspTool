@@ -139,16 +139,20 @@ function FindData:readLocalFileToken()
 	local readStr = CSFun.ReadFile(fileName)
 	if not readStr or readStr == "" then return end
 	local splitData = StringUtils.splitString(readStr, "\n")
+	-- --dump(splitData,"hcc>>splitData")
 	if splitData and next(splitData) then
 		for _, token_str in ipairs(splitData) do
-			local tokenTable = nil
-			local ok, msg = pcall(function() 
-				return json.decode(token_str)
-			end)
-			if ok and msg then
-				table.insert(self._findTokenList, msg)
-			else
-				print("readLocalFileToken failed >>" .. tostring(msg))
+			token_str = StringUtils.trim(token_str)
+			if token_str ~= "" then
+				local tokenTable = nil
+				local ok, msg = pcall(function() 
+					return json.decode(token_str)
+				end)
+				if ok and msg then
+					table.insert(self._findTokenList, msg)
+				else
+					print("readLocalFileToken failed >>" .. tostring(msg))
+				end
 			end
 		end
 	end
