@@ -25,6 +25,7 @@ namespace CopyData
             _luaScript.RegisterFunction("ListView_set_all_checked", this, GetType().GetMethod("ListView_set_all_checked"));
             _luaScript.RegisterFunction("ListView_set_item", this, GetType().GetMethod("ListView_set_item"));
             _luaScript.RegisterFunction("ListView_get_count", this, GetType().GetMethod("ListView_get_count"));
+            _luaScript.RegisterFunction("ListView_remove_by_index_table", this, GetType().GetMethod("ListView_remove_by_index_table"));
         }
 
         //listView 初始化
@@ -43,6 +44,7 @@ namespace CopyData
             listViewToken.HideSelection = true; //设置选定项在控件没焦点时是否隐藏突出显示
             //listViewToken.TopItem = ;// 获取或设置控件中的第一个可见项，可用于定位。（效果类似于EnsureVisible方法）
             listViewToken.ColumnClick += new ColumnClickEventHandler(ListView_column_click);
+            listViewToken.ContextMenuStrip = context_menu_strip_list;
 
             /*
             //列表头创建（记得，需要先创建列表头）
@@ -97,6 +99,70 @@ namespace CopyData
             */
         }
 
+        private void 全选ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var func = _luaScript.GetFunction("ListView_on_all_select_click");
+                if (func != null)
+                {
+                    _luaScript.DoString("ListView_on_all_select_click()");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("全选ToolStripMenuItem_Click error " + ex.Message);
+            }
+        }
+
+        private void 复制ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var func = _luaScript.GetFunction("ListView_on_copy_click");
+                if (func != null)
+                {
+                    _luaScript.DoString("ListView_on_copy_click()");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("复制ToolStripMenuItem_Click error " + ex.Message);
+            }
+        }
+
+        private void 粘贴ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var func = _luaScript.GetFunction("ListView_on_paste_click");
+                if (func != null)
+                {
+                    _luaScript.DoString("ListView_on_paste_click()");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("粘贴ToolStripMenuItem_Click error " + ex.Message);
+            }
+        }
+
+        private void 删除ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var func = _luaScript.GetFunction("ListView_on_delete_click");
+                if (func != null)
+                {
+                    _luaScript.DoString("ListView_on_delete_click()");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("删除ToolStripMenuItem_Click error " + ex.Message);
+            }
+        }
+
         //点击表头
         public void ListView_column_click(object sender, ColumnClickEventArgs e)
         {
@@ -107,7 +173,7 @@ namespace CopyData
                 }
             }
             catch (Exception ex){
-                Console.WriteLine("bw_RunWorkerCompleted error " + ex.Message);
+                Console.WriteLine("ListView_column_click error " + ex.Message);
             }
         }
 
@@ -268,6 +334,42 @@ namespace CopyData
         //移除所有的项
         public void ListView_clear() {
             this.listViewToken.Items.Clear();  
+        }
+
+        //用下标删除,index: 第一个文本的text 内容
+        public bool ListView_remove_by_index_table(LuaTable index_table = null) {
+            if (index_table == null){
+                return false;
+            }
+
+            if (listViewToken.Items.Count <= 0){
+                return false;
+            }
+
+            if (index_table.Keys.Count > 0)
+            {
+                var itemList = new List<ListViewItem>();
+                foreach (DictionaryEntry v in index_table)
+                {
+                    var value = v.Value.ToString();
+                    foreach (ListViewItem item in listViewToken.Items)
+                    {
+                        if (item.Text.Equals(value)) {
+                            itemList.Add(item);
+                            break;
+                        }
+                    }
+                }
+
+                this.listViewToken.BeginUpdate();   //数据更新，UI暂时挂起，直到EndUpdate绘制控件，可以有效避免闪烁并大大提高加载速度
+                if (itemList.Count > 0) {
+                    foreach (ListViewItem item in itemList) {
+                        listViewToken.Items.Remove(item);
+                    }
+                }
+                this.listViewToken.EndUpdate();  //结束数据处理，UI界面一次性绘制。
+            }
+            return true;
         }
 
         //获取节点个数

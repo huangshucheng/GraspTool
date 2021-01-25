@@ -3,6 +3,10 @@ local UIConfigData = require("resources.luaScript.data.UIConfigData")
 local TaskStart = require("resources.luaScript.task.base.TaskStart")
 local Define = require("resources.luaScript.config.Define")
 local StringUtils = require("resources.luaScript.util.StringUtils")
+local CShapListView = require("resources.luaScript.uiLogic.CShapListView")
+local CSFun = require("resources.luaScript.util.CSFun")
+
+local SELECT_COLUM_FLAG = true
 
 --点击选择活动
 function onSelectActivityFromList(index)
@@ -70,13 +74,61 @@ function onClickDoSelAction()
 end
 
 --点击ListView表头
-local SELECT_COLUM_FLAG = true
 function ListView_on_colum_click(columIndex)
 	if 0 == tonumber(columIndex) then --点中了第一个表头
-		local CShapListView = require("resources.luaScript.uiLogic.CShapListView")
 		CShapListView.ListView_set_all_checked(SELECT_COLUM_FLAG)
 		SELECT_COLUM_FLAG = not SELECT_COLUM_FLAG
 	end
+end
+
+--点击全选
+function ListView_on_all_select_click()
+	CShapListView.ListView_set_all_checked(SELECT_COLUM_FLAG)
+	SELECT_COLUM_FLAG = not SELECT_COLUM_FLAG
+end
+
+--复制
+function ListView_on_copy_click()
+	local selIndexTable = CShapListView.ListView_get_select_index()
+	if not next(selIndexTable) then
+		return
+	end
+	dump(selIndexTable,"selIndexTable")
+	local FindData = require("resources.luaScript.data.FindData")
+	local findList = FindData:getInstance():getTokenList()
+	local selTable = {}
+	for _, idx in ipairs(selIndexTable) do
+		if findList[idx] then
+			table.insert(selTable,findList[idx])
+		end
+	end
+	if #selTable > 0 then
+		local copyData = json.encode(selTable)
+		CSFun.CopyToClipBoard(copyData)
+	end
+end
+
+--粘贴
+function ListView_on_paste_click()
+	local FindData = require("resources.luaScript.data.FindData")
+	local clipBoardData =  CSFun.GetClipBoardData()
+	-- print("clipBoardData>>>> " .. clipBoardData)
+	local ok , ret_table = pcall(function()
+		return json.decode(clipBoardData)
+	end)
+	if ok and next(ret_table) then
+		for _, token in ipairs(ret_table) do
+			FindData:getInstance():addFindToken(token)
+		end
+	end
+end
+
+--点击删除
+function ListView_on_delete_click()
+	print("ListView_on_delete_click")
+	local selTable = CShapListView.ListView_get_select_index()
+	dump(selTable,"hcc>>selTable")
+	CShapListView.ListView_remove_by_index_table(selTable)
 end
 
 --点击了是否显示网络日志

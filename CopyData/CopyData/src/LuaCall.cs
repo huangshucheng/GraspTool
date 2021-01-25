@@ -3,6 +3,7 @@ using LuaInterface;
 using JinYiHelp.MediaHelp;
 using System.Net;
 using System.Net.Sockets;
+using System.Windows.Forms;
 
 //lua 调用的接口
 namespace CopyData
@@ -72,6 +73,25 @@ namespace CopyData
             {
                 return "获取本机IP出错:" + ex.Message;
             }
+        }
+
+        //设置到剪贴板
+        public static void CopyToClipBoard(string copyText) {
+            Clipboard.SetDataObject(copyText);
+        }
+
+        //获取剪贴板内容
+        public static string GetClipBoardData() {
+            try {
+                IDataObject iData = Clipboard.GetDataObject();
+                if (iData.GetDataPresent(DataFormats.Text)){
+                    var textStr = (String)iData.GetData(DataFormats.Text);
+                    return textStr;
+                }
+            } catch (Exception e) {
+                Console.WriteLine("GetClipBoardData>> " + e.Message);
+            }
+            return string.Empty;
         }
 
     }

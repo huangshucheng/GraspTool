@@ -61,6 +61,8 @@ namespace CopyData
             _luaScript.RegisterFunction("HttpRequestAsync", null, typeof(LuaCall).GetMethod("HttpRequestAsync")); //http请求 异步
             _luaScript.RegisterFunction("PlayWAVSound", null, typeof(LuaCall).GetMethod("PlayWAVSound")); //播放音效
             _luaScript.RegisterFunction("GetLocalIP", null, typeof(LuaCall).GetMethod("GetLocalIP")); //获取本机IP接口
+            _luaScript.RegisterFunction("CopyToClipBoard", null, typeof(LuaCall).GetMethod("CopyToClipBoard")); //设置到剪贴板
+            _luaScript.RegisterFunction("GetClipBoardData", null, typeof(LuaCall).GetMethod("GetClipBoardData")); //获取剪贴板内容
 
             //文件相关（静态方法）
             _luaScript.RegisterFunction("IsFileExist", null, typeof(LocalStorage).GetMethod("IsFileExist")); //文件是否存在
@@ -100,6 +102,9 @@ namespace CopyData
             if (_luaScript.GetFunction("testCall") != null) {
                 _luaScript.DoString("testCall()");
             }
+
+            //LuaCall.CopyToClipBoard("hcccccccccccccccc");
+            //var textttt =  LuaCall.GetClipBoard();
         }
 
         /// ///////////////////////////////////

@@ -8,8 +8,12 @@ TODO
 > 可手动输入token
 > 破解token, 用openid + unionid动态生成
 > 脚本中文读取问题 (暂时部分中文还不能及时显示)
+> 活动脚本简化
+> 卡包次数可配置
 
 DONE
+> listView增加右键：复制，删除，全选，OK
+> 发送reqBody到客户端 OK
 >支持本地存储玩家openid, unionid等必要信息，存到本地，下次直接读取，不用再次点开微信活动页面：暂时先支持读写token,不区分玩家 OK
 > 完善代理功能：输入代理IP及端口,  IP有效性检测 OK
 > 本地IP显示 OK

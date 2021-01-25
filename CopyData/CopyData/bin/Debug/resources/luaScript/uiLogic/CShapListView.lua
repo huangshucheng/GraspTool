@@ -77,6 +77,21 @@ function CShapListView.ListView_get_count()
 	end
 end
 
+--删除item ，参数：index table
+function CShapListView.ListView_remove_by_index_table(itemIndexTable)
+	if not next(itemIndexTable) then
+		return
+	end
+	if ListView_remove_by_index_table then
+		local ret = ListView_remove_by_index_table(itemIndexTable)
+		if ret then
+			local FindData = require("resources.luaScript.data.FindData")
+			FindData:getInstance():deleteToken(itemIndexTable)
+			FindData:getInstance():readLocalFileToken()
+		end
+	end
+end
+
 local initListView = function()
 	CShapListView.ListView_add_columns(CSFun.Utf8ToDefault("序号(全选~)"), 80)
 	CShapListView.ListView_add_columns(CSFun.Utf8ToDefault("Cookie"), 230)

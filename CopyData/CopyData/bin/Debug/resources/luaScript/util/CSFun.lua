@@ -181,6 +181,20 @@ function CSFun.ClearOutLog()
 	if ClearOutLog then ClearOutLog() end
 end
 
+-- 设置到剪贴板
+function CSFun.CopyToClipBoard(dataStr)
+	if CopyToClipBoard then
+		CopyToClipBoard(dataStr)
+	end
+end
+
+-- 获取剪贴板内容
+function CSFun.GetClipBoardData()
+	if GetClipBoardData then
+		return GetClipBoardData()
+	end
+end
+
 --代理IP是否可用
 function CSFun.IsProxyCanUse(proxyUrl,callback)
 	if not proxyUrl or proxyUrl == "" then

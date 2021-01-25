@@ -70,6 +70,24 @@ function FindData:addFindToken(tokenTable)
 	return false
 end
 
+--删除内存和本地token
+function FindData:deleteToken(tokenIndexTable)
+	if tokenIndexTable and next(tokenIndexTable) then
+		for _,idx in ipairs(tokenIndexTable) do
+			table.remove(self._findTokenList, idx)
+		end
+	end
+	local fileName = self:getSaveFileName()
+	if not fileName then
+		print("deleteToken error, fileName is not exist" )
+		return
+	end
+	CSFun.WriteFile(fileName,"");
+	for _, tokenTable in ipairs(self._findTokenList) do
+		self:writeOneTokenToLocalFile(tokenTable)
+	end
+end
+
 --是否在查找列表中
 function FindData:isInFindList(tokenTable)
 	for idx,tb in ipairs(self._findTokenList) do
@@ -182,6 +200,7 @@ function FindData:getGraspFileName()
 end
 
 function FindData:dumpToken()
+	CShapListView.ListView_clear()
 	for index, tokenTable in ipairs(self._findTokenList) do
 		self:dumpTokenOne(index, tokenTable, true)
 	end	

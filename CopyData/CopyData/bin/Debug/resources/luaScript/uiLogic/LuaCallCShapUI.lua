@@ -125,4 +125,5 @@ function LuaCallCShapUI.SetProxyLinkUrl(urlStr)
 		SetProxyLinkUrl(urlStr)
 	end
 end
+
 return LuaCallCShapUI

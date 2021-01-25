@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HccWindowdGraspTool));
             this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
             this.btnClearLog = new System.Windows.Forms.Button();
@@ -49,23 +50,29 @@
             this.listViewToken = new System.Windows.Forms.ListView();
             this.btnCatchSel = new System.Windows.Forms.Button();
             this.tab_proxy_ip = new System.Windows.Forms.TabPage();
+            this.text_box_proxy_ip = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.btn_use_proxy = new System.Windows.Forms.CheckBox();
             this.btn_proxy_check = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.tab_control = new System.Windows.Forms.TabControl();
+            this.tab_qr_code = new System.Windows.Forms.TabPage();
             this.tab_jiema = new System.Windows.Forms.TabPage();
             this.label2 = new System.Windows.Forms.Label();
             this.text_box_ip_info = new System.Windows.Forms.RichTextBox();
             this.text_link_label = new System.Windows.Forms.LinkLabel();
-            this.label5 = new System.Windows.Forms.Label();
-            this.text_box_proxy_ip = new System.Windows.Forms.TextBox();
-            this.tab_qr_code = new System.Windows.Forms.TabPage();
+            this.context_menu_strip_list = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.全选ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.复制ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.粘贴ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.删除ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.numUDDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUrl)).BeginInit();
             this.tab_proxy_ip.SuspendLayout();
             this.tab_control.SuspendLayout();
-            this.tab_jiema.SuspendLayout();
             this.tab_qr_code.SuspendLayout();
+            this.tab_jiema.SuspendLayout();
+            this.context_menu_strip_list.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBoxLog
@@ -325,6 +332,27 @@
             this.tab_proxy_ip.Text = "代理IP";
             this.tab_proxy_ip.Click += new System.EventHandler(this.tab_proxy_ip_Click);
             // 
+            // text_box_proxy_ip
+            // 
+            this.text_box_proxy_ip.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.text_box_proxy_ip.ForeColor = System.Drawing.Color.Red;
+            this.text_box_proxy_ip.Location = new System.Drawing.Point(18, 80);
+            this.text_box_proxy_ip.Name = "text_box_proxy_ip";
+            this.text_box_proxy_ip.Size = new System.Drawing.Size(214, 30);
+            this.text_box_proxy_ip.TabIndex = 34;
+            this.text_box_proxy_ip.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label5.ForeColor = System.Drawing.Color.Gray;
+            this.label5.Location = new System.Drawing.Point(48, 125);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(144, 16);
+            this.label5.TabIndex = 33;
+            this.label5.Text = "例:127.0.0.1:8001";
+            // 
             // btn_use_proxy
             // 
             this.btn_use_proxy.AutoSize = true;
@@ -370,6 +398,18 @@
             this.tab_control.SelectedIndex = 0;
             this.tab_control.Size = new System.Drawing.Size(260, 297);
             this.tab_control.TabIndex = 30;
+            // 
+            // tab_qr_code
+            // 
+            this.tab_qr_code.Controls.Add(this.pictureBoxUrl);
+            this.tab_qr_code.Controls.Add(this.richTextQRCode);
+            this.tab_qr_code.Controls.Add(this.btnGenQRCode);
+            this.tab_qr_code.Location = new System.Drawing.Point(4, 22);
+            this.tab_qr_code.Name = "tab_qr_code";
+            this.tab_qr_code.Size = new System.Drawing.Size(252, 271);
+            this.tab_qr_code.TabIndex = 2;
+            this.tab_qr_code.Text = "二维码";
+            this.tab_qr_code.UseVisualStyleBackColor = true;
             // 
             // tab_jiema
             // 
@@ -418,38 +458,43 @@
             this.text_link_label.Text = "查看网页日志";
             this.text_link_label.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.text_link_label_LinkClicked);
             // 
-            // label5
+            // context_menu_strip_list
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label5.ForeColor = System.Drawing.Color.Gray;
-            this.label5.Location = new System.Drawing.Point(48, 125);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(144, 16);
-            this.label5.TabIndex = 33;
-            this.label5.Text = "例:127.0.0.1:8001";
+            this.context_menu_strip_list.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.全选ToolStripMenuItem,
+            this.复制ToolStripMenuItem,
+            this.粘贴ToolStripMenuItem,
+            this.删除ToolStripMenuItem1});
+            this.context_menu_strip_list.Name = "context_menu_strip_list";
+            this.context_menu_strip_list.Size = new System.Drawing.Size(101, 92);
             // 
-            // text_box_proxy_ip
+            // 全选ToolStripMenuItem
             // 
-            this.text_box_proxy_ip.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.text_box_proxy_ip.ForeColor = System.Drawing.Color.Red;
-            this.text_box_proxy_ip.Location = new System.Drawing.Point(18, 80);
-            this.text_box_proxy_ip.Name = "text_box_proxy_ip";
-            this.text_box_proxy_ip.Size = new System.Drawing.Size(214, 30);
-            this.text_box_proxy_ip.TabIndex = 34;
-            this.text_box_proxy_ip.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.全选ToolStripMenuItem.Name = "全选ToolStripMenuItem";
+            this.全选ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.全选ToolStripMenuItem.Text = "全选";
+            this.全选ToolStripMenuItem.Click += new System.EventHandler(this.全选ToolStripMenuItem_Click);
             // 
-            // tab_qr_code
+            // 复制ToolStripMenuItem
             // 
-            this.tab_qr_code.Controls.Add(this.pictureBoxUrl);
-            this.tab_qr_code.Controls.Add(this.richTextQRCode);
-            this.tab_qr_code.Controls.Add(this.btnGenQRCode);
-            this.tab_qr_code.Location = new System.Drawing.Point(4, 22);
-            this.tab_qr_code.Name = "tab_qr_code";
-            this.tab_qr_code.Size = new System.Drawing.Size(252, 271);
-            this.tab_qr_code.TabIndex = 2;
-            this.tab_qr_code.Text = "二维码";
-            this.tab_qr_code.UseVisualStyleBackColor = true;
+            this.复制ToolStripMenuItem.Name = "复制ToolStripMenuItem";
+            this.复制ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.复制ToolStripMenuItem.Text = "复制";
+            this.复制ToolStripMenuItem.Click += new System.EventHandler(this.复制ToolStripMenuItem_Click);
+            // 
+            // 粘贴ToolStripMenuItem
+            // 
+            this.粘贴ToolStripMenuItem.Name = "粘贴ToolStripMenuItem";
+            this.粘贴ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.粘贴ToolStripMenuItem.Text = "粘贴";
+            this.粘贴ToolStripMenuItem.Click += new System.EventHandler(this.粘贴ToolStripMenuItem_Click);
+            // 
+            // 删除ToolStripMenuItem1
+            // 
+            this.删除ToolStripMenuItem1.Name = "删除ToolStripMenuItem1";
+            this.删除ToolStripMenuItem1.Size = new System.Drawing.Size(100, 22);
+            this.删除ToolStripMenuItem1.Text = "删除";
+            this.删除ToolStripMenuItem1.Click += new System.EventHandler(this.删除ToolStripMenuItem_Click);
             // 
             // HccWindowdGraspTool
             // 
@@ -483,9 +528,10 @@
             this.tab_proxy_ip.ResumeLayout(false);
             this.tab_proxy_ip.PerformLayout();
             this.tab_control.ResumeLayout(false);
+            this.tab_qr_code.ResumeLayout(false);
             this.tab_jiema.ResumeLayout(false);
             this.tab_jiema.PerformLayout();
-            this.tab_qr_code.ResumeLayout(false);
+            this.context_menu_strip_list.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -523,6 +569,11 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox text_box_proxy_ip;
         private System.Windows.Forms.TabPage tab_qr_code;
+        private System.Windows.Forms.ContextMenuStrip context_menu_strip_list;
+        private System.Windows.Forms.ToolStripMenuItem 全选ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 复制ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 粘贴ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 删除ToolStripMenuItem1;
     }
 }
 
