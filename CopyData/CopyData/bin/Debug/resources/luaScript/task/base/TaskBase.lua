@@ -258,7 +258,7 @@ function TaskBase:isWriteTokenToPostBody()
 end
 
 --卡包次数
-function TaskBase:getKaBaoCount()
+function TaskBase:getDefaultKaBaoCount()
 	return self.DEFAULT_KABAO_COUNT
 end
 

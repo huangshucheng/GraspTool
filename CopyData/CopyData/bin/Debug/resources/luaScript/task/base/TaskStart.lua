@@ -173,7 +173,7 @@ function TaskStart.onChangeTaskData(activityTable)
 
 	local curTaskObj = TaskData.getCurTask()
 	if curTaskObj then
-		local curKaBaoCount = curTaskObj:getKaBaoCount()
+		local curKaBaoCount = curTaskObj:getDefaultKaBaoCount()
 		LuaCallCShapUI.SetKaBaoCount(curKaBaoCount)
 		print("curKaBaoCount: " .. tostring(curKaBaoCount))
 	end

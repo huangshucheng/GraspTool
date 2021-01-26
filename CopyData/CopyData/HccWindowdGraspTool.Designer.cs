@@ -105,7 +105,7 @@
             // btnStartCatch
             // 
             this.btnStartCatch.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnStartCatch.Location = new System.Drawing.Point(779, 152);
+            this.btnStartCatch.Location = new System.Drawing.Point(829, 152);
             this.btnStartCatch.Name = "btnStartCatch";
             this.btnStartCatch.Size = new System.Drawing.Size(90, 30);
             this.btnStartCatch.TabIndex = 7;

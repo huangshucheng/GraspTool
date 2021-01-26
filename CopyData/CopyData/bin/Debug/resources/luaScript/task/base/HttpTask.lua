@@ -296,7 +296,7 @@ function HttpTask:start()
 	end
 
 	if self._isKaBao then
-		self._reqCount = LuaCallCShapUI.GetKaBaoCount() or 1
+		self._reqCount = tonumber(LuaCallCShapUI.GetKaBaoCount()) or 1
 		print("kaBaoCount: " .. tostring(self._reqCount))
 	end
 
