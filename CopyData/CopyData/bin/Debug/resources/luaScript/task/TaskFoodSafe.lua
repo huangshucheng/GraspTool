@@ -10,6 +10,7 @@ local POST = TaskBase.POST
 TaskTMP.FIND_STRING_HOST 		= "xinhua.mofangdata.cn"
 TaskTMP.DATA_TO_FIND_ARRAY 		= {"Cookie","Referer"}
 TaskTMP.IS_OPEN_RECORD 			= false
+TaskTMP.DEFAULT_KABAO_COUNT 	= 30 	-- 默认卡包次数，需要设置isKabao后才生效
 
 --test
 local tmpRetData = {

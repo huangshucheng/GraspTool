@@ -16,7 +16,8 @@ TaskBase.RECORD_SAVE_FILE_NAME 	= ""  --交互记录文件, 如：token_record_u
 TaskBase.DATA_TO_FIND_ARRAY 	= {}  --请求头中要查找的字段，如：token, Cookie
 TaskBase.IS_OPEN_RECORD 		= false 	  --是否抓取接口保存到本地
 TaskBase.ERQ_HEADER_EXT 		= {}          --额外的请求头,如：{["Refer"]="www.baidu.com"}
-TaskBase.IS_WRITE_TOKEN_TO_POSTBODY = false   --是否将抓到的token放到请求体里面（原本就是token字段放在请求体的，只处理这种情况）
+TaskBase.IS_WRITE_TOKEN_TO_POSTBODY = false   --是否将抓到的token放到请求体里面（原本就是token字段放在请求体的，只处理这种情况)
+TaskBase.DEFAULT_KABAO_COUNT 	= 50 	-- 默认卡包次数：50次，需要设置isKabao后才生效
 
 local state_table = {
 	"未开始~","进行中~","已完成~"
@@ -34,6 +35,7 @@ TaskBase.TASK_LIST_URL_CONFIG = {
 		urlBody = "",  --URL参数
 		postBody = "",  --post参数
 		delay = 0.2, --延迟
+		isKabao = false, --是否卡包，若此条请求需要手动设置卡包次数的话，就用界面上配置的请求次数，reqCount就不生效了
 	},
 	{
 		taskName = "开始学习", 
@@ -253,6 +255,11 @@ end
 --是否将token放到请求体里面
 function TaskBase:isWriteTokenToPostBody()
 	return self.IS_WRITE_TOKEN_TO_POSTBODY
+end
+
+--卡包次数
+function TaskBase:getKaBaoCount()
+	return self.DEFAULT_KABAO_COUNT
 end
 
 return TaskBase

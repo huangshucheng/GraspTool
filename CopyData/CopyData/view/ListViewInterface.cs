@@ -26,6 +26,11 @@ namespace CopyData
             _luaScript.RegisterFunction("ListView_set_item", this, GetType().GetMethod("ListView_set_item"));
             _luaScript.RegisterFunction("ListView_get_count", this, GetType().GetMethod("ListView_get_count"));
             _luaScript.RegisterFunction("ListView_remove_by_index_table", this, GetType().GetMethod("ListView_remove_by_index_table"));
+
+            _luaScript.RegisterFunction("Strip_menu_set_allsel_enable", this, GetType().GetMethod("Strip_menu_set_allsel_enable"));
+            _luaScript.RegisterFunction("Strip_menu_set_copy_enable", this, GetType().GetMethod("Strip_menu_set_copy_enable"));
+            _luaScript.RegisterFunction("Strip_menu_set_paste_enable", this, GetType().GetMethod("Strip_menu_set_paste_enable"));
+            _luaScript.RegisterFunction("Strip_menu_set_delete_enable", this, GetType().GetMethod("Strip_menu_set_delete_enable"));
         }
 
         //listView 初始化
@@ -99,7 +104,8 @@ namespace CopyData
             */
         }
 
-        private void 全选ToolStripMenuItem_Click(object sender, EventArgs e)
+        //右键点击全选
+        private void ToolStripMenuItem_all_sel_Click(object sender, EventArgs e)
         {
             try
             {
@@ -111,11 +117,12 @@ namespace CopyData
             }
             catch (Exception ex)
             {
-                Console.WriteLine("全选ToolStripMenuItem_Click error " + ex.Message);
+                Console.WriteLine("ToolStripMenuItem_all_sel_Click error " + ex.Message);
             }
         }
 
-        private void 复制ToolStripMenuItem_Click(object sender, EventArgs e)
+        //右键点击拷贝
+        private void ToolStripMenuItem_copy_Click(object sender, EventArgs e)
         {
             try
             {
@@ -127,11 +134,12 @@ namespace CopyData
             }
             catch (Exception ex)
             {
-                Console.WriteLine("复制ToolStripMenuItem_Click error " + ex.Message);
+                Console.WriteLine("ToolStripMenuItem_copy_Click error " + ex.Message);
             }
         }
 
-        private void 粘贴ToolStripMenuItem_Click(object sender, EventArgs e)
+        //右键点击粘贴
+        private void ToolStripMenuItem_paste_Click(object sender, EventArgs e)
         {
             try
             {
@@ -143,11 +151,12 @@ namespace CopyData
             }
             catch (Exception ex)
             {
-                Console.WriteLine("粘贴ToolStripMenuItem_Click error " + ex.Message);
+                Console.WriteLine("ToolStripMenuItem_paste_Click error " + ex.Message);
             }
         }
 
-        private void 删除ToolStripMenuItem_Click(object sender, EventArgs e)
+        //右键点击删除
+        private void ToolStripMenuItem_delete_Click(object sender, EventArgs e)
         {
             try
             {
@@ -159,10 +168,23 @@ namespace CopyData
             }
             catch (Exception ex)
             {
-                Console.WriteLine("删除ToolStripMenuItem_Click error " + ex.Message);
+                Console.WriteLine("ToolStripMenuItem_delete_Click error " + ex.Message);
             }
         }
-
+        //右键菜单弹出事件
+        private void context_menu_strip_list_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            try
+            {
+                var func = _luaScript.GetFunction("ListView_on_menu_strip_open");
+                if (func != null){
+                    _luaScript.DoString("ListView_on_menu_strip_open()");
+                }
+            }catch (Exception ex){
+                Console.WriteLine("context_menu_strip_list_Opening error " + ex.Message);
+            }
+        }
+        
         //点击表头
         public void ListView_column_click(object sender, ColumnClickEventArgs e)
         {
@@ -380,6 +402,30 @@ namespace CopyData
         //点击listView
         private void listViewToken_SelectedIndexChanged(object sender, EventArgs e)
         {
+        }
+
+        //设置全选是否生效
+        public void Strip_menu_set_allsel_enable(bool enable)
+        {
+            this.strip_menu_item_sel_all.Enabled = enable;
+        }
+
+        //设置拷贝是否生效
+        public void Strip_menu_set_copy_enable(bool enable)
+        {
+            this.strip_menu_item_copy.Enabled = enable;
+        }
+
+        //设置粘贴是否生效
+        public void Strip_menu_set_paste_enable(bool enable)
+        {
+            this.strip_menu_item_paste.Enabled = enable;
+        }
+
+        //设置删除是否生效
+        public void Strip_menu_set_delete_enable(bool enable)
+        {
+            this.strip_menu_item_delete.Enabled = enable;
         }
     }
 }

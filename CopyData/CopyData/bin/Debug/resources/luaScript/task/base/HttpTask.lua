@@ -3,6 +3,8 @@ local HttpTask 		= class("HttpTask")
 local Define 		= require("resources.luaScript.config.Define")
 local CSFun 		= require("resources.luaScript.util.CSFun")
 local TaskData 		= require("resources.luaScript.data.TaskData")
+local UIConfigData  = require("resources.luaScript.data.UIConfigData")
+local LuaCallCShapUI = require("resources.luaScript.uiLogic.LuaCallCShapUI")
 
 --抓包状态, 未开始0, 进行中1，已完成2
 HttpTask.GRASP_STATE = {NONE = 1, DOING = 2, FINISH = 3}
@@ -27,6 +29,7 @@ function HttpTask:ctor()
 	self._state 		= HttpTask.GRASP_STATE.NONE --未开始
 	self._isContinue    = true 	--执行完成后是否执行下一个CK
 	self._graspRedPktCount   = 0 	--抢到的红包个数
+	self._isKaBao 		= false  --当前请求是否需要手动设置卡包次数
 end
 
 function HttpTask:initWithConfig(config)
@@ -44,6 +47,7 @@ function HttpTask:initWithConfig(config)
 	self._header 		= config.header or clone(Define.HTTP_HEADER_TABLE)
 	self._delayTime 	= config.delay or 0
 	self._proxyAddress  = config.proxyAddress or Define.DEFAULT_PROXY
+	self._isKaBao 		= config.isKabao or false
 end
 
 function HttpTask:setUrl(url)
@@ -269,10 +273,15 @@ function HttpTask:setGraspRedPktCount(count)
 	self._graspRedPktCount = count
 	return self
 end
+
+--是否卡包
+function HttpTask:getIsKaBao()
+	return self._isKaBao
+end
+
 -- 异步执行http请求
 function HttpTask:start()
 	-- 以配置为准，否则用 界面上的配置
-	local UIConfigData = require("resources.luaScript.data.UIConfigData")
 	local delayTime = tonumber(UIConfigData.getReqDelayTime()) --延迟时间
 	local proxyConfig = UIConfigData.getProxyIpConfig()
 	if proxyConfig and #proxyConfig > 0 then
@@ -284,6 +293,11 @@ function HttpTask:start()
 
 	if delayTime and delayTime > 0 then
 		self._delayTime = delayTime
+	end
+
+	if self._isKaBao then
+		self._reqCount = LuaCallCShapUI.GetKaBaoCount() or 1
+		print("kaBaoCount: " .. tostring(self._reqCount))
 	end
 
 	self:setState(HttpTask.GRASP_STATE.DOING)

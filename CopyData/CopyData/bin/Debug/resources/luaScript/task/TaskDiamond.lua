@@ -7,6 +7,7 @@ local POST 			= TaskBase.POST
 TaskTMP.FIND_STRING_HOST 	= "hbz.qrmkt.cn"  --域名，方便查找token
 TaskTMP.DATA_TO_FIND_ARRAY 	= {"token"}      --需要查找的taken 或者cookie
 TaskTMP.IS_OPEN_RECORD 		= false 	  --是否抓取接口保存到本地
+TaskTMP.DEFAULT_KABAO_COUNT = 40 	-- 默认卡包次数，需要设置isKabao后才生效
 
 --开始执行下一个任务
 function TaskTMP:onNextTask(curHttpTaskObj, preHttpTaskObj)

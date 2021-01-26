@@ -62,8 +62,7 @@ function WebSocket_OnSocketData()
 			return decode_table
 		end
 	end)
-	if ok then
-		 out_msg = out_msg or {}
+	if ok and out_msg and next(out_msg) then
 		 for k , v in pairs(out_msg) do
 		 	if k == "cc_websocket" then --是websocket的连接事件: open, error, closed
 		 		if v == "socket_opend" then

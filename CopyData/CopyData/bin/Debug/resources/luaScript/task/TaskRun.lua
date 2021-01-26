@@ -7,6 +7,7 @@ local POST 		= TaskBase.POST
 TaskTMP.FIND_STRING_HOST 		= "wx.hoyatod.cn"  --域名，方便查找token
 TaskTMP.DATA_TO_FIND_ARRAY 		= {"token"}      --需要查找的taken 或者cookie
 TaskTMP.IS_OPEN_RECORD 			= false
+TaskTMP.DEFAULT_KABAO_COUNT 	= 100 	-- 默认卡包次数，需要设置isKabao后才生效
 
 --任务列表
 TaskTMP.TASK_LIST_URL_CONFIG = {

@@ -92,6 +92,33 @@ function CShapListView.ListView_remove_by_index_table(itemIndexTable)
 	end
 end
 
+--设置全选是否生效
+function CShapListView.Strip_menu_set_allsel_enable(enable)
+	if Strip_menu_set_allsel_enable then
+		Strip_menu_set_allsel_enable(enable)
+	end
+end
+--设置拷贝是否生效
+function CShapListView.Strip_menu_set_copy_enable(enable)
+	if Strip_menu_set_copy_enable then
+		Strip_menu_set_copy_enable(enable)
+	end
+end
+
+--设置粘贴是否生效
+function CShapListView.Strip_menu_set_paste_enable(enable)
+	if Strip_menu_set_paste_enable then
+		Strip_menu_set_paste_enable(enable)
+	end
+end
+
+--设置删除是否生效
+function CShapListView.Strip_menu_set_delete_enable(enable)
+	if Strip_menu_set_delete_enable then
+		Strip_menu_set_delete_enable(enable)
+	end
+end
+
 local initListView = function()
 	CShapListView.ListView_add_columns(CSFun.Utf8ToDefault("序号(全选~)"), 80)
 	CShapListView.ListView_add_columns(CSFun.Utf8ToDefault("Cookie"), 230)

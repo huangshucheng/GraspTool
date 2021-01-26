@@ -75,10 +75,5 @@ namespace CopyData
         public string GetFidderString(){
             return this._stringCache;
         }
-
-        private void 删除ToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

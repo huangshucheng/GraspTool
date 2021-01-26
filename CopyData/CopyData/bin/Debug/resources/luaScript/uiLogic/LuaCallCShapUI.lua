@@ -126,4 +126,18 @@ function LuaCallCShapUI.SetProxyLinkUrl(urlStr)
 	end
 end
 
+--设置卡包次数
+function LuaCallCShapUI.SetKaBaoCount(count)
+	if SetKaBaoCount then
+		SetKaBaoCount(count)
+	end
+end
+
+--获取卡包次数
+function LuaCallCShapUI.GetKaBaoCount()
+	if GetKaBaoCount then
+		return GetKaBaoCount()
+	end
+end
+
 return LuaCallCShapUI

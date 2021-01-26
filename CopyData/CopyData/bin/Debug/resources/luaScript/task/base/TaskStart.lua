@@ -151,6 +151,7 @@ function TaskStart.onChangeActivity(actIndex)
 			TaskData.setCurTask(cur_task_obj) --设置当前执行的任务对象
 		else
 			print(tostring(CSFun.Utf8ToDefault("加载活动失败! ,[" .. actName .. "]  \n")) .. tostring(cur_task_obj))
+			TaskData.setCurTask(nil)
 		end
 		TaskStart.onChangeTaskData(activityTable)
 	end
@@ -169,6 +170,13 @@ function TaskStart.onChangeTaskData(activityTable)
 	--清理二维码
 	LuaCallCShapUI.ClearQRCode()
 	LuaCallCShapUI.SetQRCodeString("")
+
+	local curTaskObj = TaskData.getCurTask()
+	if curTaskObj then
+		local curKaBaoCount = curTaskObj:getKaBaoCount()
+		LuaCallCShapUI.SetKaBaoCount(curKaBaoCount)
+		print("curKaBaoCount: " .. tostring(curKaBaoCount))
+	end
 
 	--切换二维码
 	local qrCodeStr = activityTable.qrcode or ""

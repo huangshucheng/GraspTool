@@ -93,7 +93,7 @@ function ListView_on_copy_click()
 	if not next(selIndexTable) then
 		return
 	end
-	dump(selIndexTable,"selIndexTable")
+	-- dump(selIndexTable,"selIndexTable")
 	local FindData = require("resources.luaScript.data.FindData")
 	local findList = FindData:getInstance():getTokenList()
 	local selTable = {}
@@ -214,5 +214,29 @@ function onClickCheckProxy()
 				end
 			end)
 		end
+	end
+end
+
+--Listview打开了右键选项
+function ListView_on_menu_strip_open()
+	CShapListView.Strip_menu_set_allsel_enable(true)
+	local selIndexTable = CShapListView.ListView_get_select_index()
+	local isPasteEnable = #selIndexTable > 0
+	CShapListView.Strip_menu_set_copy_enable(isPasteEnable)
+	CShapListView.Strip_menu_set_delete_enable(isPasteEnable)
+
+	local clipBoardData = CSFun.GetClipBoardData() or ""
+	clipBoardData = StringUtils.trim(clipBoardData)
+	-- print("clipBoardData")
+	-- print(clipBoardData)
+	if clipBoardData and clipBoardData ~= "" then
+		local ok , ret_table = pcall(function()
+			return json.decode(clipBoardData)
+		end)
+		if ok and next(ret_table) then
+			CShapListView.Strip_menu_set_paste_enable(true)
+		end
+	else
+		CShapListView.Strip_menu_set_paste_enable(false)
 	end
 end

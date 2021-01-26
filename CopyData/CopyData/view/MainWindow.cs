@@ -53,6 +53,8 @@ namespace CopyData
             _luaScript.RegisterFunction("SetLogLineCountLimie", this, GetType().GetMethod("SetLogLineCountLimie")); //设置日志行数限制
             _luaScript.RegisterFunction("GetProxyString", this, GetType().GetMethod("GetProxyString")); //获取代理IP文本内容
             _luaScript.RegisterFunction("SetProxyLinkUrl", this, GetType().GetMethod("SetProxyLinkUrl")); //设置日志显示连接
+            _luaScript.RegisterFunction("SetKaBaoCount", this, GetType().GetMethod("SetKaBaoCount")); //设置卡包次数
+            _luaScript.RegisterFunction("GetKaBaoCount", this, GetType().GetMethod("GetKaBaoCount")); //获取卡包次数
 
             //静态方法
             _luaScript.RegisterFunction("GetCurDir", null, typeof(LuaCall).GetMethod("GetCurDir")); //获取当前exe文件位置
@@ -318,6 +320,16 @@ namespace CopyData
         public decimal GetReqDelayTime()
         {
             return numUDDelay.Value;
+        }
+
+        //获取卡包次数
+        public decimal GetKaBaoCount() {
+            return numeric_kabao_count.Value;
+        }
+
+        //设置卡包次数
+        public void SetKaBaoCount(int count) {
+            numeric_kabao_count.Value = count;
         }
 
         //清理输出日志

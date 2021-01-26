@@ -62,10 +62,12 @@
             this.text_box_ip_info = new System.Windows.Forms.RichTextBox();
             this.text_link_label = new System.Windows.Forms.LinkLabel();
             this.context_menu_strip_list = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.全选ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.复制ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.粘贴ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.删除ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.strip_menu_item_sel_all = new System.Windows.Forms.ToolStripMenuItem();
+            this.strip_menu_item_copy = new System.Windows.Forms.ToolStripMenuItem();
+            this.strip_menu_item_paste = new System.Windows.Forms.ToolStripMenuItem();
+            this.strip_menu_item_delete = new System.Windows.Forms.ToolStripMenuItem();
+            this.label6 = new System.Windows.Forms.Label();
+            this.numeric_kabao_count = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.numUDDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUrl)).BeginInit();
             this.tab_proxy_ip.SuspendLayout();
@@ -73,6 +75,7 @@
             this.tab_qr_code.SuspendLayout();
             this.tab_jiema.SuspendLayout();
             this.context_menu_strip_list.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numeric_kabao_count)).BeginInit();
             this.SuspendLayout();
             // 
             // richTextBoxLog
@@ -102,7 +105,7 @@
             // btnStartCatch
             // 
             this.btnStartCatch.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnStartCatch.Location = new System.Drawing.Point(833, 127);
+            this.btnStartCatch.Location = new System.Drawing.Point(779, 152);
             this.btnStartCatch.Name = "btnStartCatch";
             this.btnStartCatch.Size = new System.Drawing.Size(90, 30);
             this.btnStartCatch.TabIndex = 7;
@@ -113,11 +116,11 @@
             // btnStopCatch
             // 
             this.btnStopCatch.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnStopCatch.Location = new System.Drawing.Point(833, 83);
+            this.btnStopCatch.Location = new System.Drawing.Point(663, 152);
             this.btnStopCatch.Name = "btnStopCatch";
             this.btnStopCatch.Size = new System.Drawing.Size(90, 30);
             this.btnStopCatch.TabIndex = 8;
-            this.btnStopCatch.Text = "停止操作";
+            this.btnStopCatch.Text = "停止";
             this.btnStopCatch.UseVisualStyleBackColor = true;
             this.btnStopCatch.Click += new System.EventHandler(this.btnStopCatch_Click);
             // 
@@ -211,7 +214,7 @@
             0,
             0,
             65536});
-            this.numUDDelay.Location = new System.Drawing.Point(853, 42);
+            this.numUDDelay.Location = new System.Drawing.Point(849, 46);
             this.numUDDelay.Name = "numUDDelay";
             this.numUDDelay.Size = new System.Drawing.Size(70, 23);
             this.numUDDelay.TabIndex = 18;
@@ -222,7 +225,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(809, 47);
+            this.label1.Location = new System.Drawing.Point(802, 47);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(35, 14);
             this.label1.TabIndex = 19;
@@ -307,11 +310,11 @@
             // btnCatchSel
             // 
             this.btnCatchSel.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnCatchSel.Location = new System.Drawing.Point(655, 127);
+            this.btnCatchSel.Location = new System.Drawing.Point(663, 116);
             this.btnCatchSel.Name = "btnCatchSel";
             this.btnCatchSel.Size = new System.Drawing.Size(90, 30);
             this.btnCatchSel.TabIndex = 28;
-            this.btnCatchSel.Text = "选中操作";
+            this.btnCatchSel.Text = "选中执行";
             this.btnCatchSel.UseVisualStyleBackColor = true;
             this.btnCatchSel.Click += new System.EventHandler(this.btnCatchSel_Click);
             // 
@@ -461,46 +464,81 @@
             // context_menu_strip_list
             // 
             this.context_menu_strip_list.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.全选ToolStripMenuItem,
-            this.复制ToolStripMenuItem,
-            this.粘贴ToolStripMenuItem,
-            this.删除ToolStripMenuItem1});
+            this.strip_menu_item_sel_all,
+            this.strip_menu_item_copy,
+            this.strip_menu_item_paste,
+            this.strip_menu_item_delete});
             this.context_menu_strip_list.Name = "context_menu_strip_list";
             this.context_menu_strip_list.Size = new System.Drawing.Size(101, 92);
+            this.context_menu_strip_list.Opening += new System.ComponentModel.CancelEventHandler(this.context_menu_strip_list_Opening);
             // 
-            // 全选ToolStripMenuItem
+            // strip_menu_item_sel_all
             // 
-            this.全选ToolStripMenuItem.Name = "全选ToolStripMenuItem";
-            this.全选ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
-            this.全选ToolStripMenuItem.Text = "全选";
-            this.全选ToolStripMenuItem.Click += new System.EventHandler(this.全选ToolStripMenuItem_Click);
+            this.strip_menu_item_sel_all.Name = "strip_menu_item_sel_all";
+            this.strip_menu_item_sel_all.Size = new System.Drawing.Size(100, 22);
+            this.strip_menu_item_sel_all.Text = "全选";
+            this.strip_menu_item_sel_all.Click += new System.EventHandler(this.ToolStripMenuItem_all_sel_Click);
             // 
-            // 复制ToolStripMenuItem
+            // strip_menu_item_copy
             // 
-            this.复制ToolStripMenuItem.Name = "复制ToolStripMenuItem";
-            this.复制ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
-            this.复制ToolStripMenuItem.Text = "复制";
-            this.复制ToolStripMenuItem.Click += new System.EventHandler(this.复制ToolStripMenuItem_Click);
+            this.strip_menu_item_copy.Enabled = false;
+            this.strip_menu_item_copy.Name = "strip_menu_item_copy";
+            this.strip_menu_item_copy.Size = new System.Drawing.Size(100, 22);
+            this.strip_menu_item_copy.Text = "复制";
+            this.strip_menu_item_copy.Click += new System.EventHandler(this.ToolStripMenuItem_copy_Click);
             // 
-            // 粘贴ToolStripMenuItem
+            // strip_menu_item_paste
             // 
-            this.粘贴ToolStripMenuItem.Name = "粘贴ToolStripMenuItem";
-            this.粘贴ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
-            this.粘贴ToolStripMenuItem.Text = "粘贴";
-            this.粘贴ToolStripMenuItem.Click += new System.EventHandler(this.粘贴ToolStripMenuItem_Click);
+            this.strip_menu_item_paste.Enabled = false;
+            this.strip_menu_item_paste.Name = "strip_menu_item_paste";
+            this.strip_menu_item_paste.Size = new System.Drawing.Size(100, 22);
+            this.strip_menu_item_paste.Text = "粘贴";
+            this.strip_menu_item_paste.Click += new System.EventHandler(this.ToolStripMenuItem_paste_Click);
             // 
-            // 删除ToolStripMenuItem1
+            // strip_menu_item_delete
             // 
-            this.删除ToolStripMenuItem1.Name = "删除ToolStripMenuItem1";
-            this.删除ToolStripMenuItem1.Size = new System.Drawing.Size(100, 22);
-            this.删除ToolStripMenuItem1.Text = "删除";
-            this.删除ToolStripMenuItem1.Click += new System.EventHandler(this.删除ToolStripMenuItem_Click);
+            this.strip_menu_item_delete.Enabled = false;
+            this.strip_menu_item_delete.Name = "strip_menu_item_delete";
+            this.strip_menu_item_delete.Size = new System.Drawing.Size(100, 22);
+            this.strip_menu_item_delete.Text = "删除";
+            this.strip_menu_item_delete.Click += new System.EventHandler(this.ToolStripMenuItem_delete_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label6.Location = new System.Drawing.Point(802, 83);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(35, 28);
+            this.label6.TabIndex = 33;
+            this.label6.Text = "卡包\r\n次数";
+            // 
+            // numeric_kabao_count
+            // 
+            this.numeric_kabao_count.Font = new System.Drawing.Font("宋体", 11F, System.Drawing.FontStyle.Bold);
+            this.numeric_kabao_count.Location = new System.Drawing.Point(849, 86);
+            this.numeric_kabao_count.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numeric_kabao_count.Name = "numeric_kabao_count";
+            this.numeric_kabao_count.Size = new System.Drawing.Size(70, 24);
+            this.numeric_kabao_count.TabIndex = 34;
+            this.numeric_kabao_count.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numeric_kabao_count.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // HccWindowdGraspTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(935, 824);
+            this.Controls.Add(this.numeric_kabao_count);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.text_link_label);
             this.Controls.Add(this.text_box_ip_info);
             this.Controls.Add(this.tab_control);
@@ -532,6 +570,7 @@
             this.tab_jiema.ResumeLayout(false);
             this.tab_jiema.PerformLayout();
             this.context_menu_strip_list.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numeric_kabao_count)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -570,10 +609,12 @@
         private System.Windows.Forms.TextBox text_box_proxy_ip;
         private System.Windows.Forms.TabPage tab_qr_code;
         private System.Windows.Forms.ContextMenuStrip context_menu_strip_list;
-        private System.Windows.Forms.ToolStripMenuItem 全选ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 复制ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 粘贴ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 删除ToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem strip_menu_item_sel_all;
+        private System.Windows.Forms.ToolStripMenuItem strip_menu_item_copy;
+        private System.Windows.Forms.ToolStripMenuItem strip_menu_item_paste;
+        private System.Windows.Forms.ToolStripMenuItem strip_menu_item_delete;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.NumericUpDown numeric_kabao_count;
     }
 }
 
