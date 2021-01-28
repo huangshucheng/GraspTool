@@ -1,4 +1,4 @@
---[[任务配置类，其他任务可由本任务配置继承拓展, 任务配置，管理者很多个httpTask的配置]]
+--[[任务配置类，其他任务可由本任务配置继承拓展, 任务配置，管理着很多个httpTask的配置]]
 
 local TaskBase 		= class("TaskBase")
 local Define 		= require("resources.luaScript.config.Define")
@@ -10,7 +10,7 @@ TaskBase.GET 		= Define.Method.GET
 TaskBase.POST 		= Define.Method.POST
 
 TaskBase.CUR_TASK_TITLE 		= ""  --当前任务标题
-TaskBase.FIND_STRING_HOST 		= ""  --域名，方便查找token, 如：hbz.qrmkt.cn
+TaskBase.FIND_STRING_HOST 		= ""  --域名，方便查找token, 如：hbz.qrmkt.cn, 有-的域名，找不出来，需要用-去掉的子串
 TaskBase.FILE_SAVE_NAME 		= ""  --保存本地token文件名字，如: token.lua
 TaskBase.RECORD_SAVE_FILE_NAME 	= ""  --交互记录文件, 如：token_record_url.lua
 TaskBase.DATA_TO_FIND_ARRAY 	= {}  --请求头中要查找的字段，如：token, Cookie

@@ -81,13 +81,15 @@ function WebSocket_OnSocketData()
 				local tmpCurTask = TaskData.getCurTask()
 				if tmpCurTask then
 					local host_to_find = tmpCurTask:getHost()
-					--print("host_to_find: " .. tostring(host_to_find))
 					local host_req = out_msg["ReqHost"]
+					-- print("host_to_find: " .. tostring(host_to_find) .. " ,req_hose: " .. host_req)
 					if host_req and host_to_find and host_to_find ~= "" then
-						if string.find(host_req, host_to_find) then
+						if string.match(host_req, host_to_find) then --是否当前查找的域名
+							-- print("find>>>>>>>>>>>>>>>>>>>>>>>>>>")
 							DealHttpReqData:getInstance():recordHeaderData(v)
 							--抓取reqBody
 							DealHttpReqData:getInstance():dealReqBody(out_msg)
+							DealHttpReqData:getInstance():saveToLocalFile(websocket_data)
 						end
 					end
 				end

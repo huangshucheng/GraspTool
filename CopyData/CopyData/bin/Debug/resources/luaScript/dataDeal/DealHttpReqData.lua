@@ -27,6 +27,7 @@ end
 --记录请求头数据
 --参数：table
 function DealHttpReqData:recordHeaderData(header_table)
+	-- dump(header_table,"hcc>>header_table")
 	if not header_table or not next(header_table) then
 		return
 	end
@@ -65,6 +66,21 @@ function DealHttpReqData:dealReqBody(out_msg_table)
 			curTask:onReqBodyFind(reqBody)
 		end
 	end
+end
+
+--保存到本地
+function DealHttpReqData:saveToLocalFile(websocket_data_str)
+	local tmpCurTask = TaskData.getCurTask()
+	if not tmpCurTask then
+		print(CSFun.Utf8ToDefault("还没指定任务!"))
+		return
+	end
+
+	if not tmpCurTask:getIsRecord() then
+		return
+	end
+
+	FindData:getInstance():saveGraspData(websocket_data_str)
 end
 
 return DealHttpReqData

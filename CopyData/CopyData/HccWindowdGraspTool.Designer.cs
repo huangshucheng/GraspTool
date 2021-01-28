@@ -68,6 +68,8 @@
             this.strip_menu_item_delete = new System.Windows.Forms.ToolStripMenuItem();
             this.label6 = new System.Windows.Forms.Label();
             this.numeric_kabao_count = new System.Windows.Forms.NumericUpDown();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.numUDDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUrl)).BeginInit();
             this.tab_proxy_ip.SuspendLayout();
@@ -76,6 +78,8 @@
             this.tab_jiema.SuspendLayout();
             this.context_menu_strip_list.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numeric_kabao_count)).BeginInit();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBoxLog
@@ -105,9 +109,9 @@
             // btnStartCatch
             // 
             this.btnStartCatch.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnStartCatch.Location = new System.Drawing.Point(829, 152);
+            this.btnStartCatch.Location = new System.Drawing.Point(174, 10);
             this.btnStartCatch.Name = "btnStartCatch";
-            this.btnStartCatch.Size = new System.Drawing.Size(90, 30);
+            this.btnStartCatch.Size = new System.Drawing.Size(90, 35);
             this.btnStartCatch.TabIndex = 7;
             this.btnStartCatch.Text = "全部执行";
             this.btnStartCatch.UseVisualStyleBackColor = true;
@@ -116,9 +120,9 @@
             // btnStopCatch
             // 
             this.btnStopCatch.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnStopCatch.Location = new System.Drawing.Point(663, 152);
+            this.btnStopCatch.Location = new System.Drawing.Point(18, 57);
             this.btnStopCatch.Name = "btnStopCatch";
-            this.btnStopCatch.Size = new System.Drawing.Size(90, 30);
+            this.btnStopCatch.Size = new System.Drawing.Size(90, 35);
             this.btnStopCatch.TabIndex = 8;
             this.btnStopCatch.Text = "停止";
             this.btnStopCatch.UseVisualStyleBackColor = true;
@@ -154,7 +158,7 @@
             this.checkAutoGraspCk.Checked = true;
             this.checkAutoGraspCk.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkAutoGraspCk.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.checkAutoGraspCk.Location = new System.Drawing.Point(654, 47);
+            this.checkAutoGraspCk.Location = new System.Drawing.Point(3, 53);
             this.checkAutoGraspCk.Name = "checkAutoGraspCk";
             this.checkAutoGraspCk.Size = new System.Drawing.Size(91, 20);
             this.checkAutoGraspCk.TabIndex = 14;
@@ -167,11 +171,11 @@
             this.checkAutoDoAct.AutoSize = true;
             this.checkAutoDoAct.BackColor = System.Drawing.Color.LightGray;
             this.checkAutoDoAct.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.checkAutoDoAct.Location = new System.Drawing.Point(654, 83);
+            this.checkAutoDoAct.Location = new System.Drawing.Point(3, 89);
             this.checkAutoDoAct.Name = "checkAutoDoAct";
-            this.checkAutoDoAct.Size = new System.Drawing.Size(107, 20);
+            this.checkAutoDoAct.Size = new System.Drawing.Size(91, 20);
             this.checkAutoDoAct.TabIndex = 15;
-            this.checkAutoDoAct.Text = "自动做任务";
+            this.checkAutoDoAct.Text = "自动执行";
             this.checkAutoDoAct.UseVisualStyleBackColor = false;
             this.checkAutoDoAct.CheckedChanged += new System.EventHandler(this.checkAutoDoAct_CheckedChanged);
             // 
@@ -182,7 +186,7 @@
             this.chckSound.Checked = true;
             this.chckSound.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chckSound.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.chckSound.Location = new System.Drawing.Point(654, 10);
+            this.chckSound.Location = new System.Drawing.Point(3, 12);
             this.chckSound.Name = "chckSound";
             this.chckSound.Size = new System.Drawing.Size(75, 20);
             this.chckSound.TabIndex = 16;
@@ -214,7 +218,7 @@
             0,
             0,
             65536});
-            this.numUDDelay.Location = new System.Drawing.Point(849, 46);
+            this.numUDDelay.Location = new System.Drawing.Point(201, 51);
             this.numUDDelay.Name = "numUDDelay";
             this.numUDDelay.Size = new System.Drawing.Size(70, 23);
             this.numUDDelay.TabIndex = 18;
@@ -224,10 +228,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(802, 47);
+            this.label1.Font = new System.Drawing.Font("宋体", 12F);
+            this.label1.Location = new System.Drawing.Point(151, 54);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 14);
+            this.label1.Size = new System.Drawing.Size(40, 16);
             this.label1.TabIndex = 19;
             this.label1.Text = "延时";
             // 
@@ -238,9 +242,9 @@
             this.comboBoxActList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxActList.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.comboBoxActList.FormattingEnabled = true;
-            this.comboBoxActList.Location = new System.Drawing.Point(779, 9);
+            this.comboBoxActList.Location = new System.Drawing.Point(128, 11);
             this.comboBoxActList.Name = "comboBoxActList";
-            this.comboBoxActList.Size = new System.Drawing.Size(150, 27);
+            this.comboBoxActList.Size = new System.Drawing.Size(145, 27);
             this.comboBoxActList.TabIndex = 22;
             this.comboBoxActList.TabStop = false;
             this.comboBoxActList.SelectedIndexChanged += new System.EventHandler(this.comboBoxActList_SelectedIndexChanged);
@@ -249,7 +253,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(741, 7);
+            this.label3.Location = new System.Drawing.Point(90, 9);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(35, 28);
             this.label3.TabIndex = 23;
@@ -310,9 +314,9 @@
             // btnCatchSel
             // 
             this.btnCatchSel.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnCatchSel.Location = new System.Drawing.Point(663, 116);
+            this.btnCatchSel.Location = new System.Drawing.Point(17, 10);
             this.btnCatchSel.Name = "btnCatchSel";
-            this.btnCatchSel.Size = new System.Drawing.Size(90, 30);
+            this.btnCatchSel.Size = new System.Drawing.Size(90, 35);
             this.btnCatchSel.TabIndex = 28;
             this.btnCatchSel.Text = "选中执行";
             this.btnCatchSel.UseVisualStyleBackColor = true;
@@ -396,7 +400,7 @@
             this.tab_control.Controls.Add(this.tab_qr_code);
             this.tab_control.Controls.Add(this.tab_proxy_ip);
             this.tab_control.Controls.Add(this.tab_jiema);
-            this.tab_control.Location = new System.Drawing.Point(663, 188);
+            this.tab_control.Location = new System.Drawing.Point(659, 387);
             this.tab_control.Name = "tab_control";
             this.tab_control.SelectedIndex = 0;
             this.tab_control.Size = new System.Drawing.Size(260, 297);
@@ -506,19 +510,19 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label6.Location = new System.Drawing.Point(802, 83);
+            this.label6.Font = new System.Drawing.Font("宋体", 12F);
+            this.label6.Location = new System.Drawing.Point(118, 93);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(35, 28);
+            this.label6.Size = new System.Drawing.Size(72, 16);
             this.label6.TabIndex = 33;
-            this.label6.Text = "卡包\r\n次数";
+            this.label6.Text = "卡包次数";
             // 
             // numeric_kabao_count
             // 
             this.numeric_kabao_count.Font = new System.Drawing.Font("宋体", 11F, System.Drawing.FontStyle.Bold);
-            this.numeric_kabao_count.Location = new System.Drawing.Point(849, 86);
+            this.numeric_kabao_count.Location = new System.Drawing.Point(201, 88);
             this.numeric_kabao_count.Maximum = new decimal(new int[] {
-            1000,
+            10000,
             0,
             0,
             0});
@@ -532,30 +536,48 @@
             0,
             0});
             // 
+            // panel1
+            // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.btnCatchSel);
+            this.panel1.Controls.Add(this.btnStopCatch);
+            this.panel1.Controls.Add(this.btnStartCatch);
+            this.panel1.Location = new System.Drawing.Point(648, 153);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(280, 103);
+            this.panel1.TabIndex = 35;
+            // 
+            // panel2
+            // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel2.Controls.Add(this.chckSound);
+            this.panel2.Controls.Add(this.checkAutoGraspCk);
+            this.panel2.Controls.Add(this.checkAutoDoAct);
+            this.panel2.Controls.Add(this.numeric_kabao_count);
+            this.panel2.Controls.Add(this.numUDDelay);
+            this.panel2.Controls.Add(this.label6);
+            this.panel2.Controls.Add(this.label1);
+            this.panel2.Controls.Add(this.comboBoxActList);
+            this.panel2.Controls.Add(this.label3);
+            this.panel2.Location = new System.Drawing.Point(648, 4);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(281, 133);
+            this.panel2.TabIndex = 36;
+            // 
             // HccWindowdGraspTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(935, 824);
-            this.Controls.Add(this.numeric_kabao_count);
-            this.Controls.Add(this.label6);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.text_link_label);
             this.Controls.Add(this.text_box_ip_info);
             this.Controls.Add(this.tab_control);
-            this.Controls.Add(this.btnCatchSel);
             this.Controls.Add(this.listViewToken);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.comboBoxActList);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.numUDDelay);
             this.Controls.Add(this.checkShowLog);
-            this.Controls.Add(this.chckSound);
-            this.Controls.Add(this.checkAutoDoAct);
-            this.Controls.Add(this.checkAutoGraspCk);
             this.Controls.Add(this.check_btn_log);
             this.Controls.Add(this.btnFinishCatch);
-            this.Controls.Add(this.btnStopCatch);
-            this.Controls.Add(this.btnStartCatch);
             this.Controls.Add(this.btnClearLog);
             this.Controls.Add(this.richTextBoxLog);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -571,6 +593,9 @@
             this.tab_jiema.PerformLayout();
             this.context_menu_strip_list.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numeric_kabao_count)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -615,6 +640,8 @@
         private System.Windows.Forms.ToolStripMenuItem strip_menu_item_delete;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.NumericUpDown numeric_kabao_count;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
     }
 }
 

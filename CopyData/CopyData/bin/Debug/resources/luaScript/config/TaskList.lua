@@ -28,10 +28,15 @@ TaskList.ActMapTable = {
 		qrcode = "",
 	},
 	{
-		name = "测试活动",
-		script = "resources.luaScript.task.TaskRun",
-		qrcode = "juemuren_dev",
+		name = "中信银行",
+		script = "resources.luaScript.task.TaskZhongXinYinHang",
+		qrcode = "",
 	},
+	-- {
+	-- 	name = "测试活动",
+	-- 	script = "resources.luaScript.task.TaskRun",
+	-- 	qrcode = "juemuren_dev",
+	-- },
 }
 
 return TaskList

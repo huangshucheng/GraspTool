@@ -237,9 +237,10 @@ function FindData:saveGraspData(data)
 	if not tmpCurTask:getIsRecord() then
 		return
 	end
+	local time_str =os.date("%Y-%m-%d %H:%M:%S");
 	local fileName = self:getGraspFileName()
-	CSFun.AppendLine(fileName, data);
-	CSFun.AppendLine(fileName, "--------------------------------------------\n");
+	CSFun.AppendLine(fileName, time_str)
+	CSFun.AppendLine(fileName, data)
 end
 
 return FindData

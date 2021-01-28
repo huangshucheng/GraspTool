@@ -245,7 +245,7 @@ namespace CopyData
                     tmpUrl = this._fullUrl + "&" + _urlBody;
                 }
                 else{
-                    tmpUrl = this._fullUrl + "/?" + _urlBody;
+                    tmpUrl = this._fullUrl + "?" + _urlBody;
                 }
             }
             System.GC.Collect();    //强制进行即时垃圾回收。
@@ -314,7 +314,7 @@ namespace CopyData
                     tmpUrl = this._fullUrl + "&" + _urlBody;
                 }
                 else {
-                    tmpUrl = this._fullUrl + "/?" + _urlBody;
+                    tmpUrl = this._fullUrl + "?" + _urlBody;
                 }
             }
             System.GC.Collect();    //强制进行即时垃圾回收。
