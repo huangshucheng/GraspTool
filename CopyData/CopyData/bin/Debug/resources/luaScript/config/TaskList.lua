@@ -8,9 +8,14 @@ TaskList.ActMapTable = {
 		qrcode = "http://hcc.hccfun.com/qr_code_proxy_2.png",--设置手机代理的 二维码URL
 	},
 	{
-		name = "广安储蓄有礼", --活动名称
-		script = "resources.luaScript.task.TaskGACXYL", --活动控制脚本
-		qrcode = "", --活动二维码（公众号名字）
+		name = "东海农商",
+		script = "resources.luaScript.task.TaskNongShang_DongHai",
+		qrcode = "jsdhnsyh",
+	},
+	{
+		name = "扬州农商",
+		script = "resources.luaScript.task.TaskNongShang_YangZhou",
+		qrcode = "yznsyh96008",
 	},
 	{
 		name = "钻石活动", --活动名称
@@ -23,8 +28,23 @@ TaskList.ActMapTable = {
 		qrcode = "HP-MSA",
 	},
 	{
-		name = "中信银行",
-		script = "resources.luaScript.task.TaskZhongXinYinHang",
+		name = "通用活动",
+		script = "resources.luaScript.task.TaskCommon",
+		qrcode = "",
+	},
+	{
+		name = "开车开始~",
+		script = "resources.luaScript.task.TaskCM_KaiChe_Start",
+		qrcode = "",
+	},
+	{
+		name = "开车完成~",
+		script = "resources.luaScript.task.TaskCM_KaiChe_End",
+		qrcode = "",
+	},
+	{
+		name = "开车后抽奖~",
+		script = "resources.luaScript.task.TaskCM_KaiChe_ChouJiang",
 		qrcode = "",
 	},
 }

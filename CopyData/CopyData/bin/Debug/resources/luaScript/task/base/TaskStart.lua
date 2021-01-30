@@ -25,7 +25,11 @@ function TaskStart.start()
 	if topToken then
 		local taskListTop = tmpCurTask:getTop()
 		taskListTop:setUserData(tokenIndex)
-		taskListTop:addHeader(topToken)
+		if tmpCurTask:isUseFullReqData() then
+			taskListTop:initWithLocalSaveData(topToken)
+		else
+			taskListTop:addHeader(topToken)
+		end
 		taskListTop:addCallback(TaskStart.onResponseCallBack)
 		taskListTop:start()
 	end
@@ -44,7 +48,11 @@ function TaskStart.startEnd()
 	if lastToken then
 		local taskListTop = tmpCurTask:getTop()
 		taskListTop:setUserData(tokenIndex)
-		taskListTop:addHeader(lastToken)
+		if tmpCurTask:isUseFullReqData() then
+			taskListTop:initWithLocalSaveData(lastToken)
+		else
+			taskListTop:addHeader(lastToken)	
+		end
 		taskListTop:addCallback(TaskStart.onResponseCallBack)
 		taskListTop:start()
 	end
@@ -62,7 +70,7 @@ end
 function TaskStart.onResponseCallBack(httpRes, taskCur)
 	--第一个任务执行次数到了，执行下一个任务
 	local tmpCurTask = TaskData.getCurTask()
-	if not tmpCurTask then  return end
+	if not tmpCurTask then return end
 	local date = os.date("%H:%M:%S")
 	httpRes = StringUtils.nullOrEmpty(httpRes) and CSFun.Utf8ToDefault("空~") or httpRes
 	local tmpLogStr = CSFun.Utf8ToDefault("[" .. tmpCurTask:getTitle() .. ">>" .. taskCur:getUserData() .. "]>> " .. taskCur:getTaskName() .. " ,返回:  ")
@@ -80,7 +88,11 @@ function TaskStart.onResponseCallBack(httpRes, taskCur)
 		if taskNext then 
 			--找到了下一个任务，继续用当前用户的token执行下一个任务
 			taskNext:setUserData(taskCur:getUserData())
-			taskNext:addHeader(taskCur:getHeader())
+			if tmpCurTask:isUseFullReqData() then
+				taskNext:initWithLocalSaveData(taskCur:getHeader())
+			else
+				taskNext:addHeader(taskCur:getHeader())	
+			end
 			taskNext:setIsContinue(taskCur:getIsContinue())
 			tmpCurTask:onNextTask(taskNext, taskCur)
 			taskNext:addCallback(TaskStart.onResponseCallBack)
@@ -102,7 +114,11 @@ function TaskStart.onResponseCallBack(httpRes, taskCur)
 						local taskListTop = tmpCurTask:getTop()
 						taskListTop:setUserData(SELECT_CK_INDEX[nextTokenIndex])
 						taskListTop:setIsContinue(taskCur:getIsContinue()) --只执行当前token任务，不再继续执行下一个token任务
-						taskListTop:addHeader(token)
+						if tmpCurTask:isUseFullReqData() then
+							taskListTop:initWithLocalSaveData(token)
+						else
+							taskListTop:addHeader(token)	
+						end
 						taskListTop:addCallback(TaskStart.onResponseCallBack)
 						taskListTop:start()
 					end
@@ -117,7 +133,11 @@ function TaskStart.onResponseCallBack(httpRes, taskCur)
 					local taskListTop = tmpCurTask:getTop()
 					taskListTop:setUserData(nextTokenIndex)
 					taskListTop:setIsContinue(taskCur:getIsContinue())
-					taskListTop:addHeader(nextToken)
+					if tmpCurTask:isUseFullReqData() then
+						taskListTop:initWithLocalSaveData(nextToken)
+					else
+						taskListTop:addHeader(nextToken)
+					end
 					tmpCurTask:onNextTask(taskListTop, taskCur)
 					taskListTop:addCallback(TaskStart.onResponseCallBack)
 					taskListTop:start()
@@ -210,7 +230,11 @@ function TaskStart.doSelectAction()
 			local taskListTop = tmpCurTask:getTop()
 			taskListTop:setUserData(tokenIndex)
 			taskListTop:setIsContinue(false) --只执行当前token任务，不再继续执行下一个token任务
-			taskListTop:addHeader(token)
+			if tmpCurTask:isUseFullReqData() then
+				taskListTop:initWithLocalSaveData(token)
+			else
+				taskListTop:addHeader(token)	
+			end
 			taskListTop:addCallback(TaskStart.onResponseCallBack)
 			taskListTop:start()
 		end

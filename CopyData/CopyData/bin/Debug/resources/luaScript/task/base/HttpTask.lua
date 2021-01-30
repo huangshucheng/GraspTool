@@ -50,6 +50,15 @@ function HttpTask:initWithConfig(config)
 	self._isKaBao 		= config.isKabao or false
 end
 
+--用本地保存的http请求数据初始化
+function HttpTask:initWithLocalSaveData(configData)
+	configData 		= configData or {}
+	self._url 		= configData["ReqUrl"]
+	self._method 	= configData["Method"] == "POST" and 1 or 0
+	self._postBody 	= configData["ReqBody"] or ""
+	self:addHeader(configData["Headers"] or {})
+end
+
 function HttpTask:setUrl(url)
 	if not url then return self end
 	self._url = url

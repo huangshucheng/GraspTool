@@ -85,7 +85,7 @@ function WebSocket_OnSocketData()
 					-- print("host_to_find: " .. tostring(host_to_find) .. " ,req_hose: " .. host_req)
 					if host_req and host_to_find and host_to_find ~= "" then
 						if CSFun.IsSubString(host_req, host_to_find) then --是否当前查找的域名
-							DealHttpReqData:getInstance():recordHeaderData(v)
+							DealHttpReqData:getInstance():recordHeaderData(v, out_msg)
 							DealHttpReqData:getInstance():saveToLocalFile(websocket_data)
 						end
 					end

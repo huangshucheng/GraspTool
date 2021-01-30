@@ -9,14 +9,15 @@ local StringUtils 	= require("resources.luaScript.util.StringUtils")
 TaskBase.GET 		= Define.Method.GET
 TaskBase.POST 		= Define.Method.POST
 
-TaskBase.CUR_TASK_TITLE 		= ""  --当前任务标题
-TaskBase.FIND_STRING_HOST 		= ""  --域名，方便查找token, 如：hbz.qrmkt.cn, 有-的域名，找不出来，需要用-去掉的子串
-TaskBase.FILE_SAVE_NAME 		= ""  --保存本地token文件名字，如: token.lua
-TaskBase.RECORD_SAVE_FILE_NAME 	= ""  --交互记录文件, 如：token_record_url.lua
-TaskBase.DATA_TO_FIND_ARRAY 	= {}  --请求头中要查找的字段，如：token, Cookie
+TaskBase.CUR_TASK_TITLE 		= ""          --当前任务标题
+TaskBase.FIND_STRING_HOST 		= ""          --域名，方便查找token, 如：hbz.qrmkt.cn, 有-的域名，找不出来，需要用-去掉的子串
+TaskBase.FILE_SAVE_NAME 		= ""          --保存本地token文件名字，如: token.lua
+TaskBase.RECORD_SAVE_FILE_NAME 	= ""          --交互记录文件, 如：token_record_url.lua
+TaskBase.DATA_TO_FIND_ARRAY 	= {}          --请求头中要查找的字段，如：token, Cookie
 TaskBase.IS_OPEN_RECORD 		= false 	  --是否抓取接口保存到本地
 TaskBase.ERQ_HEADER_EXT 		= {}          --额外的请求头,如：{["Refer"]="www.baidu.com"}
-TaskBase.DEFAULT_KABAO_COUNT 	= 50 	-- 默认卡包次数：50次，需要设置isKabao后才生效
+TaskBase.DEFAULT_KABAO_COUNT 	= 50 	      --默认卡包次数：50次，需要设置isKabao后才生效
+TaskBase.IS_USE_FULL_REQDATA 	= false       --是否保存当前完整的请求数据,下次用当前数据去请求
 
 local state_table = {
 	"未开始~","进行中~","已完成~"
@@ -24,29 +25,17 @@ local state_table = {
 
 --任务列表，例子
 TaskBase.TASK_LIST_URL_CONFIG = {
---[[
 	{
-		taskName = "签到",  --任务名
-		url = "hbz.qrmkt.cn/hbact/hyr/sign/doit",--任务URL
+		taskName = "抽奖~",  --任务名
+		url = "",--任务URL
 		method = TaskBase.GET, --请求方法
 		preTaskName = "",  --前置任务名
-		reqCount = 3, --请求次数
+		reqCount = 1, --请求次数
 		urlBody = "",  --URL参数
 		postBody = "",  --post参数
-		delay = 0.2, --延迟
+		delay = 0, --延迟
 		isKabao = false, --是否卡包，若此条请求需要手动设置卡包次数的话，就用界面上配置的请求次数，reqCount就不生效了
 	},
-	{
-		taskName = "开始学习", 
-		url = "hbz.qrmkt.cn/hbact/school/study/start",
-		method = TaskBase.POST, 
-		preTaskName = "签到", 
-		reqCount = 3,
-		urlBody = "", 
-		postBody = "", 
-		delay = 0.2,
-	},
-	]]
 }
 
 --taken 记录的文件名，如果活动脚本为：TaskDiamond.lua 那么则为TaskDiamond_token.lua
@@ -249,6 +238,11 @@ end
 --卡包次数
 function TaskBase:getDefaultKaBaoCount()
 	return self.DEFAULT_KABAO_COUNT
+end
+
+--是否保存当前完整的请求数据,下次用当前数据去请求
+function TaskBase:isUseFullReqData()
+	return self.IS_USE_FULL_REQDATA
 end
 
 return TaskBase

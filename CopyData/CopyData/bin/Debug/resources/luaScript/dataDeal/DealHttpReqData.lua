@@ -7,6 +7,7 @@ local FindData 		= require("resources.luaScript.data.FindData")
 local TaskData 		= require("resources.luaScript.data.TaskData")
 local UIConfigData  = require("resources.luaScript.data.UIConfigData")
 local TaskStart 	= require("resources.luaScript.task.base.TaskStart")
+local CSFun         = require("resources.luaScript.util.CSFun")
 
 function DealHttpReqData:getInstance()
 	if not DealHttpReqData._instance then
@@ -25,12 +26,64 @@ function DealHttpReqData:dealHeaderData(strData)
 end
 
 --记录请求头数据
---参数：table
-function DealHttpReqData:recordHeaderData(header_table)
-	-- dump(header_table,"hcc>>header_table")
+--参数：header_table: 请求头， all_msg_data: 请求的所有数据包括请求头
+function DealHttpReqData:recordHeaderData(header_table, all_msg_data)
+	local curTaskObj = TaskData.getCurTask()
+	if not curTaskObj then
+		return
+	end
+
 	if not header_table or not next(header_table) then
 		return
 	end
+
+	if curTaskObj:isUseFullReqData() then
+		self:dealHeaderWithAllReqData(all_msg_data)
+	else
+		self:dealHeaderReqData(header_table)
+	end
+end
+
+--保存全部请求信息
+function DealHttpReqData:dealHeaderWithAllReqData(all_msg_data)
+	if not all_msg_data or all_msg_data == "" or type(all_msg_data) ~= "table" then
+		return
+	end
+
+	if not next(all_msg_data) then
+		return
+	end
+	
+	local reqUrl = all_msg_data["ReqUrl"]
+	if not reqUrl then
+		return
+	end
+
+	local dataToFind = TaskData.getCurTask():getDataToFind()
+	if not dataToFind or  #dataToFind <= 0 then
+		return
+	end
+	for _, url in ipairs(dataToFind) do
+		local isSubStr = CSFun.IsSubString(reqUrl, url)
+		-- print("---------------------------")
+		-- print(reqUrl)
+		-- print(url)
+		-- print("usSubStr: " .. tostring(isSubStr))
+		-- print("---------------------------")
+		if isSubStr then
+			if not FindData:getInstance():isInFindList(all_msg_data) then
+				FindData:getInstance():addFindToken(all_msg_data)
+				if UIConfigData.getIsAutoDoAction() then
+					TaskStart.startEnd()
+				end
+			end
+			break
+		end
+	end
+end
+
+--只保存请求头的信息
+function DealHttpReqData:dealHeaderReqData(header_table)
 	local dataToFind = TaskData.getCurTask():getDataToFind()
 	if not dataToFind or  #dataToFind <= 0 then
 		return
