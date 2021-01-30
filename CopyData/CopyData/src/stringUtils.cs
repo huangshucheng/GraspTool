@@ -82,5 +82,10 @@ namespace CopyData
         public static bool StringCompare(string srcStr, string resStr){
             return string.Equals(srcStr, resStr);
         }
+
+        //是否是子串
+        public static bool IsSubString(string srcStr, string resStr) {
+            return srcStr.Contains(resStr);
+        }
     }
 }

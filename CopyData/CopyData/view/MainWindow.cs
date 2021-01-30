@@ -78,6 +78,7 @@ namespace CopyData
             _luaScript.RegisterFunction("Utf8ToDefault", null, typeof(StringUtils).GetMethod("Utf8ToDefault")); //字符串转码
             _luaScript.RegisterFunction("DefaultToUtf8", null, typeof(StringUtils).GetMethod("DefaultToUtf8")); //字符串转码
             _luaScript.RegisterFunction("StringCompare", null, typeof(StringUtils).GetMethod("StringCompare")); //字符串比较
+            _luaScript.RegisterFunction("IsSubString", null, typeof(StringUtils).GetMethod("IsSubString")); //是否是字符串子串
 
             /*
             string path1 = Environment.CurrentDirectory; //获取和设置当前目录（即该进程从中启动的目录）的完全限定路径。
@@ -107,6 +108,10 @@ namespace CopyData
 
             //LuaCall.CopyToClipBoard("hcccccccccccccccc");
             //var textttt =  LuaCall.GetClipBoard();
+            //var reqUrl = "https://engine.cdollar.cn/activity-engine/draw?sign=ad794687d551dae942fe873bc5b62662";
+            //var graspUrl = "https://engine.cdollar.cn/activity-engine/draw?";
+            //var isSubStr = reqUrl.Contains(graspUrl);
+            //Console.WriteLine(isSubStr);
         }
 
         /// ///////////////////////////////////
