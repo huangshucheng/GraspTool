@@ -11,7 +11,6 @@ local POST 	= TaskBase.POST
 TaskTMP.FIND_STRING_HOST 		= "cdjkh.cn"
 TaskTMP.DATA_TO_FIND_ARRAY 		= {"Cookie"}
 TaskTMP.IS_OPEN_RECORD 			= false
-TaskTMP.IS_WRITE_TOKEN_TO_POSTBODY = true --是否将token放到请求体里面
 TaskTMP.DEFAULT_KABAO_COUNT 	= 60 	-- 默认卡包次数，需要设置isKabao后才生效
 
 --额外的请求头,也可以不用配置
@@ -119,29 +118,5 @@ TaskTMP.TASK_LIST_URL_CONFIG = {
 		delay = 0,
 	},
 }
-
---找到了reqBody
-function TaskTMP:onReqBodyFind(reqBodyStr)
-	print("reqBodyStr" .. tostring(reqBodyStr))
-	local ok, ret_table = pcall(function()
-		return json.decode(reqBodyStr)
-	end)
-
-	if ok then
-		ret_table = ret_table or {}
-		local token_str = ret_table.token
-		if token_str then
-			-- print("token: " .. token_str)
-			local findTable = { ["token"] = token_str}
-			if not FindData:getInstance():isInFindList(findTable) then
-				FindData:getInstance():addFindToken(findTable)
-				--是否自动开始执行任务
-				if UIConfigData.getIsAutoDoAction() then
-					TaskStart.startEnd()
-				end
-			end
-		end
-	end
-end
 
 return TaskTMP

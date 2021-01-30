@@ -20,12 +20,12 @@ TaskTMP.ERQ_HEADER_EXT = {
 --任务列表
 TaskTMP.TASK_LIST_URL_CONFIG = {
 	{
-		curTaskName = "抽奖~", 
+		curTaskName = "抽奖~",
 		url = "http://huaxia.mktzr.com/api/lottery/lottery",
-		method = GET, 
+		method = GET,
 		reqCount = 1,
-		urlBody = "activityId=108&userId=16118534520179674659960227717692", 
-		postBody = "", 
+		urlBody = "activityId=108&userId=16118534520179674659960227717692",
+		postBody = "",
 		delay = 0,
 	},
 }

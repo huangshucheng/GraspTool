@@ -23,20 +23,10 @@ TaskList.ActMapTable = {
 		qrcode = "HP-MSA",
 	},
 	{
-		name = "华夏基金",
-		script = "resources.luaScript.task.TaskHXJJ",
-		qrcode = "",
-	},
-	{
 		name = "中信银行",
 		script = "resources.luaScript.task.TaskZhongXinYinHang",
 		qrcode = "",
 	},
-	-- {
-	-- 	name = "测试活动",
-	-- 	script = "resources.luaScript.task.TaskRun",
-	-- 	qrcode = "juemuren_dev",
-	-- },
 }
 
 return TaskList

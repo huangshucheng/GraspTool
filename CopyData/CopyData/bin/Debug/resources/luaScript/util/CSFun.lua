@@ -225,4 +225,13 @@ function CSFun.IsProxyCanUse(proxyUrl,callback)
 	end)
 end
 
+--resStr是否是srcStr的子串
+function CSFun.IsSubString(srcStr, resStr)
+	if srcStr and resStr then
+		if IsSubString then
+			return IsSubString(srcStr, resStr)
+		end
+	end
+end
+
 return CSFun

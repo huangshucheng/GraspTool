@@ -55,19 +55,6 @@ function DealHttpReqData:recordHeaderData(header_table)
 	end
 end
 
---处理请求body数据
---参数:table
-function DealHttpReqData:dealReqBody(out_msg_table)
-	out_msg_table = out_msg_table or {}
-	local reqBody = out_msg_table.ReqBody
-	if reqBody and reqBody ~= "" then
-		local curTask = TaskData.getCurTask()
-		if curTask then
-			curTask:onReqBodyFind(reqBody)
-		end
-	end
-end
-
 --保存到本地
 function DealHttpReqData:saveToLocalFile(websocket_data_str)
 	local tmpCurTask = TaskData.getCurTask()

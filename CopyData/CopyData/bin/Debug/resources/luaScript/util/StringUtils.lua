@@ -244,12 +244,3 @@ function StringUtils.split2(str,reps)
 end
 
 return StringUtils
-
---test
---[[
--- local sssss = split2("resources.luaScript.task.TaskGACXYL",".")
-local sssss = StringUtils.split2("","")
-for i,v in ipairs(sssss) do
-  print(i,v)
-end
---]]

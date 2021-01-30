@@ -44,5 +44,4 @@ TaskTMP.TASK_LIST_URL_CONFIG = {
 	},
 }
 
-
 return TaskTMP
