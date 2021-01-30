@@ -33,18 +33,8 @@ TaskList.ActMapTable = {
 		qrcode = "",
 	},
 	{
-		name = "开车开始~",
-		script = "resources.luaScript.task.TaskCM_KaiChe_Start",
-		qrcode = "",
-	},
-	{
-		name = "开车完成~",
-		script = "resources.luaScript.task.TaskCM_KaiChe_End",
-		qrcode = "",
-	},
-	{
-		name = "开车后抽奖~",
-		script = "resources.luaScript.task.TaskCM_KaiChe_ChouJiang",
+		name = "中荷人寿-开车~",
+		script = "resources.luaScript.task.TaskCM_KaiChe",
 		qrcode = "",
 	},
 }

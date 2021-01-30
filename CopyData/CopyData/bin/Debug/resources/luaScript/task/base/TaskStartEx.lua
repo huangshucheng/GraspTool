@@ -1,4 +1,4 @@
---[[任务启动脚本]]
+--[[任务启动脚本： 以保存的请求数据为主导，做请求]] 
 local FindData 		= require("resources.luaScript.data.FindData")
 local CSFun 		= require("resources.luaScript.util.CSFun")
 local StringUtils 	= require("resources.luaScript.util.StringUtils")
@@ -7,13 +7,14 @@ local Sound 		= require("resources.luaScript.util.Sound")
 local Define 		= require("resources.luaScript.config.Define")
 local TaskList 		= require("resources.luaScript.config.TaskList")
 local CShapListView = require("resources.luaScript.uiLogic.CShapListView")
+local TaskStartBase = require("resources.luaScript.task.base.TaskStart")
 local LuaCallCShapUI = require("resources.luaScript.uiLogic.LuaCallCShapUI")
 
-local TaskStart = class("TaskStart")
+local TaskStartEx = class("TaskStart",TaskStartBase)
 local SELECT_CK_INDEX = {} --选中的CK下标
 
 -- 根据任务的Url，找到任务配置（以保存的请求数据为主导，找任务的配置）
-function TaskStart.findTaskConfigByReqUrl(reqUrl)
+function TaskStartEx.findTaskConfigByReqUrl(reqUrl)
 	local tmpCurTask = TaskData.getCurTask()
 	if not tmpCurTask then
 		print(CSFun.Utf8ToDefault("还没指定任务!"))
@@ -28,9 +29,9 @@ function TaskStart.findTaskConfigByReqUrl(reqUrl)
 		end
 	end
 end
-
+--[[
 --从头开始执行任务，一个个执行
-function TaskStart.start()
+function TaskStartEx.start()
 	local tmpCurTask = TaskData.getCurTask()
 	if not tmpCurTask then
 		print(CSFun.Utf8ToDefault("还没指定任务!"))
@@ -47,13 +48,14 @@ function TaskStart.start()
 		else
 			taskListTop:addHeader(topToken)
 		end
-		taskListTop:addCallback(TaskStart.onResponseCallBack)
+		taskListTop:addCallback(TaskStartEx.onResponseCallBack)
 		taskListTop:start()
 	end
 end
-
+]]
 --执行最后一个任务
-function TaskStart.startEnd()
+--[[
+function TaskStartEx.startEnd()
 	local tmpCurTask = TaskData.getCurTask()
 	if not tmpCurTask then
 		print(CSFun.Utf8ToDefault("还没指定任务!"))
@@ -70,21 +72,14 @@ function TaskStart.startEnd()
 		else
 			taskListTop:addHeader(lastToken)	
 		end
-		taskListTop:addCallback(TaskStart.onResponseCallBack)
+		taskListTop:addCallback(TaskStartEx.onResponseCallBack)
 		taskListTop:start()
 	end
 end
-
---停止任务
-function TaskStart.stop()
-	TaskStart.isStop = true
-	CSFun.SetDelayTime(2.0, function()
-		TaskStart.isStop = false
-	end)
-end
+]]
 
 --任务返回
-function TaskStart.onResponseCallBack(httpRes, taskCur)
+function TaskStartEx.onResponseCallBack(httpRes, taskCur)
 	--第一个任务执行次数到了，执行下一个任务
 	local tmpCurTask = TaskData.getCurTask()
 	if not tmpCurTask then return end
@@ -93,7 +88,7 @@ function TaskStart.onResponseCallBack(httpRes, taskCur)
 	local tmpLogStr = CSFun.Utf8ToDefault("[" .. tmpCurTask:getTitle() .. ">>" .. taskCur:getUserData() .. "]>> " .. taskCur:getTaskName() .. " ,返回:  ")
 	print(date .. " " .. tmpLogStr .. tostring(httpRes))
 
-	if TaskStart.isStop then --停止任务
+	if TaskStartEx.isStop then --停止任务
 		return
 	end
 
@@ -112,7 +107,7 @@ function TaskStart.onResponseCallBack(httpRes, taskCur)
 			end
 			taskNext:setIsContinue(taskCur:getIsContinue())
 			tmpCurTask:onNextTask(taskNext, taskCur)
-			taskNext:addCallback(TaskStart.onResponseCallBack)
+			taskNext:addCallback(TaskStartEx.onResponseCallBack)
 			taskNext:start()
 		else --需要切换token
 			local date = os.date("%H:%M:%S")
@@ -136,7 +131,7 @@ function TaskStart.onResponseCallBack(httpRes, taskCur)
 						else
 							taskListTop:addHeader(token)	
 						end
-						taskListTop:addCallback(TaskStart.onResponseCallBack)
+						taskListTop:addCallback(TaskStartEx.onResponseCallBack)
 						taskListTop:start()
 					end
 				end
@@ -156,80 +151,16 @@ function TaskStart.onResponseCallBack(httpRes, taskCur)
 						taskListTop:addHeader(nextToken)
 					end
 					tmpCurTask:onNextTask(taskListTop, taskCur)
-					taskListTop:addCallback(TaskStart.onResponseCallBack)
+					taskListTop:addCallback(TaskStartEx.onResponseCallBack)
 					taskListTop:start()
 				end
 			end
 		end
 	end
 end
-
--- 切换活动
---活动下标，在TaskList.ActMapTable
-function TaskStart.onChangeActivity(actIndex)
-	local ActMapTable = TaskList.ActMapTable or {}
-	if ActMapTable and ActMapTable[actIndex] then
-		local activityTable = ActMapTable[actIndex]
-		local actName = activityTable.name or ""
-		local script = activityTable.script or ""
-		local ok, cur_task_obj = pcall(function()
-			if script and script ~= "" then
-		 		return require(script).new(activityTable)
-			end
-	 	end)
-		if ok then
-			local printStr = CSFun.Utf8ToDefault("加载活动成功! [" .. actName .."] ,活动脚本>> ") .. tostring(script)
-			print(printStr)
-			TaskData.setCurTask(cur_task_obj) --设置当前执行的任务对象
-		else
-			print(tostring(CSFun.Utf8ToDefault("加载活动失败! ,[" .. actName .. "]  \n")) .. tostring(cur_task_obj))
-			TaskData.setCurTask(nil)
-		end
-		TaskStart.onChangeTaskData(activityTable)
-	end
-end
-
---切换了任务对象
-function TaskStart.onChangeTaskData(activityTable)
-	activityTable = activityTable or {}
-
-	--清理token显示列表
-	CShapListView.ListView_clear()
-
-	--加载本地token缓存
-	FindData:getInstance():readLocalFileToken()
-
-	--清理二维码
-	LuaCallCShapUI.ClearQRCode()
-	LuaCallCShapUI.SetQRCodeString("")
-
-	local curTaskObj = TaskData.getCurTask()
-	if curTaskObj then
-		local curKaBaoCount = curTaskObj:getDefaultKaBaoCount()
-		LuaCallCShapUI.SetKaBaoCount(curKaBaoCount)
-		print("curKaBaoCount: " .. tostring(curKaBaoCount))
-	end
-
-	--切换二维码
-	local qrCodeStr = activityTable.qrcode or ""
-	local qrCodeUrl = qrCodeStr
-	if not StringUtils.checkWithHttp(qrCodeStr) then
-		qrCodeUrl = Define.QR_CODE_STR .. qrCodeStr
-		LuaCallCShapUI.SetQRCodeString(qrCodeStr)
-	end
-	if qrCodeStr == "" then
-		print(CSFun.Utf8ToDefault("暂无二维码~"))
-	else
-		LuaCallCShapUI.ShowQRCode(qrCodeUrl, "GET", function(retStr)
-			if retStr ~= "SUCCESS" then
-				print(CSFun.Utf8ToDefault("加载二维码失败了! ") .. tostring(retStr))
-			end
-		end)
-	end
-end
-
+--[[
 --选中了当前活动的某一部分CK
-function TaskStart.doSelectAction()
+function TaskStartEx.doSelectAction()
 	local selTable = CShapListView.ListView_get_select_index()
 	SELECT_CK_INDEX = clone(selTable)
 	if selTable and next(selTable) then
@@ -252,12 +183,13 @@ function TaskStart.doSelectAction()
 			else
 				taskListTop:addHeader(token)	
 			end
-			taskListTop:addCallback(TaskStart.onResponseCallBack)
+			taskListTop:addCallback(TaskStartEx.onResponseCallBack)
 			taskListTop:start()
 		end
 	else
 		print(CSFun.Utf8ToDefault("没选中任何一个CK!"))
 	end
 end
+]]
 
-return TaskStart
+return TaskStartEx
