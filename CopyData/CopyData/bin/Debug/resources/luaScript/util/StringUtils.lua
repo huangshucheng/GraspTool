@@ -243,4 +243,69 @@ function StringUtils.split2(str,reps)
     return resultStrList
 end
 
+--将URL 分割成host和参数
+-- url:"https://zhrs.ijoynet.com/zhrs/game/end?openid=oylYNs10lSSr3CXk38wQkzm_cGc0&points=10&uid=123456"
+function StringUtils.splitUrlWithHost(url)
+  return StringUtils.splitString(url,"?",1)
+end
+
+--分割URL参数
+-- urlParam: openid=oylYNs10lSSr3CXk38wQkzm_cGc0&points=10&uid=123456"
+function StringUtils.splitUrlParam(urlParam)
+  if not urlParam or urlParam == "" then
+    return {}
+  end
+  local tb_1 = StringUtils.split2(urlParam,"&")
+  local table_tmp = {}
+  for _, param in ipairs(tb_1) do
+      local tb_2 = StringUtils.split2(param,"=")
+      if #tb_2 == 2 then
+          local key = tb_2[1]
+          local value = tb_2[2]
+          local tb_3 = {[key] = value}
+          table.merge(table_tmp, tb_3)
+      end
+  end
+  return table_tmp
+end
+
+--用host和url参数组合成一个新的Url
+--[[
+urlParamTable:
+{
+  ["openid"] = "123456",
+  ["uid"] = "123456",
+}
+]]
+function StringUtils.makeUpUrlByParam(host, urlParamTable)
+    local urlParam = ""
+    local paramCount = table.nums(urlParamTable)
+    local index = 0
+    for k,v in pairs(urlParamTable) do
+        local tmpParam = tostring(k) .. "=" .. tostring(v)
+        index = index + 1
+        urlParam = index == paramCount and urlParam .. tmpParam or urlParam .. tmpParam .. "&"
+    end
+    return host .. "?" .. urlParam
+end
+
+--修改Url参数
+--参数：
+-- reqUrl: 完整的URL
+-- changeTable: {"openid" = "idididid"}
+function StringUtils.changeUrlParamByTable(reqUrl, changeTable)
+    local splitUrlTable = StringUtils.splitUrlWithHost(reqUrl)
+    local host = splitUrlTable[1]
+    local urlParam = splitUrlTable[2]
+    if not host or not urlParam then
+        return
+    end
+    local urlParamTable = StringUtils.splitUrlParam(urlParam)
+    for k,v in pairs(changeTable) do
+        urlParamTable[k] = v
+    end
+    local retUrl = StringUtils.makeUpUrlByParam(host, urlParamTable)
+    return retUrl
+end
+
 return StringUtils

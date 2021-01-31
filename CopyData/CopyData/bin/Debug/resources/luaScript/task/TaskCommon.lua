@@ -15,7 +15,7 @@ TaskTMP.DATA_TO_FIND_ARRAY 		=
 	-- "https://wanjia.zhenxiad.com/wj20200820/server/server.php",
 	-- "https://applet.suofeiya.com.cn/api/v1/SfyActivitySummary/doLuckDraw",
 	-- "https://25971934-3.hd.faisco.cn/api/result?",
-	"https://zhrs.ijoynet.com/zhrs/prize/oclockPick?",
+	"https://zhrs.ijoynet.com/zhrs/prize/oclockPick",
 }
 
 --额外的请求头,也可以不用配置
@@ -27,7 +27,7 @@ TaskTMP.ERQ_HEADER_EXT = {
 TaskTMP.TASK_LIST_URL_CONFIG = {
 	{
 		curTaskName = "抽奖~",
-		url = "https://zhrs.ijoynet.com/zhrs/prize/oclockPick?",
+		url = "https://zhrs.ijoynet.com/zhrs/prize/oclockPick",
 		method = GET,
 		reqCount = 1,
 		urlBody = "",

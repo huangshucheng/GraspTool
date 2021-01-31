@@ -212,7 +212,7 @@ end
 --返回,各个活动自己去做json解析，显示红包多少
 function TaskBase:onResponse(httpRes, taskCur)
 	local index = taskCur:getUserData()
-	if string.find(httpRes,"红包") then
+	if CSFun.IsSubString(httpRes, "红包") then
 		taskCur:setGraspRedPktCount(taskCur:getGraspRedPktCount() + 1)
 		local redPktCount = taskCur:getGraspRedPktCount()
 		CShapListView.ListView_set_item({index, nil, nil, redPktCount, nil})
@@ -243,6 +243,11 @@ end
 --是否保存当前完整的请求数据,下次用当前数据去请求
 function TaskBase:isUseFullReqData()
 	return self.IS_USE_FULL_REQDATA
+end
+
+--找到token后，预留接口以便修改
+function TaskBase:onAddFindToken(tokenTable)
+	return tokenTable
 end
 
 return TaskBase

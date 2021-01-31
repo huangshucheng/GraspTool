@@ -2,6 +2,9 @@
 local TaskBase 	= require("resources.luaScript.task.base.TaskBase")
 local TaskTMP 	= class("TaskTMP", TaskBase)
 
+local CSFun = require("resources.luaScript.util.CSFun")
+local StringUtils 	= require("resources.luaScript.util.StringUtils")
+
 local GET = TaskBase.GET
 local POST = TaskBase.POST
 
@@ -66,5 +69,17 @@ TaskTMP.TASK_LIST_URL_CONFIG = {
 		isKabao = true,
 	},
 }
+
+--找到token后，预留接口以便修改请求内容
+function TaskTMP:onAddFindToken(tokenTable)
+	local tmpTokenTable = clone(tokenTable)
+	local reqUrl = tmpTokenTable["ReqUrl"]
+	if CSFun.IsSubString(reqUrl, "https://zhrs.ijoynet.com/zhrs/game/end") then
+		--替换Url里面的参数
+		local tmpUrl = StringUtils.changeUrlParamByTable(reqUrl,{["points"] = 100})
+		tmpTokenTable["ReqUrl"] = tmpUrl
+	end
+	return tmpTokenTable
+end
 
 return TaskTMP

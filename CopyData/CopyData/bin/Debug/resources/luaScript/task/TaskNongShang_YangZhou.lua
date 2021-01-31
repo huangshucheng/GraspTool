@@ -18,18 +18,6 @@ TaskTMP.ERQ_HEADER_EXT = {
 	["Accept"] = "*/*",
 }
 
---返回,各个活动自己去做json解析，显示红包多少
-function TaskTMP:onResponse(httpRes, taskCur)
-	-- local index = taskCur:getUserData()
-	-- if string.find(httpRes,"红包") then
-	-- 	taskCur:setGraspRedPktCount(taskCur:getGraspRedPktCount() + 1)
-	-- 	local jsonObj = json.decode(httpRes) or ""
-	-- 	local retName = CSFun.Utf8ToDefault(jsonObj.data.name) or ""
-	-- 	local redPktCount = taskCur:getGraspRedPktCount()
-	-- 	CShapListView.ListView_set_item({index, nil, retName, redPktCount, nil})
-	-- end
-end
-
 --任务列表
 TaskTMP.TASK_LIST_URL_CONFIG = {
 	{

@@ -61,9 +61,15 @@ end
 --增加一个token
 function FindData:addFindToken(tokenTable)
 	if tokenTable and next(tokenTable) then
-		table.insert(self._findTokenList, tokenTable)
-		self:dumpTokenOne(#self._findTokenList, tokenTable, true)
-		self:writeOneTokenToLocalFile(tokenTable)
+		local tmpCurTask = TaskData.getCurTask()
+		if not tmpCurTask then
+			print(CSFun.Utf8ToDefault("还没指定任务!"))
+			return
+		end
+		local tmpTokenTable = tmpCurTask:onAddFindToken(tokenTable)--以便修改请求数据
+		table.insert(self._findTokenList, tmpTokenTable)
+		self:dumpTokenOne(#self._findTokenList, tmpTokenTable, true)
+		self:writeOneTokenToLocalFile(tmpTokenTable)
 		Sound.playTokenSound()
 		return true
 	end

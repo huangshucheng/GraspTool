@@ -117,7 +117,12 @@ function testCall()
 		print("canUse: " .. tostring(ret))
 	end)
 	]]
+	--[[
 	print(CSFun.Utf8ToDefault("测试~"))
+	local testUrl = "https://zhrs.ijoynet.com/zhrs/game/end?openid=oylYNs10lSSr3CXk38wQkzm_cGc0&points=10&uid=123456"
+	local retUrl = StringUtils.changeUrlParamByTable(testUrl,{points = 100,uuuuuid = "chccccccc"})
+	print(retUrl)
+	]]
 end
 --[[
 [reqHeader<www.baidu.com>] 

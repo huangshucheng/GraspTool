@@ -8,6 +8,16 @@ TaskList.ActMapTable = {
 		qrcode = "http://hcc.hccfun.com/qr_code_proxy_2.png",--设置手机代理的 二维码URL
 	},
 	{
+		name = "江都农商",
+		script = "resources.luaScript.task.TaskNongShang_JiangDu",
+		qrcode = "jdnsh96008",
+	},
+	{
+		name = "仪征农商",
+		script = "resources.luaScript.task.TaskNongShang_YiZheng",
+		qrcode = "jsyznsh",
+	},
+	{
 		name = "东海农商",
 		script = "resources.luaScript.task.TaskNongShang_DongHai",
 		qrcode = "jsdhnsyh",
