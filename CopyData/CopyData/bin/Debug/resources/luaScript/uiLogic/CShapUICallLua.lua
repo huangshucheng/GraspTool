@@ -5,22 +5,23 @@ local Define = require("resources.luaScript.config.Define")
 local StringUtils = require("resources.luaScript.util.StringUtils")
 local CShapListView = require("resources.luaScript.uiLogic.CShapListView")
 local CSFun = require("resources.luaScript.util.CSFun")
+local TaskStartManager 	= require("resources.luaScript.task.base.TaskStartManager")
 
 local SELECT_COLUM_FLAG = true
 
 --点击选择活动
 function onSelectActivityFromList(index)
-	TaskStart.onChangeActivity(index)
+	TaskStartManager.onChangeActivity(index)
 end
 
 --点击开始做任务
 function onClickStartDoAct()
-	TaskStart.start()
+	TaskStartManager.start()
 end
 
 --停止做任务
 function onClickStopDoAct()
-	TaskStart.stop()
+	TaskStartManager.stop()
 end
 
 --修改了延迟时间
@@ -70,7 +71,7 @@ end
 
 --点击选择下拉列表的活动
 function onClickDoSelAction()
-	TaskStart.doSelectAction()
+	TaskStartManager.doSelectTask()
 end
 
 --点击ListView表头

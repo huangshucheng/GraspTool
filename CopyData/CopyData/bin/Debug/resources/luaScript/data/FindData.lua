@@ -207,17 +207,39 @@ function FindData:dumpToken()
 end
 
 function FindData:dumpTokenOne(index, tokenTable, isShort)
-	local showTokenStr = nil
-	local func = function()
-		local str = ""
-		for k,v in pairs(tokenTable) do
-			str = str .. tostring(k) .. "=" .. tostring(v) .. " ,"
-		end
-		showTokenStr = str
+	local tmpCurTask = TaskData.getCurTask()
+	if not tmpCurTask then
+		print(CSFun.Utf8ToDefault("还没指定任务!"))
+		return
 	end
-	local ok, msg = pcall(func)
-	if ok and showTokenStr then
-		local finalStr = "(" .. tostring(index) .. ")" .. showTokenStr
+
+	local getTokenStrFunc = nil
+	if tmpCurTask:isUseFullReqData() then
+		getTokenStrFunc = function()
+			local localSaveUrl = tokenTable["ReqUrl"]
+			local curTask = FindData:getInstance():findTaskConfigByReqUrl(localSaveUrl)
+			if curTask then
+				local curTaskName = curTask:getTaskName() or ""
+				local str = CSFun.Utf8ToDefault(curTaskName) .. " "
+				for k,v in pairs(tokenTable) do
+					str = str .. tostring(k) .. "=" .. tostring(v) .. " ,"
+				end
+				return str
+			end
+		end
+	else
+		getTokenStrFunc = function()
+			local str = ""
+			for k,v in pairs(tokenTable) do
+				str = str .. tostring(k) .. "=" .. tostring(v) .. " ,"
+			end
+			return str
+		end
+	end
+
+	local ok, msg = pcall(getTokenStrFunc)
+	if ok and msg then
+		local finalStr = "(" .. tostring(index) .. ")" .. msg
 		local wCount = isShort and 100 or nil
 		finalStr = StringUtils.stringToShort(finalStr, wCount)
 		-- CSFun.LogOut(finalStr)
@@ -241,6 +263,26 @@ function FindData:saveGraspData(data)
 	local fileName = self:getGraspFileName()
 	CSFun.AppendLine(fileName, time_str)
 	CSFun.AppendLine(fileName, data)
+end
+
+-- 根据任务的Url，找到任务配置（以保存的请求数据为主导，找任务的配置）
+function FindData:findTaskConfigByReqUrl(localSaveUrl)
+	if not localSaveUrl or localSaveUrl == "" then
+		print("findTaskConfigByReqUrl>>error, localSaveUrl is null")
+		return
+	end
+	local tmpCurTask = TaskData.getCurTask()
+	if not tmpCurTask then
+		print(CSFun.Utf8ToDefault("还没指定任务!"))
+		return
+	end
+	local taskList = tmpCurTask:getTaskList()
+	for _, task in ipairs(taskList) do
+		local taskUrl = task:getUrl()
+		if taskUrl and taskUrl ~= "" and CSFun.IsSubString(localSaveUrl, taskUrl) then
+			return clone(task)
+		end
+	end
 end
 
 return FindData

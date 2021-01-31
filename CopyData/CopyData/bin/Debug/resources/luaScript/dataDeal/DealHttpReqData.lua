@@ -8,6 +8,7 @@ local TaskData 		= require("resources.luaScript.data.TaskData")
 local UIConfigData  = require("resources.luaScript.data.UIConfigData")
 local TaskStart 	= require("resources.luaScript.task.base.TaskStart")
 local CSFun         = require("resources.luaScript.util.CSFun")
+local TaskStartManager 	= require("resources.luaScript.task.base.TaskStartManager")
 
 function DealHttpReqData:getInstance()
 	if not DealHttpReqData._instance then
@@ -74,7 +75,7 @@ function DealHttpReqData:dealHeaderWithAllReqData(all_msg_data)
 			if not FindData:getInstance():isInFindList(all_msg_data) then
 				FindData:getInstance():addFindToken(all_msg_data)
 				if UIConfigData.getIsAutoDoAction() then
-					TaskStart.startEnd()
+					TaskStartManager.startEnd()
 				end
 			end
 			break
@@ -102,7 +103,7 @@ function DealHttpReqData:dealHeaderReqData(header_table)
 			FindData:getInstance():addFindToken(findTable)
 			--是否自动开始执行任务
 			if UIConfigData.getIsAutoDoAction() then
-				TaskStart.startEnd()
+				TaskStartManager.startEnd()
 			end
 		end
 	end

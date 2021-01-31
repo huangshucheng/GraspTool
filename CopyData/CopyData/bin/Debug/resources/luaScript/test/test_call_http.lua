@@ -24,7 +24,6 @@ local dic = {
 
 local test_index = 0
 function testCall()
-	-- TaskStart.start()
 	--[[
 	local cookies = "cookies_a=avlue1;cookies_b=cvalue2"
 	for i = 1 , 1 do

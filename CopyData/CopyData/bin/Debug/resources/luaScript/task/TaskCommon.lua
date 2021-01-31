@@ -27,7 +27,7 @@ TaskTMP.ERQ_HEADER_EXT = {
 TaskTMP.TASK_LIST_URL_CONFIG = {
 	{
 		curTaskName = "抽奖~",
-		url = "",
+		url = "https://zhrs.ijoynet.com/zhrs/prize/oclockPick?",
 		method = GET,
 		reqCount = 1,
 		urlBody = "",

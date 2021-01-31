@@ -52,11 +52,11 @@ end
 
 --用本地保存的http请求数据初始化
 function HttpTask:initWithLocalSaveData(configData)
-	configData 		= configData or {}
-	self._url 		= configData["ReqUrl"]
-	self._method 	= configData["Method"] == "POST" and 1 or 0
-	self._postBody 	= configData["ReqBody"] or ""
-	self:addHeader(configData["Headers"] or {})
+	local configDataTmp = clone(configData) or {}
+	self._url 		= configDataTmp["ReqUrl"]
+	self._method 	= configDataTmp["Method"] == "POST" and 1 or 0
+	self._postBody 	= configDataTmp["ReqBody"] or ""
+	self:addHeader(configDataTmp["Headers"] or {})
 end
 
 function HttpTask:setUrl(url)
