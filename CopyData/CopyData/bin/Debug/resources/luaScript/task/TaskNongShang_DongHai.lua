@@ -9,7 +9,6 @@ local POST = TaskBase.POST
 
 TaskTMP.FIND_STRING_HOST 		= "wx.dhrcbank.com"
 TaskTMP.DATA_TO_FIND_ARRAY 		= {"XAuthToken","Cookie"}
-TaskTMP.IS_OPEN_RECORD 			= false
 TaskTMP.DEFAULT_KABAO_COUNT 	= 100 	-- 默认卡包次数，需要设置isKabao后才生效
 
 --额外的请求头,也可以不用配置

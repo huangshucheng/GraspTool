@@ -7,7 +7,7 @@ local CSFun = require("resources.luaScript.util.CSFun")
 --打印在屏幕上
 print = function(param)
 	CSFun.LogOut(param)
-	-- CSFun.LogLua(param)
+	CSFun.LogLua(param)
 end
 
 local CSWebSocket 	= require("resources.luaScript.util.CSWebSocket")

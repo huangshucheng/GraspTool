@@ -145,7 +145,7 @@ function TaskStartEx.doSelectTask()
 		if selectToken then
 			local localSaveUrl = selectToken["ReqUrl"]
 			local curTask = FindData:getInstance():findTaskConfigByReqUrl(localSaveUrl)
-			print("findUrl: " .. tostring(localSaveUrl))
+			-- print("findUrl: " .. tostring(localSaveUrl))
 			if curTask then
 				curTask:setUserData(tokenIndex)
 				curTask:setIsContinue(false) --只执行当前选中的token任务，不再根据下标+1

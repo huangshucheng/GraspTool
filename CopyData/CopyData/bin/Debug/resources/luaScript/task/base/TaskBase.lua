@@ -212,7 +212,7 @@ end
 --返回,各个活动自己去做json解析，显示红包多少
 function TaskBase:onResponse(httpRes, taskCur)
 	local index = taskCur:getUserData()
-	if CSFun.IsSubString(httpRes, "红包") then
+	if CSFun.IsSubString(httpRes, "红包") or CSFun.IsSubString(httpRes, "元") then
 		taskCur:setGraspRedPktCount(taskCur:getGraspRedPktCount() + 1)
 		local redPktCount = taskCur:getGraspRedPktCount()
 		CShapListView.ListView_set_item({index, nil, nil, redPktCount, nil})
@@ -247,7 +247,7 @@ end
 
 --找到token后，预留接口以便修改
 function TaskBase:onAddFindToken(tokenTable)
-	return tokenTable
+	return {tokenTable}
 end
 
 return TaskBase

@@ -73,13 +73,33 @@ TaskTMP.TASK_LIST_URL_CONFIG = {
 --找到token后，预留接口以便修改请求内容
 function TaskTMP:onAddFindToken(tokenTable)
 	local tmpTokenTable = clone(tokenTable)
+	local retTable = {}
 	local reqUrl = tmpTokenTable["ReqUrl"]
 	if CSFun.IsSubString(reqUrl, "https://zhrs.ijoynet.com/zhrs/game/end") then
 		--替换Url里面的参数
 		local tmpUrl = StringUtils.changeUrlParamByTable(reqUrl,{["points"] = 100})
 		tmpTokenTable["ReqUrl"] = tmpUrl
+		table.insert(retTable,tmpTokenTable)
+	elseif CSFun.IsSubString(reqUrl, "https://zhrs.ijoynet.com/zhrs/prize/upgradePick") then  --抽奖的四个接口，通过一个接口修改而来
+		local tmpUrl_1 = StringUtils.changeUrlParamByTable(reqUrl,{["carNo"] = 2})
+		local tmpUrl_2 = StringUtils.changeUrlParamByTable(reqUrl,{["carNo"] = 3})
+		local tmpUrl_3 = StringUtils.changeUrlParamByTable(reqUrl,{["carNo"] = 4})
+		local tmpUrl_4 = StringUtils.changeUrlParamByTable(reqUrl,{["carNo"] = 5})
+		local tmp_1 = clone(tmpTokenTable)
+		local tmp_2 = clone(tmpTokenTable)
+		local tmp_3 = clone(tmpTokenTable)
+		local tmp_4 = clone(tmpTokenTable)
+		tmp_1["ReqUrl"] = tmpUrl_1
+		tmp_2["ReqUrl"] = tmpUrl_2
+		tmp_3["ReqUrl"] = tmpUrl_3
+		tmp_4["ReqUrl"] = tmpUrl_4
+		table.insert(retTable, tmp_1)
+		table.insert(retTable, tmp_2)
+		table.insert(retTable, tmp_3)
+		table.insert(retTable, tmp_4)
+	elseif CSFun.IsSubString(reqUrl, "https://zhrs.ijoynet.com/zhrs/prize/oclockPick") then
 	end
-	return tmpTokenTable
+	return retTable
 end
 
 return TaskTMP

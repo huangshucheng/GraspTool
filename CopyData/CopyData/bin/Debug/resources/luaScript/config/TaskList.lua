@@ -8,6 +8,16 @@ TaskList.ActMapTable = {
 		qrcode = "http://hcc.hccfun.com/qr_code_proxy_2.png",--设置手机代理的 二维码URL
 	},
 	{
+		name = "东海农商",
+		script = "resources.luaScript.task.TaskNongShang_DongHai",
+		qrcode = "jsdhnsyh",
+	},
+	{
+		name = "采荷活动",
+		script = "resources.luaScript.task.TaskCaiHe",
+		qrcode = "hbzhongyan",
+	},
+	{
 		name = "江都农商",
 		script = "resources.luaScript.task.TaskNongShang_JiangDu",
 		qrcode = "jdnsh96008",
@@ -18,19 +28,14 @@ TaskList.ActMapTable = {
 		qrcode = "jsyznsh",
 	},
 	{
-		name = "东海农商",
-		script = "resources.luaScript.task.TaskNongShang_DongHai",
-		qrcode = "jsdhnsyh",
-	},
-	{
 		name = "扬州农商",
 		script = "resources.luaScript.task.TaskNongShang_YangZhou",
 		qrcode = "yznsyh96008",
 	},
 	{
-		name = "钻石活动", --活动名称
-		script = "resources.luaScript.task.TaskDiamond", --活动控制脚本
-		qrcode = "hbzhongyan", --活动二维码（公众号名字）
+		name = "钻石活动",
+		script = "resources.luaScript.task.TaskDiamond",
+		qrcode = "hbzhongyan",
 	},
 	{
 		name = "黄浦食品安全",
@@ -46,6 +51,11 @@ TaskList.ActMapTable = {
 		name = "中荷人寿-开车~",
 		script = "resources.luaScript.task.TaskCM_KaiChe",
 		qrcode = "",
+	},
+	{
+		name = "红牛活动~",
+		script = "resources.luaScript.task.TaskHongNiu",
+		qrcode = "RedBull_ZheJiang",
 	},
 }
 

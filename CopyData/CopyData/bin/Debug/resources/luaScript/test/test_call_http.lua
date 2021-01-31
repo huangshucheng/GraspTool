@@ -123,6 +123,10 @@ function testCall()
 	local retUrl = StringUtils.changeUrlParamByTable(testUrl,{points = 100,uuuuuid = "chccccccc"})
 	print(retUrl)
 	]]
+	-- local url = "https://e555916317699.fengchuanba.com/service/explore2/lottery"
+	-- local url2 = "https://e555916317699.fengchuanba.com/service/explore2/lottery"
+	-- local isFind = CSFun.IsSubString(url, url2)
+	-- print(tostring(isFind))
 end
 --[[
 [reqHeader<www.baidu.com>] 

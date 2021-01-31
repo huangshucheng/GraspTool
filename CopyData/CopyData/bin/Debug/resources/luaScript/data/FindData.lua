@@ -67,10 +67,14 @@ function FindData:addFindToken(tokenTable)
 			return
 		end
 		local tmpTokenTable = tmpCurTask:onAddFindToken(tokenTable)--以便修改请求数据
-		table.insert(self._findTokenList, tmpTokenTable)
-		self:dumpTokenOne(#self._findTokenList, tmpTokenTable, true)
-		self:writeOneTokenToLocalFile(tmpTokenTable)
-		Sound.playTokenSound()
+		if next(tmpTokenTable) then
+			for _, tokenTable in ipairs(tmpTokenTable) do
+				table.insert(self._findTokenList, tokenTable)
+				self:dumpTokenOne(#self._findTokenList, tokenTable, true)
+				self:writeOneTokenToLocalFile(tokenTable)
+			end
+			Sound.playTokenSound()
+		end
 		return true
 	end
 	return false
