@@ -119,7 +119,7 @@ function ListView_on_paste_click()
 	end)
 	if ok and next(ret_table) then
 		for _, token in ipairs(ret_table) do
-			FindData:getInstance():addFindToken(token)
+			FindData:getInstance():addFindToken(token,false)
 		end
 	end
 end

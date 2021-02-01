@@ -73,7 +73,7 @@ function DealHttpReqData:dealHeaderWithAllReqData(all_msg_data)
 		-- print("---------------------------")
 		if isSubStr then
 			if not FindData:getInstance():isInFindList(all_msg_data) then
-				FindData:getInstance():addFindToken(all_msg_data)
+				FindData:getInstance():addFindToken(all_msg_data, true)
 				if UIConfigData.getIsAutoDoAction() then
 					TaskStartManager.startEnd()
 				end
@@ -100,7 +100,7 @@ function DealHttpReqData:dealHeaderReqData(header_table)
 	local findCount = table.nums(findTable)
 	if findCount > 0 and findCount == #dataToFind then --必要的token必须要全部找到
 		if not FindData:getInstance():isInFindList(findTable) then
-			FindData:getInstance():addFindToken(findTable)
+			FindData:getInstance():addFindToken(findTable, true)
 			--是否自动开始执行任务
 			if UIConfigData.getIsAutoDoAction() then
 				TaskStartManager.startEnd()

@@ -59,7 +59,9 @@ function FindData:getCookiesList()
 end
 
 --增加一个token
-function FindData:addFindToken(tokenTable)
+--tokenTable  token的表
+--isSelectInListView 在ListView是否选中
+function FindData:addFindToken(tokenTable, isSelectInListView)
 	if tokenTable and next(tokenTable) then
 		local tmpCurTask = TaskData.getCurTask()
 		if not tmpCurTask then
@@ -70,7 +72,7 @@ function FindData:addFindToken(tokenTable)
 		if next(tmpTokenTable) then
 			for _, tokenTable in ipairs(tmpTokenTable) do
 				table.insert(self._findTokenList, tokenTable)
-				self:dumpTokenOne(#self._findTokenList, tokenTable, true)
+				self:dumpTokenOne(#self._findTokenList, tokenTable, true, isSelectInListView)
 				self:writeOneTokenToLocalFile(tokenTable)
 			end
 			Sound.playTokenSound()
@@ -212,11 +214,17 @@ end
 function FindData:dumpToken()
 	CShapListView.ListView_clear()
 	for index, tokenTable in ipairs(self._findTokenList) do
-		self:dumpTokenOne(index, tokenTable, true)
+		self:dumpTokenOne(index, tokenTable, true, false)
 	end	
 end
 
-function FindData:dumpTokenOne(index, tokenTable, isShort)
+--[[
+index: listView 的下标
+tokenTable: token的集合表
+isShort: 是否缩短显示
+isSelectInListView: 在listView中是否选中
+]]
+function FindData:dumpTokenOne(index, tokenTable, isShort, isSelectInListView)
 	local tmpCurTask = TaskData.getCurTask()
 	if not tmpCurTask then
 		print(CSFun.Utf8ToDefault("还没指定任务!"))
@@ -255,6 +263,9 @@ function FindData:dumpTokenOne(index, tokenTable, isShort)
 		-- CSFun.LogOut(finalStr)
 		--加入显示列表
 		CShapListView.ListView_add_item({index, finalStr, "", 0, CSFun.Utf8ToDefault("未开始~")})
+		if isSelectInListView then
+			CShapListView.ListView_set_checked(index, true)
+		end
 	end
 end
 
