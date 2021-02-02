@@ -70,6 +70,7 @@
             this.numeric_kabao_count = new System.Windows.Forms.NumericUpDown();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.numUDDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUrl)).BeginInit();
             this.tab_proxy_ip.SuspendLayout();
@@ -80,6 +81,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numeric_kabao_count)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBoxLog
@@ -88,17 +90,17 @@
             this.richTextBoxLog.DetectUrls = false;
             this.richTextBoxLog.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBoxLog.ForeColor = System.Drawing.Color.Lime;
-            this.richTextBoxLog.Location = new System.Drawing.Point(4, 438);
+            this.richTextBoxLog.Location = new System.Drawing.Point(3, 393);
             this.richTextBoxLog.Name = "richTextBoxLog";
             this.richTextBoxLog.ReadOnly = true;
-            this.richTextBoxLog.Size = new System.Drawing.Size(644, 383);
+            this.richTextBoxLog.Size = new System.Drawing.Size(644, 293);
             this.richTextBoxLog.TabIndex = 5;
             this.richTextBoxLog.Text = "";
             this.richTextBoxLog.TextChanged += new System.EventHandler(this.richTextBoxLogTextChanged);
             // 
             // btnClearLog
             // 
-            this.btnClearLog.Location = new System.Drawing.Point(180, 417);
+            this.btnClearLog.Location = new System.Drawing.Point(191, 4);
             this.btnClearLog.Name = "btnClearLog";
             this.btnClearLog.Size = new System.Drawing.Size(80, 22);
             this.btnClearLog.TabIndex = 6;
@@ -130,7 +132,7 @@
             // 
             // btnFinishCatch
             // 
-            this.btnFinishCatch.Location = new System.Drawing.Point(592, 418);
+            this.btnFinishCatch.Location = new System.Drawing.Point(570, 6);
             this.btnFinishCatch.Name = "btnFinishCatch";
             this.btnFinishCatch.Size = new System.Drawing.Size(50, 20);
             this.btnFinishCatch.TabIndex = 9;
@@ -143,7 +145,7 @@
             this.check_btn_log.AutoSize = true;
             this.check_btn_log.BackColor = System.Drawing.Color.LightGray;
             this.check_btn_log.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.check_btn_log.Location = new System.Drawing.Point(92, 419);
+            this.check_btn_log.Location = new System.Drawing.Point(103, 6);
             this.check_btn_log.Name = "check_btn_log";
             this.check_btn_log.Size = new System.Drawing.Size(82, 18);
             this.check_btn_log.TabIndex = 12;
@@ -201,7 +203,7 @@
             this.checkShowLog.Checked = true;
             this.checkShowLog.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkShowLog.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.checkShowLog.Location = new System.Drawing.Point(4, 419);
+            this.checkShowLog.Location = new System.Drawing.Point(6, 6);
             this.checkShowLog.Name = "checkShowLog";
             this.checkShowLog.Size = new System.Drawing.Size(82, 18);
             this.checkShowLog.TabIndex = 17;
@@ -305,7 +307,7 @@
             this.listViewToken.ForeColor = System.Drawing.Color.Blue;
             this.listViewToken.Location = new System.Drawing.Point(4, 3);
             this.listViewToken.Name = "listViewToken";
-            this.listViewToken.Size = new System.Drawing.Size(638, 410);
+            this.listViewToken.Size = new System.Drawing.Size(638, 346);
             this.listViewToken.TabIndex = 27;
             this.listViewToken.TabStop = false;
             this.listViewToken.UseCompatibleStateImageBehavior = false;
@@ -400,7 +402,7 @@
             this.tab_control.Controls.Add(this.tab_qr_code);
             this.tab_control.Controls.Add(this.tab_proxy_ip);
             this.tab_control.Controls.Add(this.tab_jiema);
-            this.tab_control.Location = new System.Drawing.Point(659, 387);
+            this.tab_control.Location = new System.Drawing.Point(654, 280);
             this.tab_control.Name = "tab_control";
             this.tab_control.SelectedIndex = 0;
             this.tab_control.Size = new System.Drawing.Size(260, 297);
@@ -446,7 +448,7 @@
             this.text_box_ip_info.DetectUrls = false;
             this.text_box_ip_info.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.text_box_ip_info.ForeColor = System.Drawing.Color.Red;
-            this.text_box_ip_info.Location = new System.Drawing.Point(655, 769);
+            this.text_box_ip_info.Location = new System.Drawing.Point(653, 637);
             this.text_box_ip_info.Name = "text_box_ip_info";
             this.text_box_ip_info.ReadOnly = true;
             this.text_box_ip_info.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Horizontal;
@@ -457,7 +459,7 @@
             // text_link_label
             // 
             this.text_link_label.AutoSize = true;
-            this.text_link_label.Location = new System.Drawing.Point(509, 422);
+            this.text_link_label.Location = new System.Drawing.Point(487, 10);
             this.text_link_label.Name = "text_link_label";
             this.text_link_label.Size = new System.Drawing.Size(77, 12);
             this.text_link_label.TabIndex = 32;
@@ -564,21 +566,30 @@
             this.panel2.Size = new System.Drawing.Size(281, 133);
             this.panel2.TabIndex = 36;
             // 
+            // panel3
+            // 
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel3.Controls.Add(this.checkShowLog);
+            this.panel3.Controls.Add(this.check_btn_log);
+            this.panel3.Controls.Add(this.btnClearLog);
+            this.panel3.Controls.Add(this.text_link_label);
+            this.panel3.Controls.Add(this.btnFinishCatch);
+            this.panel3.Location = new System.Drawing.Point(4, 355);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(638, 32);
+            this.panel3.TabIndex = 37;
+            // 
             // HccWindowdGraspTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(935, 824);
+            this.ClientSize = new System.Drawing.Size(935, 692);
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.text_link_label);
             this.Controls.Add(this.text_box_ip_info);
             this.Controls.Add(this.tab_control);
             this.Controls.Add(this.listViewToken);
-            this.Controls.Add(this.checkShowLog);
-            this.Controls.Add(this.check_btn_log);
-            this.Controls.Add(this.btnFinishCatch);
-            this.Controls.Add(this.btnClearLog);
             this.Controls.Add(this.richTextBoxLog);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "HccWindowdGraspTool";
@@ -596,8 +607,9 @@
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -642,6 +654,7 @@
         private System.Windows.Forms.NumericUpDown numeric_kabao_count;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panel3;
     }
 }
 
