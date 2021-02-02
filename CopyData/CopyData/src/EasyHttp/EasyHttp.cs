@@ -82,11 +82,12 @@ namespace CopyData
 
         //初始化默认参数
         private void initDefaultHeaderRequest() {
-            SetDefaultContentType("application/x-www-form-urlencoded; charset=UTF-8");
-            SetDefaultUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13G34 MicroMessenger/7.0.9(0x17000929) NetType/WIFI Language/zh_CN");
-            SetDefaultAcceptEncoding("br, gzip, deflate");
-            SetDefaultAcceptLanguage("zh-cn");
-            SetDefaultAccept("application/json,text/javascript,text/html,text/plain,application/xhtml+xml,application/xml, */*; q=0.01");
+            //SetDefaultContentType("application/x-www-form-urlencoded; charset=UTF-8");
+            //SetDefaultUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13G34 MicroMessenger/7.0.9(0x17000929) NetType/WIFI Language/zh_CN");
+            //SetDefaultAcceptEncoding("br, gzip, deflate");
+            //SetDefaultAcceptLanguage("zh-cn");
+            //SetDefaultAccept("application/json,text/javascript,text/html,text/plain,application/xhtml+xml,application/xml, */*; q=0.01");
+            SetDefaultAccept("*/*");
             SetDefaultKeepAlive(false);
             SetDefaultTimeOut(5);
             SetDefaultAllowAutoRedirect(false);
