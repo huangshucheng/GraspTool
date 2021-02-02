@@ -1,8 +1,0 @@
-C:\Users\95\Desktop\FD\COPY_DATA\CopyData\CopyData\bin\Debug\CopyData.exe.config
-C:\Users\95\Desktop\FD\COPY_DATA\CopyData\CopyData\bin\Debug\CopyData.exe
-C:\Users\95\Desktop\FD\COPY_DATA\CopyData\CopyData\bin\Debug\CopyData.pdb
-C:\Users\95\Desktop\FD\COPY_DATA\CopyData\CopyData\obj\Debug\CopyData.Properties.Resources.resources
-C:\Users\95\Desktop\FD\COPY_DATA\CopyData\CopyData\obj\Debug\CopyData.csproj.GenerateResource.Cache
-C:\Users\95\Desktop\FD\COPY_DATA\CopyData\CopyData\obj\Debug\CopyData.exe
-C:\Users\95\Desktop\FD\COPY_DATA\CopyData\CopyData\obj\Debug\CopyData.pdb
-C:\Users\95\Desktop\FD\COPY_DATA\CopyData\CopyData\obj\Debug\CopyData.HccCopyData.resources
