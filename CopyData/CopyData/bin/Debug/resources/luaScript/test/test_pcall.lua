@@ -9,6 +9,9 @@ end)
 
 -- print(ok)
 -- print(msg)
-math.randomseed(os.time())
-local ranNum = math.random(1000)
-print("ranNum" , ranNum)
+-- math.randomseed(os.time())
+-- local ranNum = math.random(1000)
+-- print("ranNum" , ranNum)
+
+local date = os.date("%H:%M:%S")
+print(data)

@@ -17,16 +17,6 @@ TaskTMP.ERQ_HEADER_EXT = {
 
 --任务列表
 TaskTMP.TASK_LIST_URL_CONFIG = {
-	-- {
-	-- 	curTaskName = "预抽奖~", 
-	-- 	url = "http://hzhnapi.msjp1.com/LuckDraw",
-	-- 	method = POST, 
-	-- 	reqCount = 1,
-	-- 	urlBody = "", 
-	-- 	postBody = "", 
-	-- 	delay = 0,
-	-- 	isKabao = true,
-	-- },
 	{
 		curTaskName = "抽奖~", 
 		url = "http://hzhnapi.msjp1.com/LuckDraw",
