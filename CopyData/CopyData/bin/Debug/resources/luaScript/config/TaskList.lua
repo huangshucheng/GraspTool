@@ -57,6 +57,11 @@ TaskList.ActMapTable = {
 		script = "resources.luaScript.task.TaskHongNiu",
 		qrcode = "RedBull_ZheJiang",
 	},
+	{
+		name = "抖音试试~",
+		script = "resources.luaScript.task.TaskDouYin",
+		qrcode = "",
+	},
 }
 
 return TaskList
