@@ -189,6 +189,10 @@ function TaskStart.onChangeTaskData(activityTable)
 			end
 		end)
 	end
+
+	--停下所有定时器
+	local TimerManager = require("resources.luaScript.manager.TimerManager")
+	TimerManager.stopAllTimer()
 end
 
 --选中了当前活动的某一部分CK

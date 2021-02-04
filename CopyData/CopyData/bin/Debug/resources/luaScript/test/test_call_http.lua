@@ -23,6 +23,7 @@ local dic = {
 }
 
 local test_index = 0
+
 function testCall()
 	--[[
 	local cookies = "cookies_a=avlue1;cookies_b=cvalue2"
@@ -127,6 +128,10 @@ function testCall()
 	-- local url2 = "https://e555916317699.fengchuanba.com/service/explore2/lottery"
 	-- local isFind = CSFun.IsSubString(url, url2)
 	-- print(tostring(isFind))
+
+	-- local CSWebSocket 	= require("resources.luaScript.util.CSWebSocket")
+	-- local timerID2 = CSWebSocket.WebSocket_GetTimerID()
+	-- CSFun.StopAllTimer({timerID2})
 end
 --[[
 [reqHeader<www.baidu.com>] 

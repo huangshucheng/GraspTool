@@ -8,7 +8,7 @@ local TaskData 		= require("resources.luaScript.data.TaskData")
 local UIConfigData  = require("resources.luaScript.data.UIConfigData")
 local TaskStart 	= require("resources.luaScript.task.base.TaskStart")
 local CSFun         = require("resources.luaScript.util.CSFun")
-local TaskStartManager 	= require("resources.luaScript.task.base.TaskStartManager")
+local TaskStartManager 	= require("resources.luaScript.manager.TaskStartManager")
 
 function DealHttpReqData:getInstance()
 	if not DealHttpReqData._instance then

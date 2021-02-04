@@ -5,7 +5,7 @@ local Define = require("resources.luaScript.config.Define")
 local StringUtils = require("resources.luaScript.util.StringUtils")
 local CShapListView = require("resources.luaScript.uiLogic.CShapListView")
 local CSFun = require("resources.luaScript.util.CSFun")
-local TaskStartManager 	= require("resources.luaScript.task.base.TaskStartManager")
+local TaskStartManager 	= require("resources.luaScript.manager.TaskStartManager")
 
 local SELECT_COLUM_FLAG = true
 

@@ -52,6 +52,19 @@ function CSFun.StopTimer(timerID)
 	end
 end
 
+--删掉所有Timer定时器，timerIDExceptTable: 需要保留的timerID table
+function CSFun.StopAllTimer(timerIDExceptTable)
+	timerIDExceptTable = timerIDExceptTable or {}
+	local paramType = type(timerIDExceptTable)
+	if paramType == "table" then
+		if StopAllTimer then
+			StopAllTimer(timerIDExceptTable)
+		end
+	else
+		print("error>>>> param is not talbe")
+	end
+end
+
 --获取当前exe所在目录
 function CSFun.GetCurDir()
 	if GetCurDir then

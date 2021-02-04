@@ -37,6 +37,7 @@ namespace CopyData
             _luaScript.RegisterFunction("SetDelayTime", this, GetType().GetMethod("SetDelayTime")); //延时函数
             _luaScript.RegisterFunction("SetInterval", this, GetType().GetMethod("SetInterval")); //定时器
             _luaScript.RegisterFunction("StopTimer", this, GetType().GetMethod("StopTimer")); //停止定时器
+            _luaScript.RegisterFunction("StopAllTimer", this, GetType().GetMethod("StopAllTimer")); //停止所有定时器
             _luaScript.RegisterFunction("AddActivityToList", this, GetType().GetMethod("AddActivityToList")); //增加活动名称到列表
             _luaScript.RegisterFunction("SetActivitySelIndex", this, GetType().GetMethod("SetActivitySelIndex")); //设置下拉列表，选中某个下标
             _luaScript.RegisterFunction("IsOpenTipSound", this, GetType().GetMethod("IsOpenTipSound")); //获取是否有提示音
@@ -198,8 +199,7 @@ namespace CopyData
                 return string.Empty;
             }
             System.Timers.Timer timer = new System.Timers.Timer(interVal);
-            timer.Elapsed += delegate (object sender, System.Timers.ElapsedEventArgs e)
-            {
+            timer.Elapsed += delegate (object sender, System.Timers.ElapsedEventArgs e){
                 try {
                     Action action = new Action(() => {
                         if (callback != null){
@@ -217,16 +217,80 @@ namespace CopyData
             return timerID;
         }
 
+        //删掉所有Timer定时器，timerIDExceptTable: 需要保留的timerID table
+        public void StopAllTimer(LuaTable timerIDExceptTable = null) {
+            try{
+                List<string> timerIDList = new List<string>();
+
+                if (timerIDExceptTable != null)
+                {
+                    List<string> notDeleteTimerIDList = new List<string>(); //不需要删掉的
+                    if (timerIDExceptTable.Keys.Count > 0)
+                    {
+                        foreach (DictionaryEntry v in timerIDExceptTable)
+                        {
+                            string timerIDTmp = v.Value.ToString();
+                            if (_timerDic.ContainsKey(timerIDTmp)){
+                                //不需要删除的
+                                notDeleteTimerIDList.Add(timerIDTmp);
+                            }
+                        }
+                    }
+                    foreach (var item in _timerDic)
+                    {
+                        string timerID = item.Key;
+                        System.Timers.Timer timer = (System.Timers.Timer)item.Value;
+                        if (!notDeleteTimerIDList.Contains(timerID))
+                        { //需要删除的
+                            if (timer != null)
+                            {
+                                timer.Stop();
+                                timer.Close();
+                                timerIDList.Add(timerID);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var item in _timerDic)
+                    {
+                        string timerID = item.Key;
+                        System.Timers.Timer timer = (System.Timers.Timer)item.Value;
+                        if (timer != null)
+                        {
+                            timer.Stop();
+                            timer.Close();
+                            timerIDList.Add(timerID);
+                        }
+                    }
+                }
+
+                foreach (string timerIDStr in timerIDList) {
+                    if (_timerDic.ContainsKey(timerIDStr)) {
+                        _timerDic.Remove(timerIDStr);
+                    }
+                }
+            }
+            catch (Exception ex){
+                Console.WriteLine("stopAllTimer error: " + ex.Message);
+            }
+        }
+
         //停止定时器,id: string 类型
         public bool StopTimer(string timerID) {
-            if (_timerDic.ContainsKey(timerID)) {
-                var timer = _timerDic[timerID];
-                if (timer != null) {
-                    _timerDic[timerID].Stop();
-                    _timerDic[timerID].Close();
+            try {
+                if (_timerDic.ContainsKey(timerID)) {
+                    var timer = _timerDic[timerID];
+                    if (timer != null) {
+                        _timerDic[timerID].Stop();
+                        _timerDic[timerID].Close();
+                    }
+                    _timerDic.Remove(timerID);
+                    return true;
                 }
-                _timerDic.Remove(timerID);
-                return true;
+            } catch (Exception ex) {
+                Console.WriteLine("StopTimer error: " + ex.Message);
             }
             return false;
         }
@@ -235,10 +299,8 @@ namespace CopyData
         public void SetDelayTime(double delayTime, LuaFunction endFunc = null)
         {
             delayTime = delayTime * 1000;
-            if (delayTime <= 0)
-            {
-                if (endFunc != null)
-                {
+            if (delayTime <= 0){
+                if (endFunc != null){
                     endFunc.Call();
                 }
                 return;
@@ -246,14 +308,12 @@ namespace CopyData
             System.Timers.Timer timer = new System.Timers.Timer();
             timer.AutoReset = true;//是否只触发一次
             timer.Interval = delayTime;//时间间隔
-            timer.Elapsed += delegate (object sender, System.Timers.ElapsedEventArgs e)
-            {
+            timer.Elapsed += delegate (object sender, System.Timers.ElapsedEventArgs e){
                 timer.Enabled = false;//停用触发
                 timer.Stop();
                 timer.Close();
                 Action action = new Action(() => {
-                    if (endFunc != null)
-                    {
+                    if (endFunc != null){
                         endFunc.Call();
                     }
                 });
