@@ -11,6 +11,23 @@ local TaskStartBase = require("resources.luaScript.task.base.TaskStart")
 local TaskStartEx = class("TaskStart",TaskStartBase)
 local SELECT_CK_INDEX = {} --选中的CK下标
 
+--[[
+执行一个httpTask 请求
+httpTask: HttpTask对象
+requestInfo: 全部请求信息,包括请求头，请求体，等等
+tokenIndex: 当前token下标
+isConitnue: 是否是连续token，如果是手动选择的token就不是连续的,否则就是连续的
+]]
+function TaskStartEx.doRequest(httpTask, requestInfo, tokenIndex, isContinue)
+	if not httpTask or not requestInfo or not tokenIndex then return end
+	local tmpHttpTask = clone(httpTask)
+	tmpHttpTask:initWithLocalSaveData(requestInfo)
+	tmpHttpTask:setUserData(tokenIndex)
+	tmpHttpTask:setIsContinue(isContinue)
+	tmpHttpTask:addCallback(TaskStart.onResponseCallBack)
+	tmpHttpTask:start()
+end
+
 --从头开始执行任务，一个个执行
 function TaskStartEx.start()
 	local tmpCurTask = TaskData.getCurTask()
@@ -18,17 +35,13 @@ function TaskStartEx.start()
 		print(CSFun.Utf8ToDefault("还没指定任务!"))
 		return
 	end
-	tmpCurTask = clone(tmpCurTask)
 	local tokenIndex = 1
 	local selectToken = FindData:getInstance():getTop()
 	if selectToken then
 		local localSaveUrl = selectToken["ReqUrl"]
 		local curTask = FindData:getInstance():findTaskConfigByReqUrl(localSaveUrl)
 		if curTask then
-			curTask:setUserData(tokenIndex)
-			curTask:initWithLocalSaveData(selectToken)
-			curTask:addCallback(TaskStartEx.onResponseCallBack)
-			curTask:start()
+			TaskStartEx.doRequest(curTask, selectToken, tokenIndex, true)
 		else
 			print(CSFun.Utf8ToDefault("error: 未配置TASK_LIST_URL_CONFIG任务URL!>> \n" .. tostring(localSaveUrl)))
 		end
@@ -42,17 +55,13 @@ function TaskStartEx.startEnd()
 		print(CSFun.Utf8ToDefault("还没指定任务!"))
 		return
 	end
-	tmpCurTask = clone(tmpCurTask)
 	local tokenIndex = FindData:getInstance():getTokenCount()
 	local selectToken = FindData:getInstance():getEnd()
 	if selectToken then
 		local localSaveUrl = selectToken["ReqUrl"]
 		local curTask = FindData:getInstance():findTaskConfigByReqUrl(localSaveUrl)
 		if curTask then
-			curTask:setUserData(tokenIndex)
-			curTask:initWithLocalSaveData(selectToken)
-			curTask:addCallback(TaskStartEx.onResponseCallBack)
-			curTask:start()
+			TaskStartEx.doRequest(curTask, selectToken, tokenIndex, false)
 		else
 			print(CSFun.Utf8ToDefault("error: 未配置TASK_LIST_URL_CONFIG任务URL!>> \n" .. tostring(localSaveUrl)))
 		end
@@ -73,7 +82,6 @@ function TaskStartEx.onResponseCallBack(httpRes, taskCur)
 		return
 	end
 
-	tmpCurTask = clone(tmpCurTask)
 	tmpCurTask:onResponse(httpRes, taskCur)
 	if taskCur:getCurCount() >= taskCur:getReqCount() then --需要切换任务
 		local date = os.date("%H:%M:%S")
@@ -83,27 +91,7 @@ function TaskStartEx.onResponseCallBack(httpRes, taskCur)
 		taskCur:setState(taskCur.GRASP_STATE.FINISH)
 		local tokenList = FindData:getInstance():getTokenList()
         --已设置了当前任务做完后，不再执行下个token任务, 但是可以执行指定token任务
-		if not taskCur:getIsContinue() then
-			local curTokenIndex = table.indexof(SELECT_CK_INDEX,taskCur:getUserData())
-			if curTokenIndex then
-				local nextTokenIndex = curTokenIndex + 1
-				local nextToken = tokenList[SELECT_CK_INDEX[nextTokenIndex]]
-				if nextToken then
-					local localSaveUrl = nextToken["ReqUrl"]
-					local taskNext = FindData:getInstance():findTaskConfigByReqUrl(localSaveUrl)
-					if taskNext then
-						taskNext:initWithLocalSaveData(nextToken)
-						taskNext:setUserData(SELECT_CK_INDEX[nextTokenIndex])
-						taskNext:setIsContinue(taskCur:getIsContinue()) --只执行当前token任务，不再继续执行下一个token任务
-						tmpCurTask:onNextTask(taskNext, taskCur)
-						taskNext:addCallback(TaskStartEx.onResponseCallBack)
-						taskNext:start()
-					else
-						print(CSFun.Utf8ToDefault("error: 未配置TASK_LIST_URL_CONFIG任务URL!>> \n" .. tostring(localSaveUrl)))
-					end
-				end
-			end
-		else
+		if taskCur:getIsContinue() then
             --没找到下一个任务，就换一个token执行任务
 			local userData = taskCur:getUserData()
 			if not userData or userData == "" or not tonumber(userData) then return end
@@ -113,14 +101,34 @@ function TaskStartEx.onResponseCallBack(httpRes, taskCur)
 				local localSaveUrl = nextToken["ReqUrl"]
 				local taskNext = FindData:getInstance():findTaskConfigByReqUrl(localSaveUrl)
 				if taskNext then
-					taskNext:initWithLocalSaveData(nextToken)
-					taskNext:setUserData(nextTokenIndex)
-					taskNext:setIsContinue(taskCur:getIsContinue())
+					TaskStartEx.doRequest(taskNext, nextToken, nextTokenIndex, taskCur:getIsContinue())
 					tmpCurTask:onNextTask(taskNext, taskCur)
-					taskNext:addCallback(TaskStartEx.onResponseCallBack)
-					taskNext:start()
 				else
 					print(CSFun.Utf8ToDefault("error: 未配置TASK_LIST_URL_CONFIG任务URL!>> \n" .. tostring(localSaveUrl)))
+				end
+			else
+				if tmpCurTask:isRepeatForever() then
+					TaskStartEx.start()
+				end
+			end
+		else
+			local curTokenIndex = table.indexof(SELECT_CK_INDEX,taskCur:getUserData())
+			if curTokenIndex then
+				local nextTokenIndex = curTokenIndex + 1
+				local nextToken = tokenList[SELECT_CK_INDEX[nextTokenIndex]]
+				if nextToken then
+					local localSaveUrl = nextToken["ReqUrl"]
+					local taskNext = FindData:getInstance():findTaskConfigByReqUrl(localSaveUrl)
+					if taskNext then
+						TaskStartEx.doRequest(taskNext, nextToken, SELECT_CK_INDEX[nextTokenIndex], taskCur:getIsContinue())
+						tmpCurTask:onNextTask(taskNext, taskCur)
+					else
+						print(CSFun.Utf8ToDefault("error: 未配置TASK_LIST_URL_CONFIG任务URL!>> \n" .. tostring(localSaveUrl)))
+					end
+				end
+			else
+				if tmpCurTask:isRepeatForever() then
+					TaskStartEx.doSelectTask()
 				end
 			end
 		end
@@ -138,7 +146,6 @@ function TaskStartEx.doSelectTask()
 			print(CSFun.Utf8ToDefault("还没指定任务!"))
 			return
 		end
-		tmpCurTask = clone(tmpCurTask)
 		local tokenList = FindData:getInstance():getTokenList()
 		local tokenIndex = selTable[1] or -1
 		local selectToken = tokenList[tokenIndex]
@@ -147,11 +154,7 @@ function TaskStartEx.doSelectTask()
 			local curTask = FindData:getInstance():findTaskConfigByReqUrl(localSaveUrl)
 			-- print("findUrl: " .. tostring(localSaveUrl))
 			if curTask then
-				curTask:setUserData(tokenIndex)
-				curTask:setIsContinue(false) --只执行当前选中的token任务，不再根据下标+1
-				curTask:initWithLocalSaveData(selectToken)
-				curTask:addCallback(TaskStartEx.onResponseCallBack)
-				curTask:start()
+				TaskStartEx.doRequest(curTask, selectToken, tokenIndex, false)
 			else
 				print(CSFun.Utf8ToDefault("error: 未配置TASK_LIST_URL_CONFIG任务URL!>> \n" .. tostring(localSaveUrl)))
 			end

@@ -9,15 +9,16 @@ local StringUtils 	= require("resources.luaScript.util.StringUtils")
 TaskBase.GET 		= Define.Method.GET
 TaskBase.POST 		= Define.Method.POST
 
-TaskBase.CUR_TASK_TITLE 		= ""          --当前任务标题
-TaskBase.FIND_STRING_HOST 		= ""          --域名，方便查找token, 如：hbz.qrmkt.cn, 有-的域名，找不出来，需要用-去掉的子串
-TaskBase.FILE_SAVE_NAME 		= ""          --保存本地token文件名字，如: token.lua
-TaskBase.RECORD_SAVE_FILE_NAME 	= ""          --交互记录文件, 如：token_record_url.lua
-TaskBase.DATA_TO_FIND_ARRAY 	= {}          --请求头中要查找的字段，如：token, Cookie
-TaskBase.IS_OPEN_RECORD 		= false 	  --是否抓取接口保存到本地
-TaskBase.ERQ_HEADER_EXT 		= {}          --额外的请求头,如：{["Refer"]="www.baidu.com"}
-TaskBase.DEFAULT_KABAO_COUNT 	= 50 	      --默认卡包次数：50次，需要设置isKabao后才生效
-TaskBase.IS_USE_FULL_REQDATA 	= false       --是否保存当前完整的请求数据,下次用当前数据去请求
+TaskBase.CUR_TASK_TITLE 		= ""          -- 当前任务标题，在TaskList.lua 里配置好的
+TaskBase.FIND_STRING_HOST 		= ""          -- 域名，方便查找token, 如：hbz.qrmkt.cn
+TaskBase.FILE_SAVE_NAME 		= ""          -- 保存本地token文件名字，如: xxx_token.lua,会自动根据lua文件名字取生成
+TaskBase.RECORD_SAVE_FILE_NAME 	= ""          -- 交互记录文件, 如：xxx_record.lua，会自动生成
+TaskBase.DATA_TO_FIND_ARRAY 	= {}          -- 请求头中要查找的字段，如：token, Cookie，如果设置了IS_USE_FULL_REQDATA=true,则会找url来匹配，不找header
+TaskBase.ERQ_HEADER_EXT 		= {}          -- 额外的请求头,会单独配置到请求头进去,如：{["Refer"]="www.baidu.com"}
+TaskBase.IS_OPEN_RECORD 		= false 	  -- 是否抓取接口保存到本地,保存在xxx_record.lua
+TaskBase.DEFAULT_KABAO_COUNT 	= 50 	      -- 默认卡包次数：50次，需要设置isKabao后才生效
+TaskBase.IS_USE_FULL_REQDATA 	= false       -- 是否保存当前完整的请求数据,下次用当前数据去请求，此时需要在DATA_TO_FIND_ARRAY配置要查找的Url,会用ReqUrl去做对比，一致则保存
+TaskBase.IS_REPEAT_FOREVER 		= false 	  -- 是否永久做此任务，停不下来(切换任务对象可以停下来)
 
 local state_table = {
 	"未开始~","进行中~","已完成~"
@@ -243,6 +244,11 @@ end
 --是否保存当前完整的请求数据,下次用当前数据去请求
 function TaskBase:isUseFullReqData()
 	return self.IS_USE_FULL_REQDATA
+end
+
+--当前任务是否永久执行
+function TaskBase:isRepeatForever()
+	return self.IS_REPEAT_FOREVER
 end
 
 --找到token后，预留接口以便修改

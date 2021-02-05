@@ -12,6 +12,23 @@ local LuaCallCShapUI = require("resources.luaScript.uiLogic.LuaCallCShapUI")
 local TaskStart = class("TaskStart")
 local SELECT_CK_INDEX = {} --选中的CK下标
 
+--[[
+执行一个httpTask 请求
+httpTask: HttpTask对象
+token: 请求头
+tokenIndex: 当前token下标
+isConitnue: 是否是连续token，如果是手动选择的token就不是连续的,否则就是连续的
+]]
+function TaskStart.doRequest(httpTask, token, tokenIndex, isContinue)
+	if not httpTask or not token or not tokenIndex then return end
+	local tmpHttpTask = clone(httpTask)
+	tmpHttpTask:setUserData(tokenIndex)
+	tmpHttpTask:addHeader(clone(token))
+	tmpHttpTask:setIsContinue(isContinue)
+	tmpHttpTask:addCallback(TaskStart.onResponseCallBack)
+	tmpHttpTask:start()
+end
+
 --从头开始执行任务，一个个执行
 function TaskStart.start()
 	local tmpCurTask = TaskData.getCurTask()
@@ -19,16 +36,8 @@ function TaskStart.start()
 		print(CSFun.Utf8ToDefault("还没指定任务!"))
 		return
 	end
-	tmpCurTask = clone(tmpCurTask)
 	local tokenIndex = 1
-	local topToken = FindData:getInstance():getTop()
-	if topToken then
-		local taskListTop = tmpCurTask:getTop()
-		taskListTop:setUserData(tokenIndex)
-			taskListTop:addHeader(topToken)
-		taskListTop:addCallback(TaskStart.onResponseCallBack)
-		taskListTop:start()
-	end
+	TaskStart.doRequest(tmpCurTask:getTop(), FindData:getInstance():getTop(), tokenIndex, true)
 end
 
 --执行最后一个任务
@@ -38,16 +47,8 @@ function TaskStart.startEnd()
 		print(CSFun.Utf8ToDefault("还没指定任务!"))
 		return
 	end
-	tmpCurTask = clone(tmpCurTask)
 	local tokenIndex = FindData:getInstance():getTokenCount()
-	local lastToken = FindData:getInstance():getEnd()
-	if lastToken then
-		local taskListTop = tmpCurTask:getTop()
-		taskListTop:setUserData(tokenIndex)
-		taskListTop:addHeader(lastToken)
-		taskListTop:addCallback(TaskStart.onResponseCallBack)
-		taskListTop:start()
-	end
+	TaskStart.doRequest(tmpCurTask:getTop(), FindData:getInstance():getEnd(), tokenIndex, false)
 end
 
 --停止任务
@@ -72,55 +73,52 @@ function TaskStart.onResponseCallBack(httpRes, taskCur)
 		return
 	end
 
-	tmpCurTask = clone(tmpCurTask)
 	tmpCurTask:onResponse(httpRes, taskCur)
 	if taskCur:getCurCount() >= taskCur:getReqCount() then --需要切换任务
 		local allTaskList = tmpCurTask:getTaskList()
-		local taskNext = allTaskList[taskCur:getCurTaskIndex()+1]
-		if taskNext then 
+		local httpTaskNext = allTaskList[taskCur:getCurTaskIndex()+1]
+		if httpTaskNext then 
 			--找到了下一个任务，继续用当前用户的token执行下一个任务
-			taskNext:setUserData(taskCur:getUserData())
-			taskNext:addHeader(taskCur:getHeader())
-			taskNext:setIsContinue(taskCur:getIsContinue())
-			tmpCurTask:onNextTask(taskNext, taskCur)
-			taskNext:addCallback(TaskStart.onResponseCallBack)
-			taskNext:start()
-		else --需要切换token
+			TaskStart.doRequest(httpTaskNext, taskCur:getHeader(), taskCur:getUserData(), taskCur:getIsContinue())
+			tmpCurTask:onNextTask(httpTaskNext, taskCur)
+		else --需要切换token,又从第一个task开始做
 			local date = os.date("%H:%M:%S")
 			local outLogStr = date .. " [" .. tmpCurTask:getTitle() .. ">>" ..taskCur:getUserData() .. "]>> " .. "完成!!!!!!!!!!!!!!!!!!!!!!!!!"
 			CSFun.LogOut(CSFun.Utf8ToDefault(outLogStr))
 			Sound.playGetAward()
 			taskCur:setState(taskCur.GRASP_STATE.FINISH)
 			local tokenList = FindData:getInstance():getTokenList()
-            --已设置了当前任务做完后，不再执行下个token任务, 但是可以执行指定token任务
-			if not taskCur:getIsContinue() then 
-				local curTokenIndex = table.indexof(SELECT_CK_INDEX,taskCur:getUserData())
-				if curTokenIndex then
-					local nextTokenIndex = curTokenIndex + 1
-					local token = tokenList[SELECT_CK_INDEX[nextTokenIndex]]
-					if token then
-						local taskListTop = tmpCurTask:getTop()
-						taskListTop:setUserData(SELECT_CK_INDEX[nextTokenIndex])
-						taskListTop:setIsContinue(taskCur:getIsContinue()) --只执行当前token任务，不再继续执行下一个token任务
-						taskListTop:addHeader(token)
-						taskListTop:addCallback(TaskStart.onResponseCallBack)
-						taskListTop:start()
-					end
-				end
-			else
-	            --没找到下一个任务，就换一个token执行任务
+            
+			if taskCur:getIsContinue() then 
+				--没找到下一个任务，就换一个token执行任务
 				local userData = taskCur:getUserData()
 				if not userData or userData == "" or not tonumber(userData) then return end
 				local nextTokenIndex = tonumber(userData) + 1
 				local nextToken = tokenList[nextTokenIndex]
 				if nextToken then
-					local taskListTop = tmpCurTask:getTop()
-					taskListTop:setUserData(nextTokenIndex)
-					taskListTop:setIsContinue(taskCur:getIsContinue())
-						taskListTop:addHeader(nextToken)
-					tmpCurTask:onNextTask(taskListTop, taskCur)
-					taskListTop:addCallback(TaskStart.onResponseCallBack)
-					taskListTop:start()
+					TaskStart.doRequest(tmpCurTask:getTop(), nextToken, nextTokenIndex, taskCur:getIsContinue())
+					tmpCurTask:onNextTask(tmpCurTask:getTop(), taskCur)
+				else
+					--token走完了，如果是永久执行的任务，又从第一个token开始执行
+					if tmpCurTask:isRepeatForever() then
+						TaskStart.start()
+					end
+				end
+			else
+				--设置了当前任务做完后，不再执行下个token任务, 但是可以执行指定token任务
+				local curTokenIndex = table.indexof(SELECT_CK_INDEX,taskCur:getUserData())
+				if curTokenIndex then
+					local nextTokenIndex = curTokenIndex + 1
+					local nextToken = tokenList[SELECT_CK_INDEX[nextTokenIndex]]
+					if nextToken then
+						TaskStart.doRequest(tmpCurTask:getTop(), nextToken, SELECT_CK_INDEX[nextTokenIndex], taskCur:getIsContinue())
+						tmpCurTask:onNextTask(tmpCurTask:getTop(), taskCur)
+					else
+					    --token走完了，如果是永久执行的任务，又从选中的第一个token开始执行
+					    if tmpCurTask:isRepeatForever() then
+					    	TaskStart.doSelectTask()
+					    end
+					end
 				end
 			end
 		end
@@ -206,18 +204,10 @@ function TaskStart.doSelectTask()
 			print(CSFun.Utf8ToDefault("还没指定任务!"))
 			return
 		end
-		tmpCurTask = clone(tmpCurTask)
 		local tokenList = FindData:getInstance():getTokenList()
 		local tokenIndex = selTable[1] or -1
 		local token = tokenList[tokenIndex]
-		if token then
-			local taskListTop = tmpCurTask:getTop()
-			taskListTop:setUserData(tokenIndex)
-			taskListTop:setIsContinue(false) --只执行当前token任务，不再继续执行下一个token任务
-			taskListTop:addHeader(token)
-			taskListTop:addCallback(TaskStart.onResponseCallBack)
-			taskListTop:start()
-		end
+		TaskStart.doRequest(tmpCurTask:getTop(), token, tokenIndex, false)
 	else
 		print(CSFun.Utf8ToDefault("没选中任何一个CK!"))
 	end
