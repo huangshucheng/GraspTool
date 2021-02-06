@@ -525,7 +525,7 @@
             this.numeric_kabao_count.Font = new System.Drawing.Font("宋体", 11F, System.Drawing.FontStyle.Bold);
             this.numeric_kabao_count.Location = new System.Drawing.Point(201, 88);
             this.numeric_kabao_count.Maximum = new decimal(new int[] {
-            10000,
+            100000,
             0,
             0,
             0});
