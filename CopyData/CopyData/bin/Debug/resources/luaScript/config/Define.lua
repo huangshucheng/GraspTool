@@ -16,7 +16,7 @@ Define.PROXY_LOG_URL = "http://hccfun.com:8002/" --日志显示链接
 -- true可以被Fidder捕捉到，"false"不能捕捉到
 Define.DEFAULT_PROXY = "false" --默认使用代理 ，如果使用代理则如："http://127.0.0.1:8080"，如果指定了http://就用指定的http://，如果没加就会默认加上https://
 
-Define.LOG_LINE_COUNT_LIMIE = 1000 --日志限制行数
+Define.LOG_LINE_COUNT_LIMIE = 500 --日志限制行数
 
 Define.ANYPROXY_WEB_SOCKET_URL = "ws://hccfun.com:8002/do-not-proxy"; -- anyproxy 自身ws address
 Define.ANYPROXY_SELF_WS_URL = "ws://hccfun.com:8005" --自己创建的ws address

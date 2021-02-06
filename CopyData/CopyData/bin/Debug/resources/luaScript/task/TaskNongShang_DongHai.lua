@@ -9,8 +9,8 @@ local POST = TaskBase.POST
 
 TaskTMP.FIND_STRING_HOST 		= "wx.dhrcbank.com"
 TaskTMP.DATA_TO_FIND_ARRAY 		= {"XAuthToken","Cookie"}
-TaskTMP.DEFAULT_KABAO_COUNT 	= 250 	-- 默认卡包次数，需要设置isKabao后才生效
--- TaskTMP.IS_REPEAT_FOREVER 		= true 	  -- 是否永久做此任务，停不下来(切换任务对象可以停下来)
+TaskTMP.DEFAULT_KABAO_COUNT 	= 250
+-- TaskTMP.IS_REPEAT_FOREVER 		= true
 
 --额外的请求头,也可以不用配置
 TaskTMP.ERQ_HEADER_EXT = {

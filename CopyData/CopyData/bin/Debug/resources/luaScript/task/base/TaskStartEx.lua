@@ -24,7 +24,7 @@ function TaskStartEx.doRequest(httpTask, requestInfo, tokenIndex, isContinue)
 	tmpHttpTask:initWithLocalSaveData(requestInfo)
 	tmpHttpTask:setUserData(tokenIndex)
 	tmpHttpTask:setIsContinue(isContinue)
-	tmpHttpTask:addCallback(TaskStart.onResponseCallBack)
+	tmpHttpTask:addCallback(TaskStartEx.onResponseCallBack)
 	tmpHttpTask:start()
 end
 
@@ -125,10 +125,10 @@ function TaskStartEx.onResponseCallBack(httpRes, taskCur)
 					else
 						print(CSFun.Utf8ToDefault("error: 未配置TASK_LIST_URL_CONFIG任务URL!>> \n" .. tostring(localSaveUrl)))
 					end
-				end
-			else
-				if tmpCurTask:isRepeatForever() then
-					TaskStartEx.doSelectTask()
+				else
+					if tmpCurTask:isRepeatForever() then
+						TaskStartEx.doSelectTask()
+					end					
 				end
 			end
 		end

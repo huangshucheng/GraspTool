@@ -5,35 +5,49 @@ local TaskTMP 	= class("TaskTMP", TaskBase)
 local GET = TaskBase.GET
 local POST = TaskBase.POST
 
-TaskTMP.FIND_STRING_HOST 		= "e555916317699.fengchuanba.com"
-TaskTMP.DEFAULT_KABAO_COUNT 	= 100
-TaskTMP.IS_USE_FULL_REQDATA 	= true       --是否保存当前完整的请求数据,下次用当前数据去请求
+TaskTMP.FIND_STRING_HOST 		= "xinhua.mofangdata.cn"
+TaskTMP.DEFAULT_KABAO_COUNT 	= 200
+TaskTMP.IS_USE_FULL_REQDATA 	= true
+TaskTMP.IS_REPEAT_FOREVER 		= true
 TaskTMP.DATA_TO_FIND_ARRAY 		= 
 {
 	-- "https://applet.suofeiya.com.cn/api/v1/SfyActivitySummary/doLuckDraw",
 	-- "https://25971934-3.hd.faisco.cn/api/result?",
 	-- "https://zhrs.ijoynet.com/zhrs/prize/oclockPick",
-	"https://e555916317699.fengchuanba.com/service/explore2/lottery",
+	-- "https://e555916317699.fengchuanba.com/service/explore2/lottery",
 	-- "https://e555916317699.fengchuanba.com/service/explore2/lottery"
+	"http://xinhua.mofangdata.cn/wx/prize/totryit5.htm",
+	"http://xinhua.mofangdata.cn/wx/prize/tryit3.htm",
 }
 
 --额外的请求头,也可以不用配置
 TaskTMP.ERQ_HEADER_EXT = {
-	["Referer"] = "https://e555916317699.fengchuanba.com/index.html",
-	["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8",
+	-- ["Referer"] = "https://e555916317699.fengchuanba.com/index.html",
+	-- ["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8",
+	-- ["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8; application/json",
 }
 
 --任务列表
 TaskTMP.TASK_LIST_URL_CONFIG = {
 	{
 		curTaskName = "抽奖~",
-		url = "https://e555916317699.fengchuanba.com/service/explore2/lottery",
-		method = GET,
+		url = "http://xinhua.mofangdata.cn/wx/prize/tryit3.htm",
+		method = POST,
 		reqCount = 1,
 		urlBody = "",
 		postBody = "",
-		delay = 0,
+		delay = 0.5,
 		isKabao = true,
+	},
+	{
+		curTaskName = "参加活动~",
+		url = "http://xinhua.mofangdata.cn/wx/prize/totryit5.htm",
+		method = POST,
+		reqCount = 1,
+		urlBody = "",
+		postBody = "",
+		delay = 0.5,
+		isKabao = false,
 	},
 }
 
