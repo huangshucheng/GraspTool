@@ -8,6 +8,7 @@ TODO
 > 可手动输入token
 > 破解token, 用openid + unionid动态生成（类似钻石活动）
 > 脚本中文读取问题 (暂时部分中文还不能及时显示)
+>test
 
 DONE
 > 研究下爱伪装 OK
