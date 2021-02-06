@@ -91,7 +91,7 @@
             this.richTextBoxLog.DetectUrls = false;
             this.richTextBoxLog.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBoxLog.ForeColor = System.Drawing.Color.Lime;
-            this.richTextBoxLog.Location = new System.Drawing.Point(3, 393);
+            this.richTextBoxLog.Location = new System.Drawing.Point(3, 328);
             this.richTextBoxLog.Name = "richTextBoxLog";
             this.richTextBoxLog.ReadOnly = true;
             this.richTextBoxLog.Size = new System.Drawing.Size(644, 293);
@@ -308,7 +308,7 @@
             this.listViewToken.ForeColor = System.Drawing.Color.Blue;
             this.listViewToken.Location = new System.Drawing.Point(4, 3);
             this.listViewToken.Name = "listViewToken";
-            this.listViewToken.Size = new System.Drawing.Size(638, 346);
+            this.listViewToken.Size = new System.Drawing.Size(638, 284);
             this.listViewToken.TabIndex = 27;
             this.listViewToken.TabStop = false;
             this.listViewToken.UseCompatibleStateImageBehavior = false;
@@ -403,7 +403,7 @@
             this.tab_control.Controls.Add(this.tab_qr_code);
             this.tab_control.Controls.Add(this.tab_proxy_ip);
             this.tab_control.Controls.Add(this.tab_jiema);
-            this.tab_control.Location = new System.Drawing.Point(654, 280);
+            this.tab_control.Location = new System.Drawing.Point(661, 264);
             this.tab_control.Name = "tab_control";
             this.tab_control.SelectedIndex = 0;
             this.tab_control.Size = new System.Drawing.Size(260, 297);
@@ -449,11 +449,11 @@
             this.text_box_ip_info.DetectUrls = false;
             this.text_box_ip_info.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.text_box_ip_info.ForeColor = System.Drawing.Color.Red;
-            this.text_box_ip_info.Location = new System.Drawing.Point(653, 637);
+            this.text_box_ip_info.Location = new System.Drawing.Point(653, 573);
             this.text_box_ip_info.Name = "text_box_ip_info";
             this.text_box_ip_info.ReadOnly = true;
             this.text_box_ip_info.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Horizontal;
-            this.text_box_ip_info.Size = new System.Drawing.Size(274, 43);
+            this.text_box_ip_info.Size = new System.Drawing.Size(274, 42);
             this.text_box_ip_info.TabIndex = 31;
             this.text_box_ip_info.Text = "";
             // 
@@ -545,7 +545,7 @@
             this.panel1.Controls.Add(this.btnCatchSel);
             this.panel1.Controls.Add(this.btnStopCatch);
             this.panel1.Controls.Add(this.btnStartCatch);
-            this.panel1.Location = new System.Drawing.Point(648, 153);
+            this.panel1.Location = new System.Drawing.Point(648, 155);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(280, 103);
             this.panel1.TabIndex = 35;
@@ -575,7 +575,7 @@
             this.panel3.Controls.Add(this.btnClearLog);
             this.panel3.Controls.Add(this.text_link_label);
             this.panel3.Controls.Add(this.btnFinishCatch);
-            this.panel3.Location = new System.Drawing.Point(4, 355);
+            this.panel3.Location = new System.Drawing.Point(4, 292);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(638, 32);
             this.panel3.TabIndex = 37;
@@ -584,7 +584,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(935, 692);
+            this.ClientSize = new System.Drawing.Size(935, 625);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);

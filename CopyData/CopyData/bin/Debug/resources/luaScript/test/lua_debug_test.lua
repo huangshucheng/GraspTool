@@ -1,4 +1,5 @@
-local aaa= 123
-local socket = require("socket")
+local aaa= "-123"
+-- local socket = require("socket")
 
-print(aaa)
+print(tonumber(123))
+
