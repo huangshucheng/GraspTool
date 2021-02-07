@@ -30,9 +30,13 @@ namespace CopyData
         //cookies: "a=avlue;c=cvalue"
         //proxyAddress: "http://127.0.0.1:8080" 代理IP:端口
         //taskEndAction: lua function
-        public static void HttpRequestAsync(string url = null,int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null, string proxyAddress = null, LuaFunction luaCallfunc = null)
+        public static void HttpRequestAsync(string url = null,int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null, string proxyAddress = null, LuaFunction luaCallfunc = null, int reqCount = 1)
         {
-            CCHttp.HttpRequestAsync(url, method, headTable, urlBody, postBody, cookies, proxyAddress, luaCallfunc);
+            if (reqCount >= 1){
+                for (int i = 1; i <= reqCount; i++){
+                    CCHttp.HttpRequestAsync(url, method, headTable, urlBody, postBody, cookies, proxyAddress, luaCallfunc);
+                }
+            }
         }
         
         //执行一次http请求,同步

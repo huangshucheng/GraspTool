@@ -132,6 +132,21 @@ function testCall()
 	-- local CSWebSocket 	= require("resources.luaScript.util.CSWebSocket")
 	-- local timerID2 = CSWebSocket.WebSocket_GetTimerID()
 	-- CSFun.StopAllTimer({timerID2})
+	--[[
+	local index = 1
+	local func = function(ret)
+		index = index+1
+	end
+	CSFun.HttpRequestDirect("www.baidu.com",func,100)
+	--]]
+	--[[
+	local index = 1
+	CSFun.httpReqAsync("www.baidu.com",function(ret) 
+		print(ret)
+		print(index)
+		index = index+1
+	end,100)
+	]]
 end
 --[[
 [reqHeader<www.baidu.com>] 

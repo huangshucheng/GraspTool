@@ -8,7 +8,7 @@ local POST = TaskBase.POST
 TaskTMP.FIND_STRING_HOST 		= "xinhua.mofangdata.cn"
 TaskTMP.DEFAULT_KABAO_COUNT 	= 200
 TaskTMP.IS_USE_FULL_REQDATA 	= true
-TaskTMP.IS_REPEAT_FOREVER 		= true
+TaskTMP.IS_REPEAT_FOREVER 		= false
 TaskTMP.DATA_TO_FIND_ARRAY 		= 
 {
 	-- "https://applet.suofeiya.com.cn/api/v1/SfyActivitySummary/doLuckDraw",

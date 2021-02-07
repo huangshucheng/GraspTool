@@ -91,7 +91,7 @@ taskEndAction: lua function
 proxyAddress:"false" --代理, 默认false 不开启
 ]]
 --异步请求http
-function CSFun.httpReqAsync(url, callFunc, method, headTable, urlBody, postBody, cookies, proxyAddress)
+function CSFun.httpReqAsync(url, callFunc, reqCount, method, headTable, urlBody, postBody, cookies, proxyAddress)
 	local Define = require("resources.luaScript.config.Define")
 	method = method or Define.Method.GET
 	headTable = headTable or {}
@@ -99,6 +99,7 @@ function CSFun.httpReqAsync(url, callFunc, method, headTable, urlBody, postBody,
 	postBody = postBody or ""
 	cookies = cookies or ""
 	proxyAddress = proxyAddress or ""
+	reqCount = reqCount or 1
 	if type(headTable) ~= "table" then
 		headTable = {}
 	end
@@ -111,9 +112,36 @@ function CSFun.httpReqAsync(url, callFunc, method, headTable, urlBody, postBody,
 	 callFunc = callFunc or function(ret) end
 
 	if HttpRequestAsync then
-		HttpRequestAsync(url, method, headTable, urlBody, postBody, cookies, proxyAddress, callFunc)
+		HttpRequestAsync(url, method, headTable, urlBody, postBody, cookies, proxyAddress, callFunc, reqCount)
 	end
 end
+
+--[[
+function CSFun.HttpRequestDirect(url, callFunc, reqCount, method, headTable, urlBody, postBody, cookies, proxyAddress)
+	local Define = require("resources.luaScript.config.Define")
+	method = method or Define.Method.GET
+	headTable = headTable or {}
+	urlBody = urlBody or ""
+	postBody = postBody or ""
+	cookies = cookies or ""
+	proxyAddress = proxyAddress or ""
+	reqCount = reqCount or 1
+	if type(headTable) ~= "table" then
+		headTable = {}
+	end
+
+	if not url or url == "" then 
+		LogOut("error url is empty>> " .. debug.traceback())
+		return
+	 end
+
+	 callFunc = callFunc or function(ret) end
+
+	if HttpRequestDirect then
+		HttpRequestDirect(url, method, headTable, urlBody, postBody, cookies, proxyAddress, callFunc, reqCount)
+	end
+end
+]]
 
 --文件是否存在
 function CSFun.IsFileExist(fileName)

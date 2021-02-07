@@ -89,7 +89,7 @@ namespace CopyData
             //SetDefaultAccept("application/json,text/javascript,text/html,text/plain,application/xhtml+xml,application/xml, */*; q=0.01");
             SetDefaultAccept("*/*");
             SetDefaultKeepAlive(false);
-            SetDefaultTimeOut(5);
+            SetDefaultTimeOut(5000);
             SetDefaultAllowAutoRedirect(false);
         }
 
@@ -240,7 +240,6 @@ namespace CopyData
         //同步执行Http请求，会卡住
         public string Execute(Method method){
             string tmpUrl = this._fullUrl;
-            //URL追加body
             if (!string.IsNullOrEmpty(_urlBody)){
                 if (tmpUrl.IndexOf("/?") > 0 || tmpUrl.IndexOf("?") > 0){
                     tmpUrl = this._fullUrl + "&" + _urlBody;
@@ -255,13 +254,10 @@ namespace CopyData
             _request.CookieContainer = _cookieContainer;
             WriteHeader();
             InitProxy();
-
-            //get方式直接拼接url
             if (method == Method.GET){
                 _request.Method = "GET";
             }
-            else if (method == Method.POST)
-            {
+            else{
                 _request.Method = "POST";
                 if (!string.IsNullOrEmpty(_customePostData)){
                     using (var stream = _request.GetRequestStream())
@@ -285,9 +281,9 @@ namespace CopyData
                     string retStr = EasyHttpUtils.ReadAllAsString(responseStream, _responseEncoding);
                     tmpResponse.Close();
                     tmpResponse = null;
+                    responseStream.Close();
                     _request.Abort();
                     _request = null;
-                    responseStream.Close();
                     return retStr;
                 }
             }

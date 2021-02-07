@@ -53,7 +53,9 @@ namespace CopyData
                         http.SetCookieHeader(cookies);
                     }
 
-                    http.SetProxy(proxyAddress);
+                    if (proxyAddress != null){
+                        http.SetProxy(proxyAddress);
+                    }
 
                     string ret = null;
                     if (method == (int)EasyHttp.Method.GET)
@@ -103,7 +105,9 @@ namespace CopyData
                 http.SetUrlBody(urlBody);
             }
 
-            http.SetProxy(proxyAddress);
+            if (proxyAddress != null) {
+                http.SetProxy(proxyAddress);
+            }
 
             string ret = null;
             if (method == (int)EasyHttp.Method.GET){

@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace CopyData
 {
@@ -57,10 +58,12 @@ namespace CopyData
             _luaScript.RegisterFunction("SetKaBaoCount", this, GetType().GetMethod("SetKaBaoCount")); //设置卡包次数
             _luaScript.RegisterFunction("GetKaBaoCount", this, GetType().GetMethod("GetKaBaoCount")); //获取卡包次数
 
+            //_luaScript.RegisterFunction("HttpRequestDirect", this, GetType().GetMethod("HttpRequestDirect")); //http请求同步
+
             //静态方法
             _luaScript.RegisterFunction("GetCurDir", null, typeof(LuaCall).GetMethod("GetCurDir")); //获取当前exe文件位置
             _luaScript.RegisterFunction("GetDeskTopDir", null, typeof(LuaCall).GetMethod("GetDeskTopDir")); //获取桌面位置
-            _luaScript.RegisterFunction("HttpRequest", null, typeof(LuaCall).GetMethod("HttpRequest")); //http请求
+            //_luaScript.RegisterFunction("HttpRequest", null, typeof(LuaCall).GetMethod("HttpRequest")); //http请求同步
             _luaScript.RegisterFunction("HttpRequestAsync", null, typeof(LuaCall).GetMethod("HttpRequestAsync")); //http请求 异步
             _luaScript.RegisterFunction("PlayWAVSound", null, typeof(LuaCall).GetMethod("PlayWAVSound")); //播放音效
             _luaScript.RegisterFunction("GetLocalIP", null, typeof(LuaCall).GetMethod("GetLocalIP")); //获取本机IP接口
@@ -100,6 +103,7 @@ namespace CopyData
             _luaScript.DoFile(exePath + scriptPath);
         }
 
+
         //test 按钮点击
         private void btnFinishCatch_Click(object sender, EventArgs e)
         {
@@ -113,7 +117,76 @@ namespace CopyData
             //var graspUrl = "https://engine.cdollar.cn/activity-engine/draw?";
             //var isSubStr = reqUrl.Contains(graspUrl);
             //Console.WriteLine(isSubStr);
+
+
+            //var act_test = new Action(()=> {
+            //    var ret = CCHttp.HttpRequest("www.baidu.com");
+            //});
+            //act_test.BeginInvoke(ar_value => act_test.EndInvoke(ar_value), null);  //参数null可以作为回调函数的返回参数
+            //act_test.BeginInvoke(ar_value => act_test.EndInvoke(ar_value), null);  //参数null可以作为回调函数的返回参数
+            //Thread objThread = new Thread(new ThreadStart(delegate
+            //{
+            //    test_invoke();
+            //}));
+            //objThread.Start();
+
+            //for (int i = 0; i < 2; i++)
+            //{
+            //var tmp_str = "test_invoke>> " + i.ToString();
+            //Console.WriteLine(tmp_str);
+            //final_str = final_str + tmp_str + "\n";
+            //var ret = CCHttp.StartHttpRequestAsync("www.baidu.com");
+            //Console.WriteLine(ret);
+            //LogOut(ret.Result);
+            //}
+            //for (int i = 0; i < 200; i++) {
+            //    HttpRequestDirect("www.baidu.com");
+            //}
         }
+
+        //直接请求http
+        /*//TODO 会崩溃
+        public void HttpRequestDirect(string url = null, int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null, string proxyAddress = null, LuaFunction luaCallfunc = null, int reqCount = 1) {
+            var action_http = new Action(() => {
+                if (reqCount >= 1) {
+                    for (int i = 1; i<= reqCount; i++) {
+                        try {
+                                string ret = LuaCall.HttpRequest(url, method, headTable, urlBody, postBody, cookies, proxyAddress);
+                                this.BeginInvoke(new Action(() =>
+                                {
+                                    if (luaCallfunc != null) {
+                                        luaCallfunc.Call(ret); //TODO 会崩溃
+                                        //Console.WriteLine(ret);
+                                        //LogOut(ret);
+                                    }
+                                }));
+                        } catch (Exception ex) {
+                            Console.WriteLine("HttpRequestDirect error>> " + ex.Message);
+                        }
+                    }
+                }
+            });
+            action_http.BeginInvoke(http_value => action_http.EndInvoke(http_value), null);
+        }
+
+        private void test_invoke() {
+            try {
+                for (int i = 0; i < 10; i++)
+                {
+                    var ret = CCHttp.HttpRequest("www.baidu.com");
+                    //Console.WriteLine(ret);
+                    //LogOut(ret);
+                    this.BeginInvoke(new Action(() =>
+                    {
+                        LogOut(ret);
+                    }));
+                }
+
+            } catch (Exception ex) {
+                Console.WriteLine("err_________ " + ex.Message);
+            }
+        }
+        */
 
         /// ///////////////////////////////////
         /// 注册到lua的函数,lua调用

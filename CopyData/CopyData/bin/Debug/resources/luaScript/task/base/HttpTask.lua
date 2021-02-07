@@ -269,33 +269,35 @@ function HttpTask:start()
 	end
 
 	self:setState(HttpTask.GRASP_STATE.DOING)
-	for index = 1 , self._reqCount do
-		local reqFunc = function()
-			CSFun.httpReqAsync(
-			self._url,
-			function(ret)
-				self._curCount = self._curCount + 1
-				self._responseData = ret
-				if self._respCallback then
-					self._respCallback(ret, self)
-				end
-			end,
-			self._method, 
-			self._header, 
-			self._urlBody, 
-			self._postBody, 
-			self._cookies, 
-			self._proxyAddress)
-		end
-		local delay = tonumber(self._delayTime)
-		if delay and delay > 0 then
-			if delay >= 3 then
-				print(CSFun.Utf8ToDefault("正在等待中~,  " .. delay .. '秒后继续...'))
+	local reqFunc = function()
+
+		CSFun.httpReqAsync(
+		self._url,
+		function(ret)
+			self._curCount = self._curCount + 1
+			self._responseData = ret
+			if self._respCallback then
+				self._respCallback(ret, self)
 			end
-			CSFun.SetDelayTime(delay, reqFunc)
-		else
-			reqFunc()
+		end,
+		self._reqCount,
+		self._method, 
+		self._header, 
+		self._urlBody, 
+		self._postBody, 
+		self._cookies, 
+		self._proxyAddress)
+		
+	end
+
+	local delay = tonumber(self._delayTime)
+	if delay and delay > 0 then
+		if delay >= 3 then
+			print(CSFun.Utf8ToDefault("正在等待中~,  " .. delay .. '秒后继续...'))
 		end
+		CSFun.SetDelayTime(delay, reqFunc)
+	else
+		reqFunc()
 	end
 end
 
