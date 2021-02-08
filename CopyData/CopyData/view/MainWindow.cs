@@ -118,7 +118,6 @@ namespace CopyData
             //var isSubStr = reqUrl.Contains(graspUrl);
             //Console.WriteLine(isSubStr);
 
-
             //var act_test = new Action(()=> {
             //    var ret = CCHttp.HttpRequest("www.baidu.com");
             //});
@@ -135,7 +134,7 @@ namespace CopyData
             //var tmp_str = "test_invoke>> " + i.ToString();
             //Console.WriteLine(tmp_str);
             //final_str = final_str + tmp_str + "\n";
-            //var ret = CCHttp.StartHttpRequestAsync("www.baidu.com");
+            //var ret = CCHttp.StartHttpRequestAsync("www.baidu.com",4);
             //Console.WriteLine(ret);
             //LogOut(ret.Result);
             //}

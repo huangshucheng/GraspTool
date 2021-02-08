@@ -9,7 +9,7 @@ namespace CopyData
 {
     public partial class EasyHttp
     {
-        public enum Method {GET,POST}                   // HTTP请求方式
+        public enum Method {GET,POST,PUT,DELETE,OPTIONS}                   // HTTP请求方式
         private HttpWebRequest  _request;               // 请求对象
         private HttpWebRequest  _defaultHeaderRequest;  // 默认请求对象
         private Encoding        _postEncoding           = Encoding.UTF8; // 请求体编码格式
@@ -24,24 +24,50 @@ namespace CopyData
         private EasyHttp(){
         }
 
-        // 同步GET请求
+        // 同步请求
         public string GetForString(){
             return Execute(Method.GET);
         }
 
-        //异步GET
-        public Task<string> GetForStringAsyc(){
-            return ExecuteAsyc(Method.GET);
-        }
-
-        //同步POST
         public string PostForString(){
             return Execute(Method.POST);
         }
 
-        //异步GET请求
+        public string PutForString(){
+            return Execute(Method.PUT);
+        }
+
+        public string DeleteForString(){
+            return Execute(Method.DELETE);
+        }
+
+        public string OptionsForString()
+        {
+            return Execute(Method.OPTIONS);
+        }
+
+        //异步请求
+        public Task<string> GetForStringAsyc(){
+            return ExecuteAsyc(Method.GET);
+        }
+
         public Task<string> PostForStringAsyc(){
             return ExecuteAsyc(Method.POST);
+        }
+
+        public Task<string> PutForStringAsyc()
+        {
+            return ExecuteAsyc(Method.PUT);
+        }
+
+        public Task<string> DeleteForStringAsyc()
+        {
+            return ExecuteAsyc(Method.DELETE);
+        }
+
+        public Task<string> OptionsForStringAsyc()
+        {
+            return ExecuteAsyc(Method.OPTIONS);
         }
 
         // 通过url获取 一个EasyHttp对象
@@ -224,10 +250,7 @@ namespace CopyData
             else if (headerKey.Equals("Proxy-Connection")) {
             }
             else if (headerKey.Equals("Content-Type")) {
-                _request.ContentType = _headers[headerKey];  //TODO
-            }
-            else if (headerKey.Equals("Content-Length")) {
-                //_request.ContentLength = long.Parse(_headers[headerKey]);
+                _request.ContentType = _headers[headerKey];
             }
             else if (headerKey.Equals("Connection")) {
                 _request.KeepAlive = true;
@@ -254,12 +277,33 @@ namespace CopyData
             _request.CookieContainer = _cookieContainer;
             WriteHeader();
             InitProxy();
-            if (method == Method.GET){
+
+            if (method == Method.GET)
+            {
                 _request.Method = "GET";
             }
-            else{
+            else if (method == Method.POST)
+            {
                 _request.Method = "POST";
-                if (!string.IsNullOrEmpty(_customePostData)){
+            }
+            else if (method == Method.PUT)
+            {
+                _request.Method = "PUT";
+            }
+            else if (method == Method.DELETE)
+            {
+                _request.Method = "DELETE";
+
+            }
+            else if (method == Method.OPTIONS)
+            {
+                _request.Method = "OPTIONS";
+            }
+
+            if (method == Method.POST || method == Method.PUT || method == Method.DELETE || method == Method.OPTIONS)
+            {
+                if (!string.IsNullOrEmpty(_customePostData))
+                {
                     using (var stream = _request.GetRequestStream())
                     {
                         byte[] postData = _postEncoding.GetBytes(_customePostData);
@@ -268,6 +312,7 @@ namespace CopyData
                     }
                 }
             }
+
             HttpWebResponse tmpResponse = null;
             try{
                 tmpResponse = _request.GetResponse() as HttpWebResponse;
@@ -303,11 +348,11 @@ namespace CopyData
         }
 
         //异步请求，不会卡住UI
-        public async Task<string> ExecuteAsyc(Method method){
+        public async Task<string> ExecuteAsyc(Method method) {
             string tmpUrl = this._fullUrl;
             //URL追加body
-            if (!string.IsNullOrEmpty(_urlBody)){
-                if (tmpUrl.IndexOf("/?") > 0 || tmpUrl.IndexOf("?") > 0){
+            if (!string.IsNullOrEmpty(_urlBody)) {
+                if (tmpUrl.IndexOf("/?") > 0 || tmpUrl.IndexOf("?") > 0) {
                     tmpUrl = this._fullUrl + "&" + _urlBody;
                 }
                 else {
@@ -320,13 +365,26 @@ namespace CopyData
             _request.CookieContainer = _cookieContainer;
             WriteHeader();
             InitProxy();
-            if (method == Method.GET){
+
+            if(method == Method.GET){
                 _request.Method = "GET";
             }
-            else{
+            else if(method == Method.POST){
                 _request.Method = "POST";
-                //将postData 写入body,//处理请求参数
-                if (!string.IsNullOrEmpty(_customePostData)) {
+            }
+            else if(method == Method.PUT){
+                _request.Method = "PUT";
+            }
+            else if(method == Method.DELETE) {
+                _request.Method = "DELETE";
+
+            } else if(method == Method.OPTIONS) {
+                _request.Method = "OPTIONS";
+            }
+
+            if (method == Method.POST || method == Method.PUT || method == Method.DELETE || method == Method.OPTIONS) {
+                if (!string.IsNullOrEmpty(_customePostData))
+                {
                     var stream = await _request.GetRequestStreamAsync();
                     byte[] postData = _postEncoding.GetBytes(_customePostData);
                     stream.Write(postData, 0, postData.Length);

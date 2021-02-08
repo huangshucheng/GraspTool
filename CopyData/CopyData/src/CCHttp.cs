@@ -57,18 +57,23 @@ namespace CopyData
                         http.SetProxy(proxyAddress);
                     }
 
-                    string ret = null;
-                    if (method == (int)EasyHttp.Method.GET)
-                    {
-                        ret = http.GetForString();
-                    }
-                    else
-                    {
-                        if (!string.IsNullOrEmpty(postBody))
-                        {
+                    if (method == (int)EasyHttp.Method.POST || method == (int)EasyHttp.Method.PUT || method == (int)EasyHttp.Method.DELETE || method == (int)EasyHttp.Method.OPTIONS){
+                        if (!string.IsNullOrEmpty(postBody)){
                             http.SetPostBody(postBody);
                         }
+                    }
+
+                    string ret = null;
+                    if (method == (int)EasyHttp.Method.GET){
+                        ret = http.GetForString();
+                    }else if (method == (int)EasyHttp.Method.POST){
                         ret = http.PostForString();
+                    }else if (method == (int)EasyHttp.Method.PUT){
+                        ret = http.PutForString();
+                    }else if (method == (int)EasyHttp.Method.DELETE){
+                        ret = http.DeleteForString();
+                    }else if (method == (int)EasyHttp.Method.OPTIONS){
+                        ret = http.OptionsForString();
                     }
                     return ret;
                 }
@@ -110,14 +115,22 @@ namespace CopyData
             }
 
             string ret = null;
-            if (method == (int)EasyHttp.Method.GET){
-                ret = await http.GetForStringAsyc();
-            }
-            else{
+            if (method == (int)EasyHttp.Method.POST || method == (int)EasyHttp.Method.PUT || method == (int)EasyHttp.Method.DELETE || method == (int)EasyHttp.Method.OPTIONS){
                 if (!string.IsNullOrEmpty(postBody)){
                     http.SetPostBody(postBody);
                 }
+            }
+
+            if (method == (int)EasyHttp.Method.GET) {
+                ret = await http.GetForStringAsyc();
+            } else if (method == (int)EasyHttp.Method.POST) {
                 ret = await http.PostForStringAsyc();
+            }else if (method == (int)EasyHttp.Method.PUT){
+                ret = await http.PutForStringAsyc();
+            }else if (method == (int)EasyHttp.Method.DELETE) {
+                ret = await http.DeleteForStringAsyc();
+            } else if (method == (int)EasyHttp.Method.OPTIONS) {
+                ret = await http.OptionsForStringAsyc();
             }
             return ret;
         }

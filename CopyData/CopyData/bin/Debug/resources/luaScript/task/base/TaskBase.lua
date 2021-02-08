@@ -8,6 +8,9 @@ local StringUtils 	= require("resources.luaScript.util.StringUtils")
 
 TaskBase.GET 		= Define.Method.GET
 TaskBase.POST 		= Define.Method.POST
+TaskBase.PUT 		= Define.Method.PUT
+TaskBase.DELETE 	= Define.Method.DELETE
+TaskBase.OPTIONS 	= Define.Method.OPTIONS
 
 TaskBase.CUR_TASK_TITLE 		= ""          -- 当前任务标题，在TaskList.lua 里配置好的
 TaskBase.FIND_STRING_HOST 		= ""          -- 域名，方便查找token, 如：hbz.qrmkt.cn
