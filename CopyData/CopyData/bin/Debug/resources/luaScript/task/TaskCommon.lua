@@ -11,13 +11,7 @@ TaskTMP.IS_USE_FULL_REQDATA 	= true
 TaskTMP.IS_REPEAT_FOREVER 		= false
 TaskTMP.DATA_TO_FIND_ARRAY 		= 
 {
-	-- "https://applet.suofeiya.com.cn/api/v1/SfyActivitySummary/doLuckDraw",
-	-- "https://25971934-3.hd.faisco.cn/api/result?",
-	-- "https://zhrs.ijoynet.com/zhrs/prize/oclockPick",
-	-- "https://e555916317699.fengchuanba.com/service/explore2/lottery",
-	-- "https://e555916317699.fengchuanba.com/service/explore2/lottery"
-	"http://xinhua.mofangdata.cn/wx/prize/totryit5.htm",
-	"http://xinhua.mofangdata.cn/wx/prize/tryit3.htm",
+	-- "http://xinhua.mofangdata.cn/wx/prize/tryit3.htm",
 }
 
 --额外的请求头,也可以不用配置
