@@ -9,7 +9,7 @@ local POST = TaskBase.POST
 
 TaskTMP.FIND_STRING_HOST 		= "xinhua.mofangdata.cn"
 TaskTMP.DATA_TO_FIND_ARRAY 		= {"Cookie","Referer"}
-TaskTMP.DEFAULT_KABAO_COUNT 	= 2000 	-- 默认卡包次数，需要设置isKabao后才生效
+TaskTMP.DEFAULT_KABAO_COUNT 	= 300 	-- 默认卡包次数，需要设置isKabao后才生效
 TaskTMP.IS_REPEAT_FOREVER 		= false
 
 --额外的请求头,也可以不用配置

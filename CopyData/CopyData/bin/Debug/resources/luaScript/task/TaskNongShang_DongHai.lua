@@ -9,7 +9,7 @@ local POST = TaskBase.POST
 
 TaskTMP.FIND_STRING_HOST 		= "wx.dhrcbank.com"
 TaskTMP.DATA_TO_FIND_ARRAY 		= {"XAuthToken","Cookie"}
-TaskTMP.DEFAULT_KABAO_COUNT 	= 1000
+TaskTMP.DEFAULT_KABAO_COUNT 	= 300
 TaskTMP.IS_REPEAT_FOREVER 		= false
 
 --额外的请求头,也可以不用配置
