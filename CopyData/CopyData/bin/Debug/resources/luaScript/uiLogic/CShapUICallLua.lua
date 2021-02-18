@@ -241,3 +241,15 @@ function ListView_on_menu_strip_open()
 		CShapListView.Strip_menu_set_paste_enable(false)
 	end
 end
+
+--拷贝活动链接
+function onClickCopyActivityLink()
+	local LuaCallCShapUI = require("resources.luaScript.uiLogic.LuaCallCShapUI")
+	local linkUrl = LuaCallCShapUI.GetActivityLink() or ""
+	CSFun.CopyToClipBoard(tostring(linkUrl))
+	if linkUrl ~= "" then
+		print(CSFun.Utf8ToDefault("活动链接复制成功~"))
+	else
+		print(CSFun.Utf8ToDefault("暂无活动链接~"))
+	end
+end

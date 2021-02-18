@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using JinYiHelp;
 
 namespace CopyData
 {
@@ -58,6 +59,8 @@ namespace CopyData
             _luaScript.RegisterFunction("SetProxyLinkUrl", this, GetType().GetMethod("SetProxyLinkUrl")); //设置日志显示连接
             _luaScript.RegisterFunction("SetKaBaoCount", this, GetType().GetMethod("SetKaBaoCount")); //设置卡包次数
             _luaScript.RegisterFunction("GetKaBaoCount", this, GetType().GetMethod("GetKaBaoCount")); //获取卡包次数
+            _luaScript.RegisterFunction("SetActivityLink", this, GetType().GetMethod("SetActivityLink")); //设置活动链接
+            _luaScript.RegisterFunction("GetActivityLink", this, GetType().GetMethod("GetActivityLink")); //获取活动链接
 
             //_luaScript.RegisterFunction("HttpRequestDirect", this, GetType().GetMethod("HttpRequestDirect")); //http请求同步
 
@@ -142,6 +145,7 @@ namespace CopyData
             //for (int i = 0; i < 200; i++) {
             //    HttpRequestDirect("www.baidu.com");
             //}
+            
         }
 
         //直接请求http
@@ -524,6 +528,16 @@ namespace CopyData
             checkAutoDoAct.Checked = isAuto;
         }
 
+        //获取活动链接
+        public string GetActivityLink() {
+            return richTextLink.Text;
+        }
+
+        //设置活动链接
+        public void SetActivityLink(string linkStr) {
+            richTextLink.Text = linkStr;
+        }
+
         /// ///////////////////////////////////
         /// 调用Lua函数
         /// //////////////////////////////////
@@ -784,6 +798,24 @@ namespace CopyData
                 System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
             } catch (Exception ex) {
                 Console.WriteLine("text_link_label_LinkClicked error: " + ex.Message);
+            }
+        }
+        
+        //拷贝活动链接
+        private void btnCopyLink_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var func = _luaScript.GetFunction("onClickCopyActivityLink");
+                if (func != null)
+                {
+                    var doStirng = "onClickCopyActivityLink()";
+                    _luaScript.DoString(doStirng);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("btnCopyLink_Click error: " + ex.Message);
             }
         }
     }

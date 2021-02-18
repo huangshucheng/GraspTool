@@ -1,6 +1,5 @@
 local TaskList = {}
 
-
 TaskList.ActMapTable = {
 	{
 		name = "请下载证书~",
@@ -8,20 +7,53 @@ TaskList.ActMapTable = {
 		qrcode = "http://hcc.hccfun.com/qr_code_proxy_2.png",--设置手机代理的 二维码URL
 	},
 	{
+		name = "太平洋保险~",
+		script = "resources.luaScript.task.TaskTaiPingYang",
+		qrcode = "CPIC-LIFE",
+		linkUrl = "https://mp.weixin.qq.com/s/5Oiv1W5IHuwOttH6M5qb-w",
+	},
+	{
+		name = "一汽丰田抽奖~",
+		script = "resources.luaScript.task.TaskYiQiFengTian",
+		qrcode = "",
+		linkUrl = "https://sourl.cn/4fQsMg",
+	},
+	{
 		name = "东海农商",
 		script = "resources.luaScript.task.TaskNongShang_DongHai",
 		qrcode = "jsdhnsyh",
+		linkUrl = "http://wx.dhrcbank.com/win/WxyhServerV5/Areas/DHGoodStart/index.html",
 	},
 	{
-		name = "太平洋抽奖~",
-		script = "resources.luaScript.task.TaskTaiPingYang",
-		qrcode = "CPIC-LIFE",
+		name = "江都农商",
+		script = "resources.luaScript.task.TaskNongShang_JiangDu",
+		qrcode = "jdnsh96008",
+		linkUrl = "http://jiangdu.bj-virgo.cn/win/WxyhServer_DY_V5/Areas/JDGoodStart/index.html",
 	},
 	{
-		name = "丰田抽奖~",
-		script = "resources.luaScript.task.TaskYiQiFengTian",
-		qrcode = "https://sourl.cn/4fQsMg",
-		-- qrcode = "sourl.cn/4fQsMg",
+		name = "仪征农商",
+		script = "resources.luaScript.task.TaskNongShang_YiZheng",
+		qrcode = "jsyznsh",
+		linkUrl = "http://wxs.yzbank.com/win/WxyhServer_YZV5/Areas/YZGoodStart/index.html",
+	},
+	{
+		name = "扬州农商",
+		script = "resources.luaScript.task.TaskNongShang_YangZhou",
+		qrcode = "yznsyh96008",
+		linkUrl = "http://yzweixin.yznsh.net/win/WxyhServerV5/Areas/YZGoodStart/PagesIndex/index.html",
+	},
+	{
+		name = "黄浦食品安全",
+		script = "resources.luaScript.task.TaskFoodSafe",
+		qrcode = "HP-MSA",
+		linkUrl = "http://xinhua.mofangdata.cn/wx/prize/game/answercard.htm?id=402881d97622ed0201767e799f370ba0&prizeid=88&basescope=true&cardid=hpcj2020-10&backGroupId=ed4f2e0737334907ab811b17e316d164",
+	},
+
+	{
+		name = "红牛活动~",
+		script = "resources.luaScript.task.TaskHongNiu",
+		qrcode = "RedBull_ZheJiang",
+		linkUrl = "http://hzhn2.msjp1.com/#/follow/504005",
 	},
 	-- {
 	-- 	name = "科学防御抽奖~",
@@ -33,31 +65,6 @@ TaskList.ActMapTable = {
 	-- 	script = "resources.luaScript.task.TaskCaiHe",
 	-- 	qrcode = "hbzhongyan",
 	-- },
-	{
-		name = "江都农商",
-		script = "resources.luaScript.task.TaskNongShang_JiangDu",
-		qrcode = "jdnsh96008",
-	},
-	{
-		name = "仪征农商",
-		script = "resources.luaScript.task.TaskNongShang_YiZheng",
-		qrcode = "jsyznsh",
-	},
-	{
-		name = "扬州农商",
-		script = "resources.luaScript.task.TaskNongShang_YangZhou",
-		qrcode = "yznsyh96008",
-	},
-	-- {
-	-- 	name = "钻石活动",
-	-- 	script = "resources.luaScript.task.TaskDiamond",
-	-- 	qrcode = "hbzhongyan",
-	-- },
-	{
-		name = "黄浦食品安全",
-		script = "resources.luaScript.task.TaskFoodSafe",
-		qrcode = "HP-MSA",
-	},
 	-- {
 	-- 	name = "通用活动",
 	-- 	script = "resources.luaScript.task.TaskCommon",
@@ -68,11 +75,11 @@ TaskList.ActMapTable = {
 	-- 	script = "resources.luaScript.task.TaskCM_KaiChe",
 	-- 	qrcode = "",
 	-- },
-	{
-		name = "红牛活动~",
-		script = "resources.luaScript.task.TaskHongNiu",
-		qrcode = "RedBull_ZheJiang",
-	},
+	-- {
+	-- 	name = "钻石活动",
+	-- 	script = "resources.luaScript.task.TaskDiamond",
+	-- 	qrcode = "hbzhongyan",
+	-- },
 }
 
 return TaskList

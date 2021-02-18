@@ -180,9 +180,8 @@ function TaskStart.onChangeTaskData(activityTable)
 	local qrCodeUrl = qrCodeStr
 	if not StringUtils.checkWithHttp(qrCodeStr) then
 		qrCodeUrl = Define.QR_CODE_STR .. qrCodeStr
-		-- LuaCallCShapUI.SetQRCodeString(qrCodeStr)
+		LuaCallCShapUI.SetQRCodeString(qrCodeStr)
 	end
-	LuaCallCShapUI.SetQRCodeString(qrCodeStr)
 	if qrCodeStr == "" then
 		print(CSFun.Utf8ToDefault("暂无二维码~"))
 	else
@@ -192,6 +191,9 @@ function TaskStart.onChangeTaskData(activityTable)
 			end
 		end)
 	end
+
+	local linkUrl = activityTable.linkUrl or ""
+	LuaCallCShapUI.SetActivityLink(linkUrl)
 
 	--停下所有定时器
 	local TimerManager = require("resources.luaScript.manager.TimerManager")

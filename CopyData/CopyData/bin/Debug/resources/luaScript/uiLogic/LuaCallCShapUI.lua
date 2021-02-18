@@ -150,4 +150,18 @@ function LuaCallCShapUI.GetKaBaoCount()
 	end
 end
 
+--设置活动链接
+function LuaCallCShapUI.SetActivityLink(linkStr)
+	if SetActivityLink then
+		SetActivityLink(linkStr)
+	end
+end
+
+-- 获取活动链接
+function LuaCallCShapUI.GetActivityLink()
+	if GetActivityLink then
+		return GetActivityLink()
+	end
+end
+
 return LuaCallCShapUI

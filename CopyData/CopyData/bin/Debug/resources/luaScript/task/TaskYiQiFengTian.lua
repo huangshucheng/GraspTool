@@ -23,8 +23,8 @@ TaskTMP.TASK_LIST_URL_CONFIG = {
 	{
 		curTaskName = "丰田抽奖~",
 		url = "http://ftmsactivity.fukuda-tj.com.cn/qq/hongbao",
-		method = POST,
-		reqCount = 1,
+		method = GET,
+		reqCount = 100,
 		urlBody = "",
 		postBody = "",
 		delay = 0,
