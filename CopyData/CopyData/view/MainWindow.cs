@@ -44,6 +44,7 @@ namespace CopyData
             _luaScript.RegisterFunction("IsOpenTipSound", this, GetType().GetMethod("IsOpenTipSound")); //获取是否有提示音
             _luaScript.RegisterFunction("IsAutoGraspCK", this, GetType().GetMethod("IsAutoGraspCK")); //是否自动抓取CK
             _luaScript.RegisterFunction("IsAutoDoAction", this, GetType().GetMethod("IsAutoDoAction")); //是否自动做任务
+            _luaScript.RegisterFunction("SetAutoDoAction", this, GetType().GetMethod("SetAutoDoAction")); //设置是否自动做任务，是否选中
             _luaScript.RegisterFunction("IsShowOutLog", this, GetType().GetMethod("IsShowOutLog")); //是否显示输出日志
             _luaScript.RegisterFunction("GetReqDelayTime", this, GetType().GetMethod("GetReqDelayTime")); //获取延迟时间
             _luaScript.RegisterFunction("ClearOutLog", this, GetType().GetMethod("ClearOutLog")); //清理输出日志
@@ -516,6 +517,11 @@ namespace CopyData
         //设置日志链接Url
         public void SetProxyLinkUrl(string url_str) {
             this._proxyLogUrl = url_str;
+        }
+
+        //设置是否自动做任务
+        public void SetAutoDoAction(bool isAuto) {
+            checkAutoDoAct.Checked = isAuto;
         }
 
         /// ///////////////////////////////////

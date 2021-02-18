@@ -43,6 +43,16 @@ function LuaCallCShapUI.IsAutoDoAction()
 	end
 end
 
+--设置是否自动做任务
+function LuaCallCShapUI.SetAutoDoAction(bIsAuto)
+	if bIsAuto == nil then
+		bIsAuto = false
+	end
+	if SetAutoDoAction then
+		SetAutoDoAction(bIsAuto)
+	end
+end
+
 --是否显示输出（下面的）
 function LuaCallCShapUI.IsShowOutLog()
 	if IsShowOutLog then

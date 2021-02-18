@@ -145,8 +145,8 @@ function testCall()
 		print(ret)
 		print(index)
 		index = index+1
-	end,100)
-	]]
+	end,1,4)
+	--]]
 end
 --[[
 [reqHeader<www.baidu.com>] 

@@ -168,7 +168,11 @@ function TaskStart.onChangeTaskData(activityTable)
 	if curTaskObj then
 		local curKaBaoCount = curTaskObj:getDefaultKaBaoCount()
 		LuaCallCShapUI.SetKaBaoCount(curKaBaoCount)
-		print("curKaBaoCount: " .. tostring(curKaBaoCount))
+		-- print("curKaBaoCount: " .. tostring(curKaBaoCount))
+		--是否自动做任务
+		local isAutoDoAction = curTaskObj:isAutoDoAction()
+		LuaCallCShapUI.SetAutoDoAction(isAutoDoAction)
+		-- print("isAutoDoAction: " .. tostring(isAutoDoAction))
 	end
 
 	--切换二维码
@@ -176,8 +180,9 @@ function TaskStart.onChangeTaskData(activityTable)
 	local qrCodeUrl = qrCodeStr
 	if not StringUtils.checkWithHttp(qrCodeStr) then
 		qrCodeUrl = Define.QR_CODE_STR .. qrCodeStr
-		LuaCallCShapUI.SetQRCodeString(qrCodeStr)
+		-- LuaCallCShapUI.SetQRCodeString(qrCodeStr)
 	end
+	LuaCallCShapUI.SetQRCodeString(qrCodeStr)
 	if qrCodeStr == "" then
 		print(CSFun.Utf8ToDefault("暂无二维码~"))
 	else
@@ -191,6 +196,7 @@ function TaskStart.onChangeTaskData(activityTable)
 	--停下所有定时器
 	local TimerManager = require("resources.luaScript.manager.TimerManager")
 	TimerManager.stopAllTimer()
+
 end
 
 --选中了当前活动的某一部分CK

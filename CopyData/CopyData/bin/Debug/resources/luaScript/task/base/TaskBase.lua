@@ -22,6 +22,7 @@ TaskBase.IS_OPEN_RECORD 		= false 	  -- 是否抓取接口保存到本地,保存
 TaskBase.DEFAULT_KABAO_COUNT 	= 50 	      -- 默认卡包次数：50次，需要设置isKabao后才生效
 TaskBase.IS_USE_FULL_REQDATA 	= false       -- 是否保存当前完整的请求数据,下次用当前数据去请求，此时需要在DATA_TO_FIND_ARRAY配置要查找的Url,会用ReqUrl去做对比，一致则保存
 TaskBase.IS_REPEAT_FOREVER 		= false 	  -- 是否永久做此任务，停不下来(切换任务对象可以停下来)
+TaskBase.IS_AUTO_DO_ACTION 		= false 	  -- 是否自动做任务,是的话会默认把UI选中
 
 local state_table = {
 	"未开始~","进行中~","已完成~"
@@ -252,6 +253,11 @@ end
 --当前任务是否永久执行
 function TaskBase:isRepeatForever()
 	return self.IS_REPEAT_FOREVER
+end
+
+--是否自动做任务，是的话会默认把UI选中
+function TaskBase:isAutoDoAction()
+	return self.IS_AUTO_DO_ACTION
 end
 
 --找到token后，预留接口以便修改
