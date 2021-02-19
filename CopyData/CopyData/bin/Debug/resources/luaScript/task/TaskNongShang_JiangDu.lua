@@ -8,8 +8,9 @@ local GET = TaskBase.GET
 local POST = TaskBase.POST
 
 TaskTMP.FIND_STRING_HOST 		= "jiangdu.bj-virgo.cn"
-TaskTMP.DEFAULT_KABAO_COUNT 	= 100 	-- 默认卡包次数，需要设置isKabao后才生效
-TaskTMP.IS_USE_FULL_REQDATA 	= true       --是否保存当前完整的请求数据,下次用当前数据去请求
+TaskTMP.DEFAULT_KABAO_COUNT 	= 100
+TaskTMP.IS_USE_FULL_REQDATA 	= true
+TaskTMP.IS_AUTO_DO_ACTION 		= true
 
 TaskTMP.DATA_TO_FIND_ARRAY = {
 	"http://jiangdu.bj-virgo.cn/win/WxyhServer_DY_V5/api/HMAnswerLottery/HMAnswerLotteryApi/SubmitAnswer",

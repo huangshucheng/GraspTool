@@ -1,5 +1,5 @@
 local TaskList = {}
-
+-- 
 TaskList.ActMapTable = {
 	{
 		name = "请下载证书~",
@@ -17,12 +17,6 @@ TaskList.ActMapTable = {
 		script = "resources.luaScript.task.TaskYiQiFengTian",
 		qrcode = "",
 		linkUrl = "https://sourl.cn/4fQsMg",
-	},
-	{
-		name = "东海农商",
-		script = "resources.luaScript.task.TaskNongShang_DongHai",
-		qrcode = "jsdhnsyh",
-		linkUrl = "http://wx.dhrcbank.com/win/WxyhServerV5/Areas/DHGoodStart/index.html",
 	},
 	{
 		name = "江都农商",
@@ -48,13 +42,24 @@ TaskList.ActMapTable = {
 		qrcode = "HP-MSA",
 		linkUrl = "http://xinhua.mofangdata.cn/wx/prize/game/answercard.htm?id=402881d97622ed0201767e799f370ba0&prizeid=88&basescope=true&cardid=hpcj2020-10&backGroupId=ed4f2e0737334907ab811b17e316d164",
 	},
-
 	{
 		name = "红牛活动~",
 		script = "resources.luaScript.task.TaskHongNiu",
 		qrcode = "RedBull_ZheJiang",
 		linkUrl = "http://hzhn2.msjp1.com/#/follow/504005",
 	},
+	-- {
+	-- 	name = "建行裕农红包加码~",
+	-- 	script = "resources.luaScript.task.TaskJianHangYuNong",
+	-- 	qrcode = "CCB_yunongtong",
+	-- 	linkUrl = "",
+	-- },
+	-- {
+	-- 	name = "东海农商",
+	-- 	script = "resources.luaScript.task.TaskNongShang_DongHai",
+	-- 	qrcode = "jsdhnsyh",
+	-- 	linkUrl = "http://wx.dhrcbank.com/win/WxyhServerV5/Areas/DHGoodStart/index.html",
+	-- },
 	-- {
 	-- 	name = "科学防御抽奖~",
 	-- 	script = "resources.luaScript.task.TaskKeXueFangYu",
