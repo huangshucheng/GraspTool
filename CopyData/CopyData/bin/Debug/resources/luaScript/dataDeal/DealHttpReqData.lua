@@ -41,7 +41,7 @@ function DealHttpReqData:recordHeaderData(header_table, all_msg_data)
 	if curTaskObj:isUseFullReqData() then
 		self:dealHeaderWithAllReqData(all_msg_data)
 	else
-		self:dealHeaderReqData(header_table)
+		self:dealHeaderReqData(all_msg_data)
 	end
 end
 
@@ -84,7 +84,20 @@ function DealHttpReqData:dealHeaderWithAllReqData(all_msg_data)
 end
 
 --只保存请求头的信息
-function DealHttpReqData:dealHeaderReqData(header_table)
+function DealHttpReqData:dealHeaderReqData(all_msg_data)
+	if not all_msg_data or all_msg_data == "" or type(all_msg_data) ~= "table" then
+		return
+	end
+
+	if not next(all_msg_data) then
+		return
+	end
+	
+	local header_table = all_msg_data["Headers"]
+	if not header_table then
+		return
+	end
+
 	local dataToFind = TaskData.getCurTask():getDataToFind()
 	if not dataToFind or  #dataToFind <= 0 then
 		return
@@ -97,10 +110,16 @@ function DealHttpReqData:dealHeaderReqData(header_table)
 		end
 	end
 
+	--dump(findTable,"findTable")
 	local findCount = table.nums(findTable)
 	if findCount > 0 and findCount == #dataToFind then --必要的token必须要全部找到
-		if not FindData:getInstance():isInFindList(findTable) then
-			FindData:getInstance():addFindToken(findTable, true)
+		
+		-- local tmpFindTable = {["Headers"] = findTable, ["Method"] = "", ["ReqBody"] = "",["ReqHost"] = "",["ReqUrl"] = "",}
+		local tmpFindTable = {["Headers"] = findTable,}
+		if not FindData:getInstance():isInFindList(tmpFindTable) then
+			
+			FindData:getInstance():addFindToken(tmpFindTable, true)
+			
 			--是否自动开始执行任务
 			if UIConfigData.getIsAutoDoAction() then
 				TaskStartManager.startEnd()

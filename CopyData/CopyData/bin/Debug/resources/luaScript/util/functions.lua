@@ -515,6 +515,7 @@ function table.unique(t, bArray)
 end
 
 --talble是否相等
+--[[
 function table.like(first, second)
     if type(first) ~= "table" or type(second) ~= "table" then
         return false
@@ -528,6 +529,24 @@ function table.like(first, second)
         if v ~= second[k] then return false end
     end
 
+    return true
+end
+]]
+
+function table.like(first, second)
+    if type(first) ~= "table" or type(second) ~= "table" then
+        return false
+    end
+    if table.nums(first) ~= table.nums(second) then
+        return false
+    end
+    local first_table = json.encode(first)
+    local second_table = json.encode(second)
+    -- print("first_table: " .. first_table)
+    -- print("second_table: " .. second_table)
+    if first_table ~= second_table then
+        return false
+    end
     return true
 end
 

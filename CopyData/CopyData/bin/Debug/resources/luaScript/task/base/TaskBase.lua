@@ -215,9 +215,10 @@ function TaskBase:onTaskStateChanged(curHttpTaskObj)
 end
 
 --返回,各个活动自己去做json解析，显示红包多少
+local tmp_redpkt_str = CSFun.Utf8ToDefault("红包")
 function TaskBase:onResponse(httpRes, taskCur)
 	local index = taskCur:getUserData()
-	if CSFun.IsSubString(httpRes, "红包") or CSFun.IsSubString(httpRes, "元") then
+	if CSFun.IsSubString(httpRes, tmp_redpkt_str) then
 		taskCur:setGraspRedPktCount(taskCur:getGraspRedPktCount() + 1)
 		local redPktCount = taskCur:getGraspRedPktCount()
 		CShapListView.ListView_set_item({index, nil, nil, redPktCount, nil})
@@ -261,7 +262,22 @@ function TaskBase:isAutoDoAction()
 end
 
 --找到token后，预留接口以便修改
-function TaskBase:onAddFindToken(tokenTable)
+--如果是 IS_USE_FULL_REQDATA == true 情况，保存了完整的请求信息，就能拿到所有请求数据
+--如果 IS_USE_FULL_REQDATA == false 情况，只能拿到所有请求头的信息
+--tokenTable:  多个请求记录的集合，这里用table是为了方便脚本手动制造多个本地token记录
+--[[
+{
+    "Headers" = {
+     	"Cookies" = "reqid=123;uid=456;",
+        "token"= "12345"
+    }
+    "Method"  = ""
+    "ReqBody" = ""
+    "ReqHost" = ""
+    "ReqUrl"  = ""
+}
+]]
+function TaskBase:onAddFindInfo(tokenTable)
 	return {tokenTable}
 end
 

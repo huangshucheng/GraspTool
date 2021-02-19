@@ -15,15 +15,16 @@ local SELECT_CK_INDEX = {} --选中的CK下标
 --[[
 执行一个httpTask 请求
 httpTask: HttpTask对象
-token: 请求头
+requestInfo: 请求信息
 tokenIndex: 当前token下标
 isConitnue: 是否是连续token，如果是手动选择的token就不是连续的,否则就是连续的
 ]]
-function TaskStart.doRequest(httpTask, token, tokenIndex, isContinue)
-	if not httpTask or not token or not tokenIndex then return end
+function TaskStart.doRequest(httpTask, requestInfo, tokenIndex, isContinue)
+	if not httpTask or not requestInfo or not tokenIndex then return end
+	-- dump(requestInfo,"requestInfo")
 	local tmpHttpTask = clone(httpTask)
+	tmpHttpTask:initWithLocalSaveData(requestInfo)
 	tmpHttpTask:setUserData(tokenIndex)
-	tmpHttpTask:addHeader(clone(token))
 	tmpHttpTask:setIsContinue(isContinue)
 	tmpHttpTask:addCallback(TaskStart.onResponseCallBack)
 	tmpHttpTask:start()

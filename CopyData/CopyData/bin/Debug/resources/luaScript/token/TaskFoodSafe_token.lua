@@ -1,1 +1,2 @@
 ﻿
+{"ReqBody":"id=89","Headers":{"Cookie":"JSESSIONID=6357DFFA39B535B8B3604666A608F4C7","Referer":"http://xinhua.mofangdata.cn/wx/prize/game/answercard.htm?id=402881d97622ed0201767e799f370ba0&prizeid=88&basescope=true&cardid=hpcj2020-10&backGroupId=ed4f2e0737334907ab811b17e316d164"}}

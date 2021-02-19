@@ -5,6 +5,7 @@ local CSFun 		= require("resources.luaScript.util.CSFun")
 local TaskData 		= require("resources.luaScript.data.TaskData")
 local UIConfigData  = require("resources.luaScript.data.UIConfigData")
 local LuaCallCShapUI = require("resources.luaScript.uiLogic.LuaCallCShapUI")
+local StringUtils 	= require("resources.luaScript.util.StringUtils")
 
 --抓包状态, 未开始0, 进行中1，已完成2
 HttpTask.GRASP_STATE = {NONE = 1, DOING = 2, FINISH = 3}
@@ -53,9 +54,14 @@ end
 --用本地保存的http请求数据初始化
 function HttpTask:initWithLocalSaveData(configData)
 	local configDataTmp = clone(configData) or {}
-	self._url 		= configDataTmp["ReqUrl"]
-	self._method 	= configDataTmp["Method"] == "POST" and 1 or 0
-	self._postBody 	= configDataTmp["ReqBody"] or ""
+	local tmpReqUrl 	= configDataTmp["ReqUrl"]
+	local tmpMethod 	= configDataTmp["Method"]
+	local tmpPostBody 	= configDataTmp["ReqBody"]
+	local tmpHeaders 	= configDataTmp["Headers"]
+
+	self._url 		= StringUtils.nullOrEmpty(tmpReqUrl) and self._url or tmpReqUrl
+	self._method 	= StringUtils.nullOrEmpty(tmpMethod) and self._method or (tmpMethod == "POST" and 1 or 0)
+	self._postBody 	= StringUtils.nullOrEmpty(tmpPostBody) and self._postBody or tmpPostBody
 	self:addHeader(configDataTmp["Headers"] or {})
 end
 

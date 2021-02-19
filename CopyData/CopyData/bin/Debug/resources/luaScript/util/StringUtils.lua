@@ -258,7 +258,7 @@ function StringUtils.splitUrlParam(urlParam)
   local tb_1 = StringUtils.split2(urlParam,"&")
   local table_tmp = {}
   for _, param in ipairs(tb_1) do
-      local tb_2 = StringUtils.split2(param,"=")
+      local tb_2 = StringUtils.splitString(param,"=",1)
       if #tb_2 == 2 then
           local key = tb_2[1]
           local value = tb_2[2]
@@ -306,6 +306,26 @@ function StringUtils.changeUrlParamByTable(reqUrl, changeTable)
     end
     local retUrl = StringUtils.makeUpUrlByParam(host, urlParamTable)
     return retUrl
+end
+
+--分割cookies参数
+-- cookiesStr: userid=1613742420; pid=1613624193,1613742166; cck_count=0;
+function StringUtils.splitCookiesParam(cookiesStr)
+  if not cookiesStr or cookiesStr == "" then
+    return {}
+  end
+  local tb_1 = StringUtils.split2(cookiesStr,";")
+  local table_tmp = {}
+  for _, param in ipairs(tb_1) do
+      local tb_2 = StringUtils.splitString(param,"=",1)
+      if #tb_2 == 2 then
+          local key = StringUtils.trim(tb_2[1])
+          local value = StringUtils.trim(tb_2[2])
+          local tb_3 = {[key] = value}
+          table.merge(table_tmp, tb_3)
+      end
+  end
+  return table_tmp
 end
 
 return StringUtils

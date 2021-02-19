@@ -71,7 +71,7 @@ TaskTMP.TASK_LIST_URL_CONFIG = {
 }
 
 --找到token后，预留接口以便修改请求内容
-function TaskTMP:onAddFindToken(tokenTable)
+function TaskTMP:onAddFindInfo(tokenTable)
 	local tmpTokenTable = clone(tokenTable)
 	local retTable = {}
 	local reqUrl = tmpTokenTable["ReqUrl"]

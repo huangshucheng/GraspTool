@@ -68,7 +68,7 @@ function FindData:addFindToken(tokenTable, isSelectInListView)
 			print(CSFun.Utf8ToDefault("还没指定任务!"))
 			return
 		end
-		local tmpTokenTable = tmpCurTask:onAddFindToken(tokenTable)--以便修改请求数据
+		local tmpTokenTable = tmpCurTask:onAddFindInfo(tokenTable)--以便修改请求数据
 		if next(tmpTokenTable) then
 			for _, tokenTable in ipairs(tmpTokenTable) do
 				table.insert(self._findTokenList, tokenTable)

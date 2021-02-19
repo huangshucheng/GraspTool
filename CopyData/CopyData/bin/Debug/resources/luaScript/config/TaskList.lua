@@ -49,6 +49,12 @@ TaskList.ActMapTable = {
 		linkUrl = "http://hzhn2.msjp1.com/#/follow/504005",
 	},
 	-- {
+	-- 	name = "六合答题抽奖~",
+	-- 	script = "resources.luaScript.task.TaskLiuHeChouJiang",
+	-- 	qrcode = "gh_03b7ae1a9557",
+	-- 	linkUrl = "",
+	-- },
+	-- {
 	-- 	name = "建行裕农红包加码~",
 	-- 	script = "resources.luaScript.task.TaskJianHangYuNong",
 	-- 	qrcode = "CCB_yunongtong",
