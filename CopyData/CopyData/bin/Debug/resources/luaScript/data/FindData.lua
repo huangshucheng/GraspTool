@@ -70,12 +70,18 @@ function FindData:addFindToken(tokenTable, isSelectInListView)
 		end
 		local tmpTokenTable = tmpCurTask:onAddFindInfo(tokenTable)--以便修改请求数据
 		if next(tmpTokenTable) then
+			local bIsFind = false
 			for _, tokenTable in ipairs(tmpTokenTable) do
-				table.insert(self._findTokenList, tokenTable)
-				self:dumpTokenOne(#self._findTokenList, tokenTable, true, isSelectInListView)
-				self:writeOneTokenToLocalFile(tokenTable)
+				if not self:isInFindList(tokenTable) then
+					table.insert(self._findTokenList, tokenTable)
+					self:dumpTokenOne(#self._findTokenList, tokenTable, true, isSelectInListView)
+					self:writeOneTokenToLocalFile(tokenTable)
+					bIsFind = true
+				end
 			end
-			Sound.playTokenSound()
+			if bIsFind then
+				Sound.playTokenSound()
+			end
 		end
 		return true
 	end

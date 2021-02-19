@@ -128,7 +128,7 @@ end
 function ListView_on_delete_click()
 	print("ListView_on_delete_click")
 	local selTable = CShapListView.ListView_get_select_index()
-	dump(selTable,"hcc>>selTable")
+	-- dump(selTable,"hcc>>selTable")
 	CShapListView.ListView_remove_by_index_table(selTable)
 end
 

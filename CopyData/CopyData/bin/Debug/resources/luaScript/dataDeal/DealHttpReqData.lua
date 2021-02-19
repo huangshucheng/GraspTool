@@ -109,17 +109,13 @@ function DealHttpReqData:dealHeaderReqData(all_msg_data)
 			findTable[token] = header_table[token]
 		end
 	end
-
 	--dump(findTable,"findTable")
 	local findCount = table.nums(findTable)
 	if findCount > 0 and findCount == #dataToFind then --必要的token必须要全部找到
-		
 		-- local tmpFindTable = {["Headers"] = findTable, ["Method"] = "", ["ReqBody"] = "",["ReqHost"] = "",["ReqUrl"] = "",}
 		local tmpFindTable = {["Headers"] = findTable,}
 		if not FindData:getInstance():isInFindList(tmpFindTable) then
-			
 			FindData:getInstance():addFindToken(tmpFindTable, true)
-			
 			--是否自动开始执行任务
 			if UIConfigData.getIsAutoDoAction() then
 				TaskStartManager.startEnd()
