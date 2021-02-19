@@ -17,6 +17,8 @@ TaskTMP.DEFAULT_KABAO_COUNT 	= 100 	-- 默认卡包次数，需要设置isKabao�
 TaskTMP.ERQ_HEADER_EXT = {
 	["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8",
 	["Accept"] = "*/*",
+	["Accept-Encoding"] = "gzip, deflate",
+	['Accept-Language'] = "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
 }
 
 --任务列表
@@ -25,7 +27,7 @@ TaskTMP.TASK_LIST_URL_CONFIG = {
 		curTaskName = "抽奖", 
 		url = "http://123js1.qmkp.com.cn/LotteryNew_Sql/addPrizeUser.aspx",
 		method = POST, 
-		reqCount = 200,
+		reqCount = 100,
 		urlBody = "", 
 		postBody = "",
 		delay = 0,
