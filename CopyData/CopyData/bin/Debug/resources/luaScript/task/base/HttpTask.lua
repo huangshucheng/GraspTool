@@ -56,12 +56,14 @@ function HttpTask:initWithLocalSaveData(configData)
 	local configDataTmp = clone(configData) or {}
 	local tmpReqUrl 	= configDataTmp["ReqUrl"]
 	local tmpMethod 	= configDataTmp["Method"]
+	local tmpUrlBody 	= configDataTmp["UrlBody"]
 	local tmpPostBody 	= configDataTmp["ReqBody"]
 	local tmpHeaders 	= configDataTmp["Headers"]
 
 	self._url 		= StringUtils.nullOrEmpty(tmpReqUrl) and self._url or tmpReqUrl
 	self._method 	= StringUtils.nullOrEmpty(tmpMethod) and self._method or (tmpMethod == "POST" and 1 or 0)
 	self._postBody 	= StringUtils.nullOrEmpty(tmpPostBody) and self._postBody or tmpPostBody
+	self._urlBody 	= StringUtils.nullOrEmpty(tmpUrlBody) and self._urlBody or tmpUrlBody
 	self:addHeader(configDataTmp["Headers"] or {})
 end
 

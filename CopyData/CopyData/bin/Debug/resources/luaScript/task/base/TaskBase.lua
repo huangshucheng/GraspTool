@@ -269,12 +269,13 @@ end
 {
     "Headers" = {
      	"Cookies" = "reqid=123;uid=456;",
-        "token"= "12345"
-    }
-    "Method"  = ""
-    "ReqBody" = ""
-    "ReqHost" = ""
-    "ReqUrl"  = ""
+        "token"= "12345",
+    },
+    "Method"  = "",
+    "ReqBody" = "",
+    "ReqHost" = "",
+    "ReqUrl"  = "",
+    "UrlBody" = "",
 }
 ]]
 function TaskBase:onAddFindInfo(tokenTable)
