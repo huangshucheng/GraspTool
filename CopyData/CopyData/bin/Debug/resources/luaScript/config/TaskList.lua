@@ -9,7 +9,7 @@ TaskList.ActMapTable = {
 	{
 		name = "跑酷刷分~",
 		script = "resources.luaScript.task.TaskNiuNianYiQiNiu",
-		qrcode = "",
+		qrcode = "gh_12e6e8141fba",
 		linkUrl = "http://bright-dairy.tb21.cn/bright-dairy-h5-2021/index",
 		desc = "微信进入链接->玩一把跑酷~->脚本里面改分数~->提交~",
 	},
