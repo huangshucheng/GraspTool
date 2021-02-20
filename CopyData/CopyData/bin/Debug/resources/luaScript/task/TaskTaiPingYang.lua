@@ -18,7 +18,6 @@ TaskTMP.ERQ_HEADER_EXT = {
 	["Referer"] = "https://servicewechat.com/wxbde72c050d3988e3/36/page-frame.html",
 }
 
--- 
 --任务列表
 TaskTMP.TASK_LIST_URL_CONFIG = {
 	{
