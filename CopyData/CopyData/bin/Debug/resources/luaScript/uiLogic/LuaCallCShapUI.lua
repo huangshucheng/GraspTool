@@ -164,4 +164,11 @@ function LuaCallCShapUI.GetActivityLink()
 	end
 end
 
+-- 设置活动简介
+function LuaCallCShapUI.SetActivityDesc(descStr)
+	if SetActivityDesc then
+		SetActivityDesc(descStr)
+	end
+end
+
 return LuaCallCShapUI

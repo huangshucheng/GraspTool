@@ -194,7 +194,9 @@ function TaskStart.onChangeTaskData(activityTable)
 	end
 
 	local linkUrl = activityTable.linkUrl or ""
+	local descStr = activityTable.desc or ""
 	LuaCallCShapUI.SetActivityLink(linkUrl)
+	LuaCallCShapUI.SetActivityDesc(CSFun.Utf8ToDefault(descStr))
 
 	--停下所有定时器
 	local TimerManager = require("resources.luaScript.manager.TimerManager")

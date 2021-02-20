@@ -61,6 +61,7 @@ namespace CopyData
             _luaScript.RegisterFunction("GetKaBaoCount", this, GetType().GetMethod("GetKaBaoCount")); //获取卡包次数
             _luaScript.RegisterFunction("SetActivityLink", this, GetType().GetMethod("SetActivityLink")); //设置活动链接
             _luaScript.RegisterFunction("GetActivityLink", this, GetType().GetMethod("GetActivityLink")); //获取活动链接
+            _luaScript.RegisterFunction("SetActivityDesc", this, GetType().GetMethod("SetActivityDesc")); //设置活动简介
 
             //_luaScript.RegisterFunction("HttpRequestDirect", this, GetType().GetMethod("HttpRequestDirect")); //http请求同步
 
@@ -536,6 +537,11 @@ namespace CopyData
         //设置活动链接
         public void SetActivityLink(string linkStr) {
             richTextLink.Text = linkStr;
+        }
+
+        //设置活动简介文本
+        public void SetActivityDesc(string descStr) {
+            richTextDesc.Text = descStr;
         }
 
         /// ///////////////////////////////////

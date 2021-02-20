@@ -73,6 +73,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.richTextDesc = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.numUDDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUrl)).BeginInit();
             this.tab_proxy_ip.SuspendLayout();
@@ -114,9 +115,9 @@
             // btnStartCatch
             // 
             this.btnStartCatch.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnStartCatch.Location = new System.Drawing.Point(174, 10);
+            this.btnStartCatch.Location = new System.Drawing.Point(193, 7);
             this.btnStartCatch.Name = "btnStartCatch";
-            this.btnStartCatch.Size = new System.Drawing.Size(90, 35);
+            this.btnStartCatch.Size = new System.Drawing.Size(80, 35);
             this.btnStartCatch.TabIndex = 7;
             this.btnStartCatch.Text = "全部执行";
             this.btnStartCatch.UseVisualStyleBackColor = true;
@@ -125,9 +126,9 @@
             // btnStopCatch
             // 
             this.btnStopCatch.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnStopCatch.Location = new System.Drawing.Point(18, 57);
+            this.btnStopCatch.Location = new System.Drawing.Point(98, 7);
             this.btnStopCatch.Name = "btnStopCatch";
-            this.btnStopCatch.Size = new System.Drawing.Size(90, 35);
+            this.btnStopCatch.Size = new System.Drawing.Size(80, 35);
             this.btnStopCatch.TabIndex = 8;
             this.btnStopCatch.Text = "停止";
             this.btnStopCatch.UseVisualStyleBackColor = true;
@@ -321,9 +322,9 @@
             // btnCatchSel
             // 
             this.btnCatchSel.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnCatchSel.Location = new System.Drawing.Point(17, 10);
+            this.btnCatchSel.Location = new System.Drawing.Point(3, 7);
             this.btnCatchSel.Name = "btnCatchSel";
-            this.btnCatchSel.Size = new System.Drawing.Size(90, 35);
+            this.btnCatchSel.Size = new System.Drawing.Size(80, 35);
             this.btnCatchSel.TabIndex = 28;
             this.btnCatchSel.Text = "选中执行";
             this.btnCatchSel.UseVisualStyleBackColor = true;
@@ -331,7 +332,7 @@
             // 
             // tab_proxy_ip
             // 
-            this.tab_proxy_ip.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.tab_proxy_ip.BackColor = System.Drawing.SystemColors.Control;
             this.tab_proxy_ip.Controls.Add(this.text_box_proxy_ip);
             this.tab_proxy_ip.Controls.Add(this.label5);
             this.tab_proxy_ip.Controls.Add(this.btn_use_proxy);
@@ -341,7 +342,7 @@
             this.tab_proxy_ip.Location = new System.Drawing.Point(4, 22);
             this.tab_proxy_ip.Name = "tab_proxy_ip";
             this.tab_proxy_ip.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_proxy_ip.Size = new System.Drawing.Size(252, 256);
+            this.tab_proxy_ip.Size = new System.Drawing.Size(252, 250);
             this.tab_proxy_ip.TabIndex = 0;
             this.tab_proxy_ip.Text = "代理IP";
             this.tab_proxy_ip.Click += new System.EventHandler(this.tab_proxy_ip_Click);
@@ -407,14 +408,15 @@
             this.tab_control.Controls.Add(this.tab_qr_code);
             this.tab_control.Controls.Add(this.tab_proxy_ip);
             this.tab_control.Controls.Add(this.tab_jiema);
-            this.tab_control.Location = new System.Drawing.Point(661, 264);
+            this.tab_control.Location = new System.Drawing.Point(659, 202);
             this.tab_control.Name = "tab_control";
             this.tab_control.SelectedIndex = 0;
-            this.tab_control.Size = new System.Drawing.Size(260, 282);
+            this.tab_control.Size = new System.Drawing.Size(260, 276);
             this.tab_control.TabIndex = 30;
             // 
             // tab_qr_code
             // 
+            this.tab_qr_code.BackColor = System.Drawing.SystemColors.Control;
             this.tab_qr_code.Controls.Add(this.btnCopyLink);
             this.tab_qr_code.Controls.Add(this.richTextLink);
             this.tab_qr_code.Controls.Add(this.pictureBoxUrl);
@@ -422,10 +424,9 @@
             this.tab_qr_code.Controls.Add(this.btnGenQRCode);
             this.tab_qr_code.Location = new System.Drawing.Point(4, 22);
             this.tab_qr_code.Name = "tab_qr_code";
-            this.tab_qr_code.Size = new System.Drawing.Size(252, 256);
+            this.tab_qr_code.Size = new System.Drawing.Size(252, 250);
             this.tab_qr_code.TabIndex = 2;
             this.tab_qr_code.Text = "活动信息";
-            this.tab_qr_code.UseVisualStyleBackColor = true;
             // 
             // btnCopyLink
             // 
@@ -440,7 +441,7 @@
             // 
             // richTextLink
             // 
-            this.richTextLink.BackColor = System.Drawing.SystemColors.Window;
+            this.richTextLink.BackColor = System.Drawing.SystemColors.Control;
             this.richTextLink.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.richTextLink.DetectUrls = false;
             this.richTextLink.Font = new System.Drawing.Font("宋体", 8.5F);
@@ -458,7 +459,7 @@
             this.tab_jiema.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tab_jiema.Location = new System.Drawing.Point(4, 22);
             this.tab_jiema.Name = "tab_jiema";
-            this.tab_jiema.Size = new System.Drawing.Size(252, 256);
+            this.tab_jiema.Size = new System.Drawing.Size(252, 250);
             this.tab_jiema.TabIndex = 1;
             this.tab_jiema.Text = "接码打码";
             this.tab_jiema.Click += new System.EventHandler(this.tab_jiema_Click);
@@ -575,9 +576,9 @@
             this.panel1.Controls.Add(this.btnCatchSel);
             this.panel1.Controls.Add(this.btnStopCatch);
             this.panel1.Controls.Add(this.btnStartCatch);
-            this.panel1.Location = new System.Drawing.Point(648, 155);
+            this.panel1.Location = new System.Drawing.Point(649, 143);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(280, 103);
+            this.panel1.Size = new System.Drawing.Size(280, 53);
             this.panel1.TabIndex = 35;
             // 
             // panel2
@@ -610,11 +611,23 @@
             this.panel3.Size = new System.Drawing.Size(638, 32);
             this.panel3.TabIndex = 37;
             // 
+            // richTextDesc
+            // 
+            this.richTextDesc.BackColor = System.Drawing.SystemColors.Control;
+            this.richTextDesc.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.richTextDesc.Location = new System.Drawing.Point(655, 480);
+            this.richTextDesc.Name = "richTextDesc";
+            this.richTextDesc.ReadOnly = true;
+            this.richTextDesc.Size = new System.Drawing.Size(268, 87);
+            this.richTextDesc.TabIndex = 0;
+            this.richTextDesc.Text = "活动操作简介";
+            // 
             // HccWindowdGraspTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(935, 625);
+            this.Controls.Add(this.richTextDesc);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -688,6 +701,7 @@
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Button btnCopyLink;
         private System.Windows.Forms.RichTextBox richTextLink;
+        private System.Windows.Forms.RichTextBox richTextDesc;
     }
 }
 
