@@ -277,7 +277,7 @@ urlParamTable:
   ["uid"] = "123456",
 }
 ]]
-function StringUtils.makeUpUrlByParam(host, urlParamTable)
+function StringUtils.makeUpUrlByParam(urlParamTable, host)
     local urlParam = ""
     local paramCount = table.nums(urlParamTable)
     local index = 0
@@ -286,7 +286,11 @@ function StringUtils.makeUpUrlByParam(host, urlParamTable)
         index = index + 1
         urlParam = index == paramCount and urlParam .. tmpParam or urlParam .. tmpParam .. "&"
     end
-    return host .. "?" .. urlParam
+    if host then
+        return host .. "?" .. urlParam
+    else
+      return urlParam
+    end
 end
 
 --修改Url参数
@@ -304,7 +308,7 @@ function StringUtils.changeUrlParamByTable(reqUrl, changeTable)
     for k,v in pairs(changeTable) do
         urlParamTable[k] = v
     end
-    local retUrl = StringUtils.makeUpUrlByParam(host, urlParamTable)
+    local retUrl = StringUtils.makeUpUrlByParam(urlParamTable,host)
     return retUrl
 end
 

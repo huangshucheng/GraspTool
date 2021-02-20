@@ -7,6 +7,13 @@ TaskList.ActMapTable = {
 		qrcode = "http://hcc.hccfun.com/qr_code_proxy_2.png",--设置手机代理的 二维码URL
 	},
 	{
+		name = "跑酷刷分~",
+		script = "resources.luaScript.task.TaskNiuNianYiQiNiu",
+		qrcode = "",
+		linkUrl = "http://bright-dairy.tb21.cn/bright-dairy-h5-2021/index",
+		desc = "微信进入链接->玩一把跑酷~->脚本里面改分数~->提交~",
+	},
+	{
 		name = "期货消消乐~",
 		script = "resources.luaScript.task.TaskXiaoXiaoLe",
 		qrcode = "hualianqihuo",
