@@ -1,9 +1,8 @@
 --[[一汽丰田抽奖]]
 local TaskBase 	= require("resources.luaScript.task.base.TaskBase")
 local TaskTMP 	= class("TaskTMP", TaskBase)
-
-local GET = TaskBase.GET
-local POST = TaskBase.POST
+local GET 		= TaskBase.GET
+local POST 		= TaskBase.POST
 
 TaskTMP.FIND_STRING_HOST 		= "ftmsactivity.fukuda-tj.com.cn"
 TaskTMP.DEFAULT_KABAO_COUNT 	= 100

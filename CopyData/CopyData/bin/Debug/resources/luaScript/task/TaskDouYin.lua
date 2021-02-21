@@ -1,9 +1,8 @@
 --[[抖音点赞]]
 local TaskBase 	= require("resources.luaScript.task.base.TaskBase")
 local TaskTMP 	= class("TaskTMP", TaskBase)
-
-local GET = TaskBase.GET
-local POST = TaskBase.POST
+local GET 		= TaskBase.GET
+local POST 		= TaskBase.POST
 
 TaskTMP.FIND_STRING_HOST 		= "api5-normal-act-lf.amemv.com"
 TaskTMP.DEFAULT_KABAO_COUNT 	= 1

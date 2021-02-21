@@ -1,5 +1,4 @@
 --[[太平洋抽奖活动]]
-
 local TaskBase 		= require("resources.luaScript.task.base.TaskBase")
 local TaskTMP 		= class("TaskTMP", TaskBase)
 local GET 			= TaskBase.GET

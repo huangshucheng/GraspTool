@@ -3,9 +3,8 @@ local TaskBase 		= require("resources.luaScript.task.base.TaskBase")
 local TaskTMP 		= class("TaskTMP", TaskBase)
 local CShapListView = require("resources.luaScript.uiLogic.CShapListView")
 local CSFun 		= require("resources.luaScript.util.CSFun")
-
-local GET = TaskBase.GET
-local POST = TaskBase.POST
+local GET 			= TaskBase.GET
+local POST 			= TaskBase.POST
 
 TaskTMP.FIND_STRING_HOST 		= "xinhua.mofangdata.cn"
 TaskTMP.DATA_TO_FIND_ARRAY 		= {"Cookie","Referer"}

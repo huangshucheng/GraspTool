@@ -4,7 +4,6 @@ local TaskTMP 		= class("TaskTMP", TaskBase)
 local CShapListView = require("resources.luaScript.uiLogic.CShapListView")
 local CSFun 		= require("resources.luaScript.util.CSFun")
 local StringUtils 	= require("resources.luaScript.util.StringUtils")
-
 local GET = TaskBase.GET
 local POST = TaskBase.POST
 

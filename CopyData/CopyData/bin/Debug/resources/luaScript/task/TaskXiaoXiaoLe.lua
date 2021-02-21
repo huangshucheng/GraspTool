@@ -1,12 +1,10 @@
 --[[期货消消乐,需要进我的奖品界面]]
 local TaskBase 	= require("resources.luaScript.task.base.TaskBase")
 local TaskTMP 	= class("TaskTMP", TaskBase)
-
-local CSFun = require("resources.luaScript.util.CSFun")
+local CSFun 		= require("resources.luaScript.util.CSFun")
 local StringUtils 	= require("resources.luaScript.util.StringUtils")
-
-local GET = TaskBase.GET
-local POST = TaskBase.POST
+local GET 		= TaskBase.GET
+local POST 		= TaskBase.POST
 
 TaskTMP.FIND_STRING_HOST 		= "hds-api.eqxiu.com"
 TaskTMP.DEFAULT_KABAO_COUNT 	= 100
