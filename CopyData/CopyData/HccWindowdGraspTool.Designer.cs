@@ -114,10 +114,10 @@
             // 
             // btnStartCatch
             // 
-            this.btnStartCatch.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnStartCatch.Location = new System.Drawing.Point(193, 7);
+            this.btnStartCatch.Font = new System.Drawing.Font("宋体", 12.5F);
+            this.btnStartCatch.Location = new System.Drawing.Point(12, 9);
             this.btnStartCatch.Name = "btnStartCatch";
-            this.btnStartCatch.Size = new System.Drawing.Size(80, 35);
+            this.btnStartCatch.Size = new System.Drawing.Size(100, 35);
             this.btnStartCatch.TabIndex = 7;
             this.btnStartCatch.Text = "全部执行";
             this.btnStartCatch.UseVisualStyleBackColor = true;
@@ -126,12 +126,13 @@
             // btnStopCatch
             // 
             this.btnStopCatch.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnStopCatch.Location = new System.Drawing.Point(98, 7);
+            this.btnStopCatch.Location = new System.Drawing.Point(92, -24);
             this.btnStopCatch.Name = "btnStopCatch";
             this.btnStopCatch.Size = new System.Drawing.Size(80, 35);
             this.btnStopCatch.TabIndex = 8;
             this.btnStopCatch.Text = "停止";
             this.btnStopCatch.UseVisualStyleBackColor = true;
+            this.btnStopCatch.Visible = false;
             this.btnStopCatch.Click += new System.EventHandler(this.btnStopCatch_Click);
             // 
             // btnFinishCatch
@@ -321,10 +322,10 @@
             // 
             // btnCatchSel
             // 
-            this.btnCatchSel.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnCatchSel.Location = new System.Drawing.Point(3, 7);
+            this.btnCatchSel.Font = new System.Drawing.Font("宋体", 12.5F);
+            this.btnCatchSel.Location = new System.Drawing.Point(164, 9);
             this.btnCatchSel.Name = "btnCatchSel";
-            this.btnCatchSel.Size = new System.Drawing.Size(80, 35);
+            this.btnCatchSel.Size = new System.Drawing.Size(100, 35);
             this.btnCatchSel.TabIndex = 28;
             this.btnCatchSel.Text = "选中执行";
             this.btnCatchSel.UseVisualStyleBackColor = true;
@@ -573,8 +574,8 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel1.Controls.Add(this.btnCatchSel);
             this.panel1.Controls.Add(this.btnStopCatch);
+            this.panel1.Controls.Add(this.btnCatchSel);
             this.panel1.Controls.Add(this.btnStartCatch);
             this.panel1.Location = new System.Drawing.Point(649, 143);
             this.panel1.Name = "panel1";
