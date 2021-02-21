@@ -43,14 +43,14 @@ function TaskTMP:onAddFindInfo(tokenTable)
 	local reqHeaders = tmpTokenTable["Headers"]
 	if reqHeaders and next(reqHeaders) then
 		local cookiesStr = reqHeaders["Cookie"]
-		local retTable = StringUtils.splitCookiesParam(cookiesStr)
-		local param_1 = retTable["lottery_sn"] or "null"
-		local param_2 = retTable["123js_opendid"] or "null"
+		local retTable_cookie = StringUtils.splitCookiesParam(cookiesStr)
+		local param_1 = retTable_cookie["lottery_sn"] or "null"
+		local param_2 = retTable_cookie["123js_opendid"] or "null"
 
 		local param_1_1 = StringUtils.splitUrlParam(param_1) or {}
 		local param_2_1 = StringUtils.splitUrlParam(param_2) or {}
 
-		local reqBody = "cid=" .. tostring(param_1_1["lottery_sn"]) .. "&" .. "uid=" .. tostring(param_2_1["123js_opendid"])
+		local reqBody = "cid=" .. tostring(param_1_1["lottery_sn"]) .. "&uid=" .. tostring(param_2_1["123js_opendid"])
 		tmpTokenTable["ReqBody"] = reqBody
 	end
 	table.insert(retTable,tmpTokenTable)

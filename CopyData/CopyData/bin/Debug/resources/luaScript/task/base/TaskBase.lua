@@ -99,9 +99,10 @@ function TaskBase:loadTask()
 		task:initWithConfig(task_config)
 		task:setCurTaskIndex(index)
 		-- dump(self.ERQ_HEADER_EXT,"hcc>>ERQ_HEADER_EXT")
-		if table.nums(self.ERQ_HEADER_EXT) > 0 then
-			task:addHeader(self.ERQ_HEADER_EXT)
-		end
+		--这个修改额外Header，放在抓到包修改数据之前，初始化之后，不然会被抓的包冲掉,在Finddata->addFindToken的时候加
+		-- if table.nums(self.ERQ_HEADER_EXT) > 0 then
+		-- 	task:addHeader(self.ERQ_HEADER_EXT)
+		-- end
 		table.insert(self._taskList, task)
 	end
 end
@@ -259,6 +260,11 @@ end
 --是否自动做任务，是的话会默认把UI选中
 function TaskBase:isAutoDoAction()
 	return self.IS_AUTO_DO_ACTION
+end
+
+--额外请求头
+function TaskBase:getHeaderExt()
+	return self.ERQ_HEADER_EXT
 end
 
 --找到token后，预留接口以便修改

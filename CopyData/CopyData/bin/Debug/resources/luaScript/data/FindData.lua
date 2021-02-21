@@ -72,6 +72,15 @@ function FindData:addFindToken(tokenTable, isSelectInListView)
 		if next(tmpTokenTable) then
 			local bIsFind = false
 			for _, tokenTable in ipairs(tmpTokenTable) do
+				-----------------------
+				--增加额外的Header参数
+				local tmpHeadersExt = tmpCurTask:getHeaderExt() or {}
+				-- dump(tmpHeadersExt,"tmpHeadersExt")
+				if table.nums(tmpHeadersExt) > 0 then
+					local tokenTable_headers = tokenTable["Headers"] or {}
+					table.merge(tokenTable_headers,tmpHeadersExt)
+				end
+				-----------------------
 				if not self:isInFindList(tokenTable) then
 					table.insert(self._findTokenList, tokenTable)
 					self:dumpTokenOne(#self._findTokenList, tokenTable, true, isSelectInListView)

@@ -14,6 +14,20 @@ TaskList.ActMapTable = {
 		desc = "微信搜索【巢流站 开工抓巢礼】小程序,进入后抓到CK->抽奖->毕业!",
 	},
 	{
+		name = "摇一摇汤圆~",
+		script = "resources.luaScript.task.TaskYiLiYaoYiYao",
+		qrcode = "",
+		linkUrl = "",
+		desc = "微信搜索【臻仕会】小程序,进入小程序大概中间位置的疯狂摇元宵活动~->抓到CK->抽奖->毕业! (提示:可以无限分享，抽奖~)",
+	},
+	{
+		name = "建信基金抽奖~",
+		script = "resources.luaScript.task.TaskJianXinJiJin",
+		qrcode = "ccbfund",
+		linkUrl = "https://d5cdn.cdollar.cn/d5/app/dollar/ff0e6887-5761-4562-abe1-9e6358ec100d/release/index.html?code=0518Cd000YBNdL1jqC1005UHZS18Cd0a&state=STATE&appid=wxb5c430e03be5d432#/",
+		desc = "微信搜索【建信基金】公众号,回复文字:2月福利~->推文进入->抓到CK->抽奖->毕业!",
+	},
+	{
 		name = "期货消消乐~",
 		script = "resources.luaScript.task.TaskXiaoXiaoLe",
 		qrcode = "hualianqihuo",
@@ -55,6 +69,13 @@ TaskList.ActMapTable = {
 		linkUrl = "https://sourl.cn/4fQsMg",
 		desc = "复制链接微信内打开->输入手机号验证码->抽奖->抓到CK->顺利毕业~, 提示:本软件会自动帮你多抽100次~",
 	},
+	-- {
+	-- 	name = "蜀山答题抽奖~",
+	-- 	script = "resources.luaScript.task.TaskShuShanDaTi",
+	-- 	qrcode = "SSQKeXie",
+	-- 	linkUrl = "",
+	-- 	desc = "微信搜索【蜀山科协】公众号->右下角~ 有奖竞答->进入后抓到CK->抽奖->毕业!",
+	-- },
 	-- {
 	-- 	name = "江都农商",
 	-- 	script = "resources.luaScript.task.TaskNongShang_JiangDu",
