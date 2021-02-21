@@ -7,8 +7,6 @@ local CShapListView = require("resources.luaScript.uiLogic.CShapListView")
 local CSFun = require("resources.luaScript.util.CSFun")
 local TaskStartManager 	= require("resources.luaScript.manager.TaskStartManager")
 
-local SELECT_COLUM_FLAG = true
-
 --点击选择活动
 function onSelectActivityFromList(index)
 	TaskStartManager.onChangeActivity(index)
@@ -77,15 +75,15 @@ end
 --点击ListView表头
 function ListView_on_colum_click(columIndex)
 	if 0 == tonumber(columIndex) then --点中了第一个表头
-		CShapListView.ListView_set_all_checked(SELECT_COLUM_FLAG)
-		SELECT_COLUM_FLAG = not SELECT_COLUM_FLAG
+		local isAllChecked = CShapListView.ListView_is_all_checked()
+		CShapListView.ListView_set_all_checked(not isAllChecked)
 	end
 end
 
 --点击全选
 function ListView_on_all_select_click()
-	CShapListView.ListView_set_all_checked(SELECT_COLUM_FLAG)
-	SELECT_COLUM_FLAG = not SELECT_COLUM_FLAG
+	local isAllChecked = CShapListView.ListView_is_all_checked()
+	CShapListView.ListView_set_all_checked(not isAllChecked)
 end
 
 --复制

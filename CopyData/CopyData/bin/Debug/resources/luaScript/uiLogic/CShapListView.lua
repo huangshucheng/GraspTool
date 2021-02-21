@@ -62,6 +62,14 @@ function CShapListView.ListView_set_all_checked(isCheck)
 	end
 end
 
+--是否全部选中
+function CShapListView.ListView_is_all_checked()
+	local allCount = CShapListView.ListView_get_count()
+	local selCount = #CShapListView.ListView_get_select_index()
+	-- print("all: " .. allCount .. " , selCount: " .. selCount)
+	return allCount == selCount
+end
+
 --设置某个行节点内容, nil表示不改变原来值, 空字符串表示设置为空
 --itemTable = {1, "Cookie=111", "result=111", "state=111"}
 function CShapListView.ListView_set_item(itemTable)

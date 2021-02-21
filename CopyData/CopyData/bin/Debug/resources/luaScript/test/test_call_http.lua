@@ -150,6 +150,7 @@ function testCall()
 	-- local cookiesStr = "Hm_lpvt_d85102bda8d51d15b6016f4ea297f670=1613754602; Hm_lvt_d85102bda8d51d15b6016f4ea297f670=1613624193,1613742166; lottery_sn=lottery_sn=fA6v2gs/BxOm1mzPC/7urA==; cck_count=0; cck_lasttime=1613742371393; 123js_opendid=123js_opendid=o9jjg0pVENZvlj_W_inWM4Cx3KsA&123js_nickname=; ASP.NET_SessionId=lycyzgsdrgdsl4g1vk4a0gec"
 	-- local retTable = StringUtils.splitCookiesParam(cookiesStr)
 	-- dump(retTable)
+	-- local isAllChecked = CShapListView.ListView_is_all_checked()
 end
 --[[
 [reqHeader<www.baidu.com>] 

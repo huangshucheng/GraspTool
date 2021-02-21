@@ -7,7 +7,7 @@ local POST 			= TaskBase.POST
 
 TaskTMP.FIND_STRING_HOST 	= "wx.cpic.com.cn"
 TaskTMP.DATA_TO_FIND_ARRAY 	= {"jwt"}      
-TaskTMP.DEFAULT_KABAO_COUNT = 100
+TaskTMP.DEFAULT_KABAO_COUNT = 20
 TaskTMP.IS_AUTO_DO_ACTION 	= false
 
 --额外的请求头,也可以不用配置
@@ -24,7 +24,7 @@ TaskTMP.TASK_LIST_URL_CONFIG = {
 		curTaskName = "抽奖~", 
 		url = "https://wx.cpic.com.cn/sxwxclub/ihealth/redpacket/openRedPacket",
 		method = POST, 
-		reqCount = 100,
+		reqCount = 20,
 		urlBody = "", 
 		postBody = "src=2&token=undefined", 
 		delay = 0,

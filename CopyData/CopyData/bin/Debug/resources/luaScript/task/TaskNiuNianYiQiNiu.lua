@@ -1,4 +1,4 @@
---[[牛年一起牛活动]]
+--[[牛年一起牛-跑酷刷分活动]]
 local TaskBase 	= require("resources.luaScript.task.base.TaskBase")
 local TaskTMP 	= class("TaskTMP", TaskBase)
 
@@ -46,7 +46,7 @@ function TaskTMP:onAddFindInfo(tokenTable)
 		local tmpReqBody = tmpTokenTable["ReqBody"]
 		-- lockNum=0&score=399&redpacketNum=0&goldNum=28&gameUuid=db880429-5170-4180-92d1-76da4af5fefb&reviveStatus=0
 		local reqBodyTable = StringUtils.splitUrlParam(tmpReqBody)
-		reqBodyTable["score"] = 90000000
+		reqBodyTable["score"] = 55555
 		local reqBodyStr = StringUtils.makeUpUrlByParam(reqBodyTable)
 		print("ReqBody: " .. reqBodyStr)
 		tmpTokenTable["ReqBody"] = reqBodyStr

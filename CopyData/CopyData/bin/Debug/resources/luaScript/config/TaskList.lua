@@ -11,7 +11,7 @@ TaskList.ActMapTable = {
 		script = "resources.luaScript.task.TaskNiuNianYiQiNiu",
 		qrcode = "gh_12e6e8141fba",
 		linkUrl = "http://bright-dairy.tb21.cn/bright-dairy-h5-2021/index",
-		desc = "微信进入链接->玩一把跑酷~->脚本里面改分数~->点击执行任务~ \n 脚本：TaskNiuNianYiQiNiu_token.lua, 搜索修改score=你自己的分数",
+		desc = "微信进入链接->玩一把跑酷结束~->抓到CK->脚本里面改分数~->点击执行任务~(默认帮你改成55555分了) \n 脚本：TaskNiuNianYiQiNiu_token.lua, 搜索修改score=你自己的分数->重启软件->执行->毕业",
 	},
 	{
 		name = "期货消消乐~",
@@ -46,7 +46,7 @@ TaskList.ActMapTable = {
 		script = "resources.luaScript.task.TaskYiQiFengTian",
 		qrcode = "",
 		linkUrl = "https://sourl.cn/4fQsMg",
-		desc = "复制链接微信内打开->输入手机号验证码->抽奖->顺利毕业~, 提示:本软件会自动帮你多抽100次~",
+		desc = "复制链接微信内打开->输入手机号验证码->抽奖->抓到CK->顺利毕业~, 提示:本软件会自动帮你多抽100次~",
 	},
 	-- {
 	-- 	name = "江都农商",
