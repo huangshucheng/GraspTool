@@ -7,6 +7,13 @@ TaskList.ActMapTable = {
 		qrcode = "http://hcc.hccfun.com/qr_code_proxy_2.png",--设置手机代理的 二维码URL
 	},
 	{
+		name = "雀巢抽奖~",
+		script = "resources.luaScript.task.TaskQueChao",
+		qrcode = "",
+		linkUrl = "",
+		desc = "微信搜索【巢流站 开工抓巢礼】小程序,进入后抓到CK->抽奖->毕业!",
+	},
+	{
 		name = "期货消消乐~",
 		script = "resources.luaScript.task.TaskXiaoXiaoLe",
 		qrcode = "hualianqihuo",

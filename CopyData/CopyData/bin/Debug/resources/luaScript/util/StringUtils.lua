@@ -249,6 +249,13 @@ function StringUtils.splitUrlWithHost(url)
   return StringUtils.splitString(url,"?",1)
 end
 
+--获取urlParam,返回table
+--如:openid=oylYNs10lSSr3CXk38wQkzm_cGc0&points=10&uid=123456"
+function StringUtils.getUrlParam(url)
+  local retTable = StringUtils.splitUrlWithHost(url)
+  return retTable[2]
+end
+
 --分割URL参数
 -- urlParam: openid=oylYNs10lSSr3CXk38wQkzm_cGc0&points=10&uid=123456"
 function StringUtils.splitUrlParam(urlParam)
@@ -267,6 +274,13 @@ function StringUtils.splitUrlParam(urlParam)
       end
   end
   return table_tmp
+end
+
+--完整Url,获取Url参数转成table
+function StringUtils.getUrlParamTable(url)
+  local urlParam = StringUtils.splitUrlWithHost(url)
+  local retTable = StringUtils.splitUrlParam(urlParam[2])
+  return retTable
 end
 
 --用host和url参数组合成一个新的Url
