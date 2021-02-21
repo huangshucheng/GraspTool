@@ -29,7 +29,7 @@ function UIConfigData.init()
 	print("-----" .. LuaCallCShapUI.Utf8ToDefault("默认设置") .. "-----\n")
 	]]
 	LuaCallCShapUI.httpReqAsync(Define.IP_ADDRESS_URL,function(ret)
-		print(LuaCallCShapUI.Utf8ToDefault("外网IP信息: ") .. tostring(ret))
+		-- print(LuaCallCShapUI.Utf8ToDefault("外网IP信息: ") .. tostring(ret))
 		local localIP = LuaCallCShapUI.GetLocalIP()
 		local localIpInfo = "\n" .. LuaCallCShapUI.Utf8ToDefault("内网IP:") .. tostring(localIP)
 		local addressInfo = LuaCallCShapUI.Utf8ToDefault("外网IP:")

@@ -638,7 +638,7 @@
             this.Controls.Add(this.richTextBoxLog);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "HccWindowdGraspTool";
-            this.Text = "活动大师";
+            this.Text = "活动大师 by-hcc";
             ((System.ComponentModel.ISupportInitialize)(this.numUDDelay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUrl)).EndInit();
             this.tab_proxy_ip.ResumeLayout(false);
