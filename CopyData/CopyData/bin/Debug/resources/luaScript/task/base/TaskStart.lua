@@ -140,7 +140,8 @@ function TaskStart.onChangeActivity(actIndex)
 			end
 	 	end)
 		if ok then
-			local printStr = CSFun.Utf8ToDefault("加载活动成功! [" .. actName .."] ,活动脚本>> ") .. tostring(script)
+			local tmpScript = StringUtils.nullOrEmpty(script) and CSFun.Utf8ToDefault("暂无") or script
+			local printStr = CSFun.Utf8ToDefault("加载活动成功! [" .. actName .."] ,活动脚本>> ") .. tostring(tmpScript)
 			print(printStr)
 			TaskData.setCurTask(cur_task_obj) --设置当前执行的任务对象
 		else

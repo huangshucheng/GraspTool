@@ -7,18 +7,18 @@ TaskList.ActMapTable = {
 		qrcode = "http://hcc.hccfun.com/qr_code_proxy_2.png",--设置手机代理的 二维码URL
 	},
 	{
-		name = "跑酷刷分~",
-		script = "resources.luaScript.task.TaskNiuNianYiQiNiu",
-		qrcode = "gh_12e6e8141fba",
-		linkUrl = "http://bright-dairy.tb21.cn/bright-dairy-h5-2021/index",
-		desc = "微信进入链接->玩一把跑酷结束~->抓到CK->脚本里面改分数~->点击执行任务~(默认帮你改成55555分了) \n 脚本：TaskNiuNianYiQiNiu_token.lua, 搜索修改score=你自己的分数->重启软件->执行->毕业",
-	},
-	{
 		name = "期货消消乐~",
 		script = "resources.luaScript.task.TaskXiaoXiaoLe",
 		qrcode = "hualianqihuo",
 		linkUrl = "https://a.myyqxiu.com/gs/aItuVpSXJ",
 		desc = "扫码关注【华联期货】公众号,进公众号右下角~->微文化~->牛年大吉->进入游戏界面右上角~->点击活动锦囊->点击我的奖品->抓到CK->点击抽奖->顺利毕业~",
+	},
+	{
+		name = "跑酷刷分~",
+		script = "resources.luaScript.task.TaskNiuNianYiQiNiu",
+		qrcode = "gh_12e6e8141fba",
+		linkUrl = "http://bright-dairy.tb21.cn/bright-dairy-h5-2021/index",
+		desc = "微信进入链接->玩一把跑酷结束~->抓到CK->脚本里面改分数~->点击执行任务~(默认帮你改成55555分了) \n 脚本：TaskNiuNianYiQiNiu_token.lua, 搜索修改score=你自己的分数->重启软件->执行->毕业",
 	},
 	{
 		name = "太平洋保险~",

@@ -18,6 +18,7 @@ function UIConfigData.init()
 	_isAutoDoAction 	= LuaCallCShapUI.IsAutoDoAction()
 	_isShowOutLog 		= LuaCallCShapUI.IsShowOutLog()
 	_reqDelayTime 		= LuaCallCShapUI.GetReqDelayTime()
+	--[[
 	print("-----" .. LuaCallCShapUI.Utf8ToDefault("默认设置") .. "-----")
 	print(LuaCallCShapUI.Utf8ToDefault("提示音效: ") .. tostring(_isOpenTipSound))
 	print(LuaCallCShapUI.Utf8ToDefault("自动抓CK: ") .. tostring(_isAutoGraspCK))
@@ -26,7 +27,7 @@ function UIConfigData.init()
 	-- print(LuaCallCShapUI.Utf8ToDefault("延迟时间: ") .. tostring(_reqDelayTime))
 	-- print(LuaCallCShapUI.Utf8ToDefault("网络日志: ") .. tostring(_isShowNetLog))
 	print("-----" .. LuaCallCShapUI.Utf8ToDefault("默认设置") .. "-----\n")
-
+	]]
 	LuaCallCShapUI.httpReqAsync(Define.IP_ADDRESS_URL,function(ret)
 		print(LuaCallCShapUI.Utf8ToDefault("外网IP信息: ") .. tostring(ret))
 		local localIP = LuaCallCShapUI.GetLocalIP()

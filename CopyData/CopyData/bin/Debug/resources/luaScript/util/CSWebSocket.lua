@@ -6,7 +6,7 @@ local timerID = nil
 function CSWebSocket.init()
 	local ret_str = CSWebSocket.WebSocket_CreateSocket(Define.ANYPROXY_SELF_WS_URL) --anyproxy 我自己的ws端口
 	-- local ret_str = CSWebSocket.WebSocket_CreateSocket("ws://127.0.0.1:8005") --本地调试
-	print(tostring(ret_str))
+	-- print(tostring(ret_str))
 	local CSFun = require("resources.luaScript.util.CSFun")
 	local interval = 3
 	timerID = CSFun.SetInterval(3, function()

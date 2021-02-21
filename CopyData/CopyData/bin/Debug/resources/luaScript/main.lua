@@ -20,7 +20,7 @@ UIConfigData.init() --读取默认UI配置参数
 TaskData.loadTaskList() --读取本地任务列表,显示在任务列表UI
 CSWebSocket.init()
 
-print(CSFun.Utf8ToDefault("hello! 请手动选择活动!!!"))
+-- print(CSFun.Utf8ToDefault("hello! 请手动选择活动!!!"))
 
 --收到FD消息
 function Fidder_OnRecvData()
