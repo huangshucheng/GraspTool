@@ -165,6 +165,7 @@ function TaskStart.onChangeTaskData(activityTable)
 	--清理二维码
 	LuaCallCShapUI.ClearQRCode()
 	LuaCallCShapUI.SetQRCodeString("")
+	LuaCallCShapUI.SetUserInputText("")
 
 	local curTaskObj = TaskData.getCurTask()
 	if curTaskObj then
@@ -175,6 +176,9 @@ function TaskStart.onChangeTaskData(activityTable)
 		local isAutoDoAction = curTaskObj:isAutoDoAction()
 		LuaCallCShapUI.SetAutoDoAction(isAutoDoAction)
 		-- print("isAutoDoAction: " .. tostring(isAutoDoAction))
+
+		local defaultInputText = curTaskObj:getDefaultInputText()
+		LuaCallCShapUI.SetUserInputText(defaultInputText)
 	end
 
 	--切换二维码

@@ -151,6 +151,9 @@ function testCall()
 	-- local retTable = StringUtils.splitCookiesParam(cookiesStr)
 	-- dump(retTable)
 	-- local isAllChecked = CShapListView.ListView_is_all_checked()
+	-- LuaCallCShapUI.SetUserInputText("hcc>>>>>>>>>>>")
+	-- local inputStr = LuaCallCShapUI.GetUserInputText()
+	-- print("inputStr: " .. inputStr)
 end
 --[[
 [reqHeader<www.baidu.com>] 

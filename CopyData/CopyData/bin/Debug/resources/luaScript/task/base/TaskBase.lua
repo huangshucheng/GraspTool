@@ -16,10 +16,11 @@ TaskBase.CUR_TASK_TITLE 		= ""          -- 当前任务标题，在TaskList.lua 
 TaskBase.FIND_STRING_HOST 		= ""          -- 域名，方便查找token, 如：hbz.qrmkt.cn
 TaskBase.FILE_SAVE_NAME 		= ""          -- 保存本地token文件名字，如: xxx_token.lua,会自动根据lua文件名字取生成
 TaskBase.RECORD_SAVE_FILE_NAME 	= ""          -- 交互记录文件, 如：xxx_record.lua，会自动生成
+TaskBase.DEFAULT_INPUT_TEXT 	= "" 		  -- 输入框默认值
 TaskBase.DATA_TO_FIND_ARRAY 	= {}          -- 请求头中要查找的字段，如：token, Cookie，如果设置了IS_USE_FULL_REQDATA=true,则会找url来匹配，不找header
 TaskBase.ERQ_HEADER_EXT 		= {}          -- 额外的请求头,会单独配置到请求头进去,如：{["Refer"]="www.baidu.com"}
-TaskBase.IS_OPEN_RECORD 		= false 	  -- 是否抓取接口保存到本地,保存在xxx_record.lua
 TaskBase.DEFAULT_KABAO_COUNT 	= 50 	      -- 默认卡包次数：50次，需要设置isKabao后才生效
+TaskBase.IS_OPEN_RECORD 		= false 	  -- 是否抓取接口保存到本地,保存在xxx_record.lua
 TaskBase.IS_USE_FULL_REQDATA 	= false       -- 是否保存当前完整的请求数据,下次用当前数据去请求，此时需要在DATA_TO_FIND_ARRAY配置要查找的Url,会用ReqUrl去做对比，一致则保存
 TaskBase.IS_REPEAT_FOREVER 		= false 	  -- 是否永久做此任务，停不下来(切换任务对象可以停下来)
 TaskBase.IS_AUTO_DO_ACTION 		= false 	  -- 是否自动做任务,是的话会默认把UI选中
@@ -265,6 +266,11 @@ end
 --额外请求头
 function TaskBase:getHeaderExt()
 	return self.ERQ_HEADER_EXT
+end
+
+--输入框默认值
+function TaskBase:getDefaultInputText()
+	return self.DEFAULT_INPUT_TEXT
 end
 
 --找到token后，预留接口以便修改

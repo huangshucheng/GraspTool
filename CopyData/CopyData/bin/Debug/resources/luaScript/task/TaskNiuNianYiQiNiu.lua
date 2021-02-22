@@ -1,14 +1,16 @@
 --[[牛年一起牛-跑酷刷分活动]]
 local TaskBase 	= require("resources.luaScript.task.base.TaskBase")
 local TaskTMP 	= class("TaskTMP", TaskBase)
-local CSFun 		= require("resources.luaScript.util.CSFun")
-local StringUtils 	= require("resources.luaScript.util.StringUtils")
+local CSFun 			= require("resources.luaScript.util.CSFun")
+local StringUtils 		= require("resources.luaScript.util.StringUtils")
+local LuaCallCShapUI 	= require("resources.luaScript.uiLogic.LuaCallCShapUI")
 local GET 		= TaskBase.GET
 local POST 		= TaskBase.POST
 
 TaskTMP.FIND_STRING_HOST 		= "bright-dairy.tb21.cn"
 TaskTMP.DEFAULT_KABAO_COUNT 	= 1
 TaskTMP.IS_USE_FULL_REQDATA 	= true       --是否保存当前完整的请求数据,下次用当前数据去请求
+TaskTMP.DEFAULT_INPUT_TEXT 		= "15000"
 
 --需要查找的任务URL
 TaskTMP.DATA_TO_FIND_ARRAY 		= 
@@ -44,7 +46,8 @@ function TaskTMP:onAddFindInfo(tokenTable)
 		local tmpReqBody = tmpTokenTable["ReqBody"]
 		-- lockNum=0&score=399&redpacketNum=0&goldNum=28&gameUuid=db880429-5170-4180-92d1-76da4af5fefb&reviveStatus=0
 		local reqBodyTable = StringUtils.splitUrlParam(tmpReqBody)
-		reqBodyTable["score"] = 55555
+		local inputStr = LuaCallCShapUI.GetUserInputText()
+		reqBodyTable["score"] = inputStr
 		local reqBodyStr = StringUtils.makeUpUrlByParam(reqBodyTable)
 		print("ReqBody: " .. reqBodyStr)
 		tmpTokenTable["ReqBody"] = reqBodyStr

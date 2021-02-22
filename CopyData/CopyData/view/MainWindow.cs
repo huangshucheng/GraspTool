@@ -62,6 +62,8 @@ namespace CopyData
             _luaScript.RegisterFunction("SetActivityLink", this, GetType().GetMethod("SetActivityLink")); //设置活动链接
             _luaScript.RegisterFunction("GetActivityLink", this, GetType().GetMethod("GetActivityLink")); //获取活动链接
             _luaScript.RegisterFunction("SetActivityDesc", this, GetType().GetMethod("SetActivityDesc")); //设置活动简介
+            _luaScript.RegisterFunction("SetUserInputText", this, GetType().GetMethod("SetUserInputText")); //设置用户输入内容
+            _luaScript.RegisterFunction("GetUserInputText", this, GetType().GetMethod("GetUserInputText")); //获取用户输入内容
 
             //_luaScript.RegisterFunction("HttpRequestDirect", this, GetType().GetMethod("HttpRequestDirect")); //http请求同步
 
@@ -542,6 +544,16 @@ namespace CopyData
         //设置活动简介文本
         public void SetActivityDesc(string descStr) {
             richTextDesc.Text = descStr;
+        }
+
+        //设置用户输入内容
+        public void SetUserInputText(string inputText) {
+            richTextInput.Text = inputText;
+        }
+
+        //获取用户输入内容
+        public string GetUserInputText() {
+            return richTextInput.Text;
         }
 
         /// ///////////////////////////////////

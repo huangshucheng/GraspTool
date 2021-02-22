@@ -171,4 +171,18 @@ function LuaCallCShapUI.SetActivityDesc(descStr)
 	end
 end
 
+-- 设置用户输入内容
+function LuaCallCShapUI.SetUserInputText(inputStr)
+	if SetUserInputText then
+		SetUserInputText(inputStr)
+	end
+end
+
+-- 获取用户输入内容
+function LuaCallCShapUI.GetUserInputText()
+	if GetUserInputText then
+		return GetUserInputText()
+	end
+end
+
 return LuaCallCShapUI

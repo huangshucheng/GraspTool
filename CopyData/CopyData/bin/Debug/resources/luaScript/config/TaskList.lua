@@ -39,7 +39,7 @@ TaskList.ActMapTable = {
 		script = "resources.luaScript.task.TaskNiuNianYiQiNiu",
 		qrcode = "gh_12e6e8141fba",
 		linkUrl = "http://bright-dairy.tb21.cn/bright-dairy-h5-2021/index",
-		desc = "微信进入链接->玩一把跑酷结束~->抓到CK->脚本里面改分数~->点击执行任务~(默认帮你改成55555分了) \n 脚本：TaskNiuNianYiQiNiu_token.lua, 搜索修改score=你自己的分数->重启软件->执行->毕业",
+		desc = "输入框输入分数~->微信进入链接->玩一把跑酷结束~->抓到CK->点击执行->毕业~\n 提示:要改其他分数,需要修改分数后再玩一次游戏~",
 	},
 	{
 		name = "太平洋保险~",

@@ -74,6 +74,8 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.richTextDesc = new System.Windows.Forms.RichTextBox();
+            this.richTextInput = new System.Windows.Forms.RichTextBox();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numUDDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUrl)).BeginInit();
             this.tab_proxy_ip.SuspendLayout();
@@ -97,7 +99,7 @@
             this.richTextBoxLog.Location = new System.Drawing.Point(3, 328);
             this.richTextBoxLog.Name = "richTextBoxLog";
             this.richTextBoxLog.ReadOnly = true;
-            this.richTextBoxLog.Size = new System.Drawing.Size(644, 293);
+            this.richTextBoxLog.Size = new System.Drawing.Size(644, 310);
             this.richTextBoxLog.TabIndex = 5;
             this.richTextBoxLog.Text = "";
             this.richTextBoxLog.TextChanged += new System.EventHandler(this.richTextBoxLogTextChanged);
@@ -409,10 +411,10 @@
             this.tab_control.Controls.Add(this.tab_qr_code);
             this.tab_control.Controls.Add(this.tab_proxy_ip);
             this.tab_control.Controls.Add(this.tab_jiema);
-            this.tab_control.Location = new System.Drawing.Point(659, 202);
+            this.tab_control.Location = new System.Drawing.Point(661, 232);
             this.tab_control.Name = "tab_control";
             this.tab_control.SelectedIndex = 0;
-            this.tab_control.Size = new System.Drawing.Size(260, 276);
+            this.tab_control.Size = new System.Drawing.Size(260, 265);
             this.tab_control.TabIndex = 30;
             // 
             // tab_qr_code
@@ -425,18 +427,18 @@
             this.tab_qr_code.Controls.Add(this.btnGenQRCode);
             this.tab_qr_code.Location = new System.Drawing.Point(4, 22);
             this.tab_qr_code.Name = "tab_qr_code";
-            this.tab_qr_code.Size = new System.Drawing.Size(252, 250);
+            this.tab_qr_code.Size = new System.Drawing.Size(252, 239);
             this.tab_qr_code.TabIndex = 2;
             this.tab_qr_code.Text = "活动信息";
             // 
             // btnCopyLink
             // 
-            this.btnCopyLink.Font = new System.Drawing.Font("宋体", 9F);
-            this.btnCopyLink.Location = new System.Drawing.Point(196, 200);
+            this.btnCopyLink.Font = new System.Drawing.Font("宋体", 8F);
+            this.btnCopyLink.Location = new System.Drawing.Point(189, 203);
             this.btnCopyLink.Name = "btnCopyLink";
-            this.btnCopyLink.Size = new System.Drawing.Size(53, 44);
+            this.btnCopyLink.Size = new System.Drawing.Size(60, 30);
             this.btnCopyLink.TabIndex = 28;
-            this.btnCopyLink.Text = "复制活动链接";
+            this.btnCopyLink.Text = "复制链接";
             this.btnCopyLink.UseVisualStyleBackColor = true;
             this.btnCopyLink.Click += new System.EventHandler(this.btnCopyLink_Click);
             // 
@@ -449,7 +451,8 @@
             this.richTextLink.ForeColor = System.Drawing.Color.Blue;
             this.richTextLink.Location = new System.Drawing.Point(4, 200);
             this.richTextLink.Name = "richTextLink";
-            this.richTextLink.Size = new System.Drawing.Size(187, 44);
+            this.richTextLink.ReadOnly = true;
+            this.richTextLink.Size = new System.Drawing.Size(187, 35);
             this.richTextLink.TabIndex = 27;
             this.richTextLink.Text = "";
             // 
@@ -481,7 +484,7 @@
             this.text_box_ip_info.DetectUrls = false;
             this.text_box_ip_info.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.text_box_ip_info.ForeColor = System.Drawing.Color.Red;
-            this.text_box_ip_info.Location = new System.Drawing.Point(653, 572);
+            this.text_box_ip_info.Location = new System.Drawing.Point(653, 596);
             this.text_box_ip_info.Name = "text_box_ip_info";
             this.text_box_ip_info.ReadOnly = true;
             this.text_box_ip_info.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Horizontal;
@@ -577,7 +580,7 @@
             this.panel1.Controls.Add(this.btnStopCatch);
             this.panel1.Controls.Add(this.btnCatchSel);
             this.panel1.Controls.Add(this.btnStartCatch);
-            this.panel1.Location = new System.Drawing.Point(649, 143);
+            this.panel1.Location = new System.Drawing.Point(649, 173);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(280, 53);
             this.panel1.TabIndex = 35;
@@ -585,6 +588,8 @@
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel2.Controls.Add(this.label7);
+            this.panel2.Controls.Add(this.richTextInput);
             this.panel2.Controls.Add(this.chckSound);
             this.panel2.Controls.Add(this.checkAutoGraspCk);
             this.panel2.Controls.Add(this.checkAutoDoAct);
@@ -596,7 +601,7 @@
             this.panel2.Controls.Add(this.label3);
             this.panel2.Location = new System.Drawing.Point(648, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(281, 133);
+            this.panel2.Size = new System.Drawing.Size(281, 163);
             this.panel2.TabIndex = 36;
             // 
             // panel3
@@ -616,18 +621,41 @@
             // 
             this.richTextDesc.BackColor = System.Drawing.SystemColors.Control;
             this.richTextDesc.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.richTextDesc.Location = new System.Drawing.Point(655, 480);
+            this.richTextDesc.Location = new System.Drawing.Point(655, 503);
             this.richTextDesc.Name = "richTextDesc";
             this.richTextDesc.ReadOnly = true;
             this.richTextDesc.Size = new System.Drawing.Size(268, 87);
             this.richTextDesc.TabIndex = 0;
             this.richTextDesc.Text = "活动操作简介";
             // 
+            // richTextInput
+            // 
+            this.richTextInput.BackColor = System.Drawing.SystemColors.Window;
+            this.richTextInput.DetectUrls = false;
+            this.richTextInput.Font = new System.Drawing.Font("宋体", 14F);
+            this.richTextInput.ForeColor = System.Drawing.Color.Blue;
+            this.richTextInput.Location = new System.Drawing.Point(63, 125);
+            this.richTextInput.Multiline = false;
+            this.richTextInput.Name = "richTextInput";
+            this.richTextInput.Size = new System.Drawing.Size(209, 30);
+            this.richTextInput.TabIndex = 29;
+            this.richTextInput.Text = "";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("宋体", 12F);
+            this.label7.Location = new System.Drawing.Point(5, 131);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(56, 16);
+            this.label7.TabIndex = 35;
+            this.label7.Text = "输入框";
+            // 
             // HccWindowdGraspTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(935, 625);
+            this.ClientSize = new System.Drawing.Size(935, 650);
             this.Controls.Add(this.richTextDesc);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
@@ -703,6 +731,8 @@
         private System.Windows.Forms.Button btnCopyLink;
         private System.Windows.Forms.RichTextBox richTextLink;
         private System.Windows.Forms.RichTextBox richTextDesc;
+        private System.Windows.Forms.RichTextBox richTextInput;
+        private System.Windows.Forms.Label label7;
     }
 }
 
