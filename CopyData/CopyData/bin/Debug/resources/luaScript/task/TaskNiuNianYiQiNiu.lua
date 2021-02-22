@@ -49,7 +49,7 @@ function TaskTMP:onBeforeSaveToLocal(tokenTable)
 		local inputStr = LuaCallCShapUI.GetUserInputText()
 		reqBodyTable["score"] = inputStr
 		local reqBodyStr = StringUtils.makeUpUrlByParam(reqBodyTable)
-		print("ReqBody: " .. reqBodyStr)
+		-- print("ReqBody: " .. reqBodyStr)
 		tmpTokenTable["ReqBody"] = reqBodyStr
 		table.insert(retTable,tmpTokenTable)
 	end
@@ -61,15 +61,15 @@ function TaskTMP:onBeforeRequest(httpTaskObj)
 	local reqUrl = httpTaskObj:getUrl()
 	local urlBody = httpTaskObj:getUrlBody()
 	local postBody = httpTaskObj:getPostBody()
-	print("reqUrl: " .. reqUrl)
-	print("urlBody: " .. urlBody)
-	print("postBody11: " .. postBody)
+	-- print("reqUrl: " .. reqUrl)
+	-- print("urlBody: " .. urlBody)
+	-- print("postBody11: " .. postBody)
 	if CSFun.IsSubString(reqUrl,"http://bright-dairy.tb21.cn/bright-dairy-h5-2021/game/gameOver") then
 		local reqBodyTable = StringUtils.splitUrlParam(postBody)
 		local inputStr = LuaCallCShapUI.GetUserInputText()
 		reqBodyTable["score"] = inputStr
 		local tmpPostBodyStr = StringUtils.makeUpUrlByParam(reqBodyTable)
-		print("postBody22: " .. tmpPostBodyStr)
+		-- print("postBody22: " .. tmpPostBodyStr)
 		httpTaskObj:setPostBody(tmpPostBodyStr)
 	end
 end

@@ -8,7 +8,7 @@ local POST 			= TaskBase.POST
 TaskTMP.FIND_STRING_HOST 	= "hzhnapi.msjp1.com"
 TaskTMP.DATA_TO_FIND_ARRAY 	= {"Authorization"}
 TaskTMP.DEFAULT_KABAO_COUNT = 100
-TaskTMP.IS_AUTO_DO_ACTION 	= true
+TaskTMP.IS_AUTO_DO_ACTION 	= false
 
 --额外的请求头,也可以不用配置
 TaskTMP.ERQ_HEADER_EXT = {
