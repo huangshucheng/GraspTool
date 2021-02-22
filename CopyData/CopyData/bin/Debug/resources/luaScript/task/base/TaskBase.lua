@@ -236,13 +236,6 @@ function TaskBase:onNextTask(nextHttpTaskObj, preHttpTaskObj)
 	local retStr = ""
 end 
 
---切换下一个token执行任务
---nextHttpTaskObj: 接下来要执行的task
---preHttpTaskObj: 前一个task
-function TaskBase:onNextToken(nextHttpTaskObj, preHttpTaskObj)
-
-end
-
 --卡包次数
 function TaskBase:getDefaultKaBaoCount()
 	return self.DEFAULT_KABAO_COUNT

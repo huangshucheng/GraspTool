@@ -69,6 +69,13 @@ TaskList.ActMapTable = {
 		linkUrl = "https://sourl.cn/4fQsMg",
 		desc = "复制链接微信内打开->输入手机号验证码->抽奖->抓到CK->顺利毕业~, 提示:本软件会自动帮你多抽100次~",
 	},
+	{
+		name = "攻击网站~",
+		script = "resources.luaScript.task.TaskLaoTie",
+		qrcode = "",
+		linkUrl = "https://laotie8.com/hdxb/213458.html",
+		desc = "",
+	},
 	-- {
 	-- 	name = "蜀山答题抽奖~",
 	-- 	script = "resources.luaScript.task.TaskShuShanDaTi",
