@@ -97,10 +97,7 @@ function WebSocket_OnSocketData()
 		print("decode_json error>>  " .. tostring(out_msg))
 	end
 	if UIConfigData.getIsShowNetLog() then
-		local time_str = os.date("%H:%M:%S")
-		-- local show_str  = tostring(time_str) .. ",recvData"
-		-- print(time_str .. ": " .. websocket_data)
-		dump(out_msg, time_str)
+		dump(out_msg, os.date("%H:%M:%S"))
 		print("\n")
 	end
 end

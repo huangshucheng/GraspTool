@@ -25,6 +25,7 @@ function TaskStartEx.doRequest(httpTask, requestInfo, tokenIndex, isContinue)
 	tmpHttpTask:setUserData(tokenIndex)
 	tmpHttpTask:setIsContinue(isContinue)
 	tmpHttpTask:addCallback(TaskStartEx.onResponseCallBack)
+	TaskData.getCurTask():onBeforeRequest(tmpHttpTask) --请求之前预留接口,方便操作请求参数
 	tmpHttpTask:start()
 end
 

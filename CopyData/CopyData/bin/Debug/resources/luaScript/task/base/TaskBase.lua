@@ -273,12 +273,12 @@ function TaskBase:getDefaultInputText()
 	return self.DEFAULT_INPUT_TEXT
 end
 
---找到token后，预留接口以便修改
---如果是 IS_USE_FULL_REQDATA == true 情况，保存了完整的请求信息，就能拿到所有请求数据
---如果 IS_USE_FULL_REQDATA == false 情况，只能拿到所有请求头的信息
---tokenTable:  多个请求记录的集合，这里用table是为了方便脚本手动制造多个本地token记录
+--客户端抓到token后保存到本地之前，预留接口以便修改
+--如果是 IS_USE_FULL_REQDATA == true 情况，保存了完整的请求信息，就能拿到所有请求数据， 否则，只能拿到所有请求头的信息
+--参数：requestInfo: 一条请求记录
+--返回：｛requestInfo1,requestInfo2,...｝多个请求记录的集合，这里用table是为了方便脚本手动制造多个本地token记录
 --[[
-{
+requestInfo ={
     "Headers" = {
      	"Cookies" = "reqid=123;uid=456;",
         "token"= "12345",
@@ -290,8 +290,14 @@ end
     "UrlBody" = "",
 }
 ]]
-function TaskBase:onAddFindInfo(tokenTable)
-	return {tokenTable}
+function TaskBase:onBeforeSaveToLocal(requestInfo)
+	return {requestInfo}
+end
+
+--在请求服务之前，预留接口，预留接口以便修改请求参数
+--httpTaskObj: HttpTask对象
+function TaskBase:onBeforeRequest(httpTaskObj)
+
 end
 
 return TaskBase

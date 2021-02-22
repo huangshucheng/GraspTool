@@ -39,7 +39,7 @@ TaskList.ActMapTable = {
 		script = "resources.luaScript.task.TaskNiuNianYiQiNiu",
 		qrcode = "gh_12e6e8141fba",
 		linkUrl = "http://bright-dairy.tb21.cn/bright-dairy-h5-2021/index",
-		desc = "输入框输入分数~->微信进入链接->玩一把跑酷结束~->抓到CK->点击执行->毕业~\n 提示:要改其他分数,需要修改分数后再玩一次游戏~",
+		desc = "输入框输入分数~->微信进入链接->玩一把跑酷结束~->抓到CK->点击执行->毕业~\n 提示:可在输入框中输入任意分数,再次刷分~",
 	},
 	{
 		name = "太平洋保险~",

@@ -37,8 +37,8 @@ TaskTMP.TASK_LIST_URL_CONFIG = {
 	},
 }
 
---找到token后，预留接口以便修改请求内容
-function TaskTMP:onAddFindInfo(tokenTable)
+--找到token后保存在本地前，预留接口以便修改请求内容
+function TaskTMP:onBeforeSaveToLocal(tokenTable)
 	local tmpTokenTable = clone(tokenTable)
 	local retTable = {}
 	local reqUrl = tmpTokenTable["ReqUrl"]
@@ -54,6 +54,24 @@ function TaskTMP:onAddFindInfo(tokenTable)
 		table.insert(retTable,tmpTokenTable)
 	end
 	return retTable
+end
+
+--请求服务之前,预留接口以便修改请求参数
+function TaskTMP:onBeforeRequest(httpTaskObj)
+	local reqUrl = httpTaskObj:getUrl()
+	local urlBody = httpTaskObj:getUrlBody()
+	local postBody = httpTaskObj:getPostBody()
+	print("reqUrl: " .. reqUrl)
+	print("urlBody: " .. urlBody)
+	print("postBody11: " .. postBody)
+	if CSFun.IsSubString(reqUrl,"http://bright-dairy.tb21.cn/bright-dairy-h5-2021/game/gameOver") then
+		local reqBodyTable = StringUtils.splitUrlParam(postBody)
+		local inputStr = LuaCallCShapUI.GetUserInputText()
+		reqBodyTable["score"] = inputStr
+		local tmpPostBodyStr = StringUtils.makeUpUrlByParam(reqBodyTable)
+		print("postBody22: " .. tmpPostBodyStr)
+		httpTaskObj:setPostBody(tmpPostBodyStr)
+	end
 end
 
 return TaskTMP
