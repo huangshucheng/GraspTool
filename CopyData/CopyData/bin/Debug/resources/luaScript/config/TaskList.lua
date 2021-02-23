@@ -6,6 +6,14 @@ TaskList.ActMapTable = {
 		script = "",
 		qrcode = "http://hcc.hccfun.com/qr_code_proxy_2.png",--设置手机代理的 二维码URL
 	},
+	--[[
+	{
+		name = "抢元宵~",
+		script = "resources.luaScript.task.TaskQiangYuanXiao",
+		qrcode = "",
+		linkUrl = "https://22132418-68.hd.faisco.cn/22132418/YKfU8XeJAgQ3D4cRK3mArg/bhmn.html?isOfficialLianjie=false&shareDeep=5&eleUid=&otherplayer=oosnVwsr-n33JUiDnlLOD9JY9o6M&editQrcode=true&_origin=3&flyerfid=&_source=3&canal=-1&notP4Share=false&jumpFlag=true",
+		desc = "进入链接->玩一把游戏直到结束->抓到CK->修改分数->点击执行->毕业!",
+	},
 	{
 		name = "抖音抓CK~",
 		script = "resources.luaScript.task.TaskDouYin",
@@ -13,6 +21,7 @@ TaskList.ActMapTable = {
 		linkUrl = "",
 		desc = "登录抖音就能抓到CK~",
 	},
+	]]
 	{
 		name = "跑酷刷分~",
 		script = "resources.luaScript.task.TaskNiuNianYiQiNiu",

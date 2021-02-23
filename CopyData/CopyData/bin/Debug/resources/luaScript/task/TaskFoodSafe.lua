@@ -24,7 +24,7 @@ TaskTMP.TASK_LIST_URL_CONFIG = {
 		method = POST, 
 		reqCount = 200,
 		urlBody = "", 
-		postBody = "id=89",
+		postBody = "id=90",
 		delay = 0,
 		isKabao = true,
 	},
