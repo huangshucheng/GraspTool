@@ -275,4 +275,32 @@ function CSFun.IsSubString(srcStr, resStr)
 	end
 end
 
+-- base64加密
+function CSFun.Base64Encode(sourceStr)
+	if Base64Encode then
+		return Base64Encode(sourceStr)
+	end
+end
+
+-- base64解密
+function CSFun.Base64Decode(sourceStr)
+	if Base64Decode then
+		return Base64Decode(sourceStr)
+	end
+end
+
+-- md5加密
+function CSFun.MD5Encode(sourceStr)
+	if MD5Encode then
+		return MD5Encode(sourceStr)
+	end
+end
+
+-- sha1 加密
+function CSFun.Sha1Encode(sourceStr)
+	if Sha1Encode then
+		return Sha1Encode(sourceStr)
+	end
+end
+
 return CSFun

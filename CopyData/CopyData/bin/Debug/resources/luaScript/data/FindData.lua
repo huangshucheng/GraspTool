@@ -5,7 +5,6 @@ local CSFun = require("resources.luaScript.util.CSFun")
 local TaskData = require("resources.luaScript.data.TaskData")
 local Sound = require("resources.luaScript.util.Sound")
 local StringUtils = require("resources.luaScript.util.StringUtils")
-local ToolUtils = require("resources.luaScript.util.ToolUtils")
 local CShapListView = require("resources.luaScript.uiLogic.CShapListView")
 
 function FindData:getInstance()

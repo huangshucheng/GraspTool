@@ -8,8 +8,8 @@ local POST 			= TaskBase.POST
 
 TaskTMP.FIND_STRING_HOST 		= "xinhua.mofangdata.cn"
 TaskTMP.DATA_TO_FIND_ARRAY 		= {"Cookie","Referer"}
-TaskTMP.DEFAULT_KABAO_COUNT 	= 200 	-- 默认卡包次数，需要设置isKabao后才生效
-TaskTMP.IS_REPEAT_FOREVER 		= false
+TaskTMP.DEFAULT_KABAO_COUNT 	= 1 	-- 默认卡包次数，需要设置isKabao后才生效
+TaskTMP.IS_REPEAT_FOREVER 		= true
 
 --额外的请求头,也可以不用配置
 TaskTMP.ERQ_HEADER_EXT = {
@@ -22,10 +22,10 @@ TaskTMP.TASK_LIST_URL_CONFIG = {
 		curTaskName = "抽奖", 
 		url = "http://xinhua.mofangdata.cn/wx/prize/tryit3.htm",
 		method = POST, 
-		reqCount = 200,
+		reqCount = 1,
 		urlBody = "", 
 		postBody = "id=90",
-		delay = 0,
+		delay = 1.5,
 		isKabao = true,
 	},
 }

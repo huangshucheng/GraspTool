@@ -154,6 +154,17 @@ function testCall()
 	-- LuaCallCShapUI.SetUserInputText("hcc>>>>>>>>>>>")
 	-- local inputStr = LuaCallCShapUI.GetUserInputText()
 	-- print("inputStr: " .. inputStr)
+	--[[
+	local retStr = CSFun.Base64Encode("huangshucheng")
+	print(retStr)
+	retStr = CSFun.Base64Decode(retStr)
+	print(retStr)
+	
+	local retStr_2 = CSFun.MD5Encode("huangshucheng")
+	local retStr_3 = CSFun.Sha1Encode("huangshucheng")
+	print(retStr_2)
+	print(retStr_3)
+	]]
 end
 --[[
 [reqHeader<www.baidu.com>] 

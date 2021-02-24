@@ -91,6 +91,11 @@ namespace CopyData
             _luaScript.RegisterFunction("StringCompare", null, typeof(StringUtils).GetMethod("StringCompare")); //字符串比较
             _luaScript.RegisterFunction("IsSubString", null, typeof(StringUtils).GetMethod("IsSubString")); //是否是字符串子串
 
+            _luaScript.RegisterFunction("Base64Encode", null, typeof(StringUtils).GetMethod("Base64Encode")); //base64加密
+            _luaScript.RegisterFunction("Base64Decode", null, typeof(StringUtils).GetMethod("Base64Decode")); //base64解密 
+            _luaScript.RegisterFunction("MD5Encode", null, typeof(StringUtils).GetMethod("MD5Encode")); //md5加密
+            _luaScript.RegisterFunction("Sha1Encode", null, typeof(StringUtils).GetMethod("Sha1Encode")); //sha1 加密
+
             /*
             string path1 = Environment.CurrentDirectory; //获取和设置当前目录（即该进程从中启动的目录）的完全限定路径。
             string path2 = this.GetType().Assembly.Location;//获取当前进程的完整路径，包含文件名(进程名)。
@@ -148,7 +153,20 @@ namespace CopyData
             //for (int i = 0; i < 200; i++) {
             //    HttpRequestDirect("www.baidu.com");
             //}
-            
+
+            /*
+            var retstr = StringUtils.Base64Encode("huangshucheng");
+            Console.WriteLine(retstr);
+
+            var fromStr = StringUtils.Base64Decode("aHVhbmdzaHVjaGVuZw==");
+            Console.WriteLine(fromStr);
+
+            var md5str = StringUtils.MD5Encode("huangshucheng");
+            Console.WriteLine(md5str);
+
+            var sha1 = StringUtils.Sha1Encode("huangshucheng");
+            Console.WriteLine(sha1);
+            */
         }
 
         //直接请求http

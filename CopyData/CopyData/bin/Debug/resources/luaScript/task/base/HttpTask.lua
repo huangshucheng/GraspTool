@@ -31,6 +31,7 @@ function HttpTask:ctor()
 	self._isContinue    = true 	--执行完成后是否执行下一个CK
 	self._graspRedPktCount   = 0 	--抢到的红包个数
 	self._isKaBao 		= false  --当前请求是否需要手动设置卡包次数
+	self._allRequestInfo 	= {["Headers"] = {}} --请求信息，信息综合，见保存数据格式
 end
 
 function HttpTask:initWithConfig(config)
@@ -53,6 +54,7 @@ end
 
 --用本地保存的http请求数据初始化
 function HttpTask:initWithLocalSaveData(configData)
+	self._allRequestInfo = configData
 	local configDataTmp = clone(configData) or {}
 	local tmpReqUrl 	= configDataTmp["ReqUrl"]
 	local tmpMethod 	= configDataTmp["Method"]
@@ -65,6 +67,14 @@ function HttpTask:initWithLocalSaveData(configData)
 	self._postBody 	= StringUtils.nullOrEmpty(tmpPostBody) and self._postBody or tmpPostBody
 	self._urlBody 	= StringUtils.nullOrEmpty(tmpUrlBody) and self._urlBody or tmpUrlBody
 	self:addHeader(configDataTmp["Headers"] or {})
+end
+
+function HttpTask:getRequestInfo()
+	return self._allRequestInfo
+end
+
+function HttpTask:setRequestInfo(info)
+	self._allRequestInfo = info
 end
 
 function HttpTask:setUrl(url)

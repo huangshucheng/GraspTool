@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.IO;
+using System.Security.Cryptography;
 
 namespace CopyData
 {
@@ -87,5 +88,56 @@ namespace CopyData
         public static bool IsSubString(string srcStr, string resStr) {
             return srcStr.Contains(resStr);
         }
+
+        //base64加密
+        public static string Base64Encode(string sourceStr)
+        {
+            if (string.IsNullOrEmpty(sourceStr)) {
+                return sourceStr;
+            }
+            byte[] encbuff = Encoding.UTF8.GetBytes(sourceStr);
+            return Convert.ToBase64String(encbuff);
+        }
+
+        //base64解密
+        public static string Base64Decode(string sourceStr)
+        {
+            if (string.IsNullOrEmpty(sourceStr)) {
+                return sourceStr;
+            }
+            byte[] decbuff = Convert.FromBase64String(sourceStr);
+            return Encoding.UTF8.GetString(decbuff, 0, decbuff.Length);
+        }
+
+        //md5加密
+        public static string MD5Encode(string strText)
+        {
+            MD5 md5 = MD5.Create();
+            byte[] md5buffer = md5.ComputeHash(System.Text.Encoding.UTF8.GetBytes(strText));
+            string str = "";
+            // 通过使用循环，将字节类型的数组转换为字符串，此字符串是常规字符格式化所得
+            foreach (byte b in md5buffer)
+            {
+                //得到的字符串使用十六进制类型格式。格式后的字符是小写的字母，如果使用大写（X）则格式后的字符是大写字符 
+                //但是在和对方测试过程中，发现我这边的MD5加密编码，经常出现少一位或几位的问题；
+                //后来分析发现是 字符串格式符的问题， X 表示大写， x 表示小写， 
+                //X2和x2表示不省略首位为0的十六进制数字；
+                str += b.ToString("x2");
+            }
+            return str;
+        }
+
+        //sha1 加密
+        public static string Sha1Encode(string str)
+         {
+             var buffer = Encoding.UTF8.GetBytes(str);
+             var data = SHA1.Create().ComputeHash(buffer);
+             var sb = new StringBuilder();
+             foreach (var t in data)
+             {
+                 sb.Append(t.ToString("x2"));
+             }
+             return sb.ToString();
+         }
     }
 }

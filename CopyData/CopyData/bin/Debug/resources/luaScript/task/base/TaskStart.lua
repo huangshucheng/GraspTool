@@ -81,7 +81,7 @@ function TaskStart.onResponseCallBack(httpRes, taskCur)
 		local httpTaskNext = allTaskList[taskCur:getCurTaskIndex()+1]
 		if httpTaskNext then 
 			--找到了下一个任务，继续用当前用户的token执行下一个任务
-			TaskStart.doRequest(httpTaskNext, taskCur:getHeader(), taskCur:getUserData(), taskCur:getIsContinue())
+			TaskStart.doRequest(httpTaskNext, taskCur:getRequestInfo(), taskCur:getUserData(), taskCur:getIsContinue())
 			tmpCurTask:onNextTask(httpTaskNext, taskCur)
 		else --需要切换token,又从第一个task开始做
 			local date = os.date("%H:%M:%S")

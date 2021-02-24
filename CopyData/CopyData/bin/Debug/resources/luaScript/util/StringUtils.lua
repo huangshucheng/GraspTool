@@ -1,4 +1,102 @@
 local StringUtils = {}
+
+--[[
+@brief 序列化字符串
+]]--
+function StringUtils.serialize(obj)  
+    local lua = ""  
+    local t = type(obj)  
+    if t == "number" then  
+        lua = lua .. obj  
+    elseif t == "boolean" then  
+        lua = lua .. tostring(obj)  
+    elseif t == "string" then  
+        lua = lua .. string.format("%q", obj)  
+    elseif t == "table" then  
+        lua = lua .. "{"  
+        for k, v in pairs(obj) do  
+            lua = lua .. "[" .. StringUtils.serialize(k) .. "]=" .. StringUtils.serialize(v) .. ","  
+        end  
+        local metatable = getmetatable(obj)  
+        if metatable ~= nil and type(metatable.__index) == "table" then  
+            for k, v in pairs(metatable.__index) do  
+                lua = lua .. "[" .. StringUtils.serialize(k) .. "]=" .. StringUtils.serialize(v) .. ","  
+            end  
+        end  
+        lua = lua .. "}"  
+    elseif t == "nil" then  
+        return nil  
+    else  
+        error("can not serialize a " .. t .. " type.")  
+    end  
+    return lua  
+end
+
+--[[
+@brief 反序列化字符串
+]]--
+function StringUtils.unserialize(lua)  
+    local t = type(lua)  
+    if t == "nil" or lua == "" then  
+        return nil  
+    elseif t == "number" or t == "string" or t == "boolean" then  
+        lua = tostring(lua)  
+    else  
+        error("can not unserialize a " .. t .. " type.")  
+    end  
+    lua = "return " .. lua  
+    local func = loadstring(lua)  
+    if func == nil then  
+        return nil  
+    end  
+    return func()  
+end
+
+--[[
+@brief 获取文件的大小
+]]--
+function StringUtils.getFileSize(filePath)
+    local file = io.open(filePath,"r+")
+    if not file then
+        return 0
+    end
+    local size = file:seek("end")
+    file:close()
+    return size
+end
+
+--字符串转为16进制输出
+function StringUtils.bin2hex(s)
+    s = string.gsub(s,"(.)",function (x) return string.format("%02X ",string.byte(x)) end)
+    return s
+end
+
+--16进制转字节数组
+function StringUtils.hex2bin(hexstr)
+    local h2b = {
+        ["0"] = 0,
+        ["1"] = 1,
+        ["2"] = 2,
+        ["3"] = 3,
+        ["4"] = 4,
+        ["5"] = 5,
+        ["6"] = 6,
+        ["7"] = 7,
+        ["8"] = 8,
+        ["9"] = 9,
+        ["A"] = 10,
+        ["B"] = 11,
+        ["C"] = 12,
+        ["D"] = 13,
+        ["E"] = 14,
+        ["F"] = 15
+    }
+    local s = string.gsub(hexstr, "(.)(.)", function ( h, l )
+         return string.char(h2b[h]*16+h2b[l])
+    end)
+    return s
+end
+
 -- 分割字符串, splite_time：分割次数
 function StringUtils.splitString(str, delimiter, splite_time)
    local args = {}
