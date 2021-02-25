@@ -8,7 +8,7 @@ local POST 			= TaskBase.POST
 
 TaskTMP.FIND_STRING_HOST 		= "open.ixiaomayun.com"
 TaskTMP.IS_USE_FULL_REQDATA 	= true
-TaskTMP.DEFAULT_KABAO_COUNT 	= 20 	-- 默认卡包次数，需要设置isKabao后才生效
+TaskTMP.DEFAULT_KABAO_COUNT 	= 50 	-- 默认卡包次数，需要设置isKabao后才生效
 TaskTMP.IS_REPEAT_FOREVER 		= false
 
 TaskTMP.DATA_TO_FIND_ARRAY 		= {
