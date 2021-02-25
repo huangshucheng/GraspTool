@@ -215,7 +215,7 @@ function TaskStart.doSelectTask()
 	local selTable = CShapListView.ListView_get_select_index()
 	SELECT_CK_INDEX = clone(selTable)
 	if selTable and next(selTable) then
-		dump(selTable,CSFun.Utf8ToDefault("当前选中: "))
+		-- dump(selTable,CSFun.Utf8ToDefault("当前选中: "))
 		local tmpCurTask = TaskData.getCurTask()
 		if not tmpCurTask then
 			print(CSFun.Utf8ToDefault("还没指定任务!"))
