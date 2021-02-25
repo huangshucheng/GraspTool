@@ -30,16 +30,4 @@ TaskTMP.TASK_LIST_URL_CONFIG = {
 	},
 }
 
---找到token后，预留接口以便修改本地保存的内容
---[[
-function TaskTMP:onBeforeSaveToLocal(tokenTable)
-	local tmpTokenTable = clone(tokenTable)
-	local retTable = {}
-	-- local reqUrl = tmpTokenTable["Headers"]
-	tmpTokenTable["ReqBody"] = "id=89"
-	table.insert(retTable,tmpTokenTable)
-	return retTable
-end
-]]
-
 return TaskTMP

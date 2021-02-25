@@ -12,8 +12,6 @@ TaskTMP.DEFAULT_KABAO_COUNT 	= 50 	-- 默认卡包次数，需要设置isKabao�
 TaskTMP.IS_REPEAT_FOREVER 		= false
 
 TaskTMP.DATA_TO_FIND_ARRAY 		= {
-	-- "open.ixiaomayun.com/api/userActives/218/question/1542/index.html",
-	-- "open.ixiaomayun.com/api/Active/Misc/Question/activeInfo"
 	"open.ixiaomayun.com/api/Active/Misc/Question"
 }
 
@@ -54,14 +52,7 @@ end
 
 --请求服务之前,预留接口以便修改请求参数
 function TaskTMP:onBeforeRequest(httpTaskObj)
-	-- local reqUrl = httpTaskObj:getUrl()
-	-- local urlBody = httpTaskObj:getUrlBody()
-	-- local postBody = httpTaskObj:getPostBody()
-	-- local headers = httpTaskObj:getHeader()
 	local allInfo = httpTaskObj:getRequestInfo()
-	-- dump(allInfo,"allInfo")
-	-- print(reqUrl)
-	-- dump(headers,"headers")
 end
 
 return TaskTMP

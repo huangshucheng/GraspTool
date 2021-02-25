@@ -266,7 +266,7 @@ function TaskBase:getDefaultInputText()
 	return self.DEFAULT_INPUT_TEXT
 end
 
---客户端抓到token后保存到本地之前，预留接口以便修改
+--客户端抓到token后保存到本地之前,预留接口以便修改保存数据
 --如果是 IS_USE_FULL_REQDATA == true 情况，保存了完整的请求信息，就能拿到所有请求数据， 否则，只能拿到所有请求头的信息
 --参数：requestInfo: 一条请求记录
 --返回：｛requestInfo1,requestInfo2,...｝多个请求记录的集合，这里用table是为了方便脚本手动制造多个本地token记录
