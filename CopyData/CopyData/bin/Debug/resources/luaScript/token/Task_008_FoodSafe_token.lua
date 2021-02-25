@@ -1,0 +1,3 @@
+﻿
+{"Headers":{"Referer":"http://xinhua.mofangdata.cn/wx/prize/game/answercard.htm?id=402881d97622ed0201767e799f370ba0&prizeid=88&basescope=true&cardid=hpcj2020-10&backGroupId=ed4f2e0737334907ab811b17e316d164","Content-Type":"application/x-www-form-urlencoded; charset=UTF-8; application/json","Cookie":"JSESSIONID=3D01017F055D33C0DD8639FE00306A6F"}}
+{"Headers":{"Referer":"http://xinhua.mofangdata.cn/wx/prize/game/answercard.htm?id=402881d97622ed0201767e799f370ba0&prizeid=88&basescope=true&cardid=hpcj2020-10&backGroupId=ed4f2e0737334907ab811b17e316d164","Content-Type":"application/x-www-form-urlencoded; charset=UTF-8; application/json","Cookie":"JSESSIONID=304F96D57E2AF9BFB665D3ED848B7860"}}

@@ -36,6 +36,20 @@ TaskList.ActMapTable = {
 	-- 	linkUrl = "https://14391677-118.hd.faisco.cn/14391677/NqK0G-JmlpbxNRkLlRnaVA/nldtz.html?_source=1",
 	-- 	desc = "关注公众号~->中间上面->[猜灯谜]->抓到CK~->抽奖~",
 	-- },
+	-- {
+	-- 	name = "猜谜灯~",
+	-- 	script = "resources.luaScript.task.Task_013_CaiMiDeng",
+	-- 	qrcode = "yikou-cheese",
+	-- 	linkUrl = "http://yx.zksjbank.top/pyyuanxiao/1614269328?from=singlemessage&isappinstalled=0",
+	-- 	desc = "关注公众号~->进入推文[猜灯谜赢红包]->进入答题界面->往上滑动开始到答题界面->抓到CK~->抽奖~",
+	-- },
+	{
+		name = "平顶山银行~",
+		script = "resources.luaScript.task.Task_012_YuanXiao",
+		qrcode = "gh_f59805a7540e",
+		linkUrl = "https://cc.rrxiu.cc/v/gerqy5?v=gerqy5&mode=official_accounts",
+		desc = "关注公众号~->进入推文->抓到CK~->抽奖~",
+	},
 	{
 		name = "肥东工会答题~",
 		script = "resources.luaScript.task.Task_001_FeiDongDaTi",
