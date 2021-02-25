@@ -1,5 +1,7 @@
---[[模板脚本]] 
-
+--[[
+模板脚本
+每次新活动可以直接在这里改，改好后还原	
+]]
 local TaskBase 		= require("resources.luaScript.task.base.TaskBase")
 local TaskTMP 		= class("TaskTMP", TaskBase)
 local CShapListView = require("resources.luaScript.uiLogic.CShapListView")
@@ -9,22 +11,22 @@ local GET 			= TaskBase.GET
 local POST 			= TaskBase.POST
 
 TaskTMP.FIND_STRING_HOST 		= "www.baidu.com" --域名，方便查找token, 如：hbz.qrmkt.cn
-TaskTMP.IS_USE_FULL_REQDATA 	= false       -- 是否保存当前完整的请求数据,下次用当前数据去请求，此时需要在DATA_TO_FIND_ARRAY配置要查找的Url,会用ReqUrl去做对比，一致则保存
+TaskTMP.IS_USE_FULL_REQDATA 	= true        -- 是否保存当前完整的请求数据,下次用当前数据去请求，此时需要在DATA_TO_FIND_ARRAY配置要查找的Url,会用ReqUrl去做对比，一致则保存
 TaskTMP.IS_REPEAT_FOREVER 		= false       -- 是否永久做此任务，停不下来(切换任务对象可以停下来)
 TaskTMP.IS_AUTO_DO_ACTION 		= false 	  -- 是否自动做任务,是的话会默认把UI选中
 TaskTMP.DEFAULT_KABAO_COUNT 	= 50 	      -- 默认卡包次数，需要设置isKabao后才生效
 TaskTMP.DEFAULT_INPUT_TEXT 	    = "" 		  -- 输入框默认值
 
--- 需要查找的Header里面的值
--- IS_USE_FULL_REQDATA == true 查找的是连接或连接的子串
+-- IS_USE_FULL_REQDATA == true 查找的是URL链接或链接的子串, 否则就是查找的Header里面的token或CK
 TaskTMP.DATA_TO_FIND_ARRAY 		= {
-	"open.ixiaomayun.com/api/Active/Misc/Question"
+	""
 }
 
 -- 额外的请求头,会单独配置到请求头进去,如：{["Refer"]="www.baidu.com"}
 TaskTMP.ERQ_HEADER_EXT = {
 	["Content-Type"] = "",
 	["Referer"] = "",
+	["Accept"]  = "",
 }
 
 --任务列表
@@ -64,6 +66,14 @@ requestInfo ={
     "ReqUrl"  = "",
     "UrlBody" = "",
 }
+StringUtils方法:
+StringUtils.splitUrlWithHost(fullUrl)
+StringUtils.splitUrlParam(urlParam)
+StringUtils.getUrlParam(fullUrl)
+StringUtils.getUrlParamTable(fullUrl)
+StringUtils.makeUpUrlByParam(urlParamTable, host)
+StringUtils.changeUrlParamByTable(fullUrl, changeTable)
+StringUtils.splitCookiesParam(cookiesStr)
 ]]
 function TaskTMP:onBeforeSaveToLocal(requestInfo)
 	local tmpTokenTable = clone(requestInfo)
