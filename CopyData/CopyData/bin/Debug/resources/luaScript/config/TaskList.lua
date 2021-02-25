@@ -29,6 +29,13 @@ TaskList.ActMapTable = {
 		desc = "微信进入链接->手动点击一下报名~->过滑块~->如果出现定位点击否~->抓到CK->抽奖~",
 	},
 	]]
+	-- {
+	-- 	name = "幸福里猜灯谜~",
+	-- 	script = "resources.luaScript.task.Task_011_CaiDengMi",
+	-- 	qrcode = "gh_d4e85b0e01d0",
+	-- 	linkUrl = "https://14391677-118.hd.faisco.cn/14391677/NqK0G-JmlpbxNRkLlRnaVA/nldtz.html?_source=1",
+	-- 	desc = "关注公众号~->中间上面->[猜灯谜]->抓到CK~->抽奖~",
+	-- },
 	{
 		name = "肥东工会答题~",
 		script = "resources.luaScript.task.Task_001_FeiDongDaTi",
