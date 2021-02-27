@@ -43,7 +43,7 @@ local function Handle_RecvData(recv_msg)
 			if tmpCurTask then
 				local host_to_find = tmpCurTask:getHost()
 				local host_req = recv_msg["ReqHost"]
-				print("host_to_find: " .. tostring(host_to_find) .. " ,req_hose: " .. host_req)
+				-- print("host_to_find: " .. tostring(host_to_find) .. " ,req_hose: " .. host_req)
 				if host_req and host_to_find and host_to_find ~= "" then
 					if CSFun.IsSubString(host_req, host_to_find) then --是否当前查找的域名
 						DealHttpReqData:getInstance():recordHeaderData(v, recv_msg)
@@ -69,7 +69,7 @@ function Fidder_OnRecvData()
 	if ok and recv_msg and next(recv_msg) then
 		Handle_RecvData(recv_msg)
 	else
-		print("decode_json error111>>  " .. tostring(recv_msg))
+		-- print("decode_json error111>>  " .. tostring(recv_msg))
 	end
 
 	if UIConfigData.getIsShowNetLog() then
