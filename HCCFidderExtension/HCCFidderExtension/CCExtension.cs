@@ -5,6 +5,8 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using System.Text;
+
 
 namespace HCCFidderExtension
 {
@@ -54,7 +56,17 @@ namespace HCCFidderExtension
             string method = onSession.RequestMethod;
             string host = onSession.host;
             string fullUrl = onSession.fullUrl;
-            string reqBody = onSession.GetRequestBodyAsString();
+
+            //string reqBody = onSession.GetRequestBodyAsString(); //会有报错一致弹窗没发关闭
+            Encoding encoding = onSession.GetRequestBodyEncoding();
+            byte[] reqBodyBytes = onSession.RequestBody;
+            string reqBody = "";
+            try {
+                reqBody = encoding.GetString(reqBodyBytes);
+            } catch (Exception ex) {
+                reqBody = "";
+            }
+
             string reqHeader = onSession.RequestHeaders.ToString(true, true, true);
 
             String[] splitStrArr = reqHeader.Split(new char[] {'\n'}); //分割所有行
