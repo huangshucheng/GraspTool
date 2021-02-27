@@ -17,15 +17,6 @@ function DealHttpReqData:getInstance()
 	return DealHttpReqData._instance
 end
 
---处理请求头数据
---参数：string
-function DealHttpReqData:dealHeaderData(strData)
-	if not UIConfigData.getIsAutoGraspCK() then
-		return
-	end
-	self:recordHeaderData(StringUtils.parseHttpHeader(strData))
-end
-
 --记录请求头数据
 --参数：header_table: 请求头， all_msg_data: 请求的所有数据包括请求头
 function DealHttpReqData:recordHeaderData(header_table, all_msg_data)

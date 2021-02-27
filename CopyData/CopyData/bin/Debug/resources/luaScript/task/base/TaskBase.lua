@@ -132,32 +132,6 @@ function TaskBase:getHost()
 	return self.FIND_STRING_HOST
 end
 
---请求头
-function TaskBase:getReqHeadString()
-	-- print("getReqHeadString()>> " .. Define.REQ_HEAD_BEFORE .. self.FIND_STRING_HOST)
-	return Define.REQ_HEAD_BEFORE .. self.FIND_STRING_HOST
-end
-
---请求体
-function TaskBase:getReqBodyString()
-	return Define.REQ_BODY_BEFORE .. self.FIND_STRING_HOST
-end
-
---返回头
-function TaskBase:getResHeadString()
-	return Define.RES_HEAD_BEFORE .. self.FIND_STRING_HOST
-end
-
---返回体
-function TaskBase:getResBodyString()
-	return Define.RES_BODY_BEFORE .. self.FIND_STRING_HOST
-end
-
---交互记录
-function TaskBase:getRecordString()
-	return Define.RES_RECORD .. self.FIND_STRING_HOST
-end
-
 --查找字段
 function TaskBase:getDataToFind()
 	return self.DATA_TO_FIND_ARRAY

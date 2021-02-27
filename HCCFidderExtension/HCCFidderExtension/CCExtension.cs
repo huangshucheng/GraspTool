@@ -3,6 +3,8 @@ using Fiddler;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace HCCFidderExtension
 {
@@ -41,15 +43,52 @@ namespace HCCFidderExtension
             
         }
 
+        //替换换行
+        public string ReplaceNewline(string content, string newValue)
+        {
+            return (content + "").Replace("\n\r", newValue).Replace("\r\n", newValue).Replace("\r", newValue).Replace("\n", newValue).Replace("\t", newValue);
+        }
+
         public void sendSessionDataToFidder(Session onSession)
         {
+            string method = onSession.RequestMethod;
             string host = onSession.host;
             string fullUrl = onSession.fullUrl;
             string reqBody = onSession.GetRequestBodyAsString();
-            string resBody = onSession.GetResponseBodyAsString();
-
             string reqHeader = onSession.RequestHeaders.ToString(true, true, true);
-            //string resHeader = onSession.ResponseHeaders.ToString(true, true);
+
+            String[] splitStrArr = reqHeader.Split(new char[] {'\n'}); //分割所有行
+            List<String> strList = new List<String>();
+            for (int i = 0; i < splitStrArr.Length; i++) {
+                String tmp = splitStrArr[i];
+                if (i != 0 && !string.IsNullOrEmpty(tmp) && tmp != "\n" && tmp != "\t" && tmp != "\r") {
+                    strList.Add(splitStrArr[i]);
+                }
+            }
+
+            //请求数据组合成Json字符串发给软件
+            string tmpReqBody = "\"ReqBody\"" + ":\"" + reqBody + "\"," ;
+            string tmpMethod = "\"Method\"" + ":\"" + method + "\",";
+            string tmpReqHost = "\"ReqHost\"" + ":\"" + host + "\",";
+            string tmpReqUrl = "\"ReqUrl\"" + ":\"" + fullUrl + "\",";
+            string tmpHeader = "";
+            string subTmpHeader = "";
+            for (int j = 0; j < strList.Count; j++){
+                String tmpStr = "";
+                String[] splitStrArr_2 = strList[j].Split(new char[] { ':' }, 2); //只分割成2份
+                for (int k = 0; k < splitStrArr_2.Length; k++){
+                    var subTmpStr = ReplaceNewline(splitStrArr_2[k],"");
+                    if (k == 0){
+                        tmpStr = "\"" + subTmpStr + "\":";
+                    }
+                    else{
+                        tmpStr = j == strList.Count-1 ? tmpStr + "\"" + subTmpStr + "\"" : tmpStr + "\"" + subTmpStr + "\"," ;
+                    }
+                }
+                subTmpHeader = subTmpHeader + tmpStr;
+            }
+            tmpHeader = "\"Headers\"" + ":{" + subTmpHeader + "}";
+            string tmpAllString = "{" + tmpMethod + tmpReqBody + tmpReqHost + tmpReqUrl + tmpHeader + "}";
 
             //FiddlerObject.log("<<<<<<<<<<<<<<<【" + host + "】<<<<<<<<<<<<<<<<<start");
             //FiddlerObject.log("hcc>>host: " + host);
@@ -62,19 +101,21 @@ namespace HCCFidderExtension
             //FiddlerObject.log(reqHeader + "\n");
             //FiddlerObject.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>end\n");
 
-            string dataHeader = "\n" + "[reqHeader<" + host + ">] \n" + reqHeader;
+            //string dataHeader = "\n" + "[reqHeader<" + host + ">] \n" + reqHeader;
             //string dataReqBody = "\n" + "[reqBody<" + host + ">] \n" + reqBody;
             //string dataResHeader = "\n" + "[resHeader<" + host + ">] \n" + resHeader;
             //string dataResBody = "\n" + "[resBody<" + host + ">] \n" + resBody + "\n";
 
-            string tmpReqBody = string.IsNullOrEmpty(reqBody) ? "" : "[postBody]\n" + reqBody + "\n";
-            string tmpResBody = string.IsNullOrEmpty(resBody) ? "" : "[resBody]\n" + resBody + "\n";
+            //string tmpReqBody = string.IsNullOrEmpty(reqBody) ? "" : "[postBody]\n" + reqBody + "\n";
+            //string tmpResBody = string.IsNullOrEmpty(resBody) ? "" : "[resBody]\n" + resBody + "\n";
+            /*
             string allAppendString = DateTime.Now.ToString("yyyy-MM-dd") + " " + DateTime.Now.ToString("hh:mm:ss") + "\n"
                                     + "[host<" + host + ">]\n"
                                     + "[url] " + fullUrl + "\n"
                                     + "[method] " + onSession.RequestMethod + "\n"
                                     + tmpReqBody
                                     + tmpResBody;
+            */
 
             Process[] processes = Process.GetProcesses();
             foreach (Process p in processes)
@@ -91,11 +132,7 @@ namespace HCCFidderExtension
                             IntPtr hwndRecvWindow = p.MainWindowHandle;
                             //自己的进程句柄
                             //IntPtr hwndSendWindow = Process.GetCurrentProcess().Handle;
-                            Send_message(hwndRecvWindow, dataHeader);
-                            //Send_message(hwndRecvWindow, dataReqBody);
-                            //Send_message(hwndRecvWindow, dataResHeader);
-                            //Send_message(hwndRecvWindow, dataResBody);
-                            Send_message(hwndRecvWindow, allAppendString);
+                            Send_message(hwndRecvWindow, tmpAllString);
                         }
                     }
                 }

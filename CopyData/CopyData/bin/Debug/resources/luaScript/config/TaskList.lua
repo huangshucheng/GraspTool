@@ -187,11 +187,11 @@ TaskList.ActMapTable = {
 	-- 	script = "resources.luaScript.task.TaskCM_KaiChe",
 	-- 	qrcode = "",
 	-- },
-	-- {
-	-- 	name = "钻石活动",
-	-- 	script = "resources.luaScript.task.TaskDiamond",
-	-- 	qrcode = "hbzhongyan",
-	-- },
+	{
+		name = "钻石活动",
+		script = "resources.luaScript.task.TaskDiamond",
+		qrcode = "hbzhongyan",
+	},
 }
 
 return TaskList
