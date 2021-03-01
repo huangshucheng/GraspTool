@@ -114,8 +114,8 @@ namespace CopyData
             //SetDefaultAcceptLanguage("zh-cn");
             //SetDefaultAccept("application/json,text/javascript,text/html,text/plain,application/xhtml+xml,application/xml, */*; q=0.01");
             SetDefaultAccept("*/*");
-            SetDefaultKeepAlive(false);
-            SetDefaultTimeOut(5000);
+            //SetDefaultKeepAlive(false);
+            SetDefaultTimeOut(60000); //默认60秒延迟
             SetDefaultAllowAutoRedirect(false);
         }
 

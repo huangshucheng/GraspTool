@@ -146,7 +146,6 @@ D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\System.Security.Principal.Window
 D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\System.Text.Encodings.Web.xml
 D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\System.Threading.Tasks.Extensions.xml
 D:\myGame\GraspTool\CopyData\CopyData\bin\Debug\System.ValueTuple.xml
-D:\myGame\GraspTool\CopyData\CopyData\obj\Debug\HccWindowdGraspTool.csprojAssemblyReference.cache
 D:\myGame\GraspTool\CopyData\CopyData\obj\Debug\CopyData.HccWindowdGraspTool.resources
 D:\myGame\GraspTool\CopyData\CopyData\obj\Debug\HccWindowdGraspTool.Properties.Resources.resources
 D:\myGame\GraspTool\CopyData\CopyData\obj\Debug\HccWindowdGraspTool.csproj.GenerateResource.cache
