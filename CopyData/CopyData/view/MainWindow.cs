@@ -95,17 +95,8 @@ namespace CopyData
             _luaScript.RegisterFunction("Base64Decode", null, typeof(StringUtils).GetMethod("Base64Decode")); //base64解密 
             _luaScript.RegisterFunction("MD5Encode", null, typeof(StringUtils).GetMethod("MD5Encode")); //md5加密
             _luaScript.RegisterFunction("Sha1Encode", null, typeof(StringUtils).GetMethod("Sha1Encode")); //sha1 加密
-
-            /*
-            string path1 = Environment.CurrentDirectory; //获取和设置当前目录（即该进程从中启动的目录）的完全限定路径。
-            string path2 = this.GetType().Assembly.Location;//获取当前进程的完整路径，包含文件名(进程名)。
-            string path3 = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName; //获取新的 Process 组件并将其与当前活动的进程关联的主模块的完整路径，包含文件名(进程名)。
-            string path4 = System.AppDomain.CurrentDomain.BaseDirectory; //获取当前 Thread 的当前应用程序域的基目录，它由程序集冲突解决程序用来探测程序集。
-            string path5 = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase; //获取和设置包含该应用程序的目录的名称。(推荐)
-            string path6 = System.Windows.Forms.Application.StartupPath; //获取启动了应用程序的可执行文件的路径，不包括可执行文件的名称。
-            string path7 = System.Windows.Forms.Application.ExecutablePath; //获取启动了应用程序的可执行文件的路径，包括可执行文件的名称。
-            string path8 = System.IO.Directory.GetCurrentDirectory(); //获取应用程序的当前工作目录(不可靠)。
-            */
+            _luaScript.RegisterFunction("String2Unicode", null, typeof(StringUtils).GetMethod("String2Unicode")); //字符转unicode
+            _luaScript.RegisterFunction("Unicode2String", null, typeof(StringUtils).GetMethod("Unicode2String")); //Unicode转字符串
 
             registLuaFuncListView();
             registWebSocket();
@@ -122,96 +113,8 @@ namespace CopyData
             if (_luaScript.GetFunction("testCall") != null) {
                 _luaScript.DoString("testCall()");
             }
-
-            //LuaCall.CopyToClipBoard("hcccccccccccccccc");
-            //var textttt =  LuaCall.GetClipBoard();
-            //var reqUrl = "https://engine.cdollar.cn/activity-engine/draw?sign=ad794687d551dae942fe873bc5b62662";
-            //var graspUrl = "https://engine.cdollar.cn/activity-engine/draw?";
-            //var isSubStr = reqUrl.Contains(graspUrl);
-            //Console.WriteLine(isSubStr);
-
-            //var act_test = new Action(()=> {
-            //    var ret = CCHttp.HttpRequest("www.baidu.com");
-            //});
-            //act_test.BeginInvoke(ar_value => act_test.EndInvoke(ar_value), null);  //参数null可以作为回调函数的返回参数
-            //act_test.BeginInvoke(ar_value => act_test.EndInvoke(ar_value), null);  //参数null可以作为回调函数的返回参数
-            //Thread objThread = new Thread(new ThreadStart(delegate
-            //{
-            //    test_invoke();
-            //}));
-            //objThread.Start();
-
-            //for (int i = 0; i < 2; i++)
-            //{
-            //var tmp_str = "test_invoke>> " + i.ToString();
-            //Console.WriteLine(tmp_str);
-            //final_str = final_str + tmp_str + "\n";
-            //var ret = CCHttp.StartHttpRequestAsync("www.baidu.com",4);
-            //Console.WriteLine(ret);
-            //LogOut(ret.Result);
-            //}
-            //for (int i = 0; i < 200; i++) {
-            //    HttpRequestDirect("www.baidu.com");
-            //}
-
-            /*
-            var retstr = StringUtils.Base64Encode("huangshucheng");
-            Console.WriteLine(retstr);
-
-            var fromStr = StringUtils.Base64Decode("aHVhbmdzaHVjaGVuZw==");
-            Console.WriteLine(fromStr);
-
-            var md5str = StringUtils.MD5Encode("huangshucheng");
-            Console.WriteLine(md5str);
-
-            var sha1 = StringUtils.Sha1Encode("huangshucheng");
-            Console.WriteLine(sha1);
-            */
+            //var unicodeStr = "{"success":false,"message":"\u6d3b\u52a8\u5df2\u7ecf\u7ed3\u675f\u4e86\uff01","data":null,"status":null}";
         }
-
-        //直接请求http
-        /*//TODO 会崩溃
-        public void HttpRequestDirect(string url = null, int method = 0, LuaTable headTable = null, string urlBody = null, string postBody = null, string cookies = null, string proxyAddress = null, LuaFunction luaCallfunc = null, int reqCount = 1) {
-            var action_http = new Action(() => {
-                if (reqCount >= 1) {
-                    for (int i = 1; i<= reqCount; i++) {
-                        try {
-                                string ret = LuaCall.HttpRequest(url, method, headTable, urlBody, postBody, cookies, proxyAddress);
-                                this.BeginInvoke(new Action(() =>
-                                {
-                                    if (luaCallfunc != null) {
-                                        luaCallfunc.Call(ret); //TODO 会崩溃
-                                        //Console.WriteLine(ret);
-                                        //LogOut(ret);
-                                    }
-                                }));
-                        } catch (Exception ex) {
-                            Console.WriteLine("HttpRequestDirect error>> " + ex.Message);
-                        }
-                    }
-                }
-            });
-            action_http.BeginInvoke(http_value => action_http.EndInvoke(http_value), null);
-        }
-
-        private void test_invoke() {
-            try {
-                for (int i = 0; i < 10; i++)
-                {
-                    var ret = CCHttp.HttpRequest("www.baidu.com");
-                    //Console.WriteLine(ret);
-                    //LogOut(ret);
-                    this.BeginInvoke(new Action(() =>
-                    {
-                        LogOut(ret);
-                    }));
-                }
-
-            } catch (Exception ex) {
-                Console.WriteLine("err_________ " + ex.Message);
-            }
-        }
-        */
 
         /// ///////////////////////////////////
         /// 注册到lua的函数,lua调用

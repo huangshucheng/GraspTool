@@ -114,9 +114,6 @@ function testCall()
 	local proxy_url = "http://hccfun.com:8001"
 	-- local proxy_url = "http://127.0.0.1:8001"
 	-- local proxy_url = "127.0.0.1:8001"
-	CSFun.IsProxyCanUse(proxy_url,function(ret)
-		print("canUse: " .. tostring(ret))
-	end)
 	]]
 	--[[
 	print(CSFun.Utf8ToDefault("测试~"))

@@ -6,8 +6,8 @@ require("resources.luaScript.uiLogic.init")
 local CSFun = require("resources.luaScript.util.CSFun")
 --打印在屏幕上
 print = function(param)
-	CSFun.LogOut(param)
-	CSFun.LogLua(param)
+	CSFun.LogOut(CSFun.Unicode2String(param))
+	-- CSFun.LogLua(param)
 end
 
 local CSWebSocket 	= require("resources.luaScript.util.CSWebSocket")
@@ -46,7 +46,7 @@ local function Handle_RecvData(recv_msg)
 				-- print("host_to_find: " .. tostring(host_to_find) .. " ,req_hose: " .. host_req)
 				if host_req and host_to_find and host_to_find ~= "" then
 					if CSFun.IsSubString(host_req, host_to_find) then --是否当前查找的域名
-						DealHttpReqData:getInstance():recordHeaderData(v, recv_msg)
+						DealHttpReqData:getInstance():dealReqData(recv_msg)
 						DealHttpReqData:getInstance():saveToLocalFile(websocket_data)
 					end
 				end

@@ -1,3 +1,5 @@
+-- c#的一些通用函数
+
 local CSFun = class("CSFun")
 local UIConfigData = require("resources.luaScript.data.UIConfigData")
 local StringUtils = require("resources.luaScript.util.StringUtils")
@@ -236,36 +238,6 @@ function CSFun.GetClipBoardData()
 	end
 end
 
---代理IP是否可用
-function CSFun.IsProxyCanUse(proxyUrl,callback)
-	if not proxyUrl or proxyUrl == "" then
-		if callback then
-			callback(proxyUrl,false,nil)
-		end
-		return
-	end
-	--默认用http 不用https
-	local tmpProxyUrl = proxyUrl
-	if not StringUtils.checkWithHttp(proxyUrl) then
-		tmpProxyUrl = "http://" .. proxyUrl
-	end
-	-- print(CSFun.Utf8ToDefault("测试URL: ") .. tostring(proxyUrl))
-	local Define = require("resources.luaScript.config.Define")
-	CSFun.httpReqAsync(Define.IP_ADDRESS_URL,function(self_address)
-		CSFun.httpReqAsync(Define.IP_ADDRESS_URL,function(proxy_address) 
-			-- print(CSFun.Utf8ToDefault("本机地址: ") .. self_address)
-			-- print(CSFun.Utf8ToDefault("代理地址: ") .. proxy_address)
-			local isFindStr = string.find(proxy_address,"returnCitySN")
-			local is_proxy_useful = isFindStr and proxy_address and proxy_address ~= "" and (self_address ~= proxy_address)
-			is_proxy_useful = is_proxy_useful or false
-			-- print(CSFun.Utf8ToDefault("代理是否可用: ") .. proxyUrl .. "   " .. tostring(is_proxy_useful))
-			if callback then
-				callback(proxyUrl, is_proxy_useful, proxy_address)
-			end
-		end,nil,nil,nil,nil,nil,tmpProxyUrl)
-	end)
-end
-
 --resStr是否是srcStr的子串
 function CSFun.IsSubString(srcStr, resStr)
 	if srcStr and resStr then
@@ -300,6 +272,20 @@ end
 function CSFun.Sha1Encode(sourceStr)
 	if Sha1Encode then
 		return Sha1Encode(sourceStr)
+	end
+end
+
+-- 字符转unicode
+function CSFun.String2Unicode(sourceStr)
+	if String2Unicode then
+		return String2Unicode(sourceStr)
+	end
+end
+
+-- Unicode转字符串
+function CSFun.Unicode2String(sourceStr)
+	if Unicode2String then
+		return Unicode2String(sourceStr)
 	end
 end
 

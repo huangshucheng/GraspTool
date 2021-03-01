@@ -139,5 +139,23 @@ namespace CopyData
              }
              return sb.ToString();
          }
+
+        //字符转unicode
+        public static string String2Unicode(string source)
+        {
+            var bytes = Encoding.Unicode.GetBytes(source);
+            var stringBuilder = new StringBuilder();
+            for (var i = 0; i < bytes.Length; i += 2)
+            {
+                stringBuilder.AppendFormat("\\u{0}{1}", bytes[i + 1].ToString("x").PadLeft(2, '0'), bytes[i].ToString("x").PadLeft(2, '0'));
+            }
+            return stringBuilder.ToString();
+        }
+
+        //Unicode转字符串
+        public static string Unicode2String(string source)
+        {
+            return new Regex(@"\\u([0-9A-F]{4})", RegexOptions.IgnoreCase | RegexOptions.Compiled).Replace(source, x => Convert.ToChar(Convert.ToUInt16(x.Result("$1"), 16)).ToString());
+        }
     }
 }

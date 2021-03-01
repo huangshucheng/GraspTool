@@ -9,6 +9,7 @@ TODO
 > 支持群控IOS手机，自动进活动界面,推荐用appium和airtest工具
 
 DONE
+> unicode转中文 OK
 > 增加md5 和base64,base64反转,接口 OK
 > 第一种保存token格式，修改成第二种，以便统一，第一种保存cookie格式可以自定义保存请求参数（urlBody,reqBody）,一达到可执行条件，就保存请求数据到本地。OK
 > 显示活动链接,能复制 OK

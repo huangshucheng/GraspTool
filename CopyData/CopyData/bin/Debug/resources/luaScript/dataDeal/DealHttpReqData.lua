@@ -17,27 +17,22 @@ function DealHttpReqData:getInstance()
 	return DealHttpReqData._instance
 end
 
---记录请求头数据
---参数：header_table: 请求头， all_msg_data: 请求的所有数据包括请求头
-function DealHttpReqData:recordHeaderData(header_table, all_msg_data)
+-- 处理请求数据
+--参数: all_msg_data: 请求的所有数据包括请求头
+function DealHttpReqData:dealReqData(all_msg_data)
 	local curTaskObj = TaskData.getCurTask()
 	if not curTaskObj then
 		return
 	end
-
-	if not header_table or not next(header_table) then
-		return
-	end
-
 	if curTaskObj:isUseFullReqData() then
-		self:dealHeaderWithAllReqData(all_msg_data)
+		self:dealWithAllReqData(all_msg_data)
 	else
-		self:dealHeaderReqData(all_msg_data)
+		self:dealWithHeaderData(all_msg_data)
 	end
 end
 
---保存全部请求信息
-function DealHttpReqData:dealHeaderWithAllReqData(all_msg_data)
+--处理全部请求信息
+function DealHttpReqData:dealWithAllReqData(all_msg_data)
 	if not all_msg_data or all_msg_data == "" or type(all_msg_data) ~= "table" then
 		return
 	end
@@ -74,8 +69,8 @@ function DealHttpReqData:dealHeaderWithAllReqData(all_msg_data)
 	end
 end
 
---只保存请求头的信息
-function DealHttpReqData:dealHeaderReqData(all_msg_data)
+--只处理请求头的信息
+function DealHttpReqData:dealWithHeaderData(all_msg_data)
 	if not all_msg_data or all_msg_data == "" or type(all_msg_data) ~= "table" then
 		return
 	end
