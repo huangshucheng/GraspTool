@@ -79,14 +79,16 @@ function TaskTMP:onBeforeRequest(httpTaskObj)
 		local best_score = 0
 		local play_times = 0
 		local os_time = os.time()
+		local tmp_report_list_item = {}
 		if report_list then
 			for i,v in ipairs(report_list) do
 				if next(v) then
-					if v["best_score"] then
+					if v["best_score"] and v["times"] then
 						best_score = tonumber(v["best_score"]) or 0
-					end
-					if v["times"] then
 						play_times = tonumber(v["times"]) or 0
+					else
+						v["ts"] = os_time
+						table.insert(tmp_report_list_item, v)
 					end
 				end
 			end
@@ -95,7 +97,7 @@ function TaskTMP:onBeforeRequest(httpTaskObj)
 		postBodyTable["report_list"] = 
 		{
 			{
-				["ts"] = os.time(),
+				["ts"] = os_time + 9,
 				["type"] = 2,
 				["score"] = tmpScore,
 				["best_score"] = best_score,
@@ -105,6 +107,11 @@ function TaskTMP:onBeforeRequest(httpTaskObj)
 				["using_prop"] = 1,
 			}
 		}
+
+		for i = 1, #tmp_report_list_item do
+			table.insert(postBodyTable["report_list"], tmp_report_list_item[i])
+		end
+
 		print("4444")
 		local tmpPostBodyStr = json.encode(postBodyTable)
 		httpTaskObj:setPostBody(tmpPostBodyStr)
