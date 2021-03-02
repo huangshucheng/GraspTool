@@ -289,4 +289,11 @@ function CSFun.Unicode2String(sourceStr)
 	end
 end
 
+--是否json字符串
+function CSFun.IsJsonFormat(sourceStr)
+	if IsJsonFormat then
+		return IsJsonFormat(sourceStr)
+	end
+end
+
 return CSFun

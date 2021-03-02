@@ -65,21 +65,47 @@ function TaskTMP:onBeforeRequest(httpTaskObj)
 	local postBody 	= httpTaskObj:getPostBody()
 	local headers 	= httpTaskObj:getHeader()
 	local allInfo 	= httpTaskObj:getRequestInfo()
-
+	-- dump(allInfo,"allInfo",10)
+	print("1111")
 	if CSFun.IsSubString(reqUrl, "https://mp.weixin.qq.com/wxagame/wxagame_bottlereport") then
-		local postBodyTable = json.decode(postBody)
+		print("2222")
+		print("postBody:" .. tostring(postBody))
+		local postBodyTable = postBody
+		print("33333333")
 		local tmpScore = tonumber(LuaCallCShapUI.GetUserInputText()) 
+		print("3333, tmpScore>> " .. tostring(tmpScore))
+
+		local report_list = postBodyTable["report_list"]
+		local best_score = 0
+		local play_times = 0
+		local os_time = os.time()
+		if report_list then
+			for i,v in ipairs(report_list) do
+				if next(v) then
+					if v["best_score"] then
+						best_score = tonumber(v["best_score"]) or 0
+					end
+					if v["times"] then
+						play_times = tonumber(v["times"]) or 0
+					end
+				end
+			end
+		end
+
 		postBodyTable["report_list"] = 
 		{
-			["ts"] = os.time(),
-			["type"] = 2,
-			["score"] = tmpScore,
-			["best_score"] = postBodyTable["report_list"]["best_score"],
-			["break_record"] = 1,
-			["duration"] = tmpScore + 5,
-			["times"] = postBodyTable["report_list"]["times"] + 1,
-			["using_prop"] = 1,
+			{
+				["ts"] = os.time(),
+				["type"] = 2,
+				["score"] = tmpScore,
+				["best_score"] = best_score,
+				["break_record"] = 1,
+				["duration"] = tmpScore + 5,
+				["times"] = play_times + 1,
+				["using_prop"] = 1,
+			}
 		}
+		print("4444")
 		local tmpPostBodyStr = json.encode(postBodyTable)
 		httpTaskObj:setPostBody(tmpPostBodyStr)
 		print("postBody: " .. tostring(tmpPostBodyStr))

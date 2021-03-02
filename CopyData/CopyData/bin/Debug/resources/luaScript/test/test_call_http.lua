@@ -162,6 +162,9 @@ function testCall()
 	print(retStr_2)
 	print(retStr_3)
 	]]
+	-- local jsonStr = '"{"base_req":{"session_id":"330D ","fast":1}}"'
+	-- local isJson = CSFun.IsJsonFormat(jsonStr)
+	-- print("isJson: " .. tostring(isJson))
 end
 --[[
 [reqHeader<www.baidu.com>] 

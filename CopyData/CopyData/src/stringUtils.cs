@@ -157,5 +157,10 @@ namespace CopyData
         {
             return new Regex(@"\\u([0-9A-F]{4})", RegexOptions.IgnoreCase | RegexOptions.Compiled).Replace(source, x => Convert.ToChar(Convert.ToUInt16(x.Result("$1"), 16)).ToString());
         }
+
+        //是否json字符串
+        public static bool IsJsonFormat(string source) {
+            return JsonJudge.IsJson(source);
+        }
     }
 }

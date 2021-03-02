@@ -11,9 +11,9 @@ using System.Text;
 namespace HCCFidderExtension
 {
 
-    public class CCExtension: IFiddlerExtension,IAutoTamper
+    public partial class CCExtension: IFiddlerExtension,IAutoTamper
     {
-        public void OnLoad() { 
+        public void OnLoad() {
             TabPage page = new TabPage("解包工具");
             FiddlerApplication.UI.tabsViews.TabPages.Add(page);
             FiddlerApplication.DoNotifyUser("抓包快乐！","欢迎你！");
@@ -79,7 +79,20 @@ namespace HCCFidderExtension
             }
 
             //请求数据组合成Json字符串发给软件
-            string tmpReqBody = "\"ReqBody\"" + ":\"" + reqBody + "\"," ;
+            bool isJson = false;
+            try {
+                isJson = JsonJudge.IsJson(reqBody);
+            } catch (Exception e) {
+                isJson = false;
+            }
+
+            string tmpReqBody = "" ;
+            if (isJson){
+                tmpReqBody = "\"ReqBody\"" + ":" + reqBody + ",";
+            }
+            else {
+                tmpReqBody = "\"ReqBody\"" + ":\"" + reqBody + "\",";
+            }
             string tmpMethod = "\"Method\"" + ":\"" + method + "\",";
             string tmpReqHost = "\"ReqHost\"" + ":\"" + host + "\",";
             string tmpReqUrl = "\"ReqUrl\"" + ":\"" + fullUrl + "\",";

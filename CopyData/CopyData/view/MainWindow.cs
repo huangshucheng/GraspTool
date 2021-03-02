@@ -97,6 +97,7 @@ namespace CopyData
             _luaScript.RegisterFunction("Sha1Encode", null, typeof(StringUtils).GetMethod("Sha1Encode")); //sha1 加密
             _luaScript.RegisterFunction("String2Unicode", null, typeof(StringUtils).GetMethod("String2Unicode")); //字符转unicode
             _luaScript.RegisterFunction("Unicode2String", null, typeof(StringUtils).GetMethod("Unicode2String")); //Unicode转字符串
+            _luaScript.RegisterFunction("IsJsonFormat", null, typeof(StringUtils).GetMethod("IsJsonFormat")); //是否json字符串
 
             registLuaFuncListView();
             registWebSocket();
@@ -114,6 +115,13 @@ namespace CopyData
                 _luaScript.DoString("testCall()");
             }
             //var unicodeStr = "{"success":false,"message":"\u6d3b\u52a8\u5df2\u7ecf\u7ed3\u675f\u4e86\uff01","data":null,"status":null}";
+            //var jsonSstr = "{"base_req":{"session_id":"330D ","fast":1}}";
+            /*
+            var fzy = "{\"base_req\":{\"session_id\":\"330DCGIlXYrp6NpJ3UI/b9KTlzOrspNDSVLPzIhhE+OjnOvaJSuXqmo9h8fQdajkuHNnZGd1pABTCnouepznVT+d7fxQqCE9eqNeCsAIbV1Kzs9FoUG65OQomAv3LGQ8wbjerDL3mjKYqeS56Ilzzw==\",\"fast\":1}}";
+            var rrrr = System.Text.RegularExpressions.Regex.Unescape(fzy); //反转义
+             rrrr = System.Text.RegularExpressions.Regex.Escape(fzy);// 转义 加 /
+            Console.WriteLine(rrrr);
+            */
         }
 
         /// ///////////////////////////////////

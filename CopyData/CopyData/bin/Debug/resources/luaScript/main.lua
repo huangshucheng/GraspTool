@@ -69,7 +69,7 @@ function Fidder_OnRecvData()
 	if ok and recv_msg and next(recv_msg) then
 		Handle_RecvData(recv_msg)
 	else
-		-- print("decode_json error111>>  " .. tostring(recv_msg))
+		print("decode_json error111 sourceStr: >>  " .. tostring(fd_data))
 	end
 
 	if UIConfigData.getIsShowNetLog() then
