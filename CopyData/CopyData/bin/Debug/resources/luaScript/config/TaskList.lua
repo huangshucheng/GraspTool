@@ -4,7 +4,7 @@ TaskList.ActMapTable = {
 	{
 		name = "请下载证书~",
 		script = "",
-		qrcode = "http://hcc.hccfun.com/qr_code_proxy_2.png",--设置手机代理的 二维码URL
+		qrcode = "http://hcc.hccfun.com/hccluck.com.jpg",--设置手机代理的 二维码URL
 	},
 	--[[
 	{
@@ -43,6 +43,13 @@ TaskList.ActMapTable = {
 	-- 	linkUrl = "http://yx.zksjbank.top/pyyuanxiao/1614269328?from=singlemessage&isappinstalled=0",
 	-- 	desc = "关注公众号~->进入推文[猜灯谜赢红包]->进入答题界面->往上滑动开始到答题界面->抓到CK~->抽奖~",
 	-- },
+	{
+		name = "微信跳一跳刷分~",
+		script = "resources.luaScript.task.Task_015_TiaoYiTiao",
+		qrcode = "",
+		linkUrl = "",
+		desc = "玩一把微信跳一跳~, 输入分数, 执行, 每次session只能用一次~,下次再刷必须再次玩一次~",
+	},
 	{
 		name = "闹元宵~",
 		script = "resources.luaScript.task.Task_014_NaoYuanXiao",
