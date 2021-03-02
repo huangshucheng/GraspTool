@@ -13,8 +13,8 @@ Define.DEFAULT_PROXY = "false" --默认使用代理 ，如果使用代理则如�
 
 Define.LOG_LINE_COUNT_LIMIE = 1000 --日志限制行数
 
-Define.ANYPROXY_WEB_SOCKET_URL = "ws://hccfun.com:8002/do-not-proxy"; -- anyproxy 自身ws address
-Define.ANYPROXY_SELF_WS_URL = "ws://hccfun.com:8005" --自己创建的ws address
+-- Define.ANYPROXY_WEB_SOCKET_URL = "ws://hccfun.com:8002/do-not-proxy"; -- anyproxy 自身ws address
+Define.ANYPROXY_SELF_WS_URL = "ws://hccluck.com:8005" --自己创建的ws address
 
 --获取本机IP和地理位置的URL
 Define.IP_ADDRESS_URL = "http://pv.sohu.com/cityjson?ie=utf-8" --比较快

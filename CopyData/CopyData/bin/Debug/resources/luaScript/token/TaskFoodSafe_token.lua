@@ -1,0 +1,2 @@
+﻿
+{"Headers":{"Referer":"http://xinhua.mofangdata.cn/wx/prize/game/answercard.htm?id=402881d97622ed0201767e799f370ba0&prizeid=88&basescope=true&cardid=hpcj2020-10&backGroupId=ed4f2e0737334907ab811b17e316d164","Content-Type":"application/x-www-form-urlencoded; charset=UTF-8; application/json","Cookie":"JSESSIONID=CDE99518442FD52AB4F2D91E7FC02BB5"}}

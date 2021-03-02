@@ -52,11 +52,11 @@ function DealHttpReqData:dealWithAllReqData(all_msg_data)
 	end
 	for _, url in ipairs(dataToFind) do
 		local isSubStr = CSFun.IsSubString(reqUrl, url)
-		-- print("---------------------------")
-		-- print(reqUrl)
-		-- print(url)
-		-- print("usSubStr: " .. tostring(isSubStr))
-		-- print("---------------------------")
+		print("---------------------------")
+		print(CSFun.Utf8ToDefault("当前URL>> ") .. reqUrl)
+		print(CSFun.Utf8ToDefault("查找URL>> ") .. url)
+		print(CSFun.Utf8ToDefault("查找URL是否为当前URL子串>> ") .. tostring(isSubStr))
+		print("---------------------------\n")
 		if isSubStr then
 			if not FindData:getInstance():isInFindList(all_msg_data) then
 				FindData:getInstance():addFindToken(all_msg_data, true)

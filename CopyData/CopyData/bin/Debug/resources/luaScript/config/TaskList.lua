@@ -44,6 +44,13 @@ TaskList.ActMapTable = {
 	-- 	desc = "关注公众号~->进入推文[猜灯谜赢红包]->进入答题界面->往上滑动开始到答题界面->抓到CK~->抽奖~",
 	-- },
 	{
+		name = "闹元宵~",
+		script = "resources.luaScript.task.Task_014_NaoYuanXiao",
+		qrcode = "",
+		linkUrl = "https://na.rrxiu.cc/h/pages/activity/game/home?guid=141af8a246dd5af89f38722812eacbbe&wsiteGuid=swvdxg&fmid=1d2c1324d49d0e0144211b1d29cf9ca5&from=groupmessage&isappinstalled=0",
+		desc = "关注公众号~->进入左下角~->抓到CK~->抽奖~  \n 刷分请在输入框填写分数~",
+	},
+	{
 		name = "平顶山银行~",
 		script = "resources.luaScript.task.Task_012_YuanXiao",
 		qrcode = "gh_f59805a7540e",
