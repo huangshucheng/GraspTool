@@ -6,11 +6,10 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Text;
-
+using Newtonsoft.Json.Linq;
 
 namespace HCCFidderExtension
 {
-
     public partial class CCExtension: IFiddlerExtension,IAutoTamper
     {
         public void OnLoad() {
@@ -19,7 +18,7 @@ namespace HCCFidderExtension
             FiddlerApplication.DoNotifyUser("抓包快乐！","欢迎你！");
         }
 
-        public void OnBeforeUnload() { 
+        public void OnBeforeUnload() {  
             
         }
 
@@ -69,51 +68,34 @@ namespace HCCFidderExtension
 
             string reqHeader = onSession.RequestHeaders.ToString(true, true, true);
 
-            String[] splitStrArr = reqHeader.Split(new char[] {'\n'}); //分割所有行
+            JObject headerObject = new JObject();
+            String[] splitStrArr = reqHeader.Split(new char[] { '\n' }); //分割所有行
+
             List<String> strList = new List<String>();
-            for (int i = 0; i < splitStrArr.Length; i++) {
+            for (int i = 0; i < splitStrArr.Length; i++){
                 String tmp = splitStrArr[i];
-                if (i != 0 && !string.IsNullOrEmpty(tmp) && tmp != "\n" && tmp != "\t" && tmp != "\r") {
+                if (i != 0 && !string.IsNullOrEmpty(tmp) && tmp != "\n" && tmp != "\t" && tmp != "\r"){
                     strList.Add(splitStrArr[i]);
                 }
             }
 
-            //请求数据组合成Json字符串发给软件
-            bool isJson = false;
-            try {
-                isJson = JsonJudge.IsJson(reqBody);
-            } catch (Exception e) {
-                isJson = false;
+            for (int j = 0; j < strList.Count; j++){
+                String[] splitStrArr_2 = strList[j].Split(new char[] { ':' }, 2); //只分割成2份
+                if (splitStrArr_2.Length >= 2) {
+                    string key = ReplaceNewline(splitStrArr_2[0],"");
+                    string value = ReplaceNewline(splitStrArr_2[1],"");
+                    headerObject.Add(new JProperty(key.Trim(), value.Trim()));
+                }
             }
 
-            string tmpReqBody = "" ;
-            if (isJson){
-                tmpReqBody = "\"ReqBody\"" + ":" + reqBody + ",";
-            }
-            else {
-                tmpReqBody = "\"ReqBody\"" + ":\"" + reqBody + "\",";
-            }
-            string tmpMethod = "\"Method\"" + ":\"" + method + "\",";
-            string tmpReqHost = "\"ReqHost\"" + ":\"" + host + "\",";
-            string tmpReqUrl = "\"ReqUrl\"" + ":\"" + fullUrl + "\",";
-            string tmpHeader = "";
-            string subTmpHeader = "";
-            for (int j = 0; j < strList.Count; j++){
-                String tmpStr = "";
-                String[] splitStrArr_2 = strList[j].Split(new char[] { ':' }, 2); //只分割成2份
-                for (int k = 0; k < splitStrArr_2.Length; k++){
-                    var subTmpStr = ReplaceNewline(splitStrArr_2[k],"");
-                    if (k == 0){
-                        tmpStr = "\"" + subTmpStr + "\":";
-                    }
-                    else{
-                        tmpStr = j == strList.Count-1 ? tmpStr + "\"" + subTmpStr + "\"" : tmpStr + "\"" + subTmpStr + "\"," ;
-                    }
-                }
-                subTmpHeader = subTmpHeader + tmpStr;
-            }
-            tmpHeader = "\"Headers\"" + ":{" + subTmpHeader + "}";
-            string tmpAllString = "{" + tmpMethod + tmpReqBody + tmpReqHost + tmpReqUrl + tmpHeader + "}";
+            ///////////////////
+            JObject jsonObject = new JObject();
+            jsonObject.Add(new JProperty("ReqUrl", fullUrl.Trim()));
+            jsonObject.Add(new JProperty("Method", method.Trim()));
+            jsonObject.Add(new JProperty("ReqHost", host.Trim()));
+            jsonObject.Add(new JProperty("ReqBody", reqBody.Trim()));
+            jsonObject.Add(new JProperty("Headers", headerObject));
+            string tmpAllString = jsonObject.ToString();
 
             //FiddlerObject.log("<<<<<<<<<<<<<<<【" + host + "】<<<<<<<<<<<<<<<<<start");
             //FiddlerObject.log("hcc>>host: " + host);
