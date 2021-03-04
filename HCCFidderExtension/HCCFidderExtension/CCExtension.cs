@@ -89,13 +89,19 @@ namespace HCCFidderExtension
             }
 
             ///////////////////
-            JObject jsonObject = new JObject();
-            jsonObject.Add(new JProperty("ReqUrl", fullUrl.Trim()));
-            jsonObject.Add(new JProperty("Method", method.Trim()));
-            jsonObject.Add(new JProperty("ReqHost", host.Trim()));
-            jsonObject.Add(new JProperty("ReqBody", reqBody.Trim()));
-            jsonObject.Add(new JProperty("Headers", headerObject));
-            string tmpAllString = jsonObject.ToString();
+            string tmpAllString = "";
+            try
+            {
+                JObject jsonObject = new JObject();
+                jsonObject.Add(new JProperty("ReqUrl", fullUrl.Trim()));
+                jsonObject.Add(new JProperty("Method", method.Trim()));
+                jsonObject.Add(new JProperty("ReqHost", host.Trim()));
+                jsonObject.Add(new JProperty("ReqBody", reqBody.Trim()));
+                jsonObject.Add(new JProperty("Headers", headerObject));
+                tmpAllString = jsonObject.ToString();
+            } catch (Exception ex) {
+                tmpAllString = "";
+            }
 
             //FiddlerObject.log("<<<<<<<<<<<<<<<【" + host + "】<<<<<<<<<<<<<<<<<start");
             //FiddlerObject.log("hcc>>host: " + host);

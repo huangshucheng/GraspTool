@@ -81,3 +81,5 @@ E:\MyGame\GraspTool\HCCFidderExtension\HCCFidderExtension\obj\Debug\HCCFidderExt
 E:\MyGame\GraspTool\HCCFidderExtension\HCCFidderExtension\obj\Debug\HCCFidderExtension.csproj.CopyComplete
 E:\MyGame\GraspTool\HCCFidderExtension\HCCFidderExtension\obj\Debug\HCCFidderExtension.dll
 E:\MyGame\GraspTool\HCCFidderExtension\HCCFidderExtension\obj\Debug\HCCFidderExtension.pdb
+D:\myGame\GraspTool\HCCFidderExtension\HCCFidderExtension\bin\Debug\HCCFidderExtension.dll.config
+D:\myGame\GraspTool\HCCFidderExtension\HCCFidderExtension\bin\Debug\Newtonsoft.Json.xml
