@@ -59,8 +59,6 @@
             this.tab_qr_code = new System.Windows.Forms.TabPage();
             this.btnCopyLink = new System.Windows.Forms.Button();
             this.richTextLink = new System.Windows.Forms.RichTextBox();
-            this.tab_jiema = new System.Windows.Forms.TabPage();
-            this.label2 = new System.Windows.Forms.Label();
             this.text_box_ip_info = new System.Windows.Forms.RichTextBox();
             this.text_link_label = new System.Windows.Forms.LinkLabel();
             this.context_menu_strip_list = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -72,16 +70,15 @@
             this.numeric_kabao_count = new System.Windows.Forms.NumericUpDown();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.richTextInput = new System.Windows.Forms.RichTextBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.richTextDesc = new System.Windows.Forms.RichTextBox();
-            this.richTextInput = new System.Windows.Forms.RichTextBox();
-            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numUDDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUrl)).BeginInit();
             this.tab_proxy_ip.SuspendLayout();
             this.tab_control.SuspendLayout();
             this.tab_qr_code.SuspendLayout();
-            this.tab_jiema.SuspendLayout();
             this.context_menu_strip_list.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numeric_kabao_count)).BeginInit();
             this.panel1.SuspendLayout();
@@ -345,7 +342,7 @@
             this.tab_proxy_ip.Location = new System.Drawing.Point(4, 22);
             this.tab_proxy_ip.Name = "tab_proxy_ip";
             this.tab_proxy_ip.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_proxy_ip.Size = new System.Drawing.Size(252, 250);
+            this.tab_proxy_ip.Size = new System.Drawing.Size(252, 239);
             this.tab_proxy_ip.TabIndex = 0;
             this.tab_proxy_ip.Text = "代理IP";
             this.tab_proxy_ip.Click += new System.EventHandler(this.tab_proxy_ip_Click);
@@ -410,7 +407,6 @@
             // 
             this.tab_control.Controls.Add(this.tab_qr_code);
             this.tab_control.Controls.Add(this.tab_proxy_ip);
-            this.tab_control.Controls.Add(this.tab_jiema);
             this.tab_control.Location = new System.Drawing.Point(661, 232);
             this.tab_control.Name = "tab_control";
             this.tab_control.SelectedIndex = 0;
@@ -455,28 +451,6 @@
             this.richTextLink.Size = new System.Drawing.Size(187, 35);
             this.richTextLink.TabIndex = 27;
             this.richTextLink.Text = "";
-            // 
-            // tab_jiema
-            // 
-            this.tab_jiema.BackColor = System.Drawing.Color.PapayaWhip;
-            this.tab_jiema.Controls.Add(this.label2);
-            this.tab_jiema.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.tab_jiema.Location = new System.Drawing.Point(4, 22);
-            this.tab_jiema.Name = "tab_jiema";
-            this.tab_jiema.Size = new System.Drawing.Size(252, 250);
-            this.tab_jiema.TabIndex = 1;
-            this.tab_jiema.Text = "接码打码";
-            this.tab_jiema.Click += new System.EventHandler(this.tab_jiema_Click);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(55, 119);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(126, 14);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "正在努力开发中...";
             // 
             // text_box_ip_info
             // 
@@ -549,11 +523,11 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("宋体", 12F);
-            this.label6.Location = new System.Drawing.Point(118, 93);
+            this.label6.Location = new System.Drawing.Point(151, 93);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(72, 16);
+            this.label6.Size = new System.Drawing.Size(40, 16);
             this.label6.TabIndex = 33;
-            this.label6.Text = "卡包次数";
+            this.label6.Text = "次数";
             // 
             // numeric_kabao_count
             // 
@@ -604,6 +578,29 @@
             this.panel2.Size = new System.Drawing.Size(281, 163);
             this.panel2.TabIndex = 36;
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("宋体", 12F);
+            this.label7.Location = new System.Drawing.Point(5, 131);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(56, 16);
+            this.label7.TabIndex = 35;
+            this.label7.Text = "输入框";
+            // 
+            // richTextInput
+            // 
+            this.richTextInput.BackColor = System.Drawing.SystemColors.Window;
+            this.richTextInput.DetectUrls = false;
+            this.richTextInput.Font = new System.Drawing.Font("宋体", 14F);
+            this.richTextInput.ForeColor = System.Drawing.Color.Blue;
+            this.richTextInput.Location = new System.Drawing.Point(63, 125);
+            this.richTextInput.Multiline = false;
+            this.richTextInput.Name = "richTextInput";
+            this.richTextInput.Size = new System.Drawing.Size(209, 30);
+            this.richTextInput.TabIndex = 29;
+            this.richTextInput.Text = "";
+            // 
             // panel3
             // 
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -628,29 +625,6 @@
             this.richTextDesc.TabIndex = 0;
             this.richTextDesc.Text = "活动操作简介";
             // 
-            // richTextInput
-            // 
-            this.richTextInput.BackColor = System.Drawing.SystemColors.Window;
-            this.richTextInput.DetectUrls = false;
-            this.richTextInput.Font = new System.Drawing.Font("宋体", 14F);
-            this.richTextInput.ForeColor = System.Drawing.Color.Blue;
-            this.richTextInput.Location = new System.Drawing.Point(63, 125);
-            this.richTextInput.Multiline = false;
-            this.richTextInput.Name = "richTextInput";
-            this.richTextInput.Size = new System.Drawing.Size(209, 30);
-            this.richTextInput.TabIndex = 29;
-            this.richTextInput.Text = "";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("宋体", 12F);
-            this.label7.Location = new System.Drawing.Point(5, 131);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(56, 16);
-            this.label7.TabIndex = 35;
-            this.label7.Text = "输入框";
-            // 
             // HccWindowdGraspTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -673,8 +647,6 @@
             this.tab_proxy_ip.PerformLayout();
             this.tab_control.ResumeLayout(false);
             this.tab_qr_code.ResumeLayout(false);
-            this.tab_jiema.ResumeLayout(false);
-            this.tab_jiema.PerformLayout();
             this.context_menu_strip_list.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numeric_kabao_count)).EndInit();
             this.panel1.ResumeLayout(false);
@@ -708,8 +680,6 @@
         private System.Windows.Forms.Button btnCatchSel;
         private System.Windows.Forms.TabPage tab_proxy_ip;
         private System.Windows.Forms.TabControl tab_control;
-        private System.Windows.Forms.TabPage tab_jiema;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox btn_use_proxy;
         private System.Windows.Forms.Button btn_proxy_check;

@@ -26,7 +26,7 @@ TaskList.ActMapTable = {
 		script = "resources.luaScript.task.TaskYuanXiaoDaTi",
 		qrcode = "",
 		linkUrl = "https://tx.jizhi082.top/?HyZl=ee058bd3982d4ef21ff1de80baf319e9&active_id=172&C1Zh=3fa0b09d2451c491cb09785d928e9e2e&zLDl=bddc2feefbbb5d08518354bb13d92c47&s=%2Fwandazlc%2FIndex%2Findex&aTHK=5c5c58baf7906dc4251e245291624f8d&rw=e21034e7f0b993aafcb245c3050f687e",
-		desc = "微信进入链接->手动点击一下报名~->过滑块~->如果出现定位点击否~->抓到CK->抽奖~",
+		desc = "WX进入链接->手动点击一下报名~->过滑块~->如果出现定位点击否~->抓到CK->抽奖~",
 	},
 	]]
 	-- {
@@ -44,11 +44,11 @@ TaskList.ActMapTable = {
 	-- 	desc = "关注公众号~->进入推文[猜灯谜赢红包]->进入答题界面->往上滑动开始到答题界面->抓到CK~->抽奖~",
 	-- },
 	{
-		name = "微信跳一跳刷分~",
+		name = "WX跳一跳刷分~",
 		script = "resources.luaScript.task.Task_015_TiaoYiTiao",
 		qrcode = "",
 		linkUrl = "",
-		desc = "玩一把微信跳一跳~, 输入分数, 执行, 每次session只能用一次~,下次再刷必须再次玩一次~",
+		desc = "玩一把WX跳一跳~, 输入分数, 执行, 每次session只能用一次~,下次再刷必须再次玩一次~",
 	},
 	{
 		name = "闹元宵~",
@@ -76,28 +76,28 @@ TaskList.ActMapTable = {
 		script = "resources.luaScript.task.Task_002_NiuNianYiQiNiu",
 		qrcode = "gh_12e6e8141fba",
 		linkUrl = "http://bright-dairy.tb21.cn/bright-dairy-h5-2021/index",
-		desc = "输入框输入分数~->微信进入链接->玩一把跑酷结束~->抓到CK->点击执行->毕业~\n 提示:可在输入框中输入任意分数,再次刷分~",
+		desc = "输入框输入分数~->WX进入链接->玩一把跑酷结束~->抓到CK->点击执行->毕业~\n 提示:可在输入框中输入任意分数,再次刷分~",
 	},
 	{
 		name = "雀巢抽奖~",
 		script = "resources.luaScript.task.Task_003_QueChao",
 		qrcode = "",
 		linkUrl = "",
-		desc = "微信搜索【巢流站 开工抓巢礼】小程序,进入后抓到CK->抽奖->毕业!",
+		desc = "WX搜索【巢流站 开工抓巢礼】小程序,进入后抓到CK->抽奖->毕业!",
 	},
 	{
 		name = "摇一摇汤圆~",
 		script = "resources.luaScript.task.Task_004_YiLiYaoYiYao",
 		qrcode = "",
 		linkUrl = "",
-		desc = "微信搜索【臻仕会】小程序,进入小程序大概中间位置的疯狂摇元宵活动~->抓到CK->抽奖->毕业! (提示:可以无限分享，抽奖~)",
+		desc = "WX搜索【臻仕会】小程序,进入小程序大概中间位置的疯狂摇元宵活动~->抓到CK->抽奖->毕业! (提示:可以无限分享，抽奖~)",
 	},
 	{
 		name = "建信基金抽奖~",
 		script = "resources.luaScript.task.Task_005_JianXinJiJin",
 		qrcode = "ccbfund",
 		linkUrl = "https://d5cdn.cdollar.cn/d5/app/dollar/ff0e6887-5761-4562-abe1-9e6358ec100d/release/index.html?code=0518Cd000YBNdL1jqC1005UHZS18Cd0a&state=STATE&appid=wxb5c430e03be5d432#/",
-		desc = "微信搜索【建信基金】公众号,回复文字:2月福利~->推文进入->抓到CK->抽奖->毕业!",
+		desc = "WX搜索【建信基金】公众号,回复文字:2月福利~->推文进入->抓到CK->抽奖->毕业!",
 	},
 	{
 		name = "期货消消乐~",
@@ -132,14 +132,14 @@ TaskList.ActMapTable = {
 		script = "resources.luaScript.task.Task_010_YiQiFengTian",
 		qrcode = "",
 		linkUrl = "https://sourl.cn/4fQsMg",
-		desc = "复制链接微信内打开->输入手机号验证码->抽奖->抓到CK->顺利毕业~, 提示:本软件会自动帮你多抽100次~",
+		desc = "复制链接WX内打开->输入手机号验证码->抽奖->抓到CK->顺利毕业~, 提示:本软件会自动帮你多抽100次~",
 	},
 	-- {
 	-- 	name = "蜀山答题抽奖~",
 	-- 	script = "resources.luaScript.task.TaskShuShanDaTi",
 	-- 	qrcode = "SSQKeXie",
 	-- 	linkUrl = "",
-	-- 	desc = "微信搜索【蜀山科协】公众号->右下角~ 有奖竞答->进入后抓到CK->抽奖->毕业!",
+	-- 	desc = "WX搜索【蜀山科协】公众号->右下角~ 有奖竞答->进入后抓到CK->抽奖->毕业!",
 	-- },
 	-- {
 	-- 	name = "江都农商",

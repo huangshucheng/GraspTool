@@ -82,9 +82,11 @@ namespace HCCFidderExtension
             for (int j = 0; j < strList.Count; j++){
                 String[] splitStrArr_2 = strList[j].Split(new char[] { ':' }, 2); //只分割成2份
                 if (splitStrArr_2.Length >= 2) {
-                    string key = ReplaceNewline(splitStrArr_2[0],"");
-                    string value = ReplaceNewline(splitStrArr_2[1],"");
-                    headerObject.Add(new JProperty(key.Trim(), value.Trim()));
+                    string key = ReplaceNewline(splitStrArr_2[0],"").Trim();
+                    string value = ReplaceNewline(splitStrArr_2[1],"").Trim();
+                    if (!headerObject.ContainsKey(key)) {
+                        headerObject.Add(new JProperty(key, value));
+                    }
                 }
             }
 

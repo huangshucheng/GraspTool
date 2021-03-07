@@ -49,7 +49,7 @@ TaskTMP.TASK_LIST_URL_CONFIG = {
 		reqCount = 1,
 		urlBody = "", 
 		postBody = "",
-		delay = 20,
+		delay = 5,
 		isKabao = false,
 	},
 	{

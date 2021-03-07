@@ -192,11 +192,13 @@ function TaskStart.onChangeTaskData(activityTable)
 	if qrCodeStr == "" then
 		print(CSFun.Utf8ToDefault("暂无二维码~"))
 	else
+		--[[
 		LuaCallCShapUI.ShowQRCode(qrCodeUrl, "GET", function(retStr)
 			if retStr ~= "SUCCESS" then
 				print(CSFun.Utf8ToDefault("加载二维码失败了! ") .. tostring(retStr))
 			end
 		end)
+		]]
 	end
 
 	local linkUrl = activityTable.linkUrl or ""
