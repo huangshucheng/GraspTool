@@ -1,0 +1,2 @@
+﻿
+{"Headers":{"Referer":"https://servicewechat.com/wxbde72c050d3988e3/36/page-frame.html","Content-Type":"application/x-www-form-urlencoded","jwt":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJvbk1WNDVOT1QycEtyOGJoRE5EdWlRNFkzSXVvIiwiaWF0IjoxNjE1MDk3Nzk3LCJqdGkiOiJhYzc1NGZkNzRhYmI0MTY0OGMwZjIyZGRhZTliY2FiOSJ9._0LNxV2DkgeRyBz7PCTsgmI7xWzkqtYDJbWBTNem538","Accept":"*/*","account":"JKGL"}}
