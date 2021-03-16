@@ -44,7 +44,7 @@ function UIConfigData.init()
 			addressInfo = addressInfo .. (decode_msg.cip or "null") .. " " .. (decode_msg.cname or "null")
 		end
 		addressInfo = addressInfo .. localIpInfo
-		-- LuaCallCShapUI.SetIPText(addressInfo) --显示IP信息
+		LuaCallCShapUI.SetIPText(addressInfo) --显示IP信息
 	end)
 	LuaCallCShapUI.SetLogLineCountLimie(Define.LOG_LINE_COUNT_LIMIE) --日志行数限制设置
 	LuaCallCShapUI.SetProxyLinkUrl(Define.PROXY_LOG_URL) --点击跳转日志显示页面
