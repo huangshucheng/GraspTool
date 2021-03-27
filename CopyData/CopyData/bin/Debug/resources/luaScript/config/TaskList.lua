@@ -15,13 +15,6 @@ TaskList.ActMapTable = {
 		desc = "进入链接->玩一把游戏直到结束->抓到CK->修改分数->点击执行->毕业!",
 	},
 	{
-		name = "抖音抓CK~",
-		script = "resources.luaScript.task.TaskDouYin",
-		qrcode = "",
-		linkUrl = "",
-		desc = "登录抖音就能抓到CK~",
-	},
-	{
 		name = "元宵答题助力~",
 		script = "resources.luaScript.task.TaskYuanXiaoDaTi",
 		qrcode = "",
@@ -43,6 +36,27 @@ TaskList.ActMapTable = {
 	-- 	linkUrl = "http://yx.zksjbank.top/pyyuanxiao/1614269328?from=singlemessage&isappinstalled=0",
 	-- 	desc = "关注公众号~->进入推文[猜灯谜赢红包]->进入答题界面->往上滑动开始到答题界面->抓到CK~->抽奖~",
 	-- },
+	{
+		name = "试玩赚钱~",
+		script = "resources.luaScript.task.Task_018_ShiWan",
+		qrcode = "",
+		linkUrl = "",
+		desc = "登录往来账簿~",
+	},
+	{
+		name = "抖音抓CK~",
+		script = "resources.luaScript.task.Task_017_DouYin",
+		qrcode = "",
+		linkUrl = "",
+		desc = "登录抖音就能抓到CK~",
+	},
+	{
+		name = "答题大赢家~",
+		script = "resources.luaScript.task.Task_016_DaTiDaYingJia",
+		qrcode = "",
+		linkUrl = "",
+		desc = "IOS搜索答题大赢家，进入游戏。",
+	},
 	{
 		name = "WX跳一跳刷分~",
 		script = "resources.luaScript.task.Task_015_TiaoYiTiao",
@@ -201,11 +215,11 @@ TaskList.ActMapTable = {
 	-- 	script = "resources.luaScript.task.TaskCM_KaiChe",
 	-- 	qrcode = "",
 	-- },
-	{
-		name = "钻石活动",
-		script = "resources.luaScript.task.TaskDiamond",
-		qrcode = "hbzhongyan",
-	},
+	-- {
+	-- 	name = "钻石活动",
+	-- 	script = "resources.luaScript.task.TaskDiamond",
+	-- 	qrcode = "hbzhongyan",
+	-- },
 }
 
 return TaskList

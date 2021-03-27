@@ -255,6 +255,7 @@ requestInfo ={
     "ReqHost" = "",
     "ReqUrl"  = "",
     "UrlBody" = "",
+    "ResBody" = "",
 }
 ]]
 function TaskBase:onBeforeSaveToLocal(requestInfo)

@@ -27,7 +27,7 @@ Define.HTTP_HEADER_TABLE = {
 	-- ["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8; application/json",
 	-- ["Referer"] = "www.baidu.com",
 	["Accept"] = "*/*",
-	["X-Requested-With"] = "XMLHttpRequest",
+	-- ["X-Requested-With"] = "XMLHttpRequest",
 	["Accept-Encoding"] = "br, gzip, deflate",
 	["Accept-Language"] = "zh-cn",
 	["Content-Type"] = "application/json",

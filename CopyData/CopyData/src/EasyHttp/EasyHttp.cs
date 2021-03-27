@@ -201,21 +201,23 @@ namespace CopyData
             if (string.IsNullOrEmpty(cookieHeader)) return;
             var substr = cookieHeader.Split(';');
             foreach (string str in substr){
-                var cookieLines = str.Split(',');
-                foreach (string cookieLine in cookieLines){
-                    if (cookieLine.Contains("=")){
-                        var cookieKeyValue = cookieLine.Split('=');
-                        var key = cookieKeyValue[0].Trim();
-                        var value = cookieKeyValue[1].Trim();
-                        var toLowerKey = key.ToLower();
-                        if (toLowerKey != "expires" &&
-                            toLowerKey != "path" && 
-                            toLowerKey != "domain" && 
-                            toLowerKey != "max-age"&& 
-                            toLowerKey != "HttpOnly")
+                if (str.Contains("="))
+                {
+                    var cookieKeyValue = str.Split('=');
+                    var key = cookieKeyValue[0].Trim();
+                    var value = cookieKeyValue[1].Trim();
+                    var toLowerKey = key.ToLower();
+                    if (toLowerKey != "expires" &&
+                        toLowerKey != "path" &&
+                        toLowerKey != "domain" &&
+                        toLowerKey != "max-age" &&
+                        toLowerKey != "HttpOnly")
+                    {
+                        if (value.Contains(","))
                         {
-                            AddCookie(key,value);
+                            value = "\"" + value + "\"";
                         }
+                        AddCookie(key, value);
                     }
                 }
             }
