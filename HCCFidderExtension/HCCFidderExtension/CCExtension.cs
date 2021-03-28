@@ -57,13 +57,18 @@ namespace HCCFidderExtension
             string fullUrl = onSession.fullUrl;
 
             //string reqBody = onSession.GetRequestBodyAsString(); //会有报错一致弹窗没发关闭
-            Encoding encoding = onSession.GetRequestBodyEncoding();
+            Encoding reqEncoding = onSession.GetRequestBodyEncoding();
+            Encoding resEncoding = onSession.GetResponseBodyEncoding();
             byte[] reqBodyBytes = onSession.RequestBody;
+            byte[] resBodyBytes = onSession.ResponseBody;
             string reqBody = "";
+            string resBody = "";
             try {
-                reqBody = encoding.GetString(reqBodyBytes);
+                reqBody = reqEncoding.GetString(reqBodyBytes);
+                resBody = resEncoding.GetString(resBodyBytes);
             } catch (Exception ex) {
                 reqBody = "";
+                resBody = "";
             }
 
             string reqHeader = onSession.RequestHeaders.ToString(true, true, true);
@@ -100,6 +105,7 @@ namespace HCCFidderExtension
                 jsonObject.Add(new JProperty("ReqHost", host.Trim()));
                 jsonObject.Add(new JProperty("ReqBody", reqBody.Trim()));
                 jsonObject.Add(new JProperty("Headers", headerObject));
+                jsonObject.Add(new JProperty("ResBody", resBody.Trim()));
                 tmpAllString = jsonObject.ToString();
             } catch (Exception ex) {
                 tmpAllString = "";
