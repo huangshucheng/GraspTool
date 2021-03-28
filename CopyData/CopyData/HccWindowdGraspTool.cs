@@ -34,12 +34,15 @@ namespace CopyData
             {
                 case Define.WM_COPYDATA:
                     //处理消息
-                    COPYDATASTRUCT mystr = new COPYDATASTRUCT();
-                    Type mytype = mystr.GetType();
-                    mystr = (COPYDATASTRUCT)m.GetLParam(mytype);
-                    string content = mystr.lpData;
-                    DealWithRecvData(content);
-                    this._stringCache = content;
+                    try {
+                        COPYDATASTRUCT mystr = new COPYDATASTRUCT();
+                        Type mytype = mystr.GetType();
+                        mystr = (COPYDATASTRUCT)m.GetLParam(mytype);
+                        string content = mystr.lpData;
+                        DealWithRecvData(content);
+                        this._stringCache = content;
+                    } catch (Exception e) {
+                    }
                     break;
                 default:
                     break;

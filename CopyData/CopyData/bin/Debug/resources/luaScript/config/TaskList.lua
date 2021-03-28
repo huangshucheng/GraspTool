@@ -37,6 +37,13 @@ TaskList.ActMapTable = {
 	-- 	desc = "关注公众号~->进入推文[猜灯谜赢红包]->进入答题界面->往上滑动开始到答题界面->抓到CK~->抽奖~",
 	-- },
 	{
+		name = "京东领券~",
+		script = "resources.luaScript.task.Task_019_JD",
+		qrcode = "",
+		linkUrl = "",
+		desc = "QQ登录京东~",
+	},
+	{
 		name = "试玩赚钱~",
 		script = "resources.luaScript.task.Task_018_ShiWan",
 		qrcode = "",
