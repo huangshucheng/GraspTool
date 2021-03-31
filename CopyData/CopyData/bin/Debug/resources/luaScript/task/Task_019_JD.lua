@@ -90,7 +90,8 @@ function TaskTMP:onBeforeSaveToLocal(requestInfo)
 		tmpTokenTable_1["ReqUrl"] = "https://wq.jd.com/active/active_draw"
 		tmpTokenTable_1["Method"] = "GET"
 		tmpTokenTable_1["ReqBody"] = ""
-		tmpTokenTable_1["UrlBody"] = "active=zhuzhan3yue1&level=b80741e8_1&ext=hj%3Aq&_=1616947111843&g_login_type=0&callback=jsonpCBKC&g_tk=2002790637&g_ty=ls"
+		-- tmpTokenTable_1["UrlBody"] = "active=zhuzhan3yue1&level=b80741e8_1&ext=hj%3Aq&_=1616947111843&g_login_type=0&callback=jsonpCBKC&g_tk=2002790637&g_ty=ls"
+		tmpTokenTable_1["UrlBody"] = "active=zhidemai&level=4ab9347c_3&ext=hj%3Am&_=1617208810811&g_login_type=0&callback=jsonpCBKI&g_tk=911481962&g_ty=ls"
 		tmpTokenTable_1["ResBody"] = ""
 		-- tmpTokenTable_1["Headers"]["Cookies"] = ""
 		-- tmpTokenTable_1["Headers"]["token"] = ""
@@ -114,6 +115,7 @@ function TaskTMP:onBeforeRequest(httpTaskObj)
 	local headers 	= httpTaskObj:getHeader()
 	local allInfo 	= httpTaskObj:getRequestInfo()
 	dump(allInfo,"allInfo")
+	httpTaskObj:setUrlBody("active=zhidemai&level=4ab9347c_3&ext=hj%3Am&_=1617208810811&g_login_type=0&callback=jsonpCBKI&g_tk=911481962&g_ty=ls")
 end
 
 return TaskTMP
